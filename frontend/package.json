@@ -1,0 +1,73 @@
+{
+  "name": "disaster-response-dashboard",
+  "version": "1.0.0",
+  "description": "Geospatial Disaster Response Dashboard",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "dev:demo": "cp env.demo .env && vite",
+    "dev:debug": "cp env.debug .env && vite",
+    "dev:production": "cp env.production .env && vite",
+    "build": "vite build",
+    "build:demo": "cp env.demo .env && vite build",
+    "build:debug": "cp env.debug .env && vite build",
+    "build:production": "cp env.production .env && vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "type-check": "tsc --noEmit",
+    "test": "vitest",
+    "test:watch": "vitest --watch",
+    "test:coverage": "vitest --coverage",
+    "test:ui": "vitest --ui",
+    "test:run": "vitest run",
+    "test:components": "node run-tests.js components",
+    "test:hooks": "node run-tests.js hooks",
+    "test:services": "node run-tests.js services",
+    "test:utils": "node run-tests.js utils"
+  },
+  "dependencies": {
+    "@osdk/client": "latest",
+    "@osdk/react": "latest",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-map-gl": "^7.1.0",
+    "mapbox-gl": "^3.0.0",
+    "deck.gl": "^9.0.0",
+    "@turf/turf": "^6.5.0",
+    "h3-js": "^4.1.0",
+    "@tanstack/react-query": "^5.0.0",
+    "axios": "^1.6.0",
+    "react-router-dom": "^6.8.0",
+    "recharts": "^2.8.0",
+    "lucide-react": "^0.294.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@types/mapbox-gl": "^2.7.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "@vitejs/plugin-react": "^4.0.0",
+    "eslint": "^8.0.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.0",
+    "vite": "^5.0.0",
+    "typescript": "^5.3.0",
+    "prettier": "^3.1.0",
+    "tailwindcss": "^3.3.0",
+    "autoprefixer": "^10.4.0",
+    "postcss": "^8.4.0"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+} 
