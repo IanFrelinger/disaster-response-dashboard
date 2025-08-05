@@ -82,7 +82,7 @@ const HazardMap: React.FC<HazardMapProps> = ({
       >
         <Map
           mapStyle="mapbox://styles/mapbox/satellite-v9"
-          mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
+          mapboxAccessToken={import.meta.env.VITE_MAPBOX_TOKEN}
         >
           <NavigationControl position="top-right" />
         </Map>

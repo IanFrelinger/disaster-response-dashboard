@@ -130,7 +130,7 @@ export class SyntheticDataGenerator {
   }
 
   // Generate synthetic risk assessment
-  static generateRiskAssessment(location: [number, number] = this.SAN_FRANCISCO_CENTER): RiskAssessment {
+  static generateRiskAssessment(location: [number, number] = this.SAN_FRANCISCO_CENTER as [number, number]): RiskAssessment {
     logger.debug(`Generating risk assessment for location: ${location[0]}, ${location[1]}`);
     const nearbyHazards = Math.floor(Math.random() * 10) + 1;
     const riskLevels = {
