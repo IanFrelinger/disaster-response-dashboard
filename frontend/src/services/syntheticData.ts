@@ -1,5 +1,6 @@
 import { HazardZone, SafeRoute, RiskAssessment, HazardSummary, EvacuationRoutesResponse } from '../types/hazard';
 import { logger } from '../config/environment';
+import { validateData, logValidationResults } from '../utils/dataValidation';
 
 // Synthetic data generator for demo mode
 export class SyntheticDataGenerator {
@@ -201,13 +202,43 @@ export class SyntheticDataGenerator {
   // Generate complete dashboard data
   static generateDashboardData() {
     logger.debug('Generating complete dashboard data');
-    return {
+    const data = {
       hazardZones: this.generateHazardZones(20),
       safeRoutes: this.generateSafeRoutes(12),
       riskAssessment: this.generateRiskAssessment(),
       hazardSummary: this.generateHazardSummary(),
       evacuationRoutes: this.generateEvacuationRoutesResponse()
     };
+
+    // Validate the generated data
+    const validationResult = validateData(data);
+    logValidationResults(validationResult, 'Synthetic Data Generation');
+
+    // If validation fails, regenerate data (up to 3 attempts)
+    if (!validationResult.isValid) {
+      logger.warn('Data validation failed, attempting to regenerate...');
+      for (let attempt = 1; attempt <= 3; attempt++) {
+        logger.debug(`Regeneration attempt ${attempt}/3`);
+        const newData = {
+          hazardZones: this.generateHazardZones(20),
+          safeRoutes: this.generateSafeRoutes(12),
+          riskAssessment: this.generateRiskAssessment(),
+          hazardSummary: this.generateHazardSummary(),
+          evacuationRoutes: this.generateEvacuationRoutesResponse()
+        };
+        
+        const newValidationResult = validateData(newData);
+        if (newValidationResult.isValid) {
+          logger.log('Data validation passed after regeneration');
+          return newData;
+        }
+        logValidationResults(newValidationResult, `Regeneration Attempt ${attempt}`);
+      }
+      
+      logger.error('Failed to generate valid data after 3 attempts, returning original data');
+    }
+
+    return data;
   }
 
   // Generate data for specific scenarios
@@ -237,12 +268,18 @@ export class SyntheticDataGenerator {
         break;
     }
     
-    return {
+    const data = {
       hazardZones: this.generateHazardZones(hazardCount),
       safeRoutes: this.generateSafeRoutes(10),
       riskAssessment: this.generateRiskAssessment(),
       hazardSummary: this.generateHazardSummary(),
       evacuationRoutes: this.generateEvacuationRoutesResponse()
     };
+
+    // Validate scenario data
+    const validationResult = validateData(data);
+    logValidationResults(validationResult, `${scenario.toUpperCase()} Scenario Generation`);
+
+    return data;
   }
 } 

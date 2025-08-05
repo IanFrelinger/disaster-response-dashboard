@@ -2,6 +2,7 @@ import React from 'react';
 import { HazardZone, SafeRoute, RiskAssessment, HazardSummary, EvacuationRoutesResponse } from '../types/hazard';
 import { environment, logger, useSyntheticData } from '../config/environment';
 import { SyntheticDataGenerator } from './syntheticData';
+import { validateData, logValidationResults } from '../utils/dataValidation';
 
 // API base URL from environment configuration
 const API_BASE_URL = environment.apiBaseUrl;
@@ -70,26 +71,47 @@ export class ApiService {
   private static generateSyntheticData<T>(endpoint: string): T {
     logger.debug(`Generating synthetic data for: ${endpoint}`);
     
+    let data: any;
+    
     switch (endpoint) {
       case '/dashboard':
-        return SyntheticDataGenerator.generateDashboardData() as T;
+        data = SyntheticDataGenerator.generateDashboardData();
+        break;
       case '/hazards':
-        return SyntheticDataGenerator.generateHazardZones(20) as T;
+        data = SyntheticDataGenerator.generateHazardZones(20);
+        break;
       case '/routes':
-        return SyntheticDataGenerator.generateSafeRoutes(12) as T;
+        data = SyntheticDataGenerator.generateSafeRoutes(12);
+        break;
       case '/risk-assessment':
-        return SyntheticDataGenerator.generateRiskAssessment() as T;
+        data = SyntheticDataGenerator.generateRiskAssessment();
+        break;
       case '/hazard-summary':
-        return SyntheticDataGenerator.generateHazardSummary() as T;
+        data = SyntheticDataGenerator.generateHazardSummary();
+        break;
       case '/evacuation-routes':
-        return SyntheticDataGenerator.generateEvacuationRoutesResponse() as T;
+        data = SyntheticDataGenerator.generateEvacuationRoutesResponse();
+        break;
       default:
         if (endpoint.startsWith('/scenario/')) {
           const scenario = endpoint.split('/')[2] as 'wildfire' | 'earthquake' | 'flood' | 'normal';
-          return SyntheticDataGenerator.generateScenarioData(scenario) as T;
+          data = SyntheticDataGenerator.generateScenarioData(scenario);
+        } else {
+          throw new Error(`Unknown endpoint for synthetic data: ${endpoint}`);
         }
-        throw new Error(`Unknown endpoint for synthetic data: ${endpoint}`);
     }
+
+    // Validate synthetic data before returning
+    if (data && typeof data === 'object') {
+      const validationResult = validateData(data);
+      logValidationResults(validationResult, `API Synthetic Data (${endpoint})`);
+      
+      if (!validationResult.isValid) {
+        logger.warn(`Synthetic data validation failed for ${endpoint}, but continuing with data`);
+      }
+    }
+
+    return data as T;
   }
 
   // Get complete dashboard data

@@ -3,10 +3,12 @@ import HazardMap from './HazardMap';
 import RiskAssessmentCard from './RiskAssessmentCard';
 import HazardSummaryCard from './HazardSummaryCard';
 import SafeRoutesCard from './SafeRoutesCard';
+import DataValidationStatus from './DataValidationStatus';
 import ApiService from '../services/api';
 import { HazardZone, SafeRoute, RiskAssessment, HazardSummary, EvacuationRoutesResponse } from '../types/hazard';
 import { RefreshCw, Settings, Download, AlertTriangle } from 'lucide-react';
 import { environment, logger } from '../config/environment';
+import { validateData } from '../utils/dataValidation';
 
 interface DashboardData {
   hazardZones: HazardZone[];
@@ -21,6 +23,7 @@ const Dashboard: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [selectedLocation, setSelectedLocation] = useState<[number, number]>([-122.4194, 37.7749]);
   const [mapCenter, setMapCenter] = useState<[number, number]>([-122.4194, 37.7749]);
+  const [validationResult, setValidationResult] = useState<any>(null);
 
   // Fetch data from API on component mount
   useEffect(() => {
@@ -30,6 +33,11 @@ const Dashboard: React.FC = () => {
         logger.debug('Fetching dashboard data...');
         const data = await ApiService.getDashboardData();
         setDashboardData(data);
+        
+        // Validate the data
+        const validation = validateData(data);
+        setValidationResult(validation);
+        
         logger.debug('Dashboard data loaded successfully');
       } catch (error) {
         logger.error('Failed to fetch dashboard data:', error);
@@ -42,17 +50,22 @@ const Dashboard: React.FC = () => {
   }, []);
 
   const handleRefresh = async () => {
-    try {
-      setLoading(true);
-      logger.debug('Refreshing dashboard data...');
-      const data = await ApiService.refreshData();
-      setDashboardData(data);
-      logger.debug('Dashboard data refreshed successfully');
-    } catch (error) {
-      logger.error('Failed to refresh data:', error);
-    } finally {
-      setLoading(false);
-    }
+          try {
+        setLoading(true);
+        logger.debug('Refreshing dashboard data...');
+        const data = await ApiService.refreshData();
+        setDashboardData(data);
+        
+        // Validate the refreshed data
+        const validation = validateData(data);
+        setValidationResult(validation);
+        
+        logger.debug('Dashboard data refreshed successfully');
+      } catch (error) {
+        logger.error('Failed to refresh data:', error);
+      } finally {
+        setLoading(false);
+      }
   };
 
   const handleLocationClick = async (lat: number, lng: number) => {
@@ -169,19 +182,19 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
 
-        {/* Bottom Section - Additional Info */}
-        <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Data Sources</h3>
-            <div className="space-y-3">
-              {Object.entries(dashboardData.hazardSummary.dataSources).map(([source, count]) => (
-                <div key={source} className="flex items-center justify-between">
-                  <span className="text-sm font-medium text-gray-700">{source}</span>
-                  <span className="text-sm text-gray-600">{count} hazards</span>
-                </div>
-              ))}
+                  {/* Bottom Section - Additional Info */}
+          <div className="mt-6 grid grid-cols-1 lg:grid-cols-4 gap-6">
+            <div className="bg-white rounded-lg shadow-md p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Data Sources</h3>
+              <div className="space-y-3">
+                {Object.entries(dashboardData.hazardSummary.dataSources).map(([source, count]) => (
+                  <div key={source} className="flex items-center justify-between">
+                    <span className="text-sm font-medium text-gray-700">{source}</span>
+                    <span className="text-sm text-gray-600">{count} hazards</span>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
 
           <div className="bg-white rounded-lg shadow-md p-6">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Activity</h3>
@@ -201,25 +214,29 @@ const Dashboard: React.FC = () => {
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">System Status</h3>
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600">Data Feed</span>
-                <span className="text-sm font-medium text-green-600">Active</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600">Processing</span>
-                <span className="text-sm font-medium text-green-600">Online</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600">Last Update</span>
-                <span className="text-sm font-medium text-gray-900">
-                  {new Date().toLocaleTimeString()}
-                </span>
+                      <div className="bg-white rounded-lg shadow-md p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">System Status</h3>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-600">Data Feed</span>
+                  <span className="text-sm font-medium text-green-600">Active</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-600">Processing</span>
+                  <span className="text-sm font-medium text-green-600">Online</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-600">Last Update</span>
+                  <span className="text-sm font-medium text-gray-900">
+                    {new Date().toLocaleTimeString()}
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
+
+            <div className="lg:col-span-1">
+              <DataValidationStatus validationResult={validationResult} />
+            </div>
         </div>
       </main>
     </div>
