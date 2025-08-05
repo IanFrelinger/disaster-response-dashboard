@@ -14,7 +14,7 @@ const DataValidationStatus: React.FC<DataValidationStatusProps> = ({ validationR
     return null;
   }
 
-  const { isValid, errors, warnings, suggestions } = validationResult;
+  const { isValid, errors = [], warnings = [], suggestions = [] } = validationResult;
   const hasIssues = errors.length > 0 || warnings.length > 0;
   const totalIssues = errors.length + warnings.length;
 

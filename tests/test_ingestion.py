@@ -6,7 +6,7 @@ import pytest
 import pandas as pd
 import geopandas as gpd
 from datetime import datetime, timedelta
-from unittest.mock import Mock, patch, MagicMock
+from unittest.mock import Mock, patch
 from shapely.geometry import Point
 
 from backend.transforms.ingestion.wildfire_feed import compute_risk_scores, compute_hazard_zones

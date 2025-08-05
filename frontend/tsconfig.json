@@ -32,7 +32,6 @@
     /* Vite specific */
     "types": ["vite/client"]
   },
-  "include": ["src", "src/**/*.ts", "src/**/*.tsx"],
-  "exclude": ["src/__tests__/**/*"],
+  "include": ["src", "src/**/*.ts", "src/**/*.tsx", "src/__tests__/**/*.ts", "src/__tests__/**/*.tsx"],
   "references": [{ "path": "./tsconfig.node.json" }]
 } 

@@ -7,7 +7,6 @@ import pandas as pd
 import geopandas as gpd
 from shapely.geometry import Point, Polygon
 from datetime import datetime, timedelta
-import numpy as np
 
 
 @pytest.fixture

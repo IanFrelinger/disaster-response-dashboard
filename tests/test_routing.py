@@ -6,8 +6,6 @@ import pytest
 from unittest.mock import Mock, patch
 import geopandas as gpd
 from shapely.geometry import Point, Polygon, LineString
-import pandas as pd
-import numpy as np
 
 from backend.transforms.routing.safe_routes import SafeRouteCalculator
 

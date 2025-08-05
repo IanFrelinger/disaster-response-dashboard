@@ -268,7 +268,7 @@ describe('Validation Utils', () => {
     it('rejects invalid line strings', () => {
       expect(validationUtils.isValidLineString([])).toBe(false);
       expect(validationUtils.isValidLineString([[0, 0]])).toBe(false); // Single point
-      expect(validationUtils.isValidLineString([[0, 0], [91, 0]])).toBe(false); // Invalid coord
+      expect(validationUtils.isValidLineString([[0, 0], [181, 0]])).toBe(false); // Invalid coord (longitude > 180)
       expect(validationUtils.isValidLineString('not an array')).toBe(false);
     });
   });

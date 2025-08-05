@@ -14,8 +14,8 @@ vi.mock('../../components/HazardMap', () => {
     hazardZones, 
     safeRoutes, 
     onLocationClick, 
-    center, 
-    zoom 
+    center = [-122.4194, 37.7749], // Default center
+    zoom = 10 // Default zoom
   }: any) => {
     return (
       <div data-testid="hazard-map" data-center={JSON.stringify(center)} data-zoom={zoom}>

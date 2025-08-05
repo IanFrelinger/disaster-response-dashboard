@@ -98,6 +98,57 @@ vi.mock('lucide-react', () => ({
   Route: vi.fn().mockImplementation((props) => (
     <div data-testid="route" {...props} />
   )),
+  BarChart3: vi.fn().mockImplementation((props) => (
+    <div data-testid="bar-chart" {...props} />
+  )),
+  RefreshCw: vi.fn().mockImplementation((props) => (
+    <div data-testid="refresh-cw" {...props} />
+  )),
+  CheckCircle: vi.fn().mockImplementation((props) => (
+    <div data-testid="check-circle" {...props} />
+  )),
+  XCircle: vi.fn().mockImplementation((props) => (
+    <div data-testid="x-circle" {...props} />
+  )),
+  AlertCircle: vi.fn().mockImplementation((props) => (
+    <div data-testid="alert-circle" {...props} />
+  )),
+  ChevronDown: vi.fn().mockImplementation((props) => (
+    <div data-testid="chevron-down" {...props} />
+  )),
+  ChevronUp: vi.fn().mockImplementation((props) => (
+    <div data-testid="chevron-up" {...props} />
+  )),
+  Activity: vi.fn().mockImplementation((props) => (
+    <div data-testid="activity" {...props} />
+  )),
+  Navigation: vi.fn().mockImplementation((props) => (
+    <div data-testid="navigation" {...props} />
+  )),
+  Shield: vi.fn().mockImplementation((props) => (
+    <div data-testid="shield" {...props} />
+  )),
+  TrendingUp: vi.fn().mockImplementation((props) => (
+    <div data-testid="trending-up" {...props} />
+  )),
+  Info: vi.fn().mockImplementation((props) => (
+    <div data-testid="info" {...props} />
+  )),
+  Settings: vi.fn().mockImplementation((props) => (
+    <div data-testid="settings" {...props} />
+  )),
+  Download: vi.fn().mockImplementation((props) => (
+    <div data-testid="download" {...props} />
+  )),
+  Database: vi.fn().mockImplementation((props) => (
+    <div data-testid="database" {...props} />
+  )),
+  Map: vi.fn().mockImplementation((props) => (
+    <div data-testid="map" {...props} />
+  )),
+  Clock: vi.fn().mockImplementation((props) => (
+    <div data-testid="clock" {...props} />
+  )),
 }));
 
 // Mock axios for API calls

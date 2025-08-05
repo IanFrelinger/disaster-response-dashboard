@@ -1,6 +1,19 @@
 import { HazardZone, SafeRoute, RiskAssessment, HazardSummary, EvacuationRoutesResponse } from '../types/hazard';
 import { logger } from '../config/environment';
 
+// Custom validation exception class
+export class ValidationException extends Error {
+  public readonly validationResult: ValidationResult;
+  public readonly context: string;
+
+  constructor(message: string, validationResult: ValidationResult, context: string = 'Data Validation') {
+    super(message);
+    this.name = 'ValidationException';
+    this.validationResult = validationResult;
+    this.context = context;
+  }
+}
+
 // Validation rules and constraints for realistic data
 export interface ValidationRules {
   // Geographic constraints
@@ -500,5 +513,25 @@ export function logValidationResults(result: ValidationResult, context: string =
     logger.log(`${context} - Validation passed`);
   } else {
     logger.error(`${context} - Validation failed`);
+  }
+}
+
+// Validate data and throw exception if validation fails
+export function validateDataAndThrow(data: any, rules?: ValidationRules, context: string = 'Data Validation'): void {
+  const validationResult = validateData(data, rules);
+  
+  // Log the validation results
+  logValidationResults(validationResult, context);
+  
+  // Throw exception if validation fails
+  if (!validationResult.isValid) {
+    const errorMessage = `Data validation failed in ${context}. Errors: ${validationResult.errors.join(', ')}`;
+    logger.error(errorMessage);
+    throw new ValidationException(errorMessage, validationResult, context);
+  }
+  
+  // Log warnings but don't throw for warnings only
+  if (validationResult.warnings.length > 0) {
+    logger.warn(`${context} - Validation passed with warnings:`, validationResult.warnings);
   }
 } 

@@ -6,7 +6,6 @@ import pytest
 import pandas as pd
 import geopandas as gpd
 import json
-import sys
 from unittest.mock import Mock, patch, mock_open
 from datetime import datetime, timedelta
 from shapely.geometry import Point, Polygon
