@@ -3,7 +3,7 @@ Disaster Response API Functions for Foundry.
 Provides endpoints for hazard data and route planning.
 """
 
-from foundry_functions import function, Input, Output
+from ..foundry_functions import function, Input, Output
 import geopandas as gpd
 import pandas as pd
 import json

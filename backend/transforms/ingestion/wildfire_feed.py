@@ -3,7 +3,7 @@ Wildfire feed ingestion transform for FIRMS MODIS data.
 Processes raw wildfire data and computes hazard zones.
 """
 
-from transforms.api import transform, Input, Output
+from ..api import transform, Input, Output
 import geopandas as gpd
 import pandas as pd
 import h3

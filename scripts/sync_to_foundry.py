@@ -3,7 +3,22 @@
 Sync script for pushing local transforms to Foundry.
 """
 
-from foundry_sdk import FoundryClient
+try:
+    from foundry_sdk import FoundryClient
+except ImportError:
+    # Mock FoundryClient for local development
+    class FoundryClient:
+        def __init__(self):
+            pass
+        
+        def upload_repository(self, path, repository_rid=None):
+            print(f"Mock: Would upload {path} to repository {repository_rid}")
+        
+        def build_repository(self, repository_rid):
+            print(f"Mock: Would build repository {repository_rid}")
+        
+        def list_repositories(self):
+            return [{"name": "Mock Repository", "rid": "ri.mock.repo.123"}]
 import click
 import os
 import structlog
