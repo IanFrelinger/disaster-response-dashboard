@@ -2,7 +2,7 @@ import React from 'react';
 import { HazardZone, SafeRoute, RiskAssessment, HazardSummary, EvacuationRoutesResponse } from '../types/hazard';
 import { environment, logger, useSyntheticData } from '../config/environment';
 import { SyntheticDataGenerator } from './syntheticData';
-import { validateData, logValidationResults, validateDataAndThrow, ValidationException } from '../utils/dataValidation';
+
 
 // API base URL from environment configuration
 const API_BASE_URL = environment.apiBaseUrl;
@@ -54,24 +54,7 @@ export class ApiService {
         throw new Error(result.error || 'API request failed');
       }
 
-      // Validate API response data
-      if (result.data && typeof result.data === 'object') {
-        try {
-          validateDataAndThrow(result.data, undefined, `API Response (${endpoint})`);
-        } catch (error) {
-          if (error instanceof ValidationException) {
-            logger.error(`API response validation failed for ${endpoint}:`, error.message);
-            // In demo mode, we might want to continue with invalid data for testing
-            if (environment.mode === 'demo') {
-              logger.warn(`Continuing with invalid API response in demo mode for ${endpoint}`);
-            } else {
-              throw error; // Re-throw the validation exception
-            }
-          } else {
-            throw error; // Re-throw non-validation errors
-          }
-        }
-      }
+
 
       return result.data;
     } catch (error) {

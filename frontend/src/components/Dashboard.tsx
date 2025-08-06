@@ -3,12 +3,10 @@ import HazardMap from './HazardMap';
 import RiskAssessmentCard from './RiskAssessmentCard';
 import HazardSummaryCard from './HazardSummaryCard';
 import SafeRoutesCard from './SafeRoutesCard';
-import DataValidationStatus from './DataValidationStatus';
 import ApiService from '../services/api';
 import { HazardZone, SafeRoute, RiskAssessment, HazardSummary, EvacuationRoutesResponse } from '../types/hazard';
 import { RefreshCw, Settings, Download, AlertTriangle } from 'lucide-react';
 import { environment, logger } from '../config/environment';
-import { validateData } from '../utils/dataValidation';
 
 interface DashboardData {
   hazardZones: HazardZone[];
@@ -23,7 +21,6 @@ const Dashboard: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [selectedLocation, setSelectedLocation] = useState<[number, number]>([-122.4194, 37.7749]);
   const [mapCenter, setMapCenter] = useState<[number, number]>([-122.4194, 37.7749]);
-  const [validationResult, setValidationResult] = useState<any>(null);
 
   // Fetch data from API on component mount
   useEffect(() => {
@@ -33,10 +30,6 @@ const Dashboard: React.FC = () => {
         logger.debug('Fetching dashboard data...');
         const data = await ApiService.getDashboardData();
         setDashboardData(data);
-        
-        // Validate the data
-        const validation = validateData(data);
-        setValidationResult(validation);
         
         logger.debug('Dashboard data loaded successfully');
       } catch (error) {
@@ -55,10 +48,6 @@ const Dashboard: React.FC = () => {
         logger.debug('Refreshing dashboard data...');
         const data = await ApiService.refreshData();
         setDashboardData(data);
-        
-        // Validate the refreshed data
-        const validation = validateData(data);
-        setValidationResult(validation);
         
         logger.debug('Dashboard data refreshed successfully');
       } catch (error) {
@@ -234,9 +223,7 @@ const Dashboard: React.FC = () => {
               </div>
             </div>
 
-            <div className="lg:col-span-1">
-              <DataValidationStatus validationResult={validationResult} />
-            </div>
+
         </div>
       </main>
     </div>
