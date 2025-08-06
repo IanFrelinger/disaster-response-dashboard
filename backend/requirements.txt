@@ -1,18 +1,18 @@
 # API Framework
-flask>=3.0.0
-flask-cors>=4.0.0
+flask==3.0.0
+flask-cors==4.0.0
 
-# Data Processing
-pandas>=2.0.0
-numpy>=1.20.0
+# Data Processing - using specific versions for stability
+pandas==2.1.4
+numpy==1.24.3
 
 # Geospatial
-shapely>=2.0.0
-h3>=4.0.0
+shapely==2.0.2
+h3==4.1.1
 
 # Logging
-structlog>=25.0.0
+structlog==25.4.0
 
 # Development and Testing (optional for production)
-pytest>=8.0.0
-pytest-cov>=6.0.0 
+pytest==8.0.0
+pytest-cov==6.0.0 

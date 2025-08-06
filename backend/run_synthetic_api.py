@@ -14,16 +14,16 @@ from functions.synthetic_api import app
 if __name__ == '__main__':
     print("🚀 Starting Disaster Response Dashboard - Synthetic Data API")
     print("=" * 60)
-    print("📡 API will be available at: http://localhost:5000")
-    print("📊 Dashboard endpoint: http://localhost:5000/api/dashboard")
-    print("🏥 Health check: http://localhost:5000/api/health")
-    print("📖 API info: http://localhost:5000/api/info")
+    print("📡 API will be available at: http://localhost:8000")
+    print("📊 Dashboard endpoint: http://localhost:8000/api/dashboard")
+    print("🏥 Health check: http://localhost:8000/api/health")
+    print("📖 API info: http://localhost:8000/api/info")
     print("=" * 60)
     print("Press Ctrl+C to stop the server")
     print()
     
     try:
-        app.run(debug=True, host='0.0.0.0', port=5000)
+        app.run(debug=True, host='0.0.0.0', port=8000)
     except KeyboardInterrupt:
         print("\n👋 Shutting down synthetic data API server...")
     except Exception as e:
