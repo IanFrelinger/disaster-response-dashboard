@@ -1,18 +1,17 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { StatusCard, StatusType } from '@/components/public/StatusCard'
 import { LocationChecker } from '@/components/public/LocationChecker'
 import { ActionChecklist } from '@/components/public/ActionChecklist'
 import { FamilyStatus } from '@/components/public/FamilyStatus'
 import { ResourceGrid } from '@/components/public/ResourceGrid'
 import { useAppStore } from '@/stores/useAppStore'
-import { apiService } from '@/services/api'
 
-export const PublicView: React.FC = () => {
+export const PublicView = () => {
   const [currentStatus, setCurrentStatus] = useState<StatusType>('safe')
   const [locationLoading, setLocationLoading] = useState(false)
   const [lastUpdated, setLastUpdated] = useState<string>(new Date().toISOString())
   
-  const { setLoading, setError, clearError } = useAppStore()
+  const { setError, clearError } = useAppStore()
 
   // Simulate real-time status updates
   useEffect(() => {

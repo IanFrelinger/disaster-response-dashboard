@@ -1,0 +1,75 @@
+{
+  "timestamp": "2025-08-07T15:42:58.642886",
+  "total_tests": 7,
+  "successful_tests": 7,
+  "failed_tests": 0,
+  "success_rate": 100.0,
+  "avg_response_time_ms": 3.86,
+  "max_response_time_ms": 9.0,
+  "min_response_time_ms": 1.52,
+  "results": [
+    {
+      "name": "Backend Health",
+      "url": "http://localhost:5001/api/health",
+      "status_code": 200,
+      "response_time_ms": 9.0,
+      "success": true,
+      "timestamp": "2025-08-07T15:42:58.624588",
+      "error": null
+    },
+    {
+      "name": "Backend Dashboard",
+      "url": "http://localhost:5001/api/dashboard",
+      "status_code": 200,
+      "response_time_ms": 6.63,
+      "success": true,
+      "timestamp": "2025-08-07T15:42:58.631263",
+      "error": null
+    },
+    {
+      "name": "Backend Hazards",
+      "url": "http://localhost:5001/api/hazards",
+      "status_code": 200,
+      "response_time_ms": 3.61,
+      "success": true,
+      "timestamp": "2025-08-07T15:42:58.634905",
+      "error": null
+    },
+    {
+      "name": "Backend Routes",
+      "url": "http://localhost:5001/api/routes",
+      "status_code": 200,
+      "response_time_ms": 2.63,
+      "success": true,
+      "timestamp": "2025-08-07T15:42:58.637570",
+      "error": null
+    },
+    {
+      "name": "Frontend Home",
+      "url": "http://localhost:3000/",
+      "status_code": 200,
+      "response_time_ms": 1.95,
+      "success": true,
+      "timestamp": "2025-08-07T15:42:58.639556",
+      "error": null
+    },
+    {
+      "name": "Frontend Field",
+      "url": "http://localhost:3000/field",
+      "status_code": 200,
+      "response_time_ms": 1.65,
+      "success": true,
+      "timestamp": "2025-08-07T15:42:58.641246",
+      "error": null
+    },
+    {
+      "name": "Frontend Command",
+      "url": "http://localhost:3000/command",
+      "status_code": 200,
+      "response_time_ms": 1.52,
+      "success": true,
+      "timestamp": "2025-08-07T15:42:58.642807",
+      "error": null
+    }
+  ]
+}

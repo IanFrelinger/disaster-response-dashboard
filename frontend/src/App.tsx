@@ -1,51 +1,7 @@
-import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { PublicView } from '@/pages/PublicView'
-
-// Pages (to be implemented)
-const FieldView = () => (
-  <div className="min-h-screen bg-gray-50 p-4">
-    <div className="max-w-7xl mx-auto">
-      <h1 className="text-3xl font-bold text-gray-900 mb-8">Field Response Operations</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div className="card">
-          <h2 className="text-xl font-semibold mb-4">Tactical Map</h2>
-          <p className="text-gray-600">Coming soon...</p>
-        </div>
-        <div className="card">
-          <h2 className="text-xl font-semibold mb-4">Navigation Panel</h2>
-          <p className="text-gray-600">Coming soon...</p>
-        </div>
-        <div className="card">
-          <h2 className="text-xl font-semibold mb-4">Quick Actions</h2>
-          <p className="text-gray-600">Coming soon...</p>
-        </div>
-      </div>
-    </div>
-  </div>
-)
-
-const CommandView = () => (
-  <div className="min-h-screen bg-gray-50 p-4">
-    <div className="max-w-7xl mx-auto">
-      <h1 className="text-3xl font-bold text-gray-900 mb-8">Command Center Operations</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div className="card">
-          <h2 className="text-xl font-semibold mb-4">Metrics Grid</h2>
-          <p className="text-gray-600">Coming soon...</p>
-        </div>
-        <div className="card">
-          <h2 className="text-xl font-semibold mb-4">Tactical Map</h2>
-          <p className="text-gray-600">Coming soon...</p>
-        </div>
-        <div className="card">
-          <h2 className="text-xl font-semibold mb-4">Resource Table</h2>
-          <p className="text-gray-600">Coming soon...</p>
-        </div>
-      </div>
-    </div>
-  </div>
-)
+import { FieldView } from '@/pages/FieldView'
+import { CommandView } from '@/pages/CommandView'
 
 // Navigation component
 const Navigation = () => (
