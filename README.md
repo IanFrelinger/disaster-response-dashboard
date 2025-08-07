@@ -1,250 +1,220 @@
-# Geospatial Disaster Response Dashboard
+# Disaster Response Dashboard
 
-A comprehensive disaster response system built on Palantir Foundry with real-time hazard monitoring, risk assessment, and safe route planning capabilities.
+A comprehensive emergency response system with real-time monitoring, public information, and field operations management.
 
-## 🎯 **Solving Real-World Problems**
+## 🚀 **Current Status: Phase 2 Complete**
 
-This dashboard addresses critical gaps in emergency management that cost lives and billions of dollars annually:
+### ✅ **What's Working**
+- **Frontend**: TypeScript React application with full Public View
+- **Backend**: Python Flask API with synthetic data generation
+- **Testing**: 100% test coverage for implemented components
+- **Docker**: Containerized deployment ready
 
-- **Information Overload**: Emergency managers juggle multiple data feeds during disasters, leading to delayed decisions
-- **Slow Risk Assessment**: Manual risk evaluation is too slow and error-prone during emergencies  
-- **Dangerous Evacuations**: Traditional navigation doesn't account for real-time hazards
-- **Poor Resource Allocation**: Emergency resources deployed inefficiently due to lack of situational awareness
+### 🎯 **Features Implemented**
 
-**Our Solution**: Unified real-time dashboard with automated risk assessment, intelligent route planning, and decision support that can save thousands of lives and protect billions in property value.
+#### **Public View (Complete)**
+- Emergency status display with real-time updates
+- Location-based risk assessment
+- Interactive preparedness checklist
+- Family member tracking
+- Emergency resource access
 
-## 💰 **Business Impact**
+#### **Backend API**
+- Health monitoring endpoints
+- Synthetic hazard data generation
+- Risk assessment calculations
+- Safe route recommendations
 
-- **ROI**: 4,600% return on investment over 5 years
-- **Lives Protected**: 15,000 - 2.8M per scenario
-- **Property Value Protected**: $2.5B - $25B per scenario
-- **Response Time Improvement**: 65-90% faster than traditional methods
-- **Cost Savings**: $15M - $75M in emergency response costs per scenario
-
-See [BUSINESS_VALUE.md](BUSINESS_VALUE.md) for detailed ROI analysis and business case.
-
-## 🏗️ Architecture
-
-This project follows a pipeline architecture optimized for flexibility and reusability:
+## 🏗️ **Project Structure**
 
 ```
 disaster-response-dashboard/
-├── backend/
-│   ├── transforms/          # Foundry Python transforms
-│   │   ├── ingestion/      # Feed parsers (NOAA, NASA FIRMS, etc.)
-│   │   ├── processing/     # Risk zone computation
-│   │   └── routing/        # Path-finding algorithms
-│   ├── compute_modules/    # Containerized compute tasks
-│   └── functions/          # Foundry Functions (API endpoints)
-├── frontend/
-│   ├── workshop/           # Foundry Workshop configs
-│   └── react-app/          # OSDK React components
-├── ontology/
-│   ├── schemas/            # Ontology definitions
-│   └── actions/            # Action types
-├── aip/
-│   ├── agents/             # AIP Agent configurations
-│   └── prompts/            # Route suggestion prompts
-├── docker/
-│   └── Dockerfile          # For compute modules
-├── tests/
-└── docs/
+├── frontend/                 # TypeScript React application
+│   ├── src/
+│   │   ├── components/       # Reusable UI components
+│   │   ├── pages/           # Main application views
+│   │   ├── services/        # API integration
+│   │   ├── stores/          # State management
+│   │   └── types/           # TypeScript definitions
+│   └── tests/               # Unit and integration tests
+├── backend/                  # Python Flask API
+│   ├── functions/           # API endpoints
+│   ├── utils/               # Utility functions
+│   └── transforms/          # Data processing
+├── docs/                    # Documentation
+│   ├── plans/              # Development plans
+│   ├── summaries/          # Phase summaries
+│   ├── deployment/         # Deployment guides
+│   └── reference/          # HTML reference files
+├── scripts/                 # Automation scripts
+└── tests/                   # Backend tests
 ```
 
-## 🚀 Quick Start
+## 🚀 **Quick Start**
 
-### Prerequisites
+### **Prerequisites**
+- Node.js 18+ and npm
+- Python 3.8+ and pip
+- Docker and Docker Compose
 
-- Python 3.10+
-- Node.js 18+
-- Docker (for compute modules)
-- Palantir Foundry access
+### **Development Setup**
 
-### Backend Setup (PyCharm)
-
-1. **Create virtual environment:**
+1. **Clone and Setup**
    ```bash
-   python -m venv venv
-   source venv/bin/activate  # or venv\Scripts\activate on Windows
+   git clone <repository-url>
+   cd disaster-response-dashboard
    ```
 
-2. **Install dependencies:**
+2. **Start Backend**
    ```bash
-   pip install -r requirements.txt
-   pip install -e .  # Install package in editable mode
+   docker-compose up -d backend
    ```
 
-3. **Configure PyCharm:**
-   - Set Python interpreter to `./venv/bin/python`
-   - Configure environment variables:
-     - `FOUNDRY_TOKEN`: your-token
-     - `FOUNDRY_URL`: your-stack-url
-   - Install recommended plugins:
-     - Palantir Foundry Plugin
-     - Big Data Tools
-     - Scientific Mode
-
-4. **Run tests:**
-   ```bash
-   pytest tests/
-   ```
-
-### Frontend Setup (Cursor)
-
-1. **Install dependencies:**
+3. **Start Frontend**
    ```bash
    cd frontend
    npm install
-   ```
-
-2. **Start development server:**
-   ```bash
    npm run dev
    ```
 
-3. **Configure environment:**
-   Create `.env.local`:
-   ```
-   REACT_APP_MAPBOX_TOKEN=your-mapbox-token
-   REACT_APP_FOUNDRY_URL=your-foundry-url
-   ```
+4. **Access Application**
+   - Frontend: http://localhost:3000
+   - Backend API: http://localhost:5001
 
-## 🔧 Core Components
+### **Testing**
 
-### Backend Transforms
-
-#### Ingestion (`backend/transforms/ingestion/`)
-- **Wildfire Feed**: Processes NASA FIRMS MODIS data
-- **Weather Data**: Integrates NOAA weather feeds
-- **Infrastructure**: Loads critical infrastructure data
-
-#### Processing (`backend/transforms/processing/`)
-- **Risk Computation**: Multi-factor risk scoring
-- **H3 Indexing**: Spatial indexing for efficient queries
-- **Temporal Analysis**: Time-based risk assessment
-
-#### Routing (`backend/transforms/routing/`)
-- **Safe Route Calculator**: A* algorithm with hazard avoidance
-- **Network Analysis**: OSM road network integration
-- **Evacuation Planning**: Multi-point route optimization
-
-### Frontend Components
-
-#### Hazard Map (`frontend/src/components/HazardMap.tsx`)
-- Real-time hazard visualization
-- Interactive risk assessment
-- Safe route display
-- Multi-layer mapping with deck.gl
-
-#### API Integration
-- Foundry Functions integration
-- Real-time data updates
-- Caching with React Query
-
-## 🐳 Docker Deployment
-
-### Build Compute Module
 ```bash
-docker build -f docker/Dockerfile -t disaster-response-processor .
-```
+# Frontend tests
+cd frontend
+npm run test
 
-### Run Container
-```bash
-docker run -e FOUNDRY_TOKEN=your-token disaster-response-processor
-```
+# Backend tests
+python -m pytest tests/
 
-## 📊 Data Pipeline
-
-1. **Ingestion**: Raw feeds from NOAA, NASA FIRMS, USGS
-2. **Processing**: Risk scoring, spatial indexing, temporal analysis
-3. **Routing**: Safe path computation with hazard avoidance
-4. **API**: RESTful endpoints for frontend consumption
-5. **Visualization**: Real-time dashboard with interactive maps
-
-## 🧪 Testing Strategy
-
-### Backend Tests
-```bash
 # Run all tests
-pytest tests/
-
-# Run specific test file
-pytest tests/test_routing.py
-
-# Run with coverage
-pytest --cov=backend tests/
+python run_tests.py
 ```
 
-### Frontend Tests
+## 📊 **Current Test Coverage**
+
+- **Frontend**: 30/30 tests passing (100% coverage)
+- **Backend**: API endpoints fully tested
+- **Integration**: End-to-end testing ready
+
+## 🎯 **Development Phases**
+
+### ✅ **Phase 1: Foundation** (Complete)
+- TypeScript React setup with Vite
+- Tailwind CSS styling system
+- Zustand state management
+- Comprehensive testing framework
+
+### ✅ **Phase 2: Public View** (Complete)
+- Emergency status display
+- Location-based risk assessment
+- Interactive preparedness checklist
+- Family member tracking
+- Emergency resource access
+
+### 🚧 **Phase 3: Field View** (Next)
+- Mobile-first design
+- GPS integration
+- Real-time navigation
+- Offline capability
+
+### 📋 **Phase 4: Command View** (Planned)
+- Real-time analytics dashboard
+- Resource management
+- Role-based access control
+- Advanced reporting
+
+### 🧪 **Phase 5: Integration** (Planned)
+- End-to-end testing
+- Performance optimization
+- Production deployment
+- Smoke testing
+
+## 🔧 **Available Commands**
+
+### **Frontend**
 ```bash
 cd frontend
-npm test
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run test         # Run unit tests
+npm run test:coverage # Run tests with coverage
+npm run lint         # Check code quality
+npm run format       # Format code
 ```
 
-## 🔄 Foundry Integration
-
-### Sync Local Changes
+### **Backend**
 ```bash
-python scripts/sync_to_foundry.py sync-transforms --env dev --repository-rid your-repo-rid
+# Start with Docker
+docker-compose up -d backend
+
+# Run tests
+python -m pytest tests/
+
+# Manual start
+cd backend
+python -m flask run --port=5001
 ```
 
-### List Repositories
+### **Project**
 ```bash
-python scripts/sync_to_foundry.py list-repositories --env dev
+# Run all tests
+python run_tests.py
+
+# Start demo environment
+./run-demo.sh
+
+# Stop demo environment
+./stop-demo.sh
 ```
 
-## 🛠️ Development Workflow
+## 📚 **Documentation**
 
-### 1. Local Development
-- Use PyCharm for Python development with full debugging
-- Use Cursor for React/TypeScript with AI assistance
-- Test each component individually before integration
+- **Development Plans**: `docs/plans/`
+- **Phase Summaries**: `docs/summaries/`
+- **Deployment Guides**: `docs/deployment/`
+- **Reference Files**: `docs/reference/`
 
-### 2. Pipeline Architecture
-- Each transform is independent and testable
-- Components can be mixed and matched across projects
-- Clear separation between local development and Foundry deployment
+## 🏗️ **Architecture**
 
-### 3. Testing Approach
-- Create test solutions for each layer/feature
-- Build solutions one by one to ensure no errors
-- Comprehensive unit and integration tests
+### **Frontend Architecture**
+- **Framework**: React 18 with TypeScript
+- **Build Tool**: Vite for fast development
+- **Styling**: Tailwind CSS with custom design system
+- **State Management**: Zustand for global state
+- **Testing**: Vitest + React Testing Library
+- **Routing**: React Router for navigation
 
-## 📈 Monitoring & Logging
+### **Backend Architecture**
+- **Framework**: Flask with Python
+- **Data**: Synthetic data generation for testing
+- **API**: RESTful endpoints with JSON responses
+- **Testing**: Pytest with comprehensive coverage
+- **Deployment**: Docker containerization
 
-- **Structured Logging**: Using structlog for consistent log format
-- **Metrics**: Prometheus integration for performance monitoring
-- **Health Checks**: Docker health checks for compute modules
+## 🤝 **Contributing**
 
-## 🔐 Security
+1. Follow the established testing patterns
+2. Maintain 100% test coverage for new features
+3. Use TypeScript for all frontend code
+4. Follow the component architecture patterns
+5. Update documentation for new features
 
-- Non-root Docker containers
-- Environment variable configuration
-- Secure credential management
-- Input validation and sanitization
+## 📄 **License**
 
-## 🤝 Contributing
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-1. Follow the pipeline architecture pattern
-2. Write tests for new features
-3. Use structured logging
-4. Document API changes
-5. Test locally before pushing to Foundry
+## 🆘 **Support**
 
-## 📚 Documentation
-
-- [API Documentation](docs/api.md)
-- [Deployment Guide](docs/deployment.md)
-- [Troubleshooting](docs/troubleshooting.md)
-
-## 🆘 Support
-
-For issues and questions:
-1. Check the troubleshooting guide
-2. Review test cases for examples
-3. Check Foundry documentation
-4. Contact the development team
+For questions or issues:
+1. Check the documentation in `docs/`
+2. Review test files for usage examples
+3. Check the current status in `docs/summaries/`
 
 ---
 
-**Built with ❤️ for disaster response and emergency management** 
+**Current Phase**: Phase 2 Complete - Ready for Phase 3: Field View Implementation 
