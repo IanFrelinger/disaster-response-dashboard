@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Safety Information</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        /* Header with clear status */
+        .safety-header {
+            background: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .last-update {
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* Main Status Card */
+        .status-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        .status-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .status-card.evacuate {
+            background: #ff4444;
+            color: white;
+            animation: attention 2s ease-in-out infinite;
+        }
+
+        .status-card.prepare {
+            background: #ff8800;
+            color: white;
+        }
+
+        .status-card.safe {
+            background: #22c55e;
+            color: white;
+        }
+
+        @keyframes attention {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        .status-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        .status-main {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .status-detail {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        /* Location Input */
+        .location-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .location-form {
+            display: flex;
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .location-input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.2s;
+        }
+
+        .location-input:focus {
+            outline: none;
+            border-color: #4488ff;
+        }
+
+        .check-btn {
+            padding: 12px 24px;
+            background: #4488ff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .check-btn:hover {
+            background: #5599ff;
+        }
+
+        .check-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Action Steps */
+        .action-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .action-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #333;
+        }
+
+        .action-list {
+            list-style: none;
+        }
+
+        .action-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .action-item:last-child {
+            border-bottom: none;
+        }
+
+        .action-check {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            flex-shrink: 0;
+            margin-top: 2px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .action-check.checked {
+            background: #22c55e;
+            border-color: #22c55e;
+            position: relative;
+        }
+
+        .action-check.checked::after {
+            content: '✓';
+            position: absolute;
+            color: white;
+            font-size: 16px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .action-text {
+            flex: 1;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .action-text.checked {
+            opacity: 0.6;
+            text-decoration: line-through;
+        }
+
+        /* Resource Cards */
+        .resource-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .resource-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .resource-icon {
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+
+        .resource-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .resource-detail {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 12px;
+        }
+
+        .resource-btn {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #4488ff;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .resource-btn:hover {
+            background: #5599ff;
+        }
+
+        /* Family Check-in */
+        .family-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .family-members {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .member-chip {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: #f0f0f0;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        .member-chip.safe {
+            background: #d4f4dd;
+            color: #22c55e;
+        }
+
+        .member-status {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #ddd;
+        }
+
+        .member-chip.safe .member-status {
+            background: #22c55e;
+        }
+
+        /* Map View */
+        .map-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .simple-map {
+            width: 100%;
+            height: 300px;
+            background: #f0f0f0;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            margin-top: 16px;
+        }
+
+        .map-overlay {
+            position: absolute;
+            bottom: 16px;
+            left: 16px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 12px 16px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .map-legend {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 14px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+        }
+
+        /* Language Selector */
+        .language-selector {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            padding: 8px;
+        }
+
+        .lang-btn {
+            padding: 8px 12px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 14px;
+            color: #666;
+            transition: all 0.2s;
+        }
+
+        .lang-btn:hover {
+            color: #333;
+            background: #f0f0f0;
+            border-radius: 4px;
+        }
+
+        .lang-btn.active {
+            color: #4488ff;
+            font-weight: 600;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 600px) {
+            .status-main {
+                font-size: 28px;
+            }
+            
+            .status-detail {
+                font-size: 16px;
+            }
+            
+            .resource-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .location-form {
+                flex-direction: column;
+            }
+            
+            .check-btn {
+                width: 100%;
+            }
+        }
+
+        /* Emergency contacts footer */
+        .emergency-footer {
+            background: #333;
+            color: white;
+            padding: 24px 20px;
+            margin-top: 40px;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .emergency-number {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .emergency-text {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="safety-header">
+        <div class="header-content">
+            <h1 class="header-title">Emergency Safety Information</h1>
+            <div class="last-update">Updated: <span id="updateTime">2 min ago</span></div>
+        </div>
+    </div>
+
+    <div class="status-container">
+        <!-- Main Status -->
+        <div class="status-card prepare" id="mainStatus">
+            <div class="status-icon">⚠️</div>
+            <div class="status-main">PREPARE TO EVACUATE</div>
+            <div class="status-detail">Fire approaching your area - Pack essentials now</div>
+        </div>
+
+        <!-- Location Check -->
+        <div class="location-card">
+            <h2 class="action-title">Check Your Address</h2>
+            <p style="color: #666; margin-bottom: 12px;">Enter your address to see specific instructions for your location</p>
+            <div class="location-form">
+                <input type="text" class="location-input" placeholder="Enter your address..." id="addressInput">
+                <button class="check-btn" onclick="checkAddress()">Check Status</button>
+            </div>
+        </div>
+
+        <!-- Action Steps -->
+        <div class="action-card">
+            <h2 class="action-title">What You Need To Do Now</h2>
+            <ul class="action-list">
+                <li class="action-item">
+                    <div class="action-check" onclick="toggleCheck(this)"></div>
+                    <div class="action-text">Pack important documents (ID, insurance, medical records)</div>
+                </li>
+                <li class="action-item">
+                    <div class="action-check" onclick="toggleCheck(this)"></div>
+                    <div class="action-text">Prepare medications and first aid supplies</div>
+                </li>
+                <li class="action-item">
+                    <div class="action-check" onclick="toggleCheck(this)"></div>
+                    <div class="action-text">Pack 3 days of clothes and toiletries</div>
+                </li>
+                <li class="action-item">
+                    <div class="action-check" onclick="toggleCheck(this)"></div>
+                    <div class="action-text">Charge all phones and portable batteries</div>
+                </li>
+                <li class="action-item">
+                    <div class="action-check" onclick="toggleCheck(this)"></div>
+                    <div class="action-text">Fill car with gas and prepare to leave</div>
+                </li>
+                <li class="action-item">
+                    <div class="action-check" onclick="toggleCheck(this)"></div>
+                    <div class="action-text">Secure pets and prepare carriers</div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Family Check-in -->
+        <div class="family-card">
+            <h2 class="action-title">Family Safety Check</h2>
+            <p style="color: #666;">Family members who have checked in:</p>
+            <div class="family-members">
+                <div class="member-chip safe">
+                    <div class="member-status"></div>
+                    <span>Mom - Safe at shelter</span>
+                </div>
+                <div class="member-chip safe">
+                    <div class="member-status"></div>
+                    <span>David - On way to meetup point</span>
+                </div>
+                <div class="member-chip">
+                    <div class="member-status"></div>
+                    <span>Sarah - Not checked in</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resources -->
+        <h2 class="action-title" style="margin: 32px 0 16px;">Important Resources</h2>
+        <div class="resource-grid">
+            <div class="resource-card">
+                <div class="resource-icon">🏠</div>
+                <h3 class="resource-title">Evacuation Shelters</h3>
+                <p class="resource-detail">3 shelters open with space available</p>
+                <a href="#" class="resource-btn">Find Nearest</a>
+            </div>
+            
+            <div class="resource-card">
+                <div class="resource-icon">🚗</div>
+                <h3 class="resource-title">Safe Routes</h3>
+                <p class="resource-detail">Live traffic and road closures</p>
+                <a href="#" class="resource-btn">View Routes</a>
+            </div>
+            
+            <div class="resource-card">
+                <div class="resource-icon">👨‍👩‍👧‍👦</div>
+                <h3 class="resource-title">Family Meetup</h3>
+                <p class="resource-detail">Designated safe meeting points</p>
+                <a href="#" class="resource-btn">Set Location</a>
+            </div>
+        </div>
+
+        <!-- Simple Map -->
+        <div class="map-card">
+            <h2 class="action-title">Your Area</h2>
+            <div class="simple-map">
+                <!-- Simplified map visualization -->
+                <svg width="100%" height="100%" viewBox="0 0 400 300">
+                    <!-- Safe zones -->
+                    <rect x="250" y="180" width="120" height="100" fill="#22c55e" opacity="0.3" rx="8"/>
+                    
+                    <!-- Warning zones -->
+                    <rect x="150" y="100" width="100" height="120" fill="#ff8800" opacity="0.3" rx="8"/>
+                    
+                    <!-- Danger zones -->
+                    <rect x="50" y="50" width="100" height="100" fill="#ff4444" opacity="0.3" rx="8"/>
+                    
+                    <!-- Your location -->
+                    <circle cx="200" cy="160" r="8" fill="#4488ff" stroke="white" stroke-width="3">
+                        <animate attributeName="r" values="8;12;8" dur="2s" repeatCount="indefinite" />
+                    </circle>
+                    <text x="200" y="185" text-anchor="middle" font-size="12" fill="#333">You are here</text>
+                    
+                    <!-- Shelter -->
+                    <rect x="300" y="220" width="40" height="40" fill="#22c55e" rx="4"/>
+                    <text x="320" y="245" text-anchor="middle" font-size="20" fill="white">🏠</text>
+                    <text x="320" y="275" text-anchor="middle" font-size="10" fill="#333">Shelter</text>
+                </svg>
+                
+                <div class="map-overlay">
+                    <div class="map-legend">
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #ff4444;"></div>
+                            <span>Evacuate Now</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #ff8800;"></div>
+                            <span>Be Ready</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #22c55e;"></div>
+                            <span>Safe Area</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Emergency Contact Footer -->
+    <div class="emergency-footer">
+        <div class="footer-content">
+            <div class="emergency-number">911</div>
+            <div class="emergency-text">For immediate emergency assistance</div>
+            <div style="margin-top: 16px; font-size: 14px;">
+                Information Hotline: 1-800-XXX-XXXX | Text "SAFE" to 12345
+            </div>
+        </div>
+    </div>
+
+    <!-- Language Selector -->
+    <div class="language-selector">
+        <button class="lang-btn active">English</button>
+        <button class="lang-btn">Español</button>
+        <button class="lang-btn">中文</button>
+        <button class="lang-btn">Tagalog</button>
+    </div>
+
+    <script>
+        // Update time
+        function updateTime() {
+            const times = ['Just now', '1 min ago', '2 min ago', '3 min ago'];
+            document.getElementById('updateTime').textContent = times[Math.floor(Math.random() * times.length)];
+        }
+        setInterval(updateTime, 30000);
+
+        // Check address
+        function checkAddress() {
+            const input = document.getElementById('addressInput');
+            const address = input.value.toLowerCase();
+            const statusCard = document.getElementById('mainStatus');
+            
+            if (address.includes('elm') || address.includes('pine')) {
+                statusCard.className = 'status-card evacuate';
+                statusCard.querySelector('.status-icon').textContent = '🚨';
+                statusCard.querySelector('.status-main').textContent = 'EVACUATE NOW';
+                statusCard.querySelector('.status-detail').textContent = 'Leave immediately - Fire approaching rapidly';
+                
+                // Vibrate if available
+                navigator.vibrate && navigator.vibrate([200, 100, 200]);
+            } else if (address.includes('oak') || address.includes('main')) {
+                statusCard.className = 'status-card prepare';
+                statusCard.querySelector('.status-icon').textContent = '⚠️';
+                statusCard.querySelector('.status-main').textContent = 'PREPARE TO EVACUATE';
+                statusCard.querySelector('.status-detail').textContent = 'Fire approaching your area - Pack essentials now';
+            } else {
+                statusCard.className = 'status-card safe';
+                statusCard.querySelector('.status-icon').textContent = '✓';
+                statusCard.querySelector('.status-main').textContent = 'CURRENTLY SAFE';
+                statusCard.querySelector('.status-detail').textContent = 'Monitor updates - Situation may change';
+            }
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Toggle checklist items
+        function toggleCheck(checkbox) {
+            checkbox.classList.toggle('checked');
+            const text = checkbox.nextElementSibling;
+            text.classList.toggle('checked');
+            
+            // Save progress to localStorage
+            const checks = document.querySelectorAll('.action-check');
+            const completed = Array.from(checks).filter(c => c.classList.contains('checked')).length;
+            
+            if (completed === checks.length) {
+                setTimeout(() => {
+                    alert('Great job! You\'re prepared. Stay alert for updates.');
+                }, 500);
+            }
+        }
+
+        // Simulate family check-ins
+        setTimeout(() => {
+            const chips = document.querySelectorAll('.member-chip');
+            if (chips.length > 2) {
+                chips[2].classList.add('safe');
+                chips[2].querySelector('span').textContent = 'Sarah - Safe with neighbors';
+            }
+        }, 10000);
+
+        // Handle address input with enter key
+        document.getElementById('addressInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                checkAddress();
+            }
+        });
+    </script>
+</body>
+</html>
