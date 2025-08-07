@@ -339,24 +339,145 @@ class SyntheticDataGenerator:
 
     @staticmethod
     def generate_scenario_data(scenario: str) -> Dict:
-        """Generate data for specific disaster scenarios."""
-        hazard_count = 15
-        critical_risk_percentage = 0.1
+        """Generate data for specific disaster scenarios with realistic business impact."""
         
-        if scenario == 'wildfire':
-            hazard_count = 30
-            critical_risk_percentage = 0.3
-        elif scenario == 'earthquake':
-            hazard_count = 25
-            critical_risk_percentage = 0.4
-        elif scenario == 'flood':
-            hazard_count = 20
-            critical_risk_percentage = 0.25
-        
-        return {
-            'hazardZones': [zone.to_dict() for zone in SyntheticDataGenerator.generate_hazard_zones(hazard_count)],
-            'safeRoutes': [route.to_dict() for route in SyntheticDataGenerator.generate_safe_routes(10)],
-            'riskAssessment': SyntheticDataGenerator.generate_risk_assessment().to_dict(),
-            'hazardSummary': SyntheticDataGenerator.generate_hazard_summary().to_dict(),
-            'evacuationRoutes': SyntheticDataGenerator.generate_evacuation_routes_response().to_dict()
-        } 
+        if scenario == "wildfire-napa":
+            # Napa Valley Wildfire Scenario
+            return {
+                "hazardZones": [zone.to_dict() for zone in SyntheticDataGenerator.generate_hazard_zones(25)],
+                "safeRoutes": [route.to_dict() for route in SyntheticDataGenerator.generate_safe_routes(12)],
+                "riskAssessment": SyntheticDataGenerator.generate_risk_assessment().to_dict(),
+                "hazardSummary": SyntheticDataGenerator.generate_hazard_summary().to_dict(),
+                "evacuationRoutes": SyntheticDataGenerator.generate_evacuation_routes_response().to_dict(),
+                "businessImpact": {
+                    "livesProtected": 15000,
+                    "propertyValueProtected": 2500000000,  # $2.5B in vineyards and homes
+                    "responseTimeReduction": 65.0,
+                    "costSavings": 15000000,  # $15M in emergency response costs
+                    "infrastructureProtected": 8,  # Hospitals, schools, utilities
+                    "evacuationEfficiency": 78.5
+                },
+                "emergencyDecisions": [
+                    {
+                        "id": "evac-001",
+                        "type": "evacuation",
+                        "priority": "critical",
+                        "title": "Immediate Evacuation of Napa Valley",
+                        "description": "Fast-moving wildfire approaching residential areas and vineyards",
+                        "action": "Issue mandatory evacuation orders for all residents within 5-mile radius",
+                        "impact": "Protect 15,000 lives and $2.5B in property value",
+                        "resources": ["Emergency Broadcast System", "Law Enforcement", "Red Cross"],
+                        "estimatedTime": "30 minutes",
+                        "location": "Napa Valley, CA"
+                    },
+                    {
+                        "id": "resource-001",
+                        "type": "resource_allocation",
+                        "priority": "high",
+                        "title": "Deploy Firefighting Resources",
+                        "description": "Coordinate firefighting efforts to protect critical infrastructure",
+                        "action": "Deploy 5 fire crews to protect hospitals and evacuation routes",
+                        "impact": "Maintain access to critical medical facilities",
+                        "resources": ["Fire Crews", "Water Tankers", "Helicopters"],
+                        "estimatedTime": "45 minutes"
+                    }
+                ]
+            }
+            
+        elif scenario == "flood-sacramento":
+            # Sacramento River Flood Scenario
+            return {
+                "hazardZones": [zone.to_dict() for zone in SyntheticDataGenerator.generate_hazard_zones(18)],
+                "safeRoutes": [route.to_dict() for route in SyntheticDataGenerator.generate_safe_routes(10)],
+                "riskAssessment": SyntheticDataGenerator.generate_risk_assessment().to_dict(),
+                "hazardSummary": SyntheticDataGenerator.generate_hazard_summary().to_dict(),
+                "evacuationRoutes": SyntheticDataGenerator.generate_evacuation_routes_response().to_dict(),
+                "businessImpact": {
+                    "livesProtected": 45000,
+                    "propertyValueProtected": 8500000000,  # $8.5B in government and business assets
+                    "responseTimeReduction": 72.0,
+                    "costSavings": 25000000,  # $25M in emergency response costs
+                    "infrastructureProtected": 12,  # Government buildings, utilities, transportation
+                    "evacuationEfficiency": 82.0
+                },
+                "emergencyDecisions": [
+                    {
+                        "id": "evac-002",
+                        "type": "evacuation",
+                        "priority": "critical",
+                        "title": "Downtown Sacramento Evacuation",
+                        "description": "Major flooding threatening government buildings and downtown area",
+                        "action": "Evacuate all government buildings and downtown businesses",
+                        "impact": "Protect 45,000 lives and critical government operations",
+                        "resources": ["National Guard", "Emergency Services", "Transportation"],
+                        "estimatedTime": "60 minutes",
+                        "location": "Sacramento, CA"
+                    }
+                ]
+            }
+            
+        elif scenario == "earthquake-sf":
+            # San Francisco Earthquake Scenario
+            return {
+                "hazardZones": [zone.to_dict() for zone in SyntheticDataGenerator.generate_hazard_zones(35)],
+                "safeRoutes": [route.to_dict() for route in SyntheticDataGenerator.generate_safe_routes(15)],
+                "riskAssessment": SyntheticDataGenerator.generate_risk_assessment().to_dict(),
+                "hazardSummary": SyntheticDataGenerator.generate_hazard_summary().to_dict(),
+                "evacuationRoutes": SyntheticDataGenerator.generate_evacuation_routes_response().to_dict(),
+                "businessImpact": {
+                    "livesProtected": 850000,
+                    "propertyValueProtected": 15000000000,  # $15B in tech and real estate
+                    "responseTimeReduction": 85.0,
+                    "costSavings": 50000000,  # $50M in emergency response costs
+                    "infrastructureProtected": 25,  # Tech campuses, hospitals, utilities
+                    "evacuationEfficiency": 88.0
+                },
+                "emergencyDecisions": [
+                    {
+                        "id": "evac-003",
+                        "type": "evacuation",
+                        "priority": "critical",
+                        "title": "Bay Area Mass Evacuation",
+                        "description": "6.8 magnitude earthquake affecting entire Bay Area",
+                        "action": "Coordinate evacuation of 850,000 people from affected areas",
+                        "impact": "Protect lives and maintain critical tech sector operations",
+                        "resources": ["All Emergency Services", "Tech Companies", "Transportation"],
+                        "estimatedTime": "120 minutes",
+                        "location": "San Francisco Bay Area"
+                    }
+                ]
+            }
+            
+        elif scenario == "hurricane-miami":
+            # Miami Hurricane Scenario
+            return {
+                "hazardZones": [zone.to_dict() for zone in SyntheticDataGenerator.generate_hazard_zones(40)],
+                "safeRoutes": [route.to_dict() for route in SyntheticDataGenerator.generate_safe_routes(20)],
+                "riskAssessment": SyntheticDataGenerator.generate_risk_assessment().to_dict(),
+                "hazardSummary": SyntheticDataGenerator.generate_hazard_summary().to_dict(),
+                "evacuationRoutes": SyntheticDataGenerator.generate_evacuation_routes_response().to_dict(),
+                "businessImpact": {
+                    "livesProtected": 2800000,
+                    "propertyValueProtected": 25000000000,  # $25B in tourism and real estate
+                    "responseTimeReduction": 90.0,
+                    "costSavings": 75,  # $75M in emergency response costs
+                    "infrastructureProtected": 35,  # Ports, airports, hospitals, hotels
+                    "evacuationEfficiency": 92.0
+                },
+                "emergencyDecisions": [
+                    {
+                        "id": "evac-004",
+                        "type": "evacuation",
+                        "priority": "critical",
+                        "title": "Miami-Dade County Evacuation",
+                        "description": "Category 4 hurricane approaching Miami metropolitan area",
+                        "action": "Execute largest evacuation in Florida history",
+                        "impact": "Protect 2.8M lives and $25B in tourism assets",
+                        "resources": ["FEMA", "National Guard", "All Emergency Services"],
+                        "estimatedTime": "180 minutes",
+                        "location": "Miami-Dade County, FL"
+                    }
+                ]
+            }
+        else:
+            return SyntheticDataGenerator.generate_dashboard_data() 

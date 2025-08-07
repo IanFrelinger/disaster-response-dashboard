@@ -150,24 +150,27 @@ def get_evacuation_routes():
         }), 500
 
 
-@app.route('/api/scenario/<scenario_type>', methods=['GET'])
-def get_scenario_data(scenario_type: str):
+@app.route('/api/scenario/<scenario_id>', methods=['GET'])
+def get_scenario_data(scenario_id: str):
     """Get data for specific disaster scenarios."""
     try:
-        valid_scenarios = ['wildfire', 'earthquake', 'flood', 'normal']
+        valid_scenarios = [
+            'wildfire-napa', 'flood-sacramento', 'earthquake-sf', 'hurricane-miami',
+            'wildfire', 'earthquake', 'flood', 'normal'  # Legacy support
+        ]
         
-        if scenario_type not in valid_scenarios:
+        if scenario_id not in valid_scenarios:
             return jsonify({
                 'success': False,
                 'error': f'Invalid scenario. Must be one of: {", ".join(valid_scenarios)}'
             }), 400
         
-        scenario_data = SyntheticDataGenerator.generate_scenario_data(scenario_type)
+        scenario_data = SyntheticDataGenerator.generate_scenario_data(scenario_id)
         
         return jsonify({
             'success': True,
             'data': scenario_data,
-            'scenario': scenario_type,
+            'scenario': scenario_id,
             'timestamp': time.time()
         })
     except Exception as e:
@@ -228,7 +231,7 @@ def api_info():
             'GET /api/risk-assessment': 'Risk assessment for location',
             'GET /api/hazard-summary': 'Hazard summary statistics',
             'GET /api/evacuation-routes': 'Evacuation routes response',
-            'GET /api/scenario/<type>': 'Scenario-specific data',
+            'GET /api/scenario/<id>': 'Scenario-specific data (wildfire-napa, flood-sacramento, earthquake-sf, hurricane-miami)',
             'POST /api/refresh': 'Refresh cached data',
             'GET /api/health': 'Health check',
             'GET /api/info': 'API information'
@@ -237,7 +240,7 @@ def api_info():
             'count': 'Number of items to generate (for hazards and routes)',
             'lat': 'Latitude for risk assessment',
             'lng': 'Longitude for risk assessment',
-            'scenario_type': 'Scenario type (wildfire, earthquake, flood, normal)'
+            'scenario_id': 'Scenario ID (wildfire-napa, flood-sacramento, earthquake-sf, hurricane-miami, or legacy: wildfire, earthquake, flood, normal)'
         }
     })
 
