@@ -47,7 +47,7 @@ class TestDisasterAPI:
         assert summary['data_sources']['FIRMS'] == 3
         assert summary['bbox'] is not None
     
-    def test_get_hazard_summary_empty_data(self):
+    def test_get_hazard_summary_empty_data(self, sample_hazard_zones, sample_safe_routes):
         """Test hazard summary with empty data."""
         # Create empty GeoDataFrame
         empty_gdf = sample_hazard_zones.iloc[0:0]  # Empty DataFrame
@@ -90,7 +90,7 @@ class TestDisasterAPI:
         assert 'generated_at' in geojson['metadata']
         assert 'bbox' in geojson['metadata']
     
-    def test_get_hazard_zones_geojson_empty(self):
+    def test_get_hazard_zones_geojson_empty(self, sample_hazard_zones):
         """Test GeoJSON generation with empty data."""
         empty_gdf = sample_hazard_zones.iloc[0:0]  # Empty DataFrame
         
@@ -144,7 +144,7 @@ class TestDisasterAPI:
         assert routes_response['available_routes'] == 2
         assert len(routes_response['routes']) == 2
     
-    def test_get_evacuation_routes_empty_data(self):
+    def test_get_evacuation_routes_empty_data(self, sample_hazard_zones, sample_safe_routes):
         """Test evacuation routes with empty data."""
         empty_hazards = sample_hazard_zones.iloc[0:0]
         empty_routes = sample_safe_routes.iloc[0:0]
@@ -225,7 +225,7 @@ class TestDisasterAPI:
         
         assert risk_metrics['assessment_radius_km'] == 50
     
-    def test_get_risk_assessment_empty_data(self):
+    def test_get_risk_assessment_empty_data(self, sample_hazard_zones):
         """Test risk assessment with empty hazard data."""
         empty_hazards = sample_hazard_zones.iloc[0:0]
         
@@ -243,7 +243,7 @@ class TestDisasterAPI:
         assert risk_metrics['avg_risk_score'] == 0.0
         assert risk_metrics['max_risk_score'] == 0.0
     
-    def test_get_hazard_summary_missing_columns(self):
+    def test_get_hazard_summary_missing_columns(self, sample_hazard_zones, sample_safe_routes):
         """Test hazard summary with missing optional columns."""
         # Create data with missing columns
         minimal_data = sample_hazard_zones[['geometry', 'risk_level']].copy()
@@ -261,7 +261,7 @@ class TestDisasterAPI:
         assert 'risk_distribution' in summary
         assert summary['last_updated'] is None  # Missing column
     
-    def test_get_hazard_zones_geojson_crs_handling(self):
+    def test_get_hazard_zones_geojson_crs_handling(self, sample_hazard_zones):
         """Test GeoJSON generation with different CRS."""
         # Create data with different CRS
         data_3857 = sample_hazard_zones.copy()

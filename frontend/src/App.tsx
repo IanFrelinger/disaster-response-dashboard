@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import { Terrain3DTest } from '@/components/tacmap/Terrain3DTest'
+import { Mapbox3DBuildingsDemo } from '@/pages/Mapbox3DBuildingsDemo'
 import '@/styles/apple-design.css'
 
 // Navigation component with Johnny Ive-inspired minimalist design
@@ -14,17 +14,17 @@ const Navigation = () => (
             </svg>
           </div>
           <div>
-            <h1 className="heading-4 text-primary mb-1">Terrain Visualization</h1>
-            <p className="body-small text-secondary">Real-time 3D mapping system</p>
+            <h1 className="heading-4 text-primary mb-1">3D Terrain Visualization</h1>
+            <p className="body-small text-secondary">Real-time 3D mapping with building extrusions</p>
           </div>
         </div>
         
         <div className="flex items-center gap-4">
           <a 
-            href="/terrain-3d" 
+            href="/mapbox-3d-buildings" 
             className="btn btn-ghost body-medium hover:bg-tertiary transition-all duration-200"
           >
-            3D Terrain Demo
+            3D Buildings
           </a>
         </div>
       </div>
@@ -39,8 +39,8 @@ function App() {
         <Navigation />
         <main className="container py-12">
           <Routes>
-            <Route path="/" element={<Terrain3DTest />} />
-            <Route path="/terrain-3d" element={<Terrain3DTest />} />
+            <Route path="/" element={<Mapbox3DBuildingsDemo />} />
+            <Route path="/mapbox-3d-buildings" element={<Mapbox3DBuildingsDemo />} />
           </Routes>
         </main>
       </div>
