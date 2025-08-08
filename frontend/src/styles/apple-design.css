@@ -577,6 +577,65 @@ body {
   display: none;
 }
 
+/* Interactive Location Preset Buttons - Streamlined Apple-style */
+.location-preset-streamlined {
+  text-align: left;
+  padding: var(--space-3);
+  border-radius: var(--radius-lg);
+  transition: all var(--transition-hover);
+  border: 1px solid var(--border-light);
+  background: var(--bg-elevated);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.location-preset-streamlined::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(0, 122, 255, 0.08), rgba(0, 122, 255, 0.04));
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+  border-radius: inherit;
+}
+
+.location-preset-streamlined:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+  border-color: var(--accent-blue);
+  background: var(--bg-tertiary);
+}
+
+.location-preset-streamlined:hover::before {
+  opacity: 1;
+}
+
+.location-preset-streamlined:active {
+  transform: translateY(0);
+  transition: all var(--transition-press);
+}
+
+.location-preset-streamlined.selected {
+  background: var(--accent-blue);
+  color: var(--text-inverse);
+  border-color: var(--accent-blue);
+  box-shadow: var(--shadow-sm);
+}
+
+.location-preset-streamlined.selected:hover {
+  background: var(--accent-blue-dark);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.location-preset-streamlined.selected::before {
+  display: none;
+}
+
 /* Badge Component - Subtle and refined with interactions */
 .badge {
   display: inline-flex;

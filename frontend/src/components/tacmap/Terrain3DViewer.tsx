@@ -330,12 +330,12 @@ export const Terrain3DViewer: React.FC<Terrain3DViewerProps> = ({
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: -400, opacity: 0 }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className={`absolute left-6 top-24 z-20 glass-enhanced rounded-2xl p-8 w-96 shadow-lg border border-light ${controlsClassName}`}
+            className={`absolute left-6 top-24 z-20 glass-enhanced rounded-2xl p-6 w-80 shadow-lg border border-light ${controlsClassName}`}
           >
             {renderControlsContent()}
           </motion.div>
         ) : (
-          <div className={`absolute left-6 top-24 z-20 glass-enhanced rounded-2xl p-8 w-96 shadow-lg border border-light ${controlsClassName}`}>
+          <div className={`absolute left-6 top-24 z-20 glass-enhanced rounded-2xl p-6 w-80 shadow-lg border border-light ${controlsClassName}`}>
             {renderControlsContent()}
           </div>
         )}
@@ -344,21 +344,14 @@ export const Terrain3DViewer: React.FC<Terrain3DViewerProps> = ({
   };
 
   const renderControlsContent = () => (
-    <div className="space-y-8">
-      {/* Header */}
-      <div className="flex items-center gap-3 pb-6 border-b border-light">
-        <div className="w-8 h-8 bg-accent-blue rounded-lg flex items-center justify-center">
-          <Settings className="w-4 h-4 text-white" />
-        </div>
-        <h3 className="heading-5 text-primary">Terrain Controls</h3>
-      </div>
-
-      {/* Elevation Control */}
+    <div className="space-y-6">
+      {/* Elevation Control - Apple-style slider */}
       {showElevationControl && (
-        <div className="space-y-4">
-          <label className="body-medium text-primary font-medium">
-            Elevation Multiplier: <span className="text-accent-blue font-semibold">{elevation}x</span>
-          </label>
+        <div className="space-y-3">
+          <div className="flex items-center justify-between">
+            <label className="body-medium text-primary font-medium">Elevation</label>
+            <span className="text-accent-blue font-semibold">{elevation}x</span>
+          </div>
           <div className="relative">
             <input
               type="range"
@@ -367,43 +360,35 @@ export const Terrain3DViewer: React.FC<Terrain3DViewerProps> = ({
               step="0.1"
               value={elevation}
               onChange={(e) => handleElevationChange(parseFloat(e.target.value))}
-              className="w-full h-2 bg-warm-gray-200 rounded-full appearance-none cursor-pointer slider"
+              className="w-full h-1.5 bg-warm-gray-200 rounded-full appearance-none cursor-pointer slider"
               style={{
                 background: `linear-gradient(to right, var(--accent-blue) 0%, var(--accent-blue) ${(elevation - 0.1) / 2.9 * 100}%, var(--warm-gray-200) ${(elevation - 0.1) / 2.9 * 100}%, var(--warm-gray-200) 100%)`
               }}
             />
-            <div className="flex justify-between text-xs text-secondary mt-2">
-              <span>0.1x</span>
-              <span>1.5x</span>
-              <span>3.0x</span>
-            </div>
           </div>
         </div>
       )}
 
-      {/* Location Presets */}
+      {/* Location Presets - Streamlined grid */}
       {showLocationPresets && presets.length > 0 && (
-        <div className="space-y-4">
+        <div className="space-y-3">
           <div className="flex items-center gap-2">
             <MapPin className="w-4 h-4 text-secondary" />
-            <label className="body-medium text-primary font-medium">Location Presets</label>
+            <label className="body-medium text-primary font-medium">Locations</label>
           </div>
-          <div className="grid grid-cols-1 gap-3">
+          <div className="grid grid-cols-1 gap-2">
             {presets.map((location) => (
               <button
                 key={location.id}
                 onClick={() => handleLocationChange(location.coords)}
-                className={`location-preset ${
+                className={`location-preset-streamlined ${
                   center[0] === location.coords[0] && center[1] === location.coords[1]
                     ? 'selected'
                     : ''
                 }`}
               >
-                <div className="font-medium body-medium mb-1">{location.name}</div>
-                <div className="text-xs opacity-75 mb-2">
-                  {location.coords[1].toFixed(4)}, {location.coords[0].toFixed(4)}
-                </div>
-                <div className="text-xs opacity-60">
+                <div className="font-medium body-medium">{location.name}</div>
+                <div className="text-xs text-secondary mt-0.5">
                   {location.description}
                 </div>
               </button>
@@ -412,33 +397,14 @@ export const Terrain3DViewer: React.FC<Terrain3DViewerProps> = ({
         </div>
       )}
 
-      {/* Features List */}
-      {showFeaturesList && features.length > 0 && (
-        <div className="space-y-4">
-          <h4 className="body-medium text-primary font-medium">Features</h4>
-          <div className="grid grid-cols-1 gap-2">
-            {features.map((feature) => (
-              <div key={feature.id} className="feature-item">
-                <div className="feature-dot"></div>
-                <span className="body-small text-secondary">{feature.title}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Instructions */}
+      {/* Quick Instructions - Minimal */}
       {showInstructions && instructions.length > 0 && (
-        <div className="bg-accent-blue-light rounded-xl p-4 border border-accent-blue">
-          <div className="flex items-center gap-2 mb-3">
-            <Info className="w-4 h-4 text-accent-blue" />
-            <h4 className="body-medium text-accent-blue font-medium">Controls</h4>
-          </div>
-          <div className="grid grid-cols-1 gap-1">
-            {instructions.map((instruction) => (
-              <div key={instruction.id} className="control-instruction">
-                <span className="control-bullet">•</span>
-                <span className="body-small text-accent-blue">{instruction.text}</span>
+        <div className="pt-3 border-t border-light">
+          <div className="space-y-2">
+            {instructions.slice(0, 3).map((instruction) => (
+              <div key={instruction.id} className="flex items-center gap-2">
+                <div className="w-1.5 h-1.5 bg-accent-blue rounded-full"></div>
+                <span className="body-small text-secondary">{instruction.text}</span>
               </div>
             ))}
           </div>
