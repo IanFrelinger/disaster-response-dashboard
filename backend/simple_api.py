@@ -10,8 +10,14 @@ import os
 from datetime import datetime, timedelta
 import random
 
+# Import the Foundry fusion API
+from api.foundry_fusion_api import foundry_fusion_bp
+
 app = Flask(__name__)
 CORS(app)
+
+# Register the Foundry fusion blueprint
+app.register_blueprint(foundry_fusion_bp)
 
 # Mock data storage
 MOCK_DATA = {

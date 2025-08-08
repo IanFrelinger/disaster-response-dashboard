@@ -77,7 +77,7 @@ def compute_hazard_zones(wildfire_feed, hazard_zones):
         
         # Convert to H3 hexagons for efficient spatial indexing
         gdf['h3_index'] = gdf.geometry.apply(
-            lambda g: h3.geo_to_h3(g.y, g.x, resolution=9)
+            lambda g: h3.latlng_to_cell(g.y, g.x, res=9)
         )
         
         # Add metadata

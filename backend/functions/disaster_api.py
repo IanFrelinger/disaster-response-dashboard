@@ -35,11 +35,11 @@ def get_hazard_summary(hazard_zones, safe_routes):
         # Load hazard data
         hazard_gdf = hazard_zones.read_dataframe()
         
-        # Generate summary statistics
+        # Generate summary statistics with safe column access
         summary = {
             'total_hazards': len(hazard_gdf),
-            'risk_distribution': hazard_gdf['risk_level'].value_counts().to_dict(),
-            'data_sources': hazard_gdf['data_source'].value_counts().to_dict(),
+            'risk_distribution': hazard_gdf['risk_level'].value_counts().to_dict() if 'risk_level' in hazard_gdf.columns else {},
+            'data_sources': hazard_gdf['data_source'].value_counts().to_dict() if 'data_source' in hazard_gdf.columns else {},
             'last_updated': hazard_gdf['last_updated'].max().isoformat() if 'last_updated' in hazard_gdf.columns else None,
             'bbox': hazard_gdf.total_bounds.tolist() if len(hazard_gdf) > 0 else None,
             'total_population_at_risk': hazard_gdf['affected_population'].sum() if 'affected_population' in hazard_gdf.columns else 0
@@ -63,8 +63,15 @@ def get_hazard_zones_geojson(hazard_zones):
         # Load hazard data
         hazard_gdf = hazard_zones.read_dataframe()
         
+        # Convert timestamps to ISO strings for JSON serialization
+        hazard_gdf_copy = hazard_gdf.copy()
+        if 'last_updated' in hazard_gdf_copy.columns:
+            hazard_gdf_copy['last_updated'] = hazard_gdf_copy['last_updated'].astype(str)
+        if 'acq_date' in hazard_gdf_copy.columns:
+            hazard_gdf_copy['acq_date'] = hazard_gdf_copy['acq_date'].astype(str)
+        
         # Convert to GeoJSON
-        geojson = json.loads(hazard_gdf.to_json())
+        geojson = json.loads(hazard_gdf_copy.to_json())
         
         # Add metadata
         geojson['metadata'] = {
@@ -167,8 +174,8 @@ def get_risk_assessment(hazard_zones, latitude, longitude, radius_km=10):
         
         buffer_wgs84 = transform(project_back, buffer_proj)
         
-        # Find hazards within radius
-        nearby_hazards = hazard_gdf[hazard_gdf.geometry.within(buffer_wgs84)]
+        # Find hazards that intersect with the buffer
+        nearby_hazards = hazard_gdf[hazard_gdf.geometry.intersects(buffer_wgs84)]
         
         # Calculate risk metrics
         if len(nearby_hazards) > 0:

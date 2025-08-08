@@ -48,6 +48,9 @@ class TestWildfireFeedIngestion:
             'acq_date': [datetime.now() - timedelta(hours=i) for i in [1, 2, 3, 4]]
         })
         
+        # Add geometry column
+        from shapely.geometry import Point
+        data['geometry'] = [Point(0, 0), Point(1, 1), Point(2, 2), Point(3, 3)]
         gdf = gpd.GeoDataFrame(data, crs='EPSG:4326')
         result = compute_risk_scores(gdf)
         
@@ -63,6 +66,9 @@ class TestWildfireFeedIngestion:
             'acq_date': [datetime.now() - timedelta(hours=1)] * 4
         })
         
+        # Add geometry column
+        from shapely.geometry import Point
+        data['geometry'] = [Point(0, 0), Point(1, 1), Point(2, 2), Point(3, 3)]
         gdf = gpd.GeoDataFrame(data, crs='EPSG:4326')
         result = compute_risk_scores(gdf)
         
@@ -83,6 +89,9 @@ class TestWildfireFeedIngestion:
             ]
         })
         
+        # Add geometry column
+        from shapely.geometry import Point
+        data['geometry'] = [Point(0, 0), Point(1, 1), Point(2, 2), Point(3, 3)]
         gdf = gpd.GeoDataFrame(data, crs='EPSG:4326')
         result = compute_risk_scores(gdf)
         
@@ -98,6 +107,9 @@ class TestWildfireFeedIngestion:
             'acq_date': [datetime.now(), datetime.now()]
         })
         
+        # Add geometry column
+        from shapely.geometry import Point
+        data['geometry'] = [Point(0, 0), Point(1, 1)]
         gdf = gpd.GeoDataFrame(data, crs='EPSG:4326')
         result = compute_risk_scores(gdf)
         
@@ -109,7 +121,8 @@ class TestWildfireFeedIngestion:
     def test_compute_risk_scores_edge_cases(self):
         """Test risk scoring with edge cases."""
         # Empty DataFrame
-        empty_gdf = gpd.GeoDataFrame(columns=['brightness', 'confidence', 'acq_date'], crs='EPSG:4326')
+        empty_data = pd.DataFrame(columns=['brightness', 'confidence', 'acq_date', 'geometry'])
+        empty_gdf = gpd.GeoDataFrame(empty_data, crs='EPSG:4326')
         result = compute_risk_scores(empty_gdf)
         assert len(result) == 0
         
@@ -119,6 +132,9 @@ class TestWildfireFeedIngestion:
             'confidence': [100],
             'acq_date': [datetime.now()]
         })
+        # Add geometry column
+        from shapely.geometry import Point
+        single_data['geometry'] = [Point(0, 0)]
         single_gdf = gpd.GeoDataFrame(single_data, crs='EPSG:4326')
         result = compute_risk_scores(single_gdf)
         assert len(result) == 1
@@ -145,8 +161,11 @@ class TestWildfireFeedTransform:
         # Mock the read_dataframe method
         mock_input.read_dataframe.return_value = gdf
         
-        # Mock the compute_risk_scores function
-        mock_compute_risk_scores.return_value = gdf.copy()
+        # Mock the compute_risk_scores function to return processed data
+        processed_gdf = gdf.copy()
+        processed_gdf['risk_score'] = [0.8, 0.6, 0.9]
+        processed_gdf['risk_level'] = ['high', 'medium', 'high']
+        mock_compute_risk_scores.return_value = processed_gdf
         
         # Call the transform
         compute_hazard_zones(mock_input, mock_output)
