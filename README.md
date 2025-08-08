@@ -1,220 +1,136 @@
-# Disaster Response Dashboard
+# 🏔️ 3D Terrain Visualization Dashboard
 
-A comprehensive emergency response system with real-time monitoring, public information, and field operations management.
+A focused, single-purpose 3D terrain visualization tool with real Mapbox heightmap tiles and building extrusions for disaster response scenarios.
 
-## 🚀 **Current Status: Phase 2 Complete**
+## 🚀 Features
 
-### ✅ **What's Working**
-- **Frontend**: TypeScript React application with full Public View
-- **Backend**: Python Flask API with synthetic data generation
-- **Testing**: 100% test coverage for implemented components
-- **Docker**: Containerized deployment ready
+- **Real 3D Terrain**: Authentic elevation data from Mapbox heightmap tiles
+- **3D Building Extrusions**: Real building footprints with height data
+- **Interactive Controls**: Style switching, layer toggles, and 3D navigation
+- **Foundry Data Integration**: Real-time hazard zones, emergency units, and evacuation routes
+- **Smooth 3D Navigation**: Zoom, pan, and rotate with proper 3D perspective
+- **Robust Error Handling**: Prevents white screen issues and provides recovery mechanisms
 
-### 🎯 **Features Implemented**
-
-#### **Public View (Complete)**
-- Emergency status display with real-time updates
-- Location-based risk assessment
-- Interactive preparedness checklist
-- Family member tracking
-- Emergency resource access
-
-#### **Backend API**
-- Health monitoring endpoints
-- Synthetic hazard data generation
-- Risk assessment calculations
-- Safe route recommendations
-
-## 🏗️ **Project Structure**
+## 🏗️ Architecture
 
 ```
 disaster-response-dashboard/
-├── frontend/                 # TypeScript React application
+├── frontend/                 # React + TypeScript application
 │   ├── src/
-│   │   ├── components/       # Reusable UI components
-│   │   ├── pages/           # Main application views
-│   │   ├── services/        # API integration
-│   │   ├── stores/          # State management
-│   │   └── types/           # TypeScript definitions
-│   └── tests/               # Unit and integration tests
-├── backend/                  # Python Flask API
-│   ├── functions/           # API endpoints
-│   ├── utils/               # Utility functions
-│   └── transforms/          # Data processing
-├── docs/                    # Documentation
-│   ├── plans/              # Development plans
-│   ├── summaries/          # Phase summaries
-│   ├── deployment/         # Deployment guides
-│   └── reference/          # HTML reference files
-├── scripts/                 # Automation scripts
-└── tests/                   # Backend tests
+│   │   ├── App.tsx          # Main application with single route
+│   │   ├── pages/
+│   │   │   └── Mapbox3DBuildingsDemo.tsx  # 3D terrain page
+│   │   ├── components/
+│   │   │   └── tacmap/
+│   │   │       └── Mapbox3DTerrain.tsx    # 3D terrain component
+│   │   ├── services/        # API and data services
+│   │   ├── sdk/            # Foundry SDK
+│   │   └── types/          # TypeScript types
+│   └── test-files/         # Test scripts and results
+├── backend/                 # Python API services
+├── docs/                   # Documentation
+├── data/                   # GeoJSON data files
+├── tiles/                  # Map tiles
+└── scripts/                # Utility scripts
 ```
 
-## 🚀 **Quick Start**
+## 🛠️ Quick Start
 
-### **Prerequisites**
+### Prerequisites
 - Node.js 18+ and npm
-- Python 3.8+ and pip
-- Docker and Docker Compose
+- Python 3.8+ (for backend)
+- Mapbox API key
 
-### **Development Setup**
-
-1. **Clone and Setup**
-   ```bash
-   git clone <repository-url>
-   cd disaster-response-dashboard
-   ```
-
-2. **Start Backend**
-   ```bash
-   docker-compose up -d backend
-   ```
-
-3. **Start Frontend**
-   ```bash
-   cd frontend
-   npm install
-   npm run dev
-   ```
-
-4. **Access Application**
-   - Frontend: http://localhost:3000
-   - Backend API: http://localhost:5001
-
-### **Testing**
-
-```bash
-# Frontend tests
-cd frontend
-npm run test
-
-# Backend tests
-python -m pytest tests/
-
-# Run all tests
-python run_tests.py
-```
-
-## 📊 **Current Test Coverage**
-
-- **Frontend**: 30/30 tests passing (100% coverage)
-- **Backend**: API endpoints fully tested
-- **Integration**: End-to-end testing ready
-
-## 🎯 **Development Phases**
-
-### ✅ **Phase 1: Foundation** (Complete)
-- TypeScript React setup with Vite
-- Tailwind CSS styling system
-- Zustand state management
-- Comprehensive testing framework
-
-### ✅ **Phase 2: Public View** (Complete)
-- Emergency status display
-- Location-based risk assessment
-- Interactive preparedness checklist
-- Family member tracking
-- Emergency resource access
-
-### 🚧 **Phase 3: Field View** (Next)
-- Mobile-first design
-- GPS integration
-- Real-time navigation
-- Offline capability
-
-### 📋 **Phase 4: Command View** (Planned)
-- Real-time analytics dashboard
-- Resource management
-- Role-based access control
-- Advanced reporting
-
-### 🧪 **Phase 5: Integration** (Planned)
-- End-to-end testing
-- Performance optimization
-- Production deployment
-- Smoke testing
-
-## 🔧 **Available Commands**
-
-### **Frontend**
+### Frontend Setup
 ```bash
 cd frontend
-npm run dev          # Start development server
-npm run build        # Build for production
-npm run test         # Run unit tests
-npm run test:coverage # Run tests with coverage
-npm run lint         # Check code quality
-npm run format       # Format code
+npm install
+npm run dev
 ```
 
-### **Backend**
+The application will be available at http://localhost:3000/
+
+### Backend Setup (Optional)
 ```bash
-# Start with Docker
-docker-compose up -d backend
-
-# Run tests
-python -m pytest tests/
-
-# Manual start
 cd backend
-python -m flask run --port=5001
+pip install -r requirements.txt
+python simple_api.py
 ```
 
-### **Project**
+## 🎯 Usage
+
+1. **Navigate to the Application**: Visit http://localhost:3000/
+2. **Explore 3D Terrain**: Use mouse to zoom, pan, and rotate
+3. **Toggle Layers**: Use the control panel to show/hide different layers
+4. **Switch Map Styles**: Choose between different visual themes
+5. **Interact with Data**: Click on hazards, units, and routes for details
+
+## 🗺️ Map Features
+
+- **3D Terrain**: Real elevation data with hillshading
+- **3D Buildings**: Extruded building footprints with color coding
+- **Hazard Zones**: Interactive hazard markers with risk levels
+- **Emergency Units**: Available emergency response units
+- **Evacuation Routes**: Safe evacuation paths with status
+
+## 🔧 Configuration
+
+### Environment Variables
+Create a `.env` file in the frontend directory:
+```env
+VITE_MAPBOX_TOKEN=your_mapbox_token_here
+```
+
+### Map Styles
+- **Dark**: Default dark theme
+- **Satellite**: Aerial imagery
+- **Streets**: Standard street map
+
+## 📚 Documentation
+
+- [Development Documentation](./docs/development/)
+- [API Documentation](./docs/)
+- [Configuration Guide](./docs/CONFIGURATION_GUIDE.md)
+
+## 🧪 Testing
+
+Test files are located in `frontend/test-files/`:
+- Playwright tests for end-to-end validation
+- Smoke tests for functionality verification
+- Visual regression tests
+
+## 🚀 Deployment
+
+### Docker
 ```bash
-# Run all tests
-python run_tests.py
-
-# Start demo environment
-./run-demo.sh
-
-# Stop demo environment
-./stop-demo.sh
+docker-compose up
 ```
 
-## 📚 **Documentation**
+### Production Build
+```bash
+cd frontend
+npm run build
+```
 
-- **Development Plans**: `docs/plans/`
-- **Phase Summaries**: `docs/summaries/`
-- **Deployment Guides**: `docs/deployment/`
-- **Reference Files**: `docs/reference/`
+## 🤝 Contributing
 
-## 🏗️ **Architecture**
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
 
-### **Frontend Architecture**
-- **Framework**: React 18 with TypeScript
-- **Build Tool**: Vite for fast development
-- **Styling**: Tailwind CSS with custom design system
-- **State Management**: Zustand for global state
-- **Testing**: Vitest + React Testing Library
-- **Routing**: React Router for navigation
+## 📄 License
 
-### **Backend Architecture**
-- **Framework**: Flask with Python
-- **Data**: Synthetic data generation for testing
-- **API**: RESTful endpoints with JSON responses
-- **Testing**: Pytest with comprehensive coverage
-- **Deployment**: Docker containerization
+This project is licensed under the MIT License.
 
-## 🤝 **Contributing**
+## 🆘 Support
 
-1. Follow the established testing patterns
-2. Maintain 100% test coverage for new features
-3. Use TypeScript for all frontend code
-4. Follow the component architecture patterns
-5. Update documentation for new features
-
-## 📄 **License**
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## 🆘 **Support**
-
-For questions or issues:
-1. Check the documentation in `docs/`
-2. Review test files for usage examples
-3. Check the current status in `docs/summaries/`
+For issues and questions:
+1. Check the [documentation](./docs/)
+2. Review [development notes](./docs/development/)
+3. Open an issue on GitHub
 
 ---
 
-**Current Phase**: Phase 2 Complete - Ready for Phase 3: Field View Implementation 
+**Built with React, TypeScript, Mapbox GL JS, and Foundry Data Fusion**
