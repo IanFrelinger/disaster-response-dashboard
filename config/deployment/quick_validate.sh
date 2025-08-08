@@ -10,11 +10,11 @@ echo ""
 
 # Check if containers are running
 echo "🔍 Checking Container Status..."
-if docker-compose -f docker-compose.demo.yml ps | grep -q "Up"; then
+if docker-compose -f ../docker/docker-compose.demo.yml ps | grep -q "Up"; then
     echo "✅ All containers are running"
 else
     echo "❌ Some containers are not running"
-    docker-compose -f docker-compose.demo.yml ps
+    docker-compose -f ../docker/docker-compose.demo.yml ps
     exit 1
 fi
 

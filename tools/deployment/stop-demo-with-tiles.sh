@@ -24,7 +24,7 @@ print_warning() {
 
 # Stop all demo services
 print_status "Stopping demo services..."
-docker-compose -f docker-compose.demo.yml down
+docker-compose -f ../../config/docker/docker-compose.demo.yml down
 
 # Remove demo network
 print_status "Cleaning up demo network..."

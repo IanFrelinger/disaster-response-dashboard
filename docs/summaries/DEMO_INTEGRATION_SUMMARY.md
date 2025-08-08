@@ -10,9 +10,9 @@
 ## 🚀 **What's Been Integrated**
 
 ### **1. Complete Demo Environment**
-- **Docker Compose:** `docker-compose.demo.yml` with all services
-- **Start Script:** `run-demo-with-tiles.sh` for easy deployment
-- **Stop Script:** `stop-demo-with-tiles.sh` for clean shutdown
+- **Docker Compose:** `config/docker/docker-compose.demo.yml` with all services
+- **Start Script:** `tools/deployment/run-demo-with-tiles.sh` for easy deployment
+- **Stop Script:** `tools/deployment/stop-demo-with-tiles.sh` for clean shutdown
 - **Network:** Isolated demo network for all services
 
 ### **2. Tile System Integration**
@@ -31,24 +31,24 @@
 
 ### **Start Demo with Tiles**
 ```bash
-./run-demo-with-tiles.sh
+./tools/deployment/run-demo-with-tiles.sh
 ```
 
 ### **Stop Demo**
 ```bash
-./stop-demo-with-tiles.sh
+./tools/deployment/stop-demo-with-tiles.sh
 ```
 
 ### **Manual Control**
 ```bash
 # Start services
-docker-compose -f docker-compose.demo.yml up -d
+docker-compose -f config/docker/docker-compose.demo.yml up -d
 
 # Stop services
-docker-compose -f docker-compose.demo.yml down
+docker-compose -f config/docker/docker-compose.demo.yml down
 
 # View logs
-docker-compose -f docker-compose.demo.yml logs
+docker-compose -f config/docker/docker-compose.demo.yml logs
 ```
 
 ## 🗺️ **Demo URLs**
@@ -70,7 +70,7 @@ docker-compose -f docker-compose.demo.yml logs
 ### **Scenario 1: Wildfire Response**
 ```bash
 # Start demo
-./run-demo-with-tiles.sh
+./tools/deployment/run-demo-with-tiles.sh
 
 # Access dashboard with wildfire data
 # - Base map: Admin boundaries
@@ -100,7 +100,7 @@ docker-compose -f docker-compose.demo.yml logs
 
 ### **Service Configuration**
 ```yaml
-# docker-compose.demo.yml
+# config/docker/docker-compose.demo.yml
 services:
   backend:      # API with synthetic data
   frontend:     # React app with tile integration
@@ -190,7 +190,7 @@ curl http://localhost:8080/
 ## 🚨 **Troubleshooting**
 
 ### **Common Issues**
-- **Tile Server Not Starting:** Check logs with `docker-compose -f docker-compose.demo.yml logs tileserver`
+- **Tile Server Not Starting:** Check logs with `docker-compose -f config/docker/docker-compose.demo.yml logs tileserver`
 - **Frontend Not Loading Maps:** Verify tile server URL and configuration
 - **Performance Issues:** Monitor with `python scripts/monitor_tiles.py`
 

@@ -9,19 +9,19 @@ The Disaster Response Dashboard now includes a comprehensive tile system for off
 ### **Start Demo with Tiles**
 ```bash
 # Start the complete demo with tile system
-./run-demo-with-tiles.sh
+./tools/deployment/run-demo-with-tiles.sh
 
 # Stop the demo
-./stop-demo-with-tiles.sh
+./tools/deployment/stop-demo-with-tiles.sh
 ```
 
 ### **Manual Start (Alternative)**
 ```bash
 # Start all services
-docker-compose -f docker-compose.demo.yml up -d
+docker-compose -f config/docker/docker-compose.demo.yml up -d
 
 # Stop all services
-docker-compose -f docker-compose.demo.yml down
+docker-compose -f config/docker/docker-compose.demo.yml down
 ```
 
 ## 🗺️ **Available Map Layers**
@@ -219,7 +219,7 @@ curl http://localhost:8080/
 #### **Tile Server Not Starting**
 ```bash
 # Check tile server logs
-docker-compose -f docker-compose.demo.yml logs tileserver
+docker-compose -f config/docker/docker-compose.demo.yml logs tileserver
 
 # Validate tile files
 python scripts/validate_tiles_advanced.py
@@ -284,7 +284,7 @@ docker system prune -f
 
 ## 🚀 **Next Steps**
 
-1. **Start Demo:** `./run-demo-with-tiles.sh`
+1. **Start Demo:** `./tools/deployment/run-demo-with-tiles.sh`
 2. **Explore Layers:** Test different map combinations
 3. **Customize:** Add your own data layers
 4. **Present:** Use for professional demonstrations

@@ -41,7 +41,7 @@ print_tile() {
 # Function to cleanup on exit
 cleanup() {
     print_status "Cleaning up demo deployment..."
-    docker-compose -f docker-compose.demo.yml down
+    docker-compose -f ../../config/docker/docker-compose.demo.yml down
     docker network rm $DEMO_NETWORK 2>/dev/null || true
     print_success "Demo cleanup complete"
 }
@@ -87,7 +87,7 @@ print_success "Docker network created"
 
 # Start all services
 print_status "Starting demo services..."
-docker-compose -f docker-compose.demo.yml up -d
+docker-compose -f ../../config/docker/docker-compose.demo.yml up -d
 
 if [ $? -ne 0 ]; then
     print_error "Failed to start demo services"
@@ -171,7 +171,7 @@ echo "  ✅ Tile Server: Serving"
 echo "  ✅ Network: Connected"
 echo ""
 echo "🔧 Management Commands:"
-echo "  View logs: docker-compose -f docker-compose.demo.yml logs"
+echo "  View logs: docker-compose -f ../../config/docker/docker-compose.demo.yml logs"
 echo "  Stop demo: ./stop-demo.sh"
 echo "  Validate tiles: python scripts/validate_tiles_advanced.py"
 echo "  Monitor tiles: python scripts/monitor_tiles.py"
