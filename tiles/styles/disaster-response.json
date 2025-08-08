@@ -1,0 +1,99 @@
+{
+  "version": 8,
+  "name": "Disaster Response",
+  "sources": {
+    "admin": {
+      "type": "vector",
+      "url": "http://localhost:8080/data/admin_boundaries.json"
+    },
+    "counties": {
+      "type": "vector", 
+      "url": "http://localhost:8080/data/california_counties.json"
+    },
+    "hazards": {
+      "type": "vector",
+      "url": "http://localhost:8080/data/hazards.json"
+    },
+    "routes": {
+      "type": "vector",
+      "url": "http://localhost:8080/data/routes.json"
+    }
+  },
+  "layers": [
+    {
+      "id": "admin-background",
+      "type": "background",
+      "paint": {
+        "background-color": "#f8f9fa"
+      }
+    },
+    {
+      "id": "admin-boundaries",
+      "type": "line",
+      "source": "admin",
+      "source-layer": "admin",
+      "minzoom": 0,
+      "maxzoom": 10,
+      "paint": {
+        "line-color": "#dee2e6",
+        "line-width": 1
+      }
+    },
+    {
+      "id": "county-boundaries",
+      "type": "line",
+      "source": "counties",
+      "source-layer": "counties",
+      "minzoom": 8,
+      "maxzoom": 14,
+      "paint": {
+        "line-color": "#adb5bd",
+        "line-width": 2
+      }
+    },
+    {
+      "id": "hazard-zones",
+      "type": "fill",
+      "source": "hazards",
+      "source-layer": "hazards",
+      "minzoom": 10,
+      "maxzoom": 16,
+      "paint": {
+        "fill-color": [
+          "case",
+          ["==", ["get", "severity"], "low"], "#ffd43b",
+          ["==", ["get", "severity"], "medium"], "#fd7e14",
+          ["==", ["get", "severity"], "high"], "#dc3545",
+          ["==", ["get", "severity"], "critical"], "#721c24",
+          "#6c757d"
+        ],
+        "fill-opacity": 0.7
+      }
+    },
+    {
+      "id": "hazard-borders",
+      "type": "line",
+      "source": "hazards",
+      "source-layer": "hazards",
+      "minzoom": 10,
+      "maxzoom": 16,
+      "paint": {
+        "line-color": "#495057",
+        "line-width": 2
+      }
+    },
+    {
+      "id": "evacuation-routes",
+      "type": "line",
+      "source": "routes",
+      "source-layer": "routes",
+      "minzoom": 10,
+      "maxzoom": 16,
+      "paint": {
+        "line-color": "#28a745",
+        "line-width": 4,
+        "line-dasharray": [2, 2]
+      }
+    }
+  ]
+}

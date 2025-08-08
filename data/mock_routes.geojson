@@ -1,0 +1,39 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "route_id": "route_001",
+        "route_type": "evacuation",
+        "distance_km": 5.2,
+        "duration_min": 12
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-122.45, 37.75],
+          [-122.4, 37.8],
+          [-122.35, 37.85]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "route_id": "route_002",
+        "route_type": "access",
+        "distance_km": 3.1,
+        "duration_min": 8
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-122.5, 37.7],
+          [-122.45, 37.75],
+          [-122.4, 37.8]
+        ]
+      }
+    }
+  ]
+}

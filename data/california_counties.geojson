@@ -1,0 +1,62 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "San Francisco",
+        "county": "San Francisco",
+        "state": "CA",
+        "fips": "06075"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-122.5, 37.7],
+          [-122.4, 37.7],
+          [-122.4, 37.8],
+          [-122.5, 37.8],
+          [-122.5, 37.7]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Alameda",
+        "county": "Alameda",
+        "state": "CA",
+        "fips": "06001"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-122.4, 37.6],
+          [-122.3, 37.6],
+          [-122.3, 37.7],
+          [-122.4, 37.7],
+          [-122.4, 37.6]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "San Mateo",
+        "county": "San Mateo",
+        "state": "CA",
+        "fips": "06081"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-122.5, 37.5],
+          [-122.4, 37.5],
+          [-122.4, 37.6],
+          [-122.5, 37.6],
+          [-122.5, 37.5]
+        ]]
+      }
+    }
+  ]
+}

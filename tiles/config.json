@@ -1,0 +1,38 @@
+{
+  "options": {
+    "paths": {
+      "root": "/data",
+      "styles": "/data/styles",
+      "mbtiles": "/data"
+    },
+    "serve_static": true,
+    "formatQuality": {
+      "jpeg": 80,
+      "webp": 90
+    },
+    "maxSize": 2048,
+    "pbfAlias": "pbf"
+  },
+  "styles": {
+    "disaster-response": {
+      "style": "/data/styles/disaster-response.json",
+      "tilejson": {
+        "bounds": [-180, -85, 180, 85]
+      }
+    }
+  },
+  "data": {
+    "admin_boundaries": {
+      "mbtiles": "admin_boundaries.mbtiles"
+    },
+    "california_counties": {
+      "mbtiles": "california_counties.mbtiles"
+    },
+    "hazards": {
+      "mbtiles": "hazards.mbtiles"
+    },
+    "routes": {
+      "mbtiles": "routes.mbtiles"
+    }
+  }
+}

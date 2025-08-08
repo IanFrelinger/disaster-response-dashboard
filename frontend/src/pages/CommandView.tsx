@@ -1,360 +1,409 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
+import { Map, Source, Layer, NavigationControl, GeolocateControl } from 'react-map-gl'
+import { useAppStore } from '@/stores/useAppStore'
 import { MetricsGrid } from '@/components/command/MetricsGrid'
-import { CommandTacticalMap } from '@/components/command/CommandTacticalMap'
+
 import { ResourceTable } from '@/components/command/ResourceTable'
 import { CommunicationLog } from '@/components/command/CommunicationLog'
-import { Timeline } from '@/components/command/Timeline'
 import { PredictionCard } from '@/components/command/PredictionCard'
+import { Timeline } from '@/components/command/Timeline'
+import { Button } from '@/components/common/Button'
+import tileService from '@/services/tileService'
 import { 
-  Activity, 
-  MapPin, 
-  Shield, 
-  MessageSquare, 
-  Clock, 
-  Brain,
-  Settings,
-  RefreshCw,
-  Download,
-  Users,
-  AlertTriangle
-} from 'lucide-react'
+  ExclamationTriangleIcon, 
+  MapIcon, 
+  UsersIcon, 
+  ChartBarIcon,
+  BellIcon,
+  CogIcon
+} from '@heroicons/react/24/outline'
+import toast from 'react-hot-toast'
 
-interface CommandViewProps {
-  // Props for integration with backend
+// Mapbox token (in production, use environment variable)
+const MAPBOX_TOKEN = 'pk.eyJ1IjoiZXhhbXBsZSIsImEiOiJjbGV4YW1wbGUifQ.example'
+
+interface HazardZone {
+  id: string
+  type: 'fire' | 'flood' | 'chemical' | 'other'
+  severity: 'low' | 'medium' | 'high' | 'critical'
+  geometry: any
+  risk_score: number
+  affected_population: number
+  detected_at: string
 }
 
-export const CommandView: React.FC<CommandViewProps> = () => {
-  const [activeTab, setActiveTab] = useState<'overview' | 'map' | 'resources' | 'communications' | 'timeline' | 'predictions'>('overview')
-  const [isLoading, setIsLoading] = useState(false)
-  const [lastUpdate, setLastUpdate] = useState<Date>(new Date())
+interface EmergencyResource {
+  id: string
+  type: 'engine' | 'ambulance' | 'police' | 'helicopter'
+  call_sign: string
+  position: { latitude: number; longitude: number }
+  status: 'available' | 'assigned' | 'en_route' | 'on_scene'
+  crew_count: number
+  capabilities: string[]
+}
 
-  // Simulate real-time updates
+interface EvacuationRoute {
+  id: string
+  geometry: any
+  safety_score: number
+  estimated_duration_min: number
+  total_distance_km: number
+  hazard_clearance: number
+}
+
+export const CommandView: React.FC = () => {
+  const { api } = useAppStore()
+  const [viewState, setViewState] = useState({
+    longitude: -122.4194,
+    latitude: 37.7749,
+    zoom: 10
+  })
+  const [mapStyle] = useState(tileService.getDisasterResponseStyle())
+  const [tileServerHealthy, setTileServerHealthy] = useState(true)
+  
+  const [hazardZones, setHazardZones] = useState<HazardZone[]>([])
+  const [resources, setResources] = useState<EmergencyResource[]>([])
+  const [evacuationRoutes, setEvacuationRoutes] = useState<EvacuationRoute[]>([])
+  const [selectedZone] = useState<string | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [_activeIncidents, setActiveIncidents] = useState(0)
+  const [_populationAtRisk, setPopulationAtRisk] = useState(0)
+  const [_resourceUtilization, setResourceUtilization] = useState(0)
+  
+  const mapRef = useRef<any>(null)
+
   useEffect(() => {
-    const interval = setInterval(() => {
-      setLastUpdate(new Date())
-    }, 30000) // Update every 30 seconds
-
+    checkTileServerHealth()
+    loadDashboardData()
+    const interval = setInterval(loadDashboardData, 30000) // Refresh every 30 seconds
     return () => clearInterval(interval)
   }, [])
 
-  const handleRefresh = () => {
-    setIsLoading(true)
-    setTimeout(() => {
+  const checkTileServerHealth = async () => {
+    const isHealthy = await tileService.checkHealth()
+    setTileServerHealthy(isHealthy)
+    if (!isHealthy) {
+      toast.error('Tile server unavailable - using fallback map')
+    }
+  }
+
+  const loadDashboardData = async () => {
+    try {
+      setIsLoading(true)
+      
+      // Load hazard zones
+      const hazardResponse = await api.get('/api/v1/hazards/active')
+      setHazardZones(hazardResponse.data.hazards || [])
+      
+      // Load resource coordination
+      const resourceResponse = await api.get('/api/v1/resources/coordination')
+      setResources([
+        ...resourceResponse.data.available_resources || [],
+        ...resourceResponse.data.assigned_resources || []
+      ])
+      
+      // Load evacuation routes
+      const routeResponse = await api.get('/api/v1/routes/evacuation')
+      setEvacuationRoutes(routeResponse.data.routes || [])
+      
+      // Update metrics
+      setActiveIncidents(hazardResponse.data.total_hazards || 0)
+      setPopulationAtRisk(hazardResponse.data.total_population_at_risk || 0)
+      setResourceUtilization(
+        ((resourceResponse.data.assigned_count || 0) / (resourceResponse.data.total_resources || 1)) * 100
+      )
+      
+    } catch (error) {
+      console.error('Error loading dashboard data:', error)
+      toast.error('Failed to load dashboard data')
+    } finally {
       setIsLoading(false)
-      setLastUpdate(new Date())
-    }, 2000)
-  }
-
-  const handleExport = () => {
-    console.log('Exporting command center data...')
-    // In a real app, this would export data to CSV/PDF
-    alert('Exporting command center data...')
-  }
-
-  const handleMetricClick = (metric: any) => {
-    console.log('Metric clicked:', metric)
-    // Navigate to relevant view based on metric
-    switch (metric.id) {
-      case 'active-responders':
-        setActiveTab('resources')
-        break
-      case 'hazard-zones':
-        setActiveTab('map')
-        break
-      case 'communications':
-        setActiveTab('communications')
-        break
-      default:
-        console.log('No specific action for metric:', metric.id)
     }
   }
 
-  const handleEntityClick = (entity: any) => {
-    console.log('Map entity clicked:', entity)
-    // Show detailed information about the entity
-    alert(`Entity: ${entity.data.name || entity.data.type}\nStatus: ${entity.status}`)
-  }
-
-  const handleResourceSelect = (resource: any) => {
-    console.log('Resource selected:', resource)
-    // Show detailed resource information
-    alert(`Resource: ${resource.name}\nStatus: ${resource.status}\nLocation: ${resource.location}`)
-  }
-
-  const handleSendMessage = (message: any) => {
-    console.log('Sending message:', message)
-    // In a real app, this would send the message
-    alert(`Message sent to ${message.recipient}: ${message.content}`)
-  }
-
-  const handleCallContact = (contact: string) => {
-    console.log('Calling contact:', contact)
-    // In a real app, this would initiate a call
-    alert(`Calling ${contact}...`)
-  }
-
-  const handlePredictionClick = (prediction: any) => {
-    console.log('Prediction clicked:', prediction)
-    // Show detailed prediction information
-    alert(`Prediction: ${prediction.title}\nConfidence: ${prediction.confidence}%\nImpact: ${prediction.impact}`)
-  }
-
-  const getTabIcon = (tab: string) => {
-    switch (tab) {
-      case 'overview': return <Activity className="w-5 h-5" />
-      case 'map': return <MapPin className="w-5 h-5" />
-      case 'resources': return <Shield className="w-5 h-5" />
-      case 'communications': return <MessageSquare className="w-5 h-5" />
-      case 'timeline': return <Clock className="w-5 h-5" />
-      case 'predictions': return <Brain className="w-5 h-5" />
-      default: return <Settings className="w-5 h-5" />
+  const handleEvacuationOrder = async (zoneId: string) => {
+    try {
+      await api.post('/api/v1/evacuations/order', {
+        zones: [zoneId],
+        severity: 'mandatory',
+        message: {
+          en: 'MANDATORY EVACUATION ORDER - Leave immediately via designated routes',
+          es: 'ORDEN DE EVACUACIÓN OBLIGATORIA - Salga inmediatamente por rutas designadas',
+          zh: '强制疏散令 - 立即通过指定路线撤离'
+        }
+      })
+      
+      toast.success('Evacuation order issued successfully')
+      loadDashboardData() // Refresh data
+      
+    } catch (error) {
+      console.error('Error issuing evacuation order:', error)
+      toast.error('Failed to issue evacuation order')
     }
   }
 
-  const getTabLabel = (tab: string) => {
-    switch (tab) {
-      case 'overview': return 'Overview'
-      case 'map': return 'Tactical Map'
-      case 'resources': return 'Resources'
-      case 'communications': return 'Communications'
-      case 'timeline': return 'Timeline'
-      case 'predictions': return 'AI Predictions'
-      default: return 'Settings'
+  /*
+  const _handleResourceDispatch = async (resourceId: string, incidentId: string) => {
+    try {
+      await api.post(`/api/v1/resources/${resourceId}/dispatch`, {
+        incident_id: incidentId,
+        priority: 'high'
+      })
+      
+      toast.success('Resource dispatched successfully')
+      loadDashboardData() // Refresh data
+      
+    } catch (error) {
+      console.error('Error dispatching resource:', error)
+      toast.error('Failed to dispatch resource')
+    }
+  }
+  */
+
+  const getHazardLayerStyle = (hazard: HazardZone) => {
+    const severityColors = {
+      low: '#ffff00',
+      medium: '#ffa500',
+      high: '#ff0000',
+      critical: '#8b0000'
+    }
+    
+    return {
+      id: `hazard-${hazard.id}`,
+      type: 'fill' as const,
+      paint: {
+        'fill-color': severityColors[hazard.severity],
+        'fill-opacity': 0.6,
+        'fill-outline-color': severityColors[hazard.severity]
+      }
+    }
+  }
+
+  const getResourceLayerStyle = (resource: EmergencyResource) => {
+    const typeColors = {
+      engine: '#ff0000',
+      ambulance: '#00ff00',
+      police: '#0000ff',
+      helicopter: '#800080'
+    }
+    
+    return {
+      id: `resource-${resource.id}`,
+      type: 'circle' as const,
+      paint: {
+        'circle-radius': 8,
+        'circle-color': typeColors[resource.type],
+        'circle-stroke-color': '#ffffff',
+        'circle-stroke-width': 2
+      }
+    }
+  }
+
+  const getRouteLayerStyle = (route: EvacuationRoute) => {
+    return {
+      id: `route-${route.id}`,
+      type: 'line' as const,
+      paint: {
+        'line-color': '#00ff00',
+        'line-width': 4,
+        'line-opacity': 0.8
+      }
     }
   }
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      {/* Header */}
-      <div className="bg-gray-900 text-white p-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <Activity className="w-8 h-8" />
-            <div>
-              <h1 className="text-2xl font-bold">Emergency Operations Center</h1>
-              <p className="text-gray-300 text-sm">
-                Command Center Dashboard • Last updated: {lastUpdate.toLocaleTimeString()}
-              </p>
-            </div>
+    <div className="h-screen bg-gray-900 text-white flex">
+      {/* Left Panel - Metrics */}
+      <div className="w-80 bg-gray-800 border-r border-gray-700 flex flex-col">
+        <div className="p-4 border-b border-gray-700">
+          <h2 className="text-lg font-semibold flex items-center">
+            <ChartBarIcon className="w-5 h-5 mr-2" />
+            Emergency Metrics
+          </h2>
+        </div>
+        
+        <div className="flex-1 overflow-y-auto p-4">
+          <MetricsGrid />
+          
+          <div className="mt-6">
+            <h3 className="text-sm font-medium text-gray-300 mb-3">AI Predictions</h3>
+            <PredictionCard />
           </div>
-          <div className="flex items-center space-x-2">
-            <button
-              onClick={handleRefresh}
-              disabled={isLoading}
-              className="px-3 py-1 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 rounded text-sm font-medium transition-colors flex items-center space-x-1"
-            >
-              <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
-              <span>Refresh</span>
-            </button>
-            <button
-              onClick={handleExport}
-              className="px-3 py-1 bg-gray-600 hover:bg-gray-700 rounded text-sm font-medium transition-colors flex items-center space-x-1"
-            >
-              <Download className="w-4 h-4" />
-              <span>Export</span>
-            </button>
+          
+          <div className="mt-6">
+            <h3 className="text-sm font-medium text-gray-300 mb-3">Recent Timeline</h3>
+            <Timeline />
           </div>
         </div>
       </div>
 
-      {/* Navigation Tabs */}
-      <div className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex space-x-8 overflow-x-auto">
-            {(['overview', 'map', 'resources', 'communications', 'timeline', 'predictions'] as const).map((tab) => (
-              <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={`flex items-center space-x-2 py-4 px-1 border-b-2 font-medium text-sm whitespace-nowrap transition-colors ${
-                  activeTab === tab
-                    ? 'border-blue-500 text-blue-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                }`}
-              >
-                {getTabIcon(tab)}
-                <span>{getTabLabel(tab)}</span>
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Main Content */}
-      <div className="max-w-7xl mx-auto p-4">
-        {activeTab === 'overview' && (
-          <div className="space-y-6">
-            {/* Metrics Grid */}
-            <MetricsGrid
-              onMetricClick={handleMetricClick}
-              onRefresh={handleRefresh}
-            />
-
-            {/* Overview Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* Tactical Map */}
-              <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-                <div className="p-4 border-b border-gray-200">
-                  <h3 className="text-lg font-semibold text-gray-900">Tactical Overview</h3>
-                  <p className="text-sm text-gray-600">Real-time situation awareness</p>
-                </div>
-                <div className="h-64 bg-gradient-to-br from-blue-900 to-green-900 relative">
-                  <div className="absolute inset-0 flex items-center justify-center text-white">
-                    <div className="text-center">
-                      <MapPin className="w-12 h-12 mx-auto mb-2 opacity-50" />
-                      <p className="text-sm">Interactive map view</p>
-                      <button
-                        onClick={() => setActiveTab('map')}
-                        className="mt-2 px-3 py-1 bg-blue-600 hover:bg-blue-700 rounded text-sm transition-colors"
-                      >
-                        View Full Map
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Quick Actions */}
-              <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-                <div className="p-4 border-b border-gray-200">
-                  <h3 className="text-lg font-semibold text-gray-900">Quick Actions</h3>
-                  <p className="text-sm text-gray-600">Common command center tasks</p>
-                </div>
-                <div className="p-4">
-                  <div className="grid grid-cols-2 gap-3">
-                    <button
-                      onClick={() => setActiveTab('communications')}
-                      className="p-4 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors text-left"
-                    >
-                      <MessageSquare className="w-6 h-6 text-blue-600 mb-2" />
-                      <div className="font-medium text-gray-900">Send Alert</div>
-                      <div className="text-sm text-gray-600">Broadcast message</div>
-                    </button>
-                    <button
-                      onClick={() => setActiveTab('resources')}
-                      className="p-4 bg-green-50 hover:bg-green-100 rounded-lg transition-colors text-left"
-                    >
-                      <Shield className="w-6 h-6 text-green-600 mb-2" />
-                      <div className="font-medium text-gray-900">Deploy Resources</div>
-                      <div className="text-sm text-gray-600">Assign teams</div>
-                    </button>
-                    <button
-                      onClick={() => setActiveTab('timeline')}
-                      className="p-4 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors text-left"
-                    >
-                      <Clock className="w-6 h-6 text-purple-600 mb-2" />
-                      <div className="font-medium text-gray-900">Add Event</div>
-                      <div className="text-sm text-gray-600">Log decision</div>
-                    </button>
-                    <button
-                      onClick={() => setActiveTab('predictions')}
-                      className="p-4 bg-orange-50 hover:bg-orange-100 rounded-lg transition-colors text-left"
-                    >
-                      <Brain className="w-6 h-6 text-orange-600 mb-2" />
-                      <div className="font-medium text-gray-900">AI Insights</div>
-                      <div className="text-sm text-gray-600">View predictions</div>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Recent Activity */}
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-              <div className="p-4 border-b border-gray-200">
-                <h3 className="text-lg font-semibold text-gray-900">Recent Activity</h3>
-                <p className="text-sm text-gray-600">Latest updates and events</p>
-              </div>
-              <div className="p-4">
-                <div className="space-y-3">
-                  <div className="flex items-center space-x-3 p-3 bg-red-50 rounded-lg">
-                    <AlertTriangle className="w-5 h-5 text-red-600" />
-                    <div>
-                      <div className="font-medium text-gray-900">Critical Alert Issued</div>
-                      <div className="text-sm text-gray-600">Fire spread prediction updated - 2 minutes ago</div>
-                    </div>
-                  </div>
-                  <div className="flex items-center space-x-3 p-3 bg-blue-50 rounded-lg">
-                    <Users className="w-5 h-5 text-blue-600" />
-                    <div>
-                      <div className="font-medium text-gray-900">Resources Deployed</div>
-                      <div className="text-sm text-gray-600">Additional fire teams dispatched - 5 minutes ago</div>
-                    </div>
-                  </div>
-                  <div className="flex items-center space-x-3 p-3 bg-green-50 rounded-lg">
-                    <Shield className="w-5 h-5 text-green-600" />
-                    <div>
-                      <div className="font-medium text-gray-900">Safe Zone Established</div>
-                      <div className="text-sm text-gray-600">Community Center operational - 8 minutes ago</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {activeTab === 'map' && (
-          <CommandTacticalMap
-            onEntityClick={handleEntityClick}
-            onLayerToggle={(layerId, visible) => console.log('Layer toggled:', layerId, visible)}
-            onMapAction={(action) => console.log('Map action:', action)}
-          />
-        )}
-
-        {activeTab === 'resources' && (
-          <ResourceTable
-            onResourceSelect={handleResourceSelect}
-            onReassign={(resourceId, newAssignment) => console.log('Reassign:', resourceId, newAssignment)}
-            onContact={(resource) => handleCallContact(resource.contact || '')}
-            onExport={handleExport}
-          />
-        )}
-
-        {activeTab === 'communications' && (
-          <CommunicationLog
-            onSendMessage={handleSendMessage}
-            onCallContact={handleCallContact}
-            onExport={handleExport}
-          />
-        )}
-
-        {activeTab === 'timeline' && (
-          <Timeline
-            onEventClick={(event) => console.log('Event clicked:', event)}
-            onAddEvent={(event) => console.log('Add event:', event)}
-            onUpdateStatus={(eventId, status) => console.log('Update status:', eventId, status)}
-            onExport={handleExport}
-          />
-        )}
-
-        {activeTab === 'predictions' && (
-          <PredictionCard
-            onPredictionClick={handlePredictionClick}
-            onRefresh={handleRefresh}
-            onExport={handleExport}
-          />
-        )}
-      </div>
-
-      {/* Status Bar */}
-      <div className="fixed bottom-0 left-0 right-0 bg-gray-900 text-white p-2">
-        <div className="max-w-7xl mx-auto flex items-center justify-between text-sm">
+      {/* Center Panel - Tactical Map */}
+      <div className="flex-1 flex flex-col">
+        <div className="h-16 bg-gray-800 border-b border-gray-700 flex items-center justify-between px-6">
           <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-1">
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-              <span>System Online</span>
-            </div>
-            <div className="flex items-center space-x-1">
-              <Users className="w-4 h-4" />
-              <span>47 Active Responders</span>
-            </div>
-            <div className="flex items-center space-x-1">
-              <AlertTriangle className="w-4 h-4" />
-              <span>8 Active Hazards</span>
+            <h1 className="text-xl font-bold">Emergency Command Center</h1>
+            <div className="flex items-center space-x-2">
+              <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
+              <span className="text-sm text-gray-300">LIVE</span>
             </div>
           </div>
-          <div className="text-gray-400">
-            EOC Status: OPERATIONAL • Incident: WILDFIRE RESPONSE
+          
+          <div className="flex items-center space-x-3">
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={() => loadDashboardData()}
+              disabled={isLoading}
+            >
+              <CogIcon className="w-4 h-4 mr-1" />
+              Refresh
+            </Button>
+            
+            <Button
+              variant="danger"
+              size="sm"
+              onClick={() => {
+                // Emergency broadcast
+                toast.success('Emergency broadcast sent')
+              }}
+            >
+              <BellIcon className="w-4 h-4 mr-1" />
+              Emergency Broadcast
+            </Button>
+          </div>
+        </div>
+        
+        <div className="flex-1 relative">
+          <Map
+            ref={mapRef}
+            {...viewState}
+            onMove={evt => setViewState(evt.viewState)}
+            mapStyle={tileServerHealthy ? mapStyle : "mapbox://styles/mapbox/dark-v11"}
+            mapboxAccessToken={MAPBOX_TOKEN}
+            style={{ width: '100%', height: '100%' }}
+          >
+            <NavigationControl position="top-right" />
+            <GeolocateControl position="top-right" />
+            
+            {/* Hazard Zones */}
+            {hazardZones.map(hazard => (
+              <Source key={hazard.id} type="geojson" data={hazard.geometry}>
+                <Layer {...getHazardLayerStyle(hazard)} />
+              </Source>
+            ))}
+            
+            {/* Emergency Resources */}
+            {resources.map(resource => (
+              <Source
+                key={resource.id}
+                type="geojson"
+                data={{
+                  type: 'Feature',
+                  geometry: {
+                    type: 'Point',
+                    coordinates: [resource.position.longitude, resource.position.latitude]
+                  },
+                  properties: resource
+                }}
+              >
+                <Layer {...getResourceLayerStyle(resource)} />
+              </Source>
+            ))}
+            
+            {/* Evacuation Routes */}
+            {evacuationRoutes.map(route => (
+              <Source key={route.id} type="geojson" data={route.geometry}>
+                <Layer {...getRouteLayerStyle(route)} />
+              </Source>
+            ))}
+          </Map>
+          
+          {/* Map Overlay Controls */}
+          <div className="absolute top-4 left-4 bg-gray-800 rounded-lg p-3 shadow-lg">
+            <div className="space-y-2">
+              <label className="flex items-center text-sm">
+                <input type="checkbox" defaultChecked className="mr-2" />
+                Hazard Zones
+              </label>
+              <label className="flex items-center text-sm">
+                <input type="checkbox" defaultChecked className="mr-2" />
+                Resources
+              </label>
+              <label className="flex items-center text-sm">
+                <input type="checkbox" defaultChecked className="mr-2" />
+                Evacuation Routes
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Right Panel - Operations */}
+      <div className="w-80 bg-gray-800 border-l border-gray-700 flex flex-col">
+        <div className="p-4 border-b border-gray-700">
+          <h2 className="text-lg font-semibold flex items-center">
+            <UsersIcon className="w-5 h-5 mr-2" />
+            Operations
+          </h2>
+        </div>
+        
+        <div className="flex-1 overflow-y-auto">
+          <div className="p-4">
+            <h3 className="text-sm font-medium text-gray-300 mb-3">Resource Management</h3>
+            <ResourceTable />
+          </div>
+          
+          <div className="p-4 border-t border-gray-700">
+            <h3 className="text-sm font-medium text-gray-300 mb-3">Communication Log</h3>
+            <CommunicationLog />
+          </div>
+        </div>
+        
+        {/* Quick Actions */}
+        <div className="p-4 border-t border-gray-700">
+          <h3 className="text-sm font-medium text-gray-300 mb-3">Quick Actions</h3>
+          <div className="space-y-2">
+            <Button
+              variant="danger"
+              size="sm"
+              className="w-full"
+              onClick={() => {
+                if (selectedZone) {
+                  handleEvacuationOrder(selectedZone)
+                } else {
+                  toast.error('Please select a zone first')
+                }
+              }}
+            >
+              <ExclamationTriangleIcon className="w-4 h-4 mr-1" />
+              Issue Evacuation Order
+            </Button>
+            
+            <Button
+              variant="secondary"
+              size="sm"
+              className="w-full"
+              onClick={() => {
+                // Open resource allocation modal
+                                        toast.success('Resource allocation modal')
+              }}
+            >
+              <UsersIcon className="w-4 h-4 mr-1" />
+              Allocate Resources
+            </Button>
+            
+            <Button
+              variant="secondary"
+              size="sm"
+              className="w-full"
+              onClick={() => {
+                // Open route planning modal
+                                        toast.success('Route planning modal')
+              }}
+            >
+              <MapIcon className="w-4 h-4 mr-1" />
+              Plan Routes
+            </Button>
           </div>
         </div>
       </div>

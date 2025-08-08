@@ -1,0 +1,124 @@
+{
+  "timestamp": "2025-08-07T19:29:33.963590",
+  "total_checks": 13,
+  "passed_checks": 12,
+  "success_rate": 92.3076923076923,
+  "tile_server": {
+    "test": "Tile Server Validation",
+    "results": [
+      {
+        "layer": "Admin Boundaries",
+        "status": "PASS",
+        "checks": [
+          "\u2705 1 tiles available",
+          "\u2705 Admin boundaries tiles found",
+          "\u2705 Bounds defined",
+          "\u2705 Min zoom: 0",
+          "\u2705 Max zoom: 10"
+        ]
+      },
+      {
+        "layer": "California Counties",
+        "status": "PASS",
+        "checks": [
+          "\u2705 1 tiles available",
+          "\u2705 California counties tiles found",
+          "\u2705 Bounds defined",
+          "\u2705 Min zoom: 8",
+          "\u2705 Max zoom: 14"
+        ]
+      },
+      {
+        "layer": "Hazards",
+        "status": "PASS",
+        "checks": [
+          "\u2705 1 tiles available",
+          "\u2705 Hazards tiles found",
+          "\u2705 Bounds defined",
+          "\u2705 Min zoom: 8",
+          "\u2705 Max zoom: 14"
+        ]
+      },
+      {
+        "layer": "Routes",
+        "status": "PASS",
+        "checks": [
+          "\u2705 1 tiles available",
+          "\u2705 Routes tiles found",
+          "\u2705 Bounds defined",
+          "\u2705 Min zoom: 8",
+          "\u2705 Max zoom: 14"
+        ]
+      }
+    ]
+  },
+  "tile_serving": {
+    "test": "Tile Serving Validation",
+    "results": [
+      {
+        "layer": "Admin Boundaries",
+        "status": "PASS",
+        "tile_size": 573,
+        "message": "Tile served successfully (573 bytes)"
+      },
+      {
+        "layer": "California Counties",
+        "status": "PASS",
+        "tile_size": 159,
+        "message": "Tile served successfully (159 bytes)"
+      },
+      {
+        "layer": "Hazards",
+        "status": "PASS",
+        "tile_size": 107,
+        "message": "Tile served successfully (107 bytes)"
+      },
+      {
+        "layer": "Routes",
+        "status": "PASS",
+        "tile_size": 200,
+        "message": "Tile served successfully (200 bytes)"
+      }
+    ]
+  },
+  "frontend_integration": {
+    "test": "Frontend Integration",
+    "status": "FAIL",
+    "checks": [
+      "\u2705 Frontend can access tile server",
+      "\u274c Tile service not found in bundle",
+      "\u2705 Mapbox integration found",
+      "\u2705 Map components found",
+      "\u2705 Tile server configuration found"
+    ]
+  },
+  "api_integration": {
+    "test": "API Integration",
+    "results": [
+      {
+        "endpoint": "Health",
+        "status": "PASS",
+        "response_size": 104,
+        "message": "API responding correctly (104 chars)"
+      },
+      {
+        "endpoint": "Dashboard",
+        "status": "PASS",
+        "response_size": 22272,
+        "message": "API responding correctly (22272 chars)"
+      },
+      {
+        "endpoint": "Hazards",
+        "status": "PASS",
+        "response_size": 14060,
+        "message": "API responding correctly (14060 chars)"
+      },
+      {
+        "endpoint": "Routes",
+        "status": "PASS",
+        "response_size": 5327,
+        "message": "API responding correctly (5327 chars)"
+      }
+    ]
+  }
+}

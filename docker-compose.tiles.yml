@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  tileserver:
+    build:
+      context: ./tiles
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./tiles:/data
+    environment:
+      - MBTILES_FILE=/data/admin_boundaries.mbtiles
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Optional: PMTiles server for static file serving
+  pmtiles-server:
+    image: nginx:alpine
+    ports:
+      - "8081:80"
+    volumes:
+      - ./pmtiles:/usr/share/nginx/html
+      - ./tiles/nginx-pmtiles.conf:/etc/nginx/conf.d/default.conf
+    restart: unless-stopped
+    profiles:
+      - pmtiles

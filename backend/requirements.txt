@@ -1,18 +1,39 @@
 # API Framework
 flask==3.0.0
 flask-cors==4.0.0
+flask-socketio==5.3.6
 
 # Data Processing - using specific versions for stability
 pandas==2.1.4
 numpy==1.24.3
+geopandas==0.14.1
 
 # Geospatial
 shapely==2.0.2
 h3==4.1.1
+pyproj==3.6.1
+folium==0.15.1
+networkx==3.2.1
+scipy==1.11.4
 
-# Logging
+# Machine Learning & Prediction
+scikit-learn==1.3.2
+joblib==1.3.2
+
+# Real-time Processing
+redis==5.0.1
+celery==5.3.4
+
+# External APIs
+requests==2.31.0
+aiohttp==3.9.1
+python-dotenv==1.0.0
+
+# Logging & Monitoring
 structlog==25.4.0
+prometheus-client==0.19.0
 
 # Development and Testing (optional for production)
 pytest==8.0.0
-pytest-cov==6.0.0 
+pytest-cov==6.0.0
+pytest-asyncio==0.21.1 

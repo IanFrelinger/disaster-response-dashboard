@@ -1,0 +1,41 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "hazard_type": "wildfire",
+        "severity": "high",
+        "id": "hazard_001"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-122.5, 37.7],
+          [-122.4, 37.7],
+          [-122.4, 37.8],
+          [-122.5, 37.8],
+          [-122.5, 37.7]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hazard_type": "flood",
+        "severity": "medium",
+        "id": "hazard_002"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-122.3, 37.6],
+          [-122.2, 37.6],
+          [-122.2, 37.7],
+          [-122.3, 37.7],
+          [-122.3, 37.6]
+        ]]
+      }
+    }
+  ]
+}

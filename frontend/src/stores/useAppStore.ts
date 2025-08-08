@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
 import type { DashboardData, HazardZone, SafeRoute } from '@/types/api'
+import api from '@/services/api'
 
 interface AppState {
   // Data
@@ -12,6 +13,9 @@ interface AppState {
   loading: boolean
   error: string | null
   lastUpdated: Date | null
+  
+  // Services
+  api: typeof api
   
   // Actions
   setDashboardData: (data: DashboardData) => void
@@ -32,6 +36,7 @@ export const useAppStore = create<AppState>()(
       loading: false,
       error: null,
       lastUpdated: null,
+      api,
 
       // Actions
       setDashboardData: (data) => 

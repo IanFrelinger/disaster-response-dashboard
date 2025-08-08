@@ -1,0 +1,112 @@
+version: '3.8'
+
+services:
+  # Backend API
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "5001:8000"
+    environment:
+      - FLASK_ENV=demo
+      - PYTHONPATH=/app
+      - ENVIRONMENT_MODE=demo
+      - USE_SYNTHETIC_DATA=true
+    volumes:
+      - ./backend:/app
+      - /app/__pycache__
+      - /app/.pytest_cache
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - demo-network
+
+  # Frontend Application
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    environment:
+      - NODE_ENV=demo
+      - VITE_ENVIRONMENT_MODE=demo
+      - VITE_USE_SYNTHETIC_DATA=true
+      - VITE_DEMO_API_BASE_URL=http://localhost:5001/api
+      - VITE_TILE_SERVER_URL=http://localhost:8080
+    depends_on:
+      - backend
+      - tileserver
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - demo-network
+
+  # Tile Server for Map Data
+  tileserver:
+    build:
+      context: ./tiles
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./tiles:/data
+    environment:
+      - MBTILES_FILE=/data/admin_boundaries.mbtiles
+    restart: unless-stopped
+
+    networks:
+      - demo-network
+
+  # Development Frontend (optional)
+  frontend-dev:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3001:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - VITE_ENVIRONMENT_MODE=demo
+      - VITE_USE_SYNTHETIC_DATA=true
+      - VITE_DEMO_API_BASE_URL=http://localhost:5001/api
+      - VITE_TILE_SERVER_URL=http://localhost:8080
+    profiles:
+      - dev
+    depends_on:
+      - backend
+      - tileserver
+    networks:
+      - demo-network
+
+  # PMTiles Server (alternative tile serving)
+  pmtiles-server:
+    image: nginx:alpine
+    ports:
+      - "8081:80"
+    volumes:
+      - ./pmtiles:/usr/share/nginx/html
+      - ./tiles/nginx-pmtiles.conf:/etc/nginx/conf.d/default.conf
+    restart: unless-stopped
+    profiles:
+      - pmtiles
+    networks:
+      - demo-network
+
+networks:
+  demo-network:
+    driver: bridge

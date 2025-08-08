@@ -1,0 +1,73 @@
+{
+  "runs": [
+    {
+      "timestamp": "2025-08-07T18:55:36.635410",
+      "summary": {
+        "status": "pass",
+        "success_rate": "76.9%",
+        "checks_passed": "10/13",
+        "alerts_count": 0
+      },
+      "details": {
+        "timestamp": "2025-08-07T18:55:36.635400",
+        "success_rate": 0.7692307692307693,
+        "total_checks": 13,
+        "passed": 10,
+        "failed": 3,
+        "warnings": 0,
+        "status": "pass",
+        "issues": [
+          {
+            "layer": "california_counties",
+            "message": "Tile endpoint failed: 204"
+          },
+          {
+            "layer": "hazards",
+            "message": "Tile endpoint failed: 204"
+          },
+          {
+            "layer": "routes",
+            "message": "Tile endpoint failed: 204"
+          }
+        ]
+      },
+      "alerts": [],
+      "recommendations": []
+    },
+    {
+      "timestamp": "2025-08-07T18:55:53.846360",
+      "summary": {
+        "status": "pass",
+        "success_rate": "76.9%",
+        "checks_passed": "10/13",
+        "alerts_count": 0
+      },
+      "details": {
+        "timestamp": "2025-08-07T18:55:53.846353",
+        "success_rate": 0.7692307692307693,
+        "total_checks": 13,
+        "passed": 10,
+        "failed": 3,
+        "warnings": 0,
+        "status": "pass",
+        "issues": [
+          {
+            "layer": "california_counties",
+            "message": "Tile endpoint failed: 204"
+          },
+          {
+            "layer": "hazards",
+            "message": "Tile endpoint failed: 204"
+          },
+          {
+            "layer": "routes",
+            "message": "Tile endpoint failed: 204"
+          }
+        ]
+      },
+      "alerts": [],
+      "recommendations": []
+    }
+  ],
+  "alerts": []
+}
