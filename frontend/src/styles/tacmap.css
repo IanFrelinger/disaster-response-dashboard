@@ -1,0 +1,633 @@
+/* Halo Infinite-inspired Tactical Map Design System */
+
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap');
+
+/* CSS Custom Properties */
+:root {
+  /* Primary Colors */
+  --tacmap-primary: #00FFFF;      /* Cyan */
+  --tacmap-secondary: #00CED1;    /* Dark Turquoise */
+  --tacmap-accent: #FFA500;       /* Orange for alerts */
+  --tacmap-danger: #FF4444;       /* Red for hazards */
+  --tacmap-success: #00FF88;      /* Green for safe zones */
+  --tacmap-warning: #FFAA00;      /* Yellow for warnings */
+  
+  /* Background Colors */
+  --tacmap-bg-primary: #0A0E27;   /* Deep space blue */
+  --tacmap-bg-secondary: #141B3C; /* Lighter blue */
+  --tacmap-bg-overlay: rgba(0, 206, 209, 0.1);
+  --tacmap-bg-panel: rgba(20, 27, 60, 0.8);
+  
+  /* Effects */
+  --tacmap-glow: 0 0 20px rgba(0, 255, 255, 0.5);
+  --tacmap-pulse: 0 0 40px rgba(0, 255, 255, 0.8);
+  --tacmap-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  --tacmap-border: 1px solid var(--tacmap-primary);
+  
+  /* Typography */
+  --tacmap-font-primary: 'Orbitron', 'Courier New', monospace;
+  --tacmap-font-secondary: 'Rajdhani', 'Arial', sans-serif;
+  --tacmap-font-size-xs: 0.75rem;
+  --tacmap-font-size-sm: 0.875rem;
+  --tacmap-font-size-base: 1rem;
+  --tacmap-font-size-lg: 1.125rem;
+  --tacmap-font-size-xl: 1.25rem;
+  --tacmap-font-size-2xl: 1.5rem;
+  
+  /* Spacing */
+  --tacmap-spacing-xs: 0.25rem;
+  --tacmap-spacing-sm: 0.5rem;
+  --tacmap-spacing-md: 1rem;
+  --tacmap-spacing-lg: 1.5rem;
+  --tacmap-spacing-xl: 2rem;
+  
+  /* Border Radius */
+  --tacmap-radius-sm: 2px;
+  --tacmap-radius-md: 4px;
+  --tacmap-radius-lg: 8px;
+  
+  /* Transitions */
+  --tacmap-transition-fast: 0.15s ease-in-out;
+  --tacmap-transition-normal: 0.3s ease-in-out;
+  --tacmap-transition-slow: 0.5s ease-in-out;
+}
+
+/* Base Styles */
+.tacmap-container {
+  font-family: var(--tacmap-font-secondary);
+  background: var(--tacmap-bg-primary);
+  color: var(--tacmap-primary);
+  overflow: hidden;
+  position: relative;
+}
+
+/* Holographic Panel Effect */
+.tacmap-panel {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 255, 255, 0.05),
+    rgba(0, 206, 209, 0.02)
+  );
+  border: var(--tacmap-border);
+  border-radius: var(--tacmap-radius-md);
+  box-shadow: 
+    var(--tacmap-glow),
+    inset 0 0 20px rgba(0, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+  transition: all var(--tacmap-transition-normal);
+}
+
+/* Slider Styles */
+.slider {
+  -webkit-appearance: none;
+  appearance: none;
+  background: linear-gradient(90deg, var(--tacmap-primary), var(--tacmap-secondary));
+  border-radius: 10px;
+  outline: none;
+  transition: all var(--tacmap-transition-normal);
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--tacmap-primary);
+  cursor: pointer;
+  box-shadow: var(--tacmap-glow);
+  border: 2px solid var(--tacmap-bg-primary);
+  transition: all var(--tacmap-transition-normal);
+}
+
+.slider::-webkit-slider-thumb:hover {
+  background: var(--tacmap-secondary);
+  box-shadow: var(--tacmap-pulse);
+  transform: scale(1.1);
+}
+
+.slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--tacmap-primary);
+  cursor: pointer;
+  box-shadow: var(--tacmap-glow);
+  border: 2px solid var(--tacmap-bg-primary);
+  transition: all var(--tacmap-transition-normal);
+}
+
+.slider::-moz-range-thumb:hover {
+  background: var(--tacmap-secondary);
+  box-shadow: var(--tacmap-pulse);
+  transform: scale(1.1);
+}
+
+.tacmap-panel:hover {
+  box-shadow: 
+    var(--tacmap-pulse),
+    inset 0 0 30px rgba(0, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+/* Scan Line Animation */
+.tacmap-panel::before {
+  content: '';
+  position: absolute;
+  top: -100%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    0deg,
+    transparent,
+    rgba(0, 255, 255, 0.1) 50%,
+    transparent
+  );
+  animation: scanline 6s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes scanline {
+  0% {
+    top: -100%;
+  }
+  100% {
+    top: 100%;
+  }
+}
+
+/* Glitch Effect for Critical Alerts */
+@keyframes glitch {
+  0%, 100% {
+    text-shadow: 
+      0.05em 0 0 #00ffff,
+      -0.05em -0.025em 0 #ff00ff,
+      0.025em 0.05em 0 #ffff00;
+  }
+  15% {
+    text-shadow: 
+      0.05em 0 0 #00ffff,
+      -0.05em -0.025em 0 #ff00ff,
+      0.025em 0.05em 0 #ffff00;
+  }
+  16% {
+    text-shadow: 
+      -0.05em -0.025em 0 #00ffff,
+      0.025em 0.025em 0 #ff00ff,
+      -0.05em -0.05em 0 #ffff00;
+  }
+  49% {
+    text-shadow: 
+      -0.05em -0.025em 0 #00ffff,
+      0.025em 0.025em 0 #ff00ff,
+      -0.05em -0.05em 0 #ffff00;
+  }
+  50% {
+    text-shadow: 
+      0.025em 0.05em 0 #00ffff,
+      0.05em 0 0 #ff00ff,
+      0 -0.05em 0 #ffff00;
+  }
+  99% {
+    text-shadow: 
+      0.025em 0.05em 0 #00ffff,
+      0.05em 0 0 #ff00ff,
+      0 -0.05em 0 #ffff00;
+  }
+}
+
+.alert-critical {
+  animation: glitch 0.3s infinite;
+  color: var(--tacmap-danger);
+  font-weight: 700;
+}
+
+/* Pulse Animation */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.05);
+  }
+}
+
+.tacmap-pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* Fade In Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tacmap-fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Button Styles */
+.tacmap-button {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 255, 255, 0.1),
+    rgba(0, 206, 209, 0.05)
+  );
+  border: 1px solid var(--tacmap-primary);
+  border-radius: var(--tacmap-radius-sm);
+  color: var(--tacmap-primary);
+  font-family: var(--tacmap-font-primary);
+  font-size: var(--tacmap-font-size-sm);
+  font-weight: 500;
+  padding: var(--tacmap-spacing-sm) var(--tacmap-spacing-md);
+  cursor: pointer;
+  transition: all var(--tacmap-transition-fast);
+  position: relative;
+  overflow: hidden;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.tacmap-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.5s;
+}
+
+.tacmap-button:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 255, 255, 0.2),
+    rgba(0, 206, 209, 0.1)
+  );
+  box-shadow: var(--tacmap-glow);
+  transform: translateY(-1px);
+}
+
+.tacmap-button:hover::before {
+  left: 100%;
+}
+
+.tacmap-button:active {
+  transform: translateY(0);
+  box-shadow: var(--tacmap-shadow);
+}
+
+.tacmap-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Zoom Controls */
+.zoom-controls {
+  position: absolute;
+  top: var(--tacmap-spacing-lg);
+  right: var(--tacmap-spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--tacmap-spacing-sm);
+  z-index: 1000;
+}
+
+.zoom-controls .tacmap-button {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.zoom-level-indicator {
+  background: var(--tacmap-bg-panel);
+  border: var(--tacmap-border);
+  border-radius: var(--tacmap-radius-md);
+  padding: var(--tacmap-spacing-sm);
+  text-align: center;
+  font-family: var(--tacmap-font-primary);
+  font-size: var(--tacmap-font-size-xs);
+  min-width: 80px;
+}
+
+.zoom-level-indicator .label {
+  display: block;
+  color: var(--tacmap-secondary);
+  margin-bottom: 2px;
+}
+
+.zoom-level-indicator .value {
+  display: block;
+  font-size: var(--tacmap-font-size-sm);
+  font-weight: 600;
+  color: var(--tacmap-primary);
+}
+
+.zoom-bar {
+  width: 100%;
+  height: 2px;
+  background: rgba(0, 255, 255, 0.2);
+  border-radius: 1px;
+  margin-top: var(--tacmap-spacing-xs);
+  overflow: hidden;
+}
+
+.zoom-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--tacmap-primary), var(--tacmap-secondary));
+  transition: width var(--tacmap-transition-normal);
+}
+
+/* Tooltip Styles */
+.tacmap-tooltip {
+  background: var(--tacmap-bg-panel);
+  border: var(--tacmap-border);
+  border-radius: var(--tacmap-radius-md);
+  box-shadow: var(--tacmap-shadow);
+  backdrop-filter: blur(10px);
+  font-family: var(--tacmap-font-secondary);
+  font-size: var(--tacmap-font-size-sm);
+  max-width: 300px;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.tooltip-header {
+  display: flex;
+  align-items: center;
+  gap: var(--tacmap-spacing-sm);
+  padding: var(--tacmap-spacing-sm);
+  border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+  font-family: var(--tacmap-font-primary);
+  font-weight: 600;
+}
+
+.tooltip-icon {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--tacmap-primary);
+}
+
+.tooltip-icon.unit-icon {
+  background: var(--tacmap-success);
+}
+
+.tooltip-icon.hazard-icon {
+  background: var(--tacmap-danger);
+  animation: pulse 1s ease-in-out infinite;
+}
+
+.tooltip-body {
+  padding: var(--tacmap-spacing-sm);
+}
+
+.tooltip-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--tacmap-spacing-xs);
+}
+
+.tooltip-row .label {
+  color: var(--tacmap-secondary);
+  font-size: var(--tacmap-font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.tooltip-row .value {
+  color: var(--tacmap-primary);
+  font-weight: 500;
+}
+
+.tooltip-alert {
+  display: flex;
+  align-items: center;
+  gap: var(--tacmap-spacing-xs);
+  padding: var(--tacmap-spacing-xs);
+  background: rgba(255, 68, 68, 0.1);
+  border: 1px solid var(--tacmap-danger);
+  border-radius: var(--tacmap-radius-sm);
+  margin-bottom: var(--tacmap-spacing-sm);
+}
+
+.tooltip-progress {
+  margin-top: var(--tacmap-spacing-sm);
+}
+
+.progress-bar {
+  width: 100%;
+  height: 4px;
+  background: rgba(0, 255, 255, 0.2);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: var(--tacmap-spacing-xs);
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--tacmap-success), var(--tacmap-primary));
+  transition: width var(--tacmap-transition-normal);
+}
+
+.progress-label {
+  font-size: var(--tacmap-font-size-xs);
+  color: var(--tacmap-secondary);
+}
+
+/* Status Indicators */
+.status-available {
+  color: var(--tacmap-success);
+}
+
+.status-responding {
+  color: var(--tacmap-warning);
+}
+
+.status-on-scene {
+  color: var(--tacmap-accent);
+}
+
+.status-returning {
+  color: var(--tacmap-secondary);
+}
+
+.severity-low {
+  color: var(--tacmap-success);
+}
+
+.severity-medium {
+  color: var(--tacmap-warning);
+}
+
+.severity-high {
+  color: var(--tacmap-accent);
+}
+
+.severity-critical {
+  color: var(--tacmap-danger);
+  animation: pulse 1s ease-in-out infinite;
+}
+
+/* Map Overlay Elements */
+.map-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 100;
+}
+
+.map-overlay * {
+  pointer-events: auto;
+}
+
+/* Loading Spinner */
+.tacmap-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--tacmap-primary);
+}
+
+.tacmap-spinner {
+  width: 40px;
+  height: 40px;
+  border: 2px solid rgba(0, 255, 255, 0.2);
+  border-top: 2px solid var(--tacmap-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: var(--tacmap-spacing-md);
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Context Menu */
+.context-menu {
+  position: absolute;
+  background: var(--tacmap-bg-panel);
+  border: var(--tacmap-border);
+  border-radius: var(--tacmap-radius-md);
+  box-shadow: var(--tacmap-shadow);
+  backdrop-filter: blur(10px);
+  min-width: 200px;
+  z-index: 10000;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.context-menu-item {
+  display: flex;
+  align-items: center;
+  gap: var(--tacmap-spacing-sm);
+  padding: var(--tacmap-spacing-sm) var(--tacmap-spacing-md);
+  cursor: pointer;
+  transition: background var(--tacmap-transition-fast);
+  font-size: var(--tacmap-font-size-sm);
+}
+
+.context-menu-item:hover {
+  background: rgba(0, 255, 255, 0.1);
+}
+
+.context-menu-item.divider {
+  height: 1px;
+  background: rgba(0, 255, 255, 0.2);
+  margin: var(--tacmap-spacing-xs) 0;
+  padding: 0;
+  cursor: default;
+}
+
+.context-menu-item.divider:hover {
+  background: rgba(0, 255, 255, 0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .zoom-controls {
+    top: var(--tacmap-spacing-sm);
+    right: var(--tacmap-spacing-sm);
+  }
+  
+  .zoom-controls .tacmap-button {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .tacmap-tooltip {
+    max-width: 250px;
+    font-size: var(--tacmap-font-size-xs);
+  }
+}
+
+/* High DPI Displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .tacmap-panel {
+    border-width: 0.5px;
+  }
+  
+  .tacmap-button {
+    border-width: 0.5px;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --tacmap-bg-primary: #000011;
+    --tacmap-bg-secondary: #001122;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .tacmap-panel::before {
+    animation: none;
+  }
+  
+  .tacmap-button::before {
+    transition: none;
+  }
+  
+  .tacmap-fade-in {
+    animation: none;
+  }
+  
+  .tacmap-pulse {
+    animation: none;
+  }
+  
+  .alert-critical {
+    animation: none;
+  }
+}

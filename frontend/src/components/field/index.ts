@@ -1,4 +1,3 @@
-export { TacticalMap } from './TacticalMap'
 export { NavigationPanel } from './NavigationPanel'
 export { QuickActions } from './QuickActions'
 export { ResourceStatus } from './ResourceStatus'

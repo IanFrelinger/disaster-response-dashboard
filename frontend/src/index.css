@@ -1,3 +1,6 @@
+/* Import tactical map styles */
+@import './styles/tacmap.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
