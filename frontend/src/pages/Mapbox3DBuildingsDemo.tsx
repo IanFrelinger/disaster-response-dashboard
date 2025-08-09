@@ -9,7 +9,6 @@ import {
   Info,
   Settings,
   Mountain,
-  Navigation,
   Eye,
   EyeOff
 } from 'lucide-react';

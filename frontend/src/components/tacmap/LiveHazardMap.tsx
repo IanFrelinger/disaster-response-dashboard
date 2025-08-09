@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { foundryService, HazardZone, EvacuationRoute, EmergencyZone } from '../../services/foundryService';
+import { foundryService, HazardZone } from '../../services/foundryService';
 
 // Set Mapbox access token
 mapboxgl.accessToken = 'pk.eyJ1IjoiaWNmcmVsaW5nZXIiLCJhIjoiY20zcW92ZnEyMHNqeTJtcTJ5c2Fza3hoNSJ9.12y7S2B9pkn4PzRPjvaGxw';
@@ -25,7 +25,7 @@ export const LiveHazardMap: React.FC<LiveHazardMapProps> = ({
   const [zonesLoaded, setZonesLoaded] = useState(false);
   const [populationAtRisk, setPopulationAtRisk] = useState(0);
   const [lastUpdate, setLastUpdate] = useState<Date | null>(null);
-  const [isSimulationMode, setIsSimulationMode] = useState(false);
+  // const [isSimulationMode, setIsSimulationMode] = useState(false);
 
   useEffect(() => {
     if (!containerRef.current) return;

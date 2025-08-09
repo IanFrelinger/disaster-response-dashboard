@@ -43,6 +43,9 @@ if ! command -v docker-compose &> /dev/null; then
     exit 1
 fi
 
+# Change to the docker-compose directory
+cd config/docker
+
 # Stop any existing containers
 print_status "Stopping any existing containers..."
 docker-compose down --remove-orphans

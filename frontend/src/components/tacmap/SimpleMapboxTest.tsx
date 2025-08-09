@@ -428,7 +428,7 @@ export const SimpleMapboxTest: React.FC = () => {
           
           if (geometry.coordinates && properties) {
             // Create popup with route information
-            const popup = new mapboxgl.Popup()
+            new mapboxgl.Popup()
               .setLngLat([geometry.coordinates[0][0], geometry.coordinates[0][1]])
               .setHTML(`
                 <div style="font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; padding: 8px;">
@@ -452,7 +452,7 @@ export const SimpleMapboxTest: React.FC = () => {
           
           if (geometry.coordinates && properties) {
             // Create popup with route information
-            const popup = new mapboxgl.Popup()
+            new mapboxgl.Popup()
               .setLngLat([geometry.coordinates[0][0], geometry.coordinates[0][1]])
               .setHTML(`
                 <div style="font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; padding: 8px;">
