@@ -3,7 +3,7 @@ version: '3.8'
 services:
   backend:
     build:
-      context: ./backend
+      context: ../../backend
       dockerfile: Dockerfile
     ports:
       - "5001:8000"
@@ -11,7 +11,7 @@ services:
       - FLASK_ENV=production
       - PYTHONPATH=/app
     volumes:
-      - ./backend:/app
+      - ../../backend:/app
       - /app/__pycache__
       - /app/.pytest_cache
     restart: unless-stopped
@@ -22,9 +22,26 @@ services:
       retries: 3
       start_period: 40s
 
+  backend-test:
+    build:
+      context: ../../backend
+      dockerfile: Dockerfile.test
+    ports:
+      - "5002:8000"
+    environment:
+      - FLASK_ENV=testing
+      - PYTHONPATH=/app
+    volumes:
+      - ../../backend:/app
+      - ../../test-results:/app/test-results
+      - ../../coverage-reports:/app/coverage-reports
+    profiles:
+      - test
+    command: ["python", "-m", "pytest", "tests/", "-v", "--html=test-results/backend-report.html"]
+
   frontend:
     build:
-      context: ./frontend
+      context: ../../frontend
       dockerfile: Dockerfile
     ports:
       - "3000:80"
@@ -39,15 +56,32 @@ services:
       retries: 3
       start_period: 40s
 
+  frontend-test:
+    build:
+      context: ../../frontend
+      dockerfile: Dockerfile.test
+    ports:
+      - "3002:3000"
+    environment:
+      - NODE_ENV=test
+      - CI=true
+    volumes:
+      - ../../frontend:/app
+      - ../../test-results:/app/test-results
+      - ../../playwright-reports:/app/playwright-reports
+    profiles:
+      - test
+    command: ["npx", "playwright", "test", "tests/e2e/comprehensive-ui-test.spec.ts", "--reporter=html"]
+
   # Development frontend (optional)
   frontend-dev:
     build:
-      context: ./frontend
+      context: ../../frontend
       dockerfile: Dockerfile.dev
     ports:
       - "3001:3000"
     volumes:
-      - ./frontend:/app
+      - ../../frontend:/app
       - /app/node_modules
     environment:
       - NODE_ENV=development

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mapbox3DTerrain } from '../components/tacmap/Mapbox3DTerrain';
+import { SimpleMapboxTest } from '../components/tacmap/SimpleMapboxTest';
 import { 
   AlertTriangle, 
   Shield, 
@@ -26,48 +26,49 @@ export const Mapbox3DBuildingsDemo: React.FC = () => {
     la: { name: 'Los Angeles', coords: [-118.2437, 34.0522] as [number, number] }
   };
 
-  const handleHazardClick = (hazard: any) => {
-    console.log('Hazard clicked:', hazard);
-    alert(`Hazard Zone: ${hazard.riskLevel} risk level\nAffected Population: ${hazard.affectedPopulation}`);
-  };
+  // Event handlers for future use when Mapbox3DTerrain is restored
+  // const handleHazardClick = (hazard: any) => {
+  //   console.log('Hazard clicked:', hazard);
+  //   alert(`Hazard Zone: ${hazard.riskLevel} risk level\nAffected Population: ${hazard.affectedPopulation}`);
+  // };
 
-  const handleUnitClick = (unit: any) => {
-    console.log('Unit clicked:', unit);
-    alert(`Emergency Unit: ${unit.unitType}\nCall Sign: ${unit.callSign}\nStatus: ${unit.status}`);
-  };
+  // const handleUnitClick = (unit: any) => {
+  //   console.log('Unit clicked:', unit);
+  //   alert(`Emergency Unit: ${unit.unitType}\nCall Sign: ${unit.callSign}\nStatus: ${unit.status}`);
+  // };
 
-  const handleRouteClick = (route: any) => {
-    console.log('Route clicked:', route);
-    alert(`Evacuation Route: ${route.routeName}\nStatus: ${route.status}\nEstimated Time: ${route.estimatedTime} minutes`);
-  };
+  // const handleRouteClick = (route: any) => {
+  //   console.log('Route clicked:', route);
+  //   alert(`Evacuation Route: ${route.routeName}\nStatus: ${route.status}\nEstimated Time: ${route.estimatedTime} minutes`);
+  // };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
+    <div style={{ minHeight: '100vh', backgroundColor: 'var(--ios-background)' }}>
       {/* Header */}
-      <div className="bg-black bg-opacity-50 border-b border-gray-700">
-        <div className="container mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
+      <div className="ios-card" style={{ margin: '0 0 var(--ios-spacing-lg) 0' }}>
+        <div className="ios-container" style={{ padding: 0 }}>
+          <div className="ios-flex-between">
             <div>
-              <h1 className="text-2xl font-bold text-blue-400">
+              <h1 className="ios-headline" style={{ color: 'var(--ios-blue)', margin: 0, marginBottom: 'var(--ios-spacing-xs)' }}>
                 🏔️ Mapbox 3D Terrain with Building Extrusions
               </h1>
-              <p className="text-gray-300 text-sm">
+              <p className="ios-caption" style={{ margin: 0 }}>
                 Real 3D terrain and building footprints with Foundry data integration
               </p>
             </div>
             
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2 text-sm">
-                <Mountain className="w-4 h-4 text-blue-400" />
-                <span>3D Terrain</span>
+            <div className="ios-flex" style={{ gap: 'var(--ios-spacing-lg)' }}>
+              <div className="ios-flex" style={{ gap: 'var(--ios-spacing-xs)' }}>
+                <Mountain className="w-4 h-4" style={{ color: 'var(--ios-blue)' }} />
+                <span className="ios-caption" style={{ margin: 0 }}>3D Terrain</span>
               </div>
-              <div className="flex items-center space-x-2 text-sm">
-                <Building2 className="w-4 h-4 text-green-400" />
-                <span>3D Buildings</span>
+              <div className="ios-flex" style={{ gap: 'var(--ios-spacing-xs)' }}>
+                <Building2 className="w-4 h-4" style={{ color: 'var(--ios-green)' }} />
+                <span className="ios-caption" style={{ margin: 0 }}>3D Buildings</span>
               </div>
-              <div className="flex items-center space-x-2 text-sm">
-                <Layers className="w-4 h-4 text-purple-400" />
-                <span>Foundry Data</span>
+              <div className="ios-flex" style={{ gap: 'var(--ios-spacing-xs)' }}>
+                <Layers className="w-4 h-4" style={{ color: 'var(--ios-purple)' }} />
+                <span className="ios-caption" style={{ margin: 0 }}>Foundry Data</span>
               </div>
             </div>
           </div>
@@ -75,24 +76,25 @@ export const Mapbox3DBuildingsDemo: React.FC = () => {
       </div>
 
       {/* Main Content */}
-      <div className="container mx-auto px-6 py-6">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+      <div className="ios-container" style={{ padding: 0 }}>
+        <div className="ios-grid" style={{ gridTemplateColumns: '1fr 3fr', gap: 'var(--ios-spacing-lg)' }}>
           {/* Control Panel */}
-          <div className="lg:col-span-1">
-            <div className="bg-black bg-opacity-50 rounded-lg p-6 space-y-6">
+          <div>
+            <div className="ios-card" style={{ margin: 0 }}>
               <div>
-                <h2 className="text-lg font-semibold mb-4 flex items-center">
-                  <Settings className="w-5 h-5 mr-2" />
+                <h2 className="ios-subheadline" style={{ margin: 0, marginBottom: 'var(--ios-spacing-lg)', display: 'flex', alignItems: 'center' }}>
+                  <Settings className="w-5 h-5" style={{ marginRight: 'var(--ios-spacing-sm)' }} />
                   Map Controls
                 </h2>
                 
                 {/* Location Selector */}
-                <div className="mb-6">
-                  <label className="block text-sm font-medium mb-2">Location</label>
+                <div style={{ marginBottom: 'var(--ios-spacing-lg)' }}>
+                  <label className="ios-body" style={{ display: 'block', margin: 0, marginBottom: 'var(--ios-spacing-sm)' }}>Location</label>
                   <select
                     value={selectedLocation}
                     onChange={(e) => setSelectedLocation(e.target.value as 'sf' | 'nyc' | 'la')}
-                    className="w-full bg-gray-800 border border-gray-600 rounded px-3 py-2 text-white"
+                    className="ios-input"
+                    style={{ width: '100%' }}
                   >
                     <option value="sf">San Francisco</option>
                     <option value="nyc">New York City</option>
@@ -101,147 +103,137 @@ export const Mapbox3DBuildingsDemo: React.FC = () => {
                 </div>
 
                 {/* Layer Toggles */}
-                <div className="space-y-4">
-                  <h3 className="text-sm font-medium text-gray-300">Layers</h3>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--ios-spacing-md)' }}>
+                  <h3 className="ios-body" style={{ margin: 0, color: 'var(--ios-secondary-text)' }}>Layers</h3>
                   
-                                     <label className="flex items-center space-x-3 cursor-pointer">
-                     <input
-                       type="checkbox"
-                       checked={showTerrain}
-                       onChange={(e) => setShowTerrain(e.target.checked)}
-                       className="w-4 h-4 text-blue-600 bg-gray-800 border-gray-600 rounded focus:ring-blue-500"
-                     />
-                     <Mountain className="w-4 h-4 text-blue-400" />
-                     <span className="text-sm">3D Terrain</span>
-                   </label>
+                  <label className="ios-flex" style={{ cursor: 'pointer', gap: 'var(--ios-spacing-sm)' }}>
+                    <input
+                      type="checkbox"
+                      checked={showTerrain}
+                      onChange={(e) => setShowTerrain(e.target.checked)}
+                      className="ios-input"
+                      style={{ width: '16px', height: '16px', margin: 0 }}
+                    />
+                    <Mountain className="w-4 h-4" style={{ color: 'var(--ios-blue)' }} />
+                    <span className="ios-body" style={{ margin: 0 }}>3D Terrain</span>
+                  </label>
 
-                   <label className="flex items-center space-x-3 cursor-pointer">
-                     <input
-                       type="checkbox"
-                       checked={showBuildings}
-                       onChange={(e) => setShowBuildings(e.target.checked)}
-                       className="w-4 h-4 text-green-600 bg-gray-800 border-gray-600 rounded focus:ring-green-500"
-                     />
-                     <Building2 className="w-4 h-4 text-green-400" />
-                     <span className="text-sm">3D Buildings</span>
-                   </label>
+                  <label className="ios-flex" style={{ cursor: 'pointer', gap: 'var(--ios-spacing-sm)' }}>
+                    <input
+                      type="checkbox"
+                      checked={showBuildings}
+                      onChange={(e) => setShowBuildings(e.target.checked)}
+                      className="ios-input"
+                      style={{ width: '16px', height: '16px', margin: 0 }}
+                    />
+                    <Building2 className="w-4 h-4" style={{ color: 'var(--ios-green)' }} />
+                    <span className="ios-body" style={{ margin: 0 }}>3D Buildings</span>
+                  </label>
 
-                  <label className="flex items-center space-x-3 cursor-pointer">
+                  <label className="ios-flex" style={{ cursor: 'pointer', gap: 'var(--ios-spacing-sm)' }}>
                     <input
                       type="checkbox"
                       checked={showHazards}
                       onChange={(e) => setShowHazards(e.target.checked)}
-                      className="w-4 h-4 text-red-600 bg-gray-800 border-gray-600 rounded focus:ring-red-500"
+                      className="ios-input"
+                      style={{ width: '16px', height: '16px', margin: 0 }}
                     />
-                    <AlertTriangle className="w-4 h-4 text-red-400" />
-                    <span className="text-sm">Hazard Zones</span>
+                    <AlertTriangle className="w-4 h-4" style={{ color: 'var(--ios-red)' }} />
+                    <span className="ios-body" style={{ margin: 0 }}>Hazard Zones</span>
                   </label>
 
-                  <label className="flex items-center space-x-3 cursor-pointer">
+                  <label className="ios-flex" style={{ cursor: 'pointer', gap: 'var(--ios-spacing-sm)' }}>
                     <input
                       type="checkbox"
                       checked={showUnits}
                       onChange={(e) => setShowUnits(e.target.checked)}
-                      className="w-4 h-4 text-green-600 bg-gray-800 border-gray-600 rounded focus:ring-green-500"
+                      className="ios-input"
+                      style={{ width: '16px', height: '16px', margin: 0 }}
                     />
-                    <Shield className="w-4 h-4 text-green-400" />
-                    <span className="text-sm">Emergency Units</span>
+                    <Shield className="w-4 h-4" style={{ color: 'var(--ios-green)' }} />
+                    <span className="ios-body" style={{ margin: 0 }}>Emergency Units</span>
                   </label>
 
-                  <label className="flex items-center space-x-3 cursor-pointer">
+                  <label className="ios-flex" style={{ cursor: 'pointer', gap: 'var(--ios-spacing-sm)' }}>
                     <input
                       type="checkbox"
                       checked={showRoutes}
                       onChange={(e) => setShowRoutes(e.target.checked)}
-                      className="w-4 h-4 text-yellow-600 bg-gray-800 border-gray-600 rounded focus:ring-yellow-500"
+                      className="ios-input"
+                      style={{ width: '16px', height: '16px', margin: 0 }}
                     />
-                    <MapPin className="w-4 h-4 text-yellow-400" />
-                    <span className="text-sm">Evacuation Routes</span>
+                    <MapPin className="w-4 h-4" style={{ color: 'var(--ios-orange)' }} />
+                    <span className="ios-body" style={{ margin: 0 }}>Evacuation Routes</span>
                   </label>
 
-                  <label className="flex items-center space-x-3 cursor-pointer">
+                  <label className="ios-flex" style={{ cursor: 'pointer', gap: 'var(--ios-spacing-sm)' }}>
                     <input
                       type="checkbox"
                       checked={showAnalytics}
                       onChange={(e) => setShowAnalytics(e.target.checked)}
-                      className="w-4 h-4 text-purple-600 bg-gray-800 border-gray-600 rounded focus:ring-purple-500"
+                      className="ios-input"
+                      style={{ width: '16px', height: '16px', margin: 0 }}
                     />
-                    <Info className="w-4 h-4 text-purple-400" />
-                    <span className="text-sm">Analytics Panel</span>
+                    <Info className="w-4 h-4" style={{ color: 'var(--ios-purple)' }} />
+                    <span className="ios-body" style={{ margin: 0 }}>Analytics Panel</span>
                   </label>
                 </div>
               </div>
 
               {/* Information Panel */}
-                             <div className="border-t border-gray-700 pt-6">
-                 <h3 className="text-sm font-medium text-gray-300 mb-3">About This Demo</h3>
-                 <div className="space-y-2 text-xs text-gray-400">
-                   <p>
-                     This demonstrates Mapbox's native 3D terrain and building extrusions using real data from Mapbox.
-                   </p>
-                   <p>
-                     <strong>3D Terrain:</strong> Real elevation data from Mapbox heightmap tiles with hillshading.
-                   </p>
-                   <p>
-                     <strong>3D Buildings:</strong> Real building footprints with heights, colored by type.
-                   </p>
-                   <p>
-                     Foundry data is overlaid as interactive layers for disaster response scenarios.
-                   </p>
-                 </div>
-               </div>
+              <div style={{ borderTop: '1px solid var(--ios-light-gray)', paddingTop: 'var(--ios-spacing-lg)', marginTop: 'var(--ios-spacing-lg)' }}>
+                <h3 className="ios-body" style={{ margin: 0, marginBottom: 'var(--ios-spacing-sm)', color: 'var(--ios-secondary-text)' }}>About This Demo</h3>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--ios-spacing-xs)' }}>
+                  <p className="ios-caption" style={{ margin: 0 }}>
+                    This demonstrates Mapbox's native 3D terrain and building extrusions using real data from Mapbox.
+                  </p>
+                  <p className="ios-caption" style={{ margin: 0 }}>
+                    <strong>3D Terrain:</strong> Real elevation data from Mapbox heightmap tiles with hillshading.
+                  </p>
+                  <p className="ios-caption" style={{ margin: 0 }}>
+                    <strong>3D Buildings:</strong> Real building footprints with heights, colored by type.
+                  </p>
+                  <p className="ios-caption" style={{ margin: 0 }}>
+                    Foundry data is overlaid as interactive layers for disaster response scenarios.
+                  </p>
+                </div>
+              </div>
 
               {/* Instructions */}
-              <div className="border-t border-gray-700 pt-6">
-                <h3 className="text-sm font-medium text-gray-300 mb-3">Instructions</h3>
-                <div className="space-y-2 text-xs text-gray-400">
-                  <p>• <strong>Click and drag</strong> to rotate the 3D view</p>
-                  <p>• <strong>Scroll</strong> to zoom in/out</p>
-                  <p>• <strong>Click on markers</strong> for details</p>
-                  <p>• <strong>Use controls</strong> to toggle layers</p>
+              <div style={{ borderTop: '1px solid var(--ios-light-gray)', paddingTop: 'var(--ios-spacing-lg)', marginTop: 'var(--ios-spacing-lg)' }}>
+                <h3 className="ios-body" style={{ margin: 0, marginBottom: 'var(--ios-spacing-sm)', color: 'var(--ios-secondary-text)' }}>Instructions</h3>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--ios-spacing-xs)' }}>
+                  <p className="ios-caption" style={{ margin: 0 }}>• <strong>Click and drag</strong> to rotate the 3D view</p>
+                  <p className="ios-caption" style={{ margin: 0 }}>• <strong>Scroll</strong> to zoom in/out</p>
+                  <p className="ios-caption" style={{ margin: 0 }}>• <strong>Click on markers</strong> for details</p>
+                  <p className="ios-caption" style={{ margin: 0 }}>• <strong>Use controls</strong> to toggle layers</p>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Map Container */}
-          <div className="lg:col-span-3">
-            <div className="bg-black bg-opacity-50 rounded-lg p-4">
-                             <div className="h-[700px] relative">
-                 <Mapbox3DTerrain
-                   center={locations[selectedLocation].coords}
-                   zoom={15}
-                   pitch={60}
-                   bearing={0}
-                   showHazards={showHazards}
-                   showUnits={showUnits}
-                   showRoutes={showRoutes}
-                   showAnalytics={showAnalytics}
-                   showBuildings={showBuildings}
-                   showTerrain={showTerrain}
-                   onMapLoad={() => console.log('Mapbox 3D Terrain map loaded')}
-                   onHazardClick={handleHazardClick}
-                   onUnitClick={handleUnitClick}
-                   onRouteClick={handleRouteClick}
-                   className="w-full h-full"
-                 />
-               </div>
+          <div>
+            <div className="ios-card" style={{ margin: 0, padding: 0, overflow: 'hidden' }}>
+              <div style={{ height: '700px', position: 'relative' }}>
+                <SimpleMapboxTest />
+              </div>
             </div>
 
             {/* Status Bar */}
-            <div className="mt-4 bg-black bg-opacity-50 rounded-lg p-4">
-              <div className="flex items-center justify-between text-sm">
-                <div className="flex items-center space-x-4">
-                  <span className="text-gray-300">
-                    Location: <span className="text-blue-400 font-medium">{locations[selectedLocation].name}</span>
+            <div className="ios-card" style={{ margin: 'var(--ios-spacing-md) 0 0 0' }}>
+              <div className="ios-flex-between">
+                <div className="ios-flex" style={{ gap: 'var(--ios-spacing-lg)' }}>
+                  <span className="ios-caption" style={{ margin: 0 }}>
+                    Location: <span style={{ color: 'var(--ios-blue)', fontWeight: '600' }}>{locations[selectedLocation].name}</span>
                   </span>
-                                     <span className="text-gray-300">
-                     View: <span className="text-green-400 font-medium">3D Terrain with Building Extrusions</span>
-                   </span>
+                  <span className="ios-caption" style={{ margin: 0 }}>
+                    View: <span style={{ color: 'var(--ios-green)', fontWeight: '600' }}>3D Terrain with Building Extrusions</span>
+                  </span>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                  <span className="text-gray-300">Live Data</span>
+                <div className="ios-flex" style={{ gap: 'var(--ios-spacing-sm)' }}>
+                  <div style={{ width: '8px', height: '8px', backgroundColor: 'var(--ios-green)', borderRadius: '50%' }}></div>
+                  <span className="ios-caption" style={{ margin: 0 }}>Live Data</span>
                 </div>
               </div>
             </div>
@@ -250,15 +242,15 @@ export const Mapbox3DBuildingsDemo: React.FC = () => {
       </div>
 
       {/* Footer */}
-      <div className="bg-black bg-opacity-50 border-t border-gray-700 mt-8">
-        <div className="container mx-auto px-6 py-4">
-          <div className="text-center text-sm text-gray-400">
-                         <p>
-               Mapbox 3D Terrain Demo • Real terrain and building footprints with Foundry data integration
-             </p>
-             <p className="mt-1">
-               Built with Mapbox GL JS, React, and Foundry Data Fusion
-             </p>
+      <div className="ios-card" style={{ margin: 'var(--ios-spacing-xl) 0 0 0' }}>
+        <div className="ios-container" style={{ padding: 0 }}>
+          <div style={{ textAlign: 'center' }}>
+            <p className="ios-caption" style={{ margin: 0 }}>
+              Mapbox 3D Terrain Demo • Real terrain and building footprints with Foundry data integration
+            </p>
+            <p className="ios-caption" style={{ margin: 'var(--ios-spacing-xs) 0 0 0' }}>
+              Built with Mapbox GL JS, React, and Foundry Data Fusion
+            </p>
           </div>
         </div>
       </div>
