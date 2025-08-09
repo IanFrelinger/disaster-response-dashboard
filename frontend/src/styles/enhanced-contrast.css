@@ -1,6 +1,56 @@
-/* Apple iOS Design System - Enhanced for Human Interface Guidelines */
+/* Enhanced Contrast CSS - Ensuring Text Colors are Opposite of Backgrounds */
+
+/* Enhanced iOS Color System with Proper Contrast */
 :root {
-  /* iOS Color Palette - SF Symbols Colors */
+  /* Light Theme Colors */
+  --ios-background: #F2F2F7;
+  --ios-secondary-background: #FFFFFF;
+  --ios-tertiary-background: #F2F2F7;
+  --ios-card-background: rgba(255, 255, 255, 0.95);
+  --ios-navbar-background: rgba(255, 255, 255, 0.95);
+  --ios-modal-background: #FFFFFF;
+  --ios-button-background: #007AFF;
+  --ios-button-secondary-background: #F2F2F7;
+  --ios-button-success-background: #34C759;
+  --ios-button-danger-background: #FF3B30;
+  
+  /* Dark Theme Colors */
+  --ios-background-dark: #000000;
+  --ios-secondary-background-dark: #1C1C1E;
+  --ios-tertiary-background-dark: #2C2C2E;
+  --ios-card-background-dark: rgba(28, 28, 30, 0.95);
+  --ios-navbar-background-dark: rgba(28, 28, 30, 0.95);
+  --ios-modal-background-dark: #1C1C1E;
+  --ios-button-background-dark: #0A84FF;
+  --ios-button-secondary-background-dark: #2C2C2E;
+  --ios-button-success-background-dark: #30D158;
+  --ios-button-danger-background-dark: #FF453A;
+  
+  /* Text Colors - Always Opposite of Backgrounds */
+  --ios-text-on-light: #000000;
+  --ios-text-on-dark: #FFFFFF;
+  --ios-text-on-blue: #FFFFFF;
+  --ios-text-on-green: #FFFFFF;
+  --ios-text-on-red: #FFFFFF;
+  --ios-text-on-gray: #000000;
+  --ios-text-on-white: #000000;
+  --ios-text-on-black: #FFFFFF;
+  
+  /* Semantic Text Colors */
+  --ios-primary-text: #000000;
+  --ios-secondary-text: #8E8E93;
+  --ios-tertiary-text: #C7C7CC;
+  --ios-link-text: #007AFF;
+  --ios-placeholder-text: #C7C7CC;
+  
+  /* Dark Mode Semantic Text Colors */
+  --ios-primary-text-dark: #FFFFFF;
+  --ios-secondary-text-dark: #8E8E93;
+  --ios-tertiary-text-dark: #48484A;
+  --ios-link-text-dark: #0A84FF;
+  --ios-placeholder-text-dark: #48484A;
+  
+  /* Accent Colors */
   --ios-blue: #007AFF;
   --ios-blue-dark: #0056CC;
   --ios-green: #34C759;
@@ -22,35 +72,20 @@
   --ios-dark-gray: #1C1C1E;
   --ios-dark-gray-light: #2C2C2E;
   
-  /* iOS Background Colors - System Colors */
-  --ios-background: #F2F2F7;
-  --ios-secondary-background: #FFFFFF;
-  --ios-tertiary-background: #F2F2F7;
-  --ios-grouped-background: #F2F2F7;
-  --ios-grouped-secondary-background: #FFFFFF;
-  
-  /* iOS Text Colors - Semantic Colors */
-  --ios-primary-text: #000000;
-  --ios-secondary-text: #8E8E93;
-  --ios-tertiary-text: #C7C7CC;
-  --ios-quaternary-text: #D1D1D6;
-  --ios-link-text: #007AFF;
-  --ios-placeholder-text: #C7C7CC;
-  
-  /* iOS Border Radius - SF Design */
+  /* Border Radius */
   --ios-border-radius-small: 6px;
   --ios-border-radius-medium: 8px;
   --ios-border-radius-large: 12px;
   --ios-border-radius-xl: 16px;
   --ios-border-radius-xxl: 20px;
   
-  /* iOS Shadows - SF Elevation */
+  /* Shadows */
   --ios-shadow-light: 0 1px 2px rgba(0, 0, 0, 0.1);
   --ios-shadow-medium: 0 2px 8px rgba(0, 0, 0, 0.12);
   --ios-shadow-heavy: 0 4px 16px rgba(0, 0, 0, 0.15);
   --ios-shadow-ultra: 0 8px 32px rgba(0, 0, 0, 0.2);
   
-  /* iOS Spacing - SF Spacing System */
+  /* Spacing */
   --ios-spacing-xs: 4px;
   --ios-spacing-sm: 8px;
   --ios-spacing-md: 12px;
@@ -59,16 +94,16 @@
   --ios-spacing-xxl: 24px;
   --ios-spacing-xxxl: 32px;
   
-  /* iOS Typography - SF Pro Display */
+  /* Typography */
   --ios-font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   --ios-font-family-mono: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
   
-  /* iOS Transitions */
+  /* Transitions */
   --ios-transition-fast: 0.15s ease-out;
   --ios-transition-normal: 0.25s ease-out;
   --ios-transition-slow: 0.35s ease-out;
   
-  /* iOS Z-Index Scale */
+  /* Z-Index */
   --ios-z-dropdown: 1000;
   --ios-z-sticky: 1020;
   --ios-z-fixed: 1030;
@@ -78,7 +113,7 @@
   --ios-z-tooltip: 1070;
 }
 
-/* Base iOS Styles */
+/* Base Styles with Enhanced Contrast */
 * {
   box-sizing: border-box;
 }
@@ -86,7 +121,7 @@
 body {
   font-family: var(--ios-font-family);
   background-color: var(--ios-background);
-  color: var(--ios-primary-text);
+  color: var(--ios-text-on-light);
   margin: 0;
   padding: 0;
   -webkit-font-smoothing: antialiased;
@@ -96,9 +131,9 @@ body {
   letter-spacing: -0.022em;
 }
 
-/* iOS Card Component - Enhanced */
+/* Enhanced Card Component with Proper Contrast */
 .ios-card {
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--ios-card-background);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
   border-radius: var(--ios-border-radius-xl);
@@ -107,6 +142,7 @@ body {
   padding: var(--ios-spacing-lg);
   margin: var(--ios-spacing-md);
   transition: all var(--ios-transition-normal);
+  color: var(--ios-text-on-white);
 }
 
 .ios-card:hover {
@@ -124,10 +160,10 @@ body {
   margin: var(--ios-spacing-lg);
 }
 
-/* iOS Button Component - Enhanced */
+/* Enhanced Button Component with Proper Contrast */
 .ios-button {
-  background: var(--ios-blue);
-  color: white;
+  background: var(--ios-button-background);
+  color: var(--ios-text-on-blue);
   border: none;
   border-radius: var(--ios-border-radius-large);
   padding: var(--ios-spacing-md) var(--ios-spacing-xl);
@@ -165,28 +201,34 @@ body {
 }
 
 .ios-button.secondary {
-  background: var(--ios-light-gray);
-  color: var(--ios-primary-text);
+  background: var(--ios-button-secondary-background);
+  color: var(--ios-text-on-gray);
+  border: 1px solid var(--ios-gray);
 }
 
 .ios-button.secondary:hover {
   background: var(--ios-light-gray-dark);
+  color: var(--ios-text-on-gray);
 }
 
 .ios-button.danger {
-  background: var(--ios-red);
+  background: var(--ios-button-danger-background);
+  color: var(--ios-text-on-red);
 }
 
 .ios-button.danger:hover {
   background: var(--ios-red-dark);
+  color: var(--ios-text-on-red);
 }
 
 .ios-button.success {
-  background: var(--ios-green);
+  background: var(--ios-button-success-background);
+  color: var(--ios-text-on-green);
 }
 
 .ios-button.success:hover {
   background: var(--ios-green-dark);
+  color: var(--ios-text-on-green);
 }
 
 .ios-button.small {
@@ -201,7 +243,7 @@ body {
   min-height: 52px;
 }
 
-/* iOS Input Component - Enhanced */
+/* Enhanced Input Component with Proper Contrast */
 .ios-input {
   background: rgba(255, 255, 255, 0.9);
   border: 1px solid rgba(0, 0, 0, 0.1);
@@ -213,6 +255,7 @@ body {
   min-height: 44px;
   line-height: 1.23536;
   letter-spacing: -0.022em;
+  color: var(--ios-text-on-white);
 }
 
 .ios-input:focus {
@@ -220,15 +263,16 @@ body {
   border-color: var(--ios-blue);
   box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
   background: rgba(255, 255, 255, 1);
+  color: var(--ios-text-on-white);
 }
 
 .ios-input::placeholder {
   color: var(--ios-placeholder-text);
 }
 
-/* iOS Navigation Bar - Enhanced */
+/* Enhanced Navigation Bar with Proper Contrast */
 .ios-navbar {
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--ios-navbar-background);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
@@ -237,6 +281,7 @@ body {
   top: 0;
   z-index: var(--ios-z-sticky);
   transition: all var(--ios-transition-normal);
+  color: var(--ios-text-on-white);
 }
 
 .ios-navbar.scrolled {
@@ -244,13 +289,14 @@ body {
   box-shadow: var(--ios-shadow-light);
 }
 
-/* iOS List Component - Enhanced */
+/* Enhanced List Component with Proper Contrast */
 .ios-list {
   background: var(--ios-secondary-background);
   border-radius: var(--ios-border-radius-xl);
   overflow: hidden;
   box-shadow: var(--ios-shadow-light);
   margin: var(--ios-spacing-md) 0;
+  color: var(--ios-text-on-white);
 }
 
 .ios-list-item {
@@ -261,10 +307,12 @@ body {
   justify-content: space-between;
   transition: background-color var(--ios-transition-fast);
   cursor: pointer;
+  color: var(--ios-text-on-white);
 }
 
 .ios-list-item:hover {
   background-color: var(--ios-light-gray);
+  color: var(--ios-text-on-gray);
 }
 
 .ios-list-item:last-child {
@@ -273,13 +321,13 @@ body {
 
 .ios-list-item.active {
   background-color: var(--ios-blue);
-  color: white;
+  color: var(--ios-text-on-blue);
 }
 
-/* iOS Badge Component - Enhanced */
+/* Enhanced Badge Component with Proper Contrast */
 .ios-badge {
   background: var(--ios-red);
-  color: white;
+  color: var(--ios-text-on-red);
   border-radius: 12px;
   padding: 2px 8px;
   font-size: 12px;
@@ -292,13 +340,15 @@ body {
 
 .ios-badge.secondary {
   background: var(--ios-gray);
+  color: var(--ios-text-on-gray);
 }
 
 .ios-badge.success {
   background: var(--ios-green);
+  color: var(--ios-text-on-green);
 }
 
-/* iOS Switch Component - Enhanced */
+/* Enhanced Switch Component with Proper Contrast */
 .ios-switch {
   position: relative;
   width: 51px;
@@ -336,7 +386,7 @@ body {
   box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.3);
 }
 
-/* iOS Modal Component - Enhanced */
+/* Enhanced Modal Component with Proper Contrast */
 .ios-modal {
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(10px);
@@ -354,7 +404,7 @@ body {
 }
 
 .ios-modal-content {
-  background: var(--ios-secondary-background);
+  background: var(--ios-modal-background);
   border-radius: var(--ios-border-radius-xxl);
   padding: var(--ios-spacing-xxl);
   margin: var(--ios-spacing-lg);
@@ -362,9 +412,10 @@ body {
   width: 100%;
   box-shadow: var(--ios-shadow-ultra);
   animation: ios-slide-up var(--ios-transition-normal);
+  color: var(--ios-text-on-white);
 }
 
-/* iOS Segmented Control - Enhanced */
+/* Enhanced Segmented Control with Proper Contrast */
 .ios-segmented-control {
   display: flex;
   background: var(--ios-light-gray);
@@ -389,6 +440,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  color: var(--ios-text-on-gray);
 }
 
 .ios-segment.active {
@@ -397,9 +449,9 @@ body {
   box-shadow: var(--ios-shadow-light);
 }
 
-/* iOS Toolbar - Enhanced */
+/* Enhanced Toolbar with Proper Contrast */
 .ios-toolbar {
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--ios-navbar-background);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
   border-top: 1px solid rgba(0, 0, 0, 0.1);
@@ -410,21 +462,24 @@ body {
   position: sticky;
   bottom: 0;
   z-index: var(--ios-z-sticky);
+  color: var(--ios-text-on-white);
 }
 
-/* iOS Status Bar - Enhanced */
+/* Enhanced Status Bar with Proper Contrast */
 .ios-status-bar {
-  background: var(--ios-blue);
-  color: white;
-  padding: var(--ios-spacing-xs) var(--ios-spacing-lg);
+  background: var(--ios-navbar-background);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  padding: var(--ios-spacing-sm) var(--ios-spacing-lg);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   font-size: 14px;
   font-weight: 600;
-  text-align: center;
-  line-height: 1.28571;
-  letter-spacing: -0.016em;
+  color: var(--ios-text-on-white);
 }
 
-/* iOS Loading Spinner - Enhanced */
+/* Enhanced Spinner with Proper Contrast */
 .ios-spinner {
   width: 20px;
   height: 20px;
@@ -435,8 +490,8 @@ body {
 }
 
 .ios-spinner.large {
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
   border-width: 3px;
 }
 
@@ -445,14 +500,14 @@ body {
   100% { transform: rotate(360deg); }
 }
 
-/* iOS Typography - Enhanced SF Pro Display */
+/* Enhanced Typography with Proper Contrast */
 .ios-title {
   font-size: 34px;
   font-weight: 700;
-  line-height: 1.23536;
+  line-height: 1.23529;
   letter-spacing: 0.007em;
-  margin: 0 0 var(--ios-spacing-lg) 0;
-  font-family: var(--ios-font-family);
+  color: var(--ios-text-on-light);
+  margin: 0;
 }
 
 .ios-headline {
@@ -460,8 +515,8 @@ body {
   font-weight: 600;
   line-height: 1.28571;
   letter-spacing: 0.007em;
-  margin: 0 0 var(--ios-spacing-md) 0;
-  font-family: var(--ios-font-family);
+  color: var(--ios-text-on-light);
+  margin: 0;
 }
 
 .ios-subheadline {
@@ -469,37 +524,39 @@ body {
   font-weight: 600;
   line-height: 1.27273;
   letter-spacing: 0.007em;
-  margin: 0 0 var(--ios-spacing-md) 0;
-  font-family: var(--ios-font-family);
+  color: var(--ios-text-on-light);
+  margin: 0;
 }
 
 .ios-body {
   font-size: 17px;
+  font-weight: 400;
   line-height: 1.47059;
   letter-spacing: -0.022em;
-  margin: 0 0 var(--ios-spacing-sm) 0;
-  font-family: var(--ios-font-family);
+  color: var(--ios-text-on-light);
+  margin: 0;
 }
 
 .ios-caption {
   font-size: 12px;
+  font-weight: 400;
   line-height: 1.33337;
-  letter-spacing: -0.01em;
+  letter-spacing: 0.011em;
   color: var(--ios-secondary-text);
-  margin: 0 0 var(--ios-spacing-xs) 0;
-  font-family: var(--ios-font-family);
+  margin: 0;
 }
 
 .ios-caption-large {
-  font-size: 15px;
-  line-height: 1.33337;
-  letter-spacing: -0.01em;
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 1.45455;
+  letter-spacing: 0.066em;
+  text-transform: uppercase;
   color: var(--ios-secondary-text);
-  margin: 0 0 var(--ios-spacing-xs) 0;
-  font-family: var(--ios-font-family);
+  margin: 0;
 }
 
-/* iOS Layout Utilities - Enhanced */
+/* Enhanced Layout Components with Proper Contrast */
 .ios-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -518,14 +575,14 @@ body {
 
 .ios-flex-between {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
 }
 
 .ios-flex-center {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 }
 
 .ios-flex-column {
@@ -536,99 +593,112 @@ body {
 .ios-flex-wrap {
   display: flex;
   flex-wrap: wrap;
+  gap: var(--ios-spacing-md);
 }
 
-/* iOS Dark Mode Support - Enhanced */
+/* Dark Mode Support with Enhanced Contrast */
 @media (prefers-color-scheme: dark) {
   :root {
-    --ios-background: #000000;
-    --ios-secondary-background: #1C1C1E;
-    --ios-tertiary-background: #2C2C2E;
-    --ios-grouped-background: #000000;
-    --ios-grouped-secondary-background: #1C1C1E;
-    --ios-primary-text: #FFFFFF;
-    --ios-secondary-text: #8E8E93;
-    --ios-tertiary-text: #48484A;
-    --ios-quaternary-text: #3A3A3C;
-    --ios-placeholder-text: #48484A;
-    --ios-light-gray: #2C2C2E;
-    --ios-light-gray-dark: #3A3A3C;
+    --ios-background: var(--ios-background-dark);
+    --ios-secondary-background: var(--ios-secondary-background-dark);
+    --ios-tertiary-background: var(--ios-tertiary-background-dark);
+    --ios-card-background: var(--ios-card-background-dark);
+    --ios-navbar-background: var(--ios-navbar-background-dark);
+    --ios-modal-background: var(--ios-modal-background-dark);
+    --ios-button-background: var(--ios-button-background-dark);
+    --ios-button-secondary-background: var(--ios-button-secondary-background-dark);
+    --ios-button-success-background: var(--ios-button-success-background-dark);
+    --ios-button-danger-background: var(--ios-button-danger-background-dark);
+    
+    --ios-primary-text: var(--ios-primary-text-dark);
+    --ios-secondary-text: var(--ios-secondary-text-dark);
+    --ios-tertiary-text: var(--ios-tertiary-text-dark);
+    --ios-link-text: var(--ios-link-text-dark);
+    --ios-placeholder-text: var(--ios-placeholder-text-dark);
   }
-  
+
+  body {
+    color: var(--ios-text-on-dark);
+  }
+
   .ios-card {
-    background: rgba(28, 28, 30, 0.95);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--ios-text-on-dark);
   }
-  
+
   .ios-input {
     background: rgba(28, 28, 30, 0.9);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    color: var(--ios-primary-text);
+    color: var(--ios-text-on-dark);
   }
-  
+
   .ios-input:focus {
     background: rgba(28, 28, 30, 1);
+    color: var(--ios-text-on-dark);
   }
-  
+
   .ios-navbar {
-    background: rgba(28, 28, 30, 0.95);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--ios-text-on-dark);
   }
-  
+
   .ios-modal-content {
-    background: var(--ios-secondary-background);
+    color: var(--ios-text-on-dark);
   }
-  
+
   .ios-toolbar {
-    background: rgba(28, 28, 30, 0.95);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--ios-text-on-dark);
   }
-  
+
   .ios-list {
-    background: var(--ios-secondary-background);
+    color: var(--ios-text-on-dark);
   }
-  
+
   .ios-list-item {
-    border-bottom: 1px solid var(--ios-light-gray);
+    color: var(--ios-text-on-dark);
   }
-  
+
   .ios-list-item:hover {
-    background-color: var(--ios-light-gray);
+    color: var(--ios-text-on-dark);
   }
-  
+
   .ios-segmented-control {
-    background: var(--ios-light-gray);
+    background: var(--ios-dark-gray-light);
   }
-  
+
   .ios-segment.active {
-    background: var(--ios-secondary-background);
-    color: var(--ios-primary-text);
+    background: var(--ios-dark-gray);
+    color: var(--ios-text-on-dark);
+  }
+
+  .ios-title,
+  .ios-headline,
+  .ios-subheadline,
+  .ios-body {
+    color: var(--ios-text-on-dark);
   }
 }
 
-/* iOS Responsive Design - Enhanced */
+/* Responsive Design with Enhanced Contrast */
 @media (max-width: 768px) {
   .ios-container {
     padding: 0 var(--ios-spacing-md);
   }
-  
+
   .ios-title {
     font-size: 28px;
   }
-  
+
   .ios-headline {
     font-size: 24px;
   }
-  
+
   .ios-subheadline {
     font-size: 20px;
   }
-  
+
   .ios-card {
     margin: var(--ios-spacing-sm);
-    padding: var(--ios-spacing-md);
   }
-  
+
   .ios-button {
     padding: var(--ios-spacing-sm) var(--ios-spacing-lg);
     font-size: 16px;
@@ -639,19 +709,20 @@ body {
   .ios-container {
     padding: 0 var(--ios-spacing-sm);
   }
-  
+
   .ios-card {
     margin: var(--ios-spacing-xs);
-    padding: var(--ios-spacing-sm);
+    padding: var(--ios-spacing-md);
   }
-  
+
   .ios-button {
     padding: var(--ios-spacing-sm) var(--ios-spacing-md);
     font-size: 15px;
+    min-height: 40px;
   }
 }
 
-/* iOS Animation Classes - Enhanced */
+/* Enhanced Animations */
 .ios-fade-in {
   animation: ios-fade-in var(--ios-transition-normal);
 }
@@ -661,11 +732,11 @@ body {
 }
 
 .ios-scale-in {
-  animation: ios-scale-in var(--ios-transition-fast);
+  animation: ios-scale-in var(--ios-transition-normal);
 }
 
 .ios-bounce-in {
-  animation: ios-bounce-in var(--ios-transition-slow);
+  animation: ios-bounce-in var(--ios-transition-normal);
 }
 
 @keyframes ios-fade-in {
@@ -679,7 +750,7 @@ body {
 }
 
 @keyframes ios-scale-in {
-  from { transform: scale(0.95); opacity: 0; }
+  from { transform: scale(0.9); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
 }
 
@@ -690,13 +761,13 @@ body {
   100% { transform: scale(1); opacity: 1; }
 }
 
-/* iOS Focus States */
+/* Enhanced Focus States */
 .ios-focus-visible {
   outline: none;
   box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.3);
 }
 
-/* iOS Accessibility */
+/* Accessibility Enhancements */
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;
@@ -705,16 +776,15 @@ body {
   }
 }
 
-/* iOS High Contrast Mode */
 @media (prefers-contrast: high) {
   .ios-card {
     border: 2px solid var(--ios-primary-text);
   }
-  
+
   .ios-button {
     border: 2px solid var(--ios-primary-text);
   }
-  
+
   .ios-input {
     border: 2px solid var(--ios-primary-text);
   }
