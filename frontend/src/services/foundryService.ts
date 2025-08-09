@@ -242,7 +242,7 @@ class MockFoundryClient {
 
   private async calculateOptimalRoutes(parameters: any): Promise<EvacuationRoute[]> {
     // Simulate AI-powered route optimization
-    const { zone_id, avoid_hazards = true, max_capacity = true } = parameters;
+    const { avoid_hazards = true, max_capacity = true } = parameters;
     
     // Filter routes based on parameters
     let optimalRoutes = this.routes.filter(route => {
@@ -283,10 +283,8 @@ class RealFoundryClient {
 // Service class
 class FoundryService {
   private client: MockFoundryClient | RealFoundryClient;
-  private useMock: boolean;
 
   constructor(useMock: boolean = true) {
-    this.useMock = useMock;
     this.client = useMock ? new MockFoundryClient() : new RealFoundryClient();
   }
 
@@ -302,13 +300,16 @@ class FoundryService {
         }
       );
       
-      return routes.map((route: any) => ({
-        ...route,
-        properties: {
-          ...route.properties,
-          tooltip: this.generateTooltip(route.properties)
-        }
-      }));
+      if (Array.isArray(routes)) {
+        return routes.map((route: any) => ({
+          ...route,
+          properties: {
+            ...route.properties,
+            tooltip: this.generateTooltip(route.properties)
+          }
+        }));
+      }
+      return [];
     } catch (error) {
       console.error('Error fetching evacuation routes:', error);
       return [];
@@ -318,13 +319,18 @@ class FoundryService {
   // Hazard Zones
   async getHazardZones(): Promise<HazardZone[]> {
     try {
-      return await this.client.functions.execute(
+      const result = await this.client.functions.execute(
         'ri.function.main.get-hazard-zones',
         {
           include_predictions: true,
           real_time: true
         }
       );
+      
+      if (Array.isArray(result)) {
+        return result as HazardZone[];
+      }
+      return [];
     } catch (error) {
       console.error('Error fetching hazard zones:', error);
       return [];
@@ -334,13 +340,18 @@ class FoundryService {
   // Emergency Zones
   async getEmergencyZones(): Promise<EmergencyZone[]> {
     try {
-      return await this.client.functions.execute(
+      const result = await this.client.functions.execute(
         'ri.function.main.get-emergency-zones',
         {
           include_population: true,
           include_risk_assessment: true
         }
       );
+      
+      if (Array.isArray(result)) {
+        return result as EmergencyZone[];
+      }
+      return [];
     } catch (error) {
       console.error('Error fetching emergency zones:', error);
       return [];
@@ -350,10 +361,15 @@ class FoundryService {
   // Issue Evacuation Order
   async issueEvacuation(order: EvacuationOrder): Promise<EvacuationResult> {
     try {
-      return await this.client.functions.execute(
+      const result = await this.client.functions.execute(
         'ri.function.main.issue-evacuation',
         order
       );
+      
+      if (result && typeof result === 'object' && 'affected_population' in result) {
+        return result as EvacuationResult;
+      }
+      throw new Error('Invalid evacuation result');
     } catch (error) {
       console.error('Error issuing evacuation:', error);
       throw error;
@@ -363,7 +379,7 @@ class FoundryService {
   // Calculate Optimal Routes
   async calculateOptimalRoutes(zoneId: string, parameters: any = {}): Promise<EvacuationRoute[]> {
     try {
-      return await this.client.functions.execute(
+      const result = await this.client.functions.execute(
         'ri.function.main.calculate-optimal-routes',
         {
           zone_id: zoneId,
@@ -372,6 +388,11 @@ class FoundryService {
           ...parameters
         }
       );
+      
+      if (Array.isArray(result)) {
+        return result as EvacuationRoute[];
+      }
+      return [];
     } catch (error) {
       console.error('Error calculating optimal routes:', error);
       return [];
@@ -423,6 +444,3 @@ class FoundryService {
 
 // Export singleton instance
 export const foundryService = new FoundryService(true); // Use mock for now
-
-// Export types for use in components
-export type { EvacuationRoute, HazardZone, EmergencyZone, EvacuationOrder, EvacuationResult };

@@ -4,19 +4,31 @@ A comprehensive disaster response management system with 3D terrain visualizatio
 
 ## 🚀 Quick Start
 
+### For Mac Users (Recommended)
+If you're on macOS, use our one-button setup script:
+
+```bash
+./scripts/setup-mac.sh
+```
+
+This script will automatically install all prerequisites and start the application.
+
+### For All Platforms
+```bash
+# Start all services
+./scripts/start.sh
+```
+
+### 📖 Setup Instructions
+- **Quick Start**: [QUICK_START.md](QUICK_START.md) - Get running in 5 minutes
+- **Complete Setup Guide**: [SETUP_INSTRUCTIONS.md](SETUP_INSTRUCTIONS.md) - Detailed instructions
+- **Setup Checklist**: [SETUP_CHECKLIST.md](SETUP_CHECKLIST.md) - Step-by-step checklist
+- **Mac Setup Guide**: [docs/MAC_SETUP_GUIDE.md](docs/MAC_SETUP_GUIDE.md) - Mac-specific details
+
 ### Prerequisites
 - Docker and Docker Compose
 - Node.js 18+ (for development)
 - Python 3.11+ (for development)
-
-### 1. Start the Application
-```bash
-# Start all services
-./scripts/start.sh
-
-# Or use the deployment script with testing
-./scripts/deploy.sh
-```
 
 ### 2. Access the Application
 - **Frontend**: http://localhost:3000

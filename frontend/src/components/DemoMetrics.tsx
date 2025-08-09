@@ -80,7 +80,7 @@ export const DemoMetrics: React.FC<DemoMetricsProps> = ({ showSimulation = false
     loadMetrics();
 
     // Set up real-time updates
-    const unsubscribe = foundryService.subscribeToUpdates(async (data) => {
+    const unsubscribe = foundryService.subscribeToUpdates(async () => {
       await loadMetrics();
     });
 
