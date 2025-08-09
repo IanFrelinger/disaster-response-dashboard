@@ -1,0 +1,78 @@
+# Test-enabled Backend Dockerfile
+FROM python:3.11
+
+# Set working directory
+WORKDIR /app
+
+# Install system dependencies including testing tools
+RUN apt-get update && apt-get install -y \
+    gdal-bin \
+    libgdal-dev \
+    curl \
+    wget \
+    unzip \
+    chromium \
+    chromium-driver \
+    firefox-esr \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* \
+    && rm -rf /tmp/* /var/tmp/*
+
+# Copy requirements and install Python dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir --timeout=300 --retries=3 \
+        --prefer-binary \
+        -r requirements.txt
+
+# Install additional testing dependencies
+RUN pip install --no-cache-dir \
+    pytest==8.0.0 \
+    pytest-cov==6.0.0 \
+    pytest-asyncio==0.21.1 \
+    pytest-mock==3.12.0 \
+    pytest-html==4.1.1 \
+    pytest-xdist==3.5.0 \
+    pytest-timeout==2.2.0 \
+    pytest-rerunfailures==12.0 \
+    requests-mock==1.11.0 \
+    factory-boy==3.3.0 \
+    faker==20.1.0 \
+    coverage==7.3.2 \
+    locust==2.17.0 \
+    selenium==4.15.2 \
+    playwright==1.40.1 \
+    beautifulsoup4==4.12.2 \
+    lxml==4.9.3 \
+    httpx==0.25.2 \
+    aioresponses==0.7.6
+
+# Install Playwright browsers
+RUN playwright install --with-deps chromium firefox webkit
+
+# Copy backend code
+COPY . .
+
+# Create test directories
+RUN mkdir -p /app/test-results /app/coverage-reports /app/performance-reports
+
+# Create non-root user for security
+RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app
+USER appuser
+
+# Set environment variables
+ENV PYTHONPATH=/app
+ENV FLASK_APP=run_synthetic_api.py
+ENV FLASK_ENV=testing
+ENV PYTEST_ADDOPTS="--html=/app/test-results/report.html --self-contained-html"
+ENV COVERAGE_FILE=/app/coverage-reports/.coverage
+
+# Expose port
+EXPOSE 8000
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost:8000/api/health || exit 1
+
+# Default command runs tests, but can be overridden
+CMD ["python", "run_synthetic_api.py"]

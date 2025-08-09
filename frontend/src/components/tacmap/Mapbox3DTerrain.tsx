@@ -70,6 +70,11 @@ export const Mapbox3DTerrain: React.FC<Mapbox3DTerrainProps> = ({
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [mapStyle, setMapStyle] = useState<'dark' | 'satellite' | 'streets'>('dark');
+  const [localShowTerrain, setLocalShowTerrain] = useState(showTerrain);
+  const [localShowBuildings, setLocalShowBuildings] = useState(showBuildings);
+  const [localShowHazards, setLocalShowHazards] = useState(showHazards);
+  const [localShowUnits, setLocalShowUnits] = useState(showUnits);
+  const [localShowRoutes, setLocalShowRoutes] = useState(showRoutes);
 
   // Get Foundry data
   const fusedData = useDataFusion();
@@ -118,17 +123,19 @@ export const Mapbox3DTerrain: React.FC<Mapbox3DTerrainProps> = ({
         
         try {
           // Add terrain and heightmap
-          if (showTerrain) {
+          if (localShowTerrain) {
             addTerrainLayers(map);
           }
           
           // Add 3D building extrusions
-          if (showBuildings) {
+          if (localShowBuildings) {
             addBuildingExtrusions(map);
           }
           
           // Add Foundry data layers
-          addFoundryDataLayers(map);
+          if (localShowHazards || localShowUnits || localShowRoutes) {
+            addFoundryDataLayers(map);
+          }
           
           setIsLoading(false);
           onMapLoad?.();
@@ -177,7 +184,7 @@ export const Mapbox3DTerrain: React.FC<Mapbox3DTerrainProps> = ({
       console.error('Error initializing map:', error);
       setIsLoading(false);
     }
-  }, [center, zoom, pitch, bearing, mapStyle, showBuildings, showTerrain, onMapLoad]);
+  }, [center, zoom, pitch, bearing, mapStyle, localShowBuildings, localShowTerrain, localShowHazards, localShowUnits, localShowRoutes, onMapLoad]);
 
   // Get map style based on selection
   const getMapStyle = (style: 'dark' | 'satellite' | 'streets'): string => {
@@ -287,7 +294,7 @@ export const Mapbox3DTerrain: React.FC<Mapbox3DTerrainProps> = ({
   };
 
   // Add Foundry data layers
-  const addFoundryDataLayers = (map: mapboxgl.Map) => {
+  const addFoundryDataLayers = useCallback((map: mapboxgl.Map) => {
     if (!fusedData?.hazards?.active) return;
 
     // Remove existing sources and layers first
@@ -476,7 +483,7 @@ export const Mapbox3DTerrain: React.FC<Mapbox3DTerrainProps> = ({
         }
       });
     }
-  };
+  }, [fusedData, localShowHazards, localShowUnits, localShowRoutes, onHazardClick, onUnitClick, onRouteClick]);
 
   // Refresh data
   const handleRefresh = async () => {
@@ -516,8 +523,8 @@ export const Mapbox3DTerrain: React.FC<Mapbox3DTerrainProps> = ({
     };
   }, [initMap]);
 
-  // Update layers when data changes
-  useEffect(() => {
+  // Update layers when data changes - memoized to prevent excessive re-renders
+  const memoizedAddFoundryDataLayers = useCallback(() => {
     if (mapRef.current && mapRef.current.isStyleLoaded()) {
       try {
         addFoundryDataLayers(mapRef.current);
@@ -525,15 +532,19 @@ export const Mapbox3DTerrain: React.FC<Mapbox3DTerrainProps> = ({
         console.error('Error updating layers:', error);
       }
     }
-  }, [fusedData?.hazards?.active?.length, fusedData?.units?.available?.length, fusedData?.routes?.safe?.length, showHazards, showUnits, showRoutes]);
+  }, [addFoundryDataLayers]);
+
+  useEffect(() => {
+    memoizedAddFoundryDataLayers();
+  }, [memoizedAddFoundryDataLayers]);
 
   return (
     <div className={`relative w-full h-full ${className}`}>
       {/* Map Container */}
       <div 
         ref={containerRef} 
-        className="w-full h-full rounded-lg overflow-hidden"
-        style={{ minHeight: '600px' }}
+        className="w-full h-full rounded-lg overflow-hidden bg-gray-800 border border-gray-600"
+        style={{ minHeight: '600px', position: 'relative' }}
       />
 
       {/* Loading Overlay */}
@@ -553,98 +564,93 @@ export const Mapbox3DTerrain: React.FC<Mapbox3DTerrainProps> = ({
         )}
       </AnimatePresence>
 
-      {/* Control Panel */}
-      <div className="absolute top-4 right-4 bg-black bg-opacity-75 rounded-lg p-4 text-white z-20">
-        <div className="flex flex-col space-y-3">
-          <h3 className="text-sm font-semibold mb-2">3D Map Controls</h3>
+              {/* Control Panel */}
+        <div className="ios-card" style={{ position: 'absolute', top: 'var(--ios-spacing-md)', right: 'var(--ios-spacing-md)', zIndex: 20, margin: 0, padding: 'var(--ios-spacing-lg)' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--ios-spacing-md)' }}>
+            <h3 className="ios-subheadline" style={{ margin: 0, marginBottom: 'var(--ios-spacing-sm)', color: 'var(--ios-blue)' }}>3D Map Controls</h3>
           
           {/* Map Style Selector */}
-          <div className="flex space-x-2">
-            <button
+          <div className="ios-segmented-control">
+            <div 
+              className={`ios-segment ${mapStyle === 'dark' ? 'active' : ''}`}
               onClick={() => handleStyleChange('dark')}
-              className={`px-3 py-1 text-xs rounded ${mapStyle === 'dark' ? 'bg-blue-600' : 'bg-gray-600'}`}
             >
               Dark
-            </button>
-            <button
+            </div>
+            <div 
+              className={`ios-segment ${mapStyle === 'satellite' ? 'active' : ''}`}
               onClick={() => handleStyleChange('satellite')}
-              className={`px-3 py-1 text-xs rounded ${mapStyle === 'satellite' ? 'bg-blue-600' : 'bg-gray-600'}`}
             >
               Satellite
-            </button>
-            <button
+            </div>
+            <div 
+              className={`ios-segment ${mapStyle === 'streets' ? 'active' : ''}`}
               onClick={() => handleStyleChange('streets')}
-              className={`px-3 py-1 text-xs rounded ${mapStyle === 'streets' ? 'bg-blue-600' : 'bg-gray-600'}`}
             >
               Streets
-            </button>
+            </div>
           </div>
 
           {/* Layer Toggles */}
-          <div className="space-y-2">
-            <label className="flex items-center space-x-2 text-xs">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--ios-spacing-sm)' }}>
+            <label className="ios-flex" style={{ cursor: 'pointer', gap: 'var(--ios-spacing-sm)' }}>
               <input
                 type="checkbox"
-                checked={showTerrain}
-                onChange={() => {
-                  // Toggle terrain visibility - would need state management
-                }}
-                className="w-3 h-3"
+                checked={localShowTerrain}
+                onChange={(e) => setLocalShowTerrain(e.target.checked)}
+                className="ios-input"
+                style={{ width: '16px', height: '16px', margin: 0 }}
               />
-              <Mountain className="w-3 h-3" />
-              <span>3D Terrain</span>
+              <Mountain className="w-3 h-3" style={{ color: 'var(--ios-blue)' }} />
+              <span className="ios-caption" style={{ margin: 0 }}>3D Terrain</span>
             </label>
             
-            <label className="flex items-center space-x-2 text-xs">
+            <label className="ios-flex" style={{ cursor: 'pointer', gap: 'var(--ios-spacing-sm)' }}>
               <input
                 type="checkbox"
-                checked={showBuildings}
-                onChange={() => {
-                  // Toggle building visibility - would need state management
-                }}
-                className="w-3 h-3"
+                checked={localShowBuildings}
+                onChange={(e) => setLocalShowBuildings(e.target.checked)}
+                className="ios-input"
+                style={{ width: '16px', height: '16px', margin: 0 }}
               />
-              <Building2 className="w-3 h-3" />
-              <span>3D Buildings</span>
+              <Building2 className="w-3 h-3" style={{ color: 'var(--ios-green)' }} />
+              <span className="ios-caption" style={{ margin: 0 }}>3D Buildings</span>
             </label>
             
-            <label className="flex items-center space-x-2 text-xs">
+            <label className="ios-flex" style={{ cursor: 'pointer', gap: 'var(--ios-spacing-sm)' }}>
               <input
                 type="checkbox"
-                checked={showHazards}
-                onChange={() => {
-                  // Toggle hazard visibility - would need state management
-                }}
-                className="w-3 h-3"
+                checked={localShowHazards}
+                onChange={(e) => setLocalShowHazards(e.target.checked)}
+                className="ios-input"
+                style={{ width: '16px', height: '16px', margin: 0 }}
               />
-              <AlertTriangle className="w-3 h-3" />
-              <span>Hazards</span>
+              <AlertTriangle className="w-3 h-3" style={{ color: 'var(--ios-red)' }} />
+              <span className="ios-caption" style={{ margin: 0 }}>Hazards</span>
             </label>
             
-            <label className="flex items-center space-x-2 text-xs">
+            <label className="ios-flex" style={{ cursor: 'pointer', gap: 'var(--ios-spacing-sm)' }}>
               <input
                 type="checkbox"
-                checked={showUnits}
-                onChange={() => {
-                  // Toggle units visibility - would need state management
-                }}
-                className="w-3 h-3"
+                checked={localShowUnits}
+                onChange={(e) => setLocalShowUnits(e.target.checked)}
+                className="ios-input"
+                style={{ width: '16px', height: '16px', margin: 0 }}
               />
-              <Shield className="w-3 h-3" />
-              <span>Units</span>
+              <Shield className="w-3 h-3" style={{ color: 'var(--ios-green)' }} />
+              <span className="ios-caption" style={{ margin: 0 }}>Units</span>
             </label>
             
-            <label className="flex items-center space-x-2 text-xs">
+            <label className="ios-flex" style={{ cursor: 'pointer', gap: 'var(--ios-spacing-sm)' }}>
               <input
                 type="checkbox"
-                checked={showRoutes}
-                onChange={() => {
-                  // Toggle routes visibility - would need state management
-                }}
-                className="w-3 h-3"
+                checked={localShowRoutes}
+                onChange={(e) => setLocalShowRoutes(e.target.checked)}
+                className="ios-input"
+                style={{ width: '16px', height: '16px', margin: 0 }}
               />
-              <MapPin className="w-3 h-3" />
-              <span>Routes</span>
+              <MapPin className="w-3 h-3" style={{ color: 'var(--ios-orange)' }} />
+              <span className="ios-caption" style={{ margin: 0 }}>Routes</span>
             </label>
           </div>
 
@@ -652,23 +658,29 @@ export const Mapbox3DTerrain: React.FC<Mapbox3DTerrainProps> = ({
           <button
             onClick={handleRefresh}
             disabled={isRefreshing}
-            className="flex items-center space-x-2 px-3 py-1 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 rounded text-xs"
+            className="ios-button"
+            style={{ fontSize: '12px', padding: 'var(--ios-spacing-xs) var(--ios-spacing-sm)' }}
           >
-            <RefreshCw className={`w-3 h-3 ${isRefreshing ? 'animate-spin' : ''}`} />
-            <span>Refresh</span>
+            <div className="ios-flex" style={{ gap: 'var(--ios-spacing-xs)' }}>
+              <RefreshCw className={`w-3 h-3 ${isRefreshing ? 'animate-spin' : ''}`} />
+              <span>Refresh</span>
+            </div>
           </button>
         </div>
       </div>
 
       {/* Data Status */}
       {!fusedData && (
-        <div className="absolute bottom-4 left-4 bg-yellow-600 text-white px-4 py-2 rounded-lg text-sm">
-          Loading Foundry data...
+        <div className="ios-card" style={{ position: 'absolute', bottom: 'var(--ios-spacing-md)', left: 'var(--ios-spacing-md)', zIndex: 20, margin: 0, backgroundColor: 'var(--ios-orange)', color: 'white' }}>
+          <div className="ios-flex" style={{ gap: 'var(--ios-spacing-sm)' }}>
+            <div className="ios-spinner" style={{ width: '12px', height: '12px', borderTopColor: 'white' }}></div>
+            <span className="ios-caption" style={{ margin: 0, color: 'white' }}>Loading Foundry data...</span>
+          </div>
         </div>
       )}
 
       {/* Recovery Button */}
-      <div className="absolute bottom-4 left-4 bg-red-600 text-white px-4 py-2 rounded-lg text-sm z-30">
+      <div className="ios-card" style={{ position: 'absolute', bottom: 'var(--ios-spacing-md)', left: 'var(--ios-spacing-md)', zIndex: 30, margin: 0, backgroundColor: 'var(--ios-red)', color: 'white' }}>
         <button
           onClick={() => {
             console.log('Manual map recovery triggered');
@@ -684,33 +696,34 @@ export const Mapbox3DTerrain: React.FC<Mapbox3DTerrainProps> = ({
               initMap();
             }, 500);
           }}
-          className="flex items-center space-x-2"
+          className="ios-flex"
+          style={{ gap: 'var(--ios-spacing-sm)', color: 'white', background: 'none', border: 'none', cursor: 'pointer' }}
         >
           <RefreshCw className="w-4 h-4" />
-          <span>Recover Map</span>
+          <span className="ios-caption" style={{ margin: 0, color: 'white' }}>Recover Map</span>
         </button>
       </div>
 
-      {/* Analytics Panel */}
-      {showAnalytics && (
-        <div className="absolute bottom-4 right-4 bg-black bg-opacity-75 rounded-lg p-4 text-white z-20 max-w-xs">
-          <h3 className="text-sm font-semibold mb-2">Analytics</h3>
-          <div className="space-y-1 text-xs">
-            <div className="flex justify-between">
-              <span>Active Hazards:</span>
-              <span className="font-semibold">{fusedData?.hazards?.active?.length || 0}</span>
+              {/* Analytics Panel */}
+        {showAnalytics && (
+          <div className="ios-card" style={{ position: 'absolute', bottom: 'var(--ios-spacing-md)', right: 'var(--ios-spacing-md)', zIndex: 20, margin: 0, maxWidth: '280px' }}>
+            <h3 className="ios-subheadline" style={{ margin: 0, marginBottom: 'var(--ios-spacing-sm)', color: 'var(--ios-purple)' }}>Analytics</h3>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--ios-spacing-xs)' }}>
+            <div className="ios-flex-between">
+              <span className="ios-caption" style={{ margin: 0 }}>Active Hazards:</span>
+              <span className="ios-caption" style={{ margin: 0, color: 'var(--ios-red)', fontWeight: '600' }}>{fusedData?.hazards?.active?.length || 0}</span>
             </div>
-            <div className="flex justify-between">
-              <span>Available Units:</span>
-              <span className="font-semibold">{fusedData?.units?.available?.length || 0}</span>
+            <div className="ios-flex-between">
+              <span className="ios-caption" style={{ margin: 0 }}>Available Units:</span>
+              <span className="ios-caption" style={{ margin: 0, color: 'var(--ios-green)', fontWeight: '600' }}>{fusedData?.units?.available?.length || 0}</span>
             </div>
-                         <div className="flex justify-between">
-               <span>Safe Routes:</span>
-               <span className="font-semibold">{fusedData?.routes?.safe?.length || 0}</span>
-             </div>
-            <div className="flex justify-between">
-              <span>Response Time:</span>
-              <span className="font-semibold">5min</span>
+            <div className="ios-flex-between">
+              <span className="ios-caption" style={{ margin: 0 }}>Safe Routes:</span>
+              <span className="ios-caption" style={{ margin: 0, color: 'var(--ios-orange)', fontWeight: '600' }}>{fusedData?.routes?.safe?.length || 0}</span>
+            </div>
+            <div className="ios-flex-between">
+              <span className="ios-caption" style={{ margin: 0 }}>Response Time:</span>
+              <span className="ios-caption" style={{ margin: 0, color: 'var(--ios-blue)', fontWeight: '600' }}>5min</span>
             </div>
           </div>
         </div>

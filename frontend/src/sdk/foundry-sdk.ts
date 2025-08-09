@@ -361,18 +361,15 @@ const mockEvacuationRoutes: EvacuationRoute[] = [
 
 // Foundry SDK Client
 class FoundrySDK {
-  private baseUrl: string;
-  private authToken: string | null = null;
-
-  constructor(baseUrl: string = 'https://your-foundry-instance.com') {
-    this.baseUrl = baseUrl;
+  constructor(_baseUrl: string = 'https://your-foundry-instance.com') {
+    // Mock implementation - baseUrl not used
   }
 
-  setAuthToken(token: string) {
-    this.authToken = token;
+  setAuthToken(_token: string) {
+    // Mock implementation - token not used
   }
 
-  private async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
+  private async request<T>(endpoint: string, _options: RequestInit = {}): Promise<T> {
     // For demo purposes, return mock data instead of making real API calls
     console.log(`Mock API call to: ${endpoint}`);
     
