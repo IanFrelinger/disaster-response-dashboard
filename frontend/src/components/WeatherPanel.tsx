@@ -16,12 +16,12 @@ export const WeatherPanel: React.FC<WeatherPanelProps> = ({
   const [expanded, setExpanded] = useState(false);
   const [selectedAlert, setSelectedAlert] = useState<WeatherAlert | null>(null);
 
-  // Fire weather index colors and labels
+  // Fire weather index colors and labels using iOS color system
   const fireIndexConfig = {
-    low: { color: '#4CAF50', label: 'Low', icon: '🟢', description: 'Normal fire behavior' },
-    moderate: { color: '#FF9800', label: 'Moderate', icon: '🟡', description: 'Increased fire potential' },
-    high: { color: '#F44336', label: 'High', icon: '🟠', description: 'High fire potential' },
-    extreme: { color: '#9C27B0', label: 'Extreme', icon: '🟣', description: 'Extreme fire behavior' },
+    low: { color: 'var(--ios-green)', label: 'Low', icon: '🟢', description: 'Normal fire behavior' },
+    moderate: { color: 'var(--ios-orange)', label: 'Moderate', icon: '🟡', description: 'Increased fire potential' },
+    high: { color: 'var(--ios-red)', label: 'High', icon: '🟠', description: 'High fire potential' },
+    extreme: { color: 'var(--ios-purple)', label: 'Extreme', icon: '🟣', description: 'Extreme fire behavior' },
     catastrophic: { color: '#000000', label: 'Catastrophic', icon: '⚫', description: 'Catastrophic fire conditions' }
   };
 
@@ -214,7 +214,9 @@ export const WeatherPanel: React.FC<WeatherPanelProps> = ({
         {/* Wind Impact on Fire */}
         <div className="wind-impact">
           <div className="impact-label">Fire Impact:</div>
-          <div className="impact-value">
+          <div className="impact-value" style={{ 
+            color: weatherData.current.windSpeed > 25 ? 'var(--ios-red)' : 'var(--ios-green)' 
+          }}>
             {weatherData.current.windSpeed > 25 ? '🔥 High spread risk' : '🟢 Normal spread'}
           </div>
         </div>

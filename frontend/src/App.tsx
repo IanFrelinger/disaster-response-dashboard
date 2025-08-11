@@ -319,8 +319,8 @@ function App() {
       <div style={{ minHeight: '100vh', backgroundColor: 'var(--ios-background)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <div className="ios-card large" style={{ textAlign: 'center' }}>
           <div className="ios-spinner large" style={{ margin: '0 auto var(--ios-spacing-lg)' }}></div>
-          <h2 className="ios-headline" style={{ color: 'var(--ios-blue)' }}>Loading Disaster Response Dashboard...</h2>
-          <p className="ios-body">Initializing emergency response systems...</p>
+          <h2 className="ios-headline" style={{ color: 'var(--ios-blue)', margin: 0, marginBottom: 'var(--ios-spacing-lg)' }}>Loading Disaster Response Dashboard...</h2>
+          <p className="ios-body" style={{ color: 'var(--ios-secondary-text)' }}>Initializing emergency response systems...</p>
         </div>
       </div>
     );
@@ -344,8 +344,8 @@ function App() {
       <footer className="ios-toolbar">
         <div className="ios-container">
           <div className="ios-flex-between">
-            <p className="ios-caption" style={{ margin: 0 }}>🚨 Emergency Response System v1.0.0</p>
-            <p className="ios-caption" style={{ margin: 0 }}>Powered by Mapbox & React • Real-time disaster monitoring</p>
+            <p className="ios-caption" style={{ margin: 0, color: 'var(--ios-secondary-text)' }}>🚨 Emergency Response System v1.0.0</p>
+            <p className="ios-caption" style={{ margin: 0, color: 'var(--ios-secondary-text)' }}>Powered by Mapbox & React • Real-time disaster monitoring</p>
           </div>
         </div>
       </footer>
