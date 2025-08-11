@@ -153,30 +153,66 @@ export const EvacuationDashboard: React.FC<EvacuationDashboardProps> = ({
 
   return (
     <div className={`evacuation-dashboard ${className}`}>
-      {/* Header */}
-      <div className="dashboard-header">
-        <h2>🏠 Evacuation Tracking</h2>
-        <div className="view-controls">
-          <button 
-            className={`view-button ${viewMode === 'zones' ? 'active' : ''}`}
-            onClick={() => setViewMode('zones')}
-          >
-            Zones
-          </button>
-          <button 
-            className={`view-button ${viewMode === 'buildings' ? 'active' : ''}`}
-            onClick={() => setViewMode('buildings')}
-            disabled={!selectedZone}
-          >
-            Buildings
-          </button>
-          <button 
-            className={`view-button ${viewMode === 'details' ? 'active' : ''}`}
-            onClick={() => setViewMode('details')}
-            disabled={!selectedBuilding}
-          >
-            Details
-          </button>
+      {/* Enhanced Header - Matching Live Map Style */}
+      <div className="ios-card" style={{ margin: '0 0 var(--ios-spacing-lg) 0' }}>
+        <div className="ios-container" style={{ padding: 0 }}>
+          <div className="ios-flex-between">
+            <div>
+              <h1 className="ios-headline" style={{ color: 'var(--ios-blue)', margin: 0, marginBottom: 'var(--ios-spacing-xs)' }}>
+                🏠 Evacuation Tracking Dashboard
+              </h1>
+              <p className="ios-caption" style={{ margin: 0 }}>
+                Real-time evacuation progress monitoring with zone management and building status tracking
+              </p>
+            </div>
+            
+            <div className="ios-flex" style={{ gap: 'var(--ios-spacing-md)' }}>
+              <div className="ios-flex" style={{ gap: 'var(--ios-spacing-xs)' }}>
+                <span className="ios-caption" style={{ margin: 0, color: 'var(--ios-red)' }}>🚨</span>
+                <span className="ios-caption" style={{ margin: 0 }}>Live Status</span>
+              </div>
+              <div className="ios-flex" style={{ gap: 'var(--ios-spacing-xs)' }}>
+                <span className="ios-caption" style={{ margin: 0, color: 'var(--ios-blue)' }}>📊</span>
+                <span className="ios-caption" style={{ margin: 0 }}>Progress</span>
+              </div>
+              <div className="ios-flex" style={{ gap: 'var(--ios-spacing-xs)' }}>
+                <span className="ios-caption" style={{ margin: 0, color: 'var(--ios-green)' }}>🏢</span>
+                <span className="ios-caption" style={{ margin: 0 }}>Buildings</span>
+              </div>
+              <div className="ios-flex" style={{ gap: 'var(--ios-spacing-xs)' }}>
+                <span className="ios-caption" style={{ margin: 0, color: 'var(--ios-purple)' }}>📍</span>
+                <span className="ios-caption" style={{ margin: 0 }}>Zones</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* View Controls */}
+      <div className="ios-card" style={{ margin: '0 0 var(--ios-spacing-lg) 0' }}>
+        <div className="ios-container" style={{ padding: 0 }}>
+          <div className="ios-flex" style={{ gap: 'var(--ios-spacing-sm)' }}>
+            <button 
+              className={`ios-button ${viewMode === 'zones' ? 'primary' : 'secondary'} small`}
+              onClick={() => setViewMode('zones')}
+            >
+              Zones
+            </button>
+            <button 
+              className={`ios-button ${viewMode === 'buildings' ? 'primary' : 'secondary'} small`}
+              onClick={() => setViewMode('buildings')}
+              disabled={!selectedZone}
+            >
+              Buildings
+            </button>
+            <button 
+              className={`ios-button ${viewMode === 'details' ? 'primary' : 'secondary'} small`}
+              onClick={() => setViewMode('details')}
+              disabled={!selectedBuilding}
+            >
+              Details
+            </button>
+          </div>
         </div>
       </div>
 

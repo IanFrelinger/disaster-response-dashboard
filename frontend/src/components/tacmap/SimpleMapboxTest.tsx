@@ -266,9 +266,11 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
   const [showHazards, setShowHazards] = useState(initialShowHazards);
   const [showUnits, setShowUnits] = useState(initialShowUnits);
   const [showRoutes, setShowRoutes] = useState(initialShowRoutes);
-  const [showBuildings, setShowBuildings] = useState(initialShowBuildings);
-  const [showTerrain, setShowTerrain] = useState(initialShowTerrain);
   const [showAnalytics, setShowAnalytics] = useState(initialShowAnalytics);
+  
+  // 3D Terrain and 3D Buildings are always enabled
+  const showBuildings = true;
+  const showTerrain = true;
 
   // Get Mapbox access token from environment or use fallback
   const getMapboxToken = () => {
@@ -1312,18 +1314,19 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
           </div>
           
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--ios-spacing-sm)' }}>
-            <input
-              type="checkbox"
-              className="terrain-checkbox"
-              checked={showTerrain}
-              onChange={(e) => {
-                setShowTerrain(e.target.checked);
-                console.log('3D Terrain toggled:', e.target.checked);
-              }}
-              style={{ width: '16px', height: '16px' }}
-            />
+            <div style={{ 
+              width: '16px', 
+              height: '16px', 
+              backgroundColor: 'var(--ios-blue)', 
+              borderRadius: '2px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
+              <span style={{ color: 'white', fontSize: '10px' }}>✓</span>
+            </div>
             <span className="ios-caption" style={{ margin: 0, color: '#FFFFFF' }}>
-              3D Terrain {showTerrain ? '✅' : '❌'}
+              3D Terrain ✅ Always On
             </span>
           </div>
           
@@ -1359,17 +1362,19 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
           </div>
           
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--ios-spacing-sm)' }}>
-            <input
-              type="checkbox"
-              checked={showBuildings}
-              onChange={(e) => {
-                setShowBuildings(e.target.checked);
-                console.log('3D Buildings toggled:', e.target.checked);
-              }}
-              style={{ width: '16px', height: '16px' }}
-            />
+            <div style={{ 
+              width: '16px', 
+              height: '16px', 
+              backgroundColor: 'var(--ios-green)', 
+              borderRadius: '2px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
+              <span style={{ color: 'white', fontSize: '10px' }}>✓</span>
+            </div>
             <span className="ios-caption" style={{ margin: 0, color: '#FFFFFF' }}>
-              3D Buildings {showBuildings ? '✅' : '❌'}
+              3D Buildings ✅ Always On
             </span>
           </div>
         </div>
@@ -1422,14 +1427,14 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <span className="ios-caption" style={{ margin: 0, color: '#CCCCCC' }}>Buildings:</span>
             <span className="ios-caption" style={{ margin: 0, color: '#FFFFFF', fontWeight: '600' }}>
-              {showBuildings ? (buildingsAdded ? '25+ Visible' : 'Loading...') : 'Disabled'}
+              {buildingsAdded ? '25+ Visible' : 'Loading...'} ✅ Always On
             </span>
           </div>
           
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <span className="ios-caption" style={{ margin: 0, color: '#CCCCCC' }}>Terrain:</span>
             <span className="ios-caption" style={{ margin: 0, color: '#FFFFFF', fontWeight: '600' }}>
-              {showTerrain ? (terrainAdded ? '3D Enabled' : 'Loading...') : 'Disabled'}
+              {terrainAdded ? '3D Enabled' : 'Loading...'} ✅ Always On
             </span>
           </div>
           
@@ -1442,7 +1447,7 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <span className="ios-caption" style={{ margin: 0, color: '#CCCCCC' }}>Active Features:</span>
               <span className="ios-caption" style={{ margin: 0, color: '#FFFFFF', fontWeight: '600' }}>
-                {[showHazards, showRoutes, showBuildings, showTerrain].filter(Boolean).length}/4
+                {[showHazards, showRoutes].filter(Boolean).length + 2}/4 (3D Terrain & Buildings Always On)
               </span>
             </div>
             <div style={{ 

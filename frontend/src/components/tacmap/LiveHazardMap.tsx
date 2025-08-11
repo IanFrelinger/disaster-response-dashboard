@@ -26,9 +26,10 @@ export const LiveHazardMap: React.FC<LiveHazardMapProps> = ({
   const [showHazards, setShowHazards] = useState(true);
   const [showUnits, setShowUnits] = useState(true);
   const [showRoutes, setShowRoutes] = useState(true);
-  const [showBuildings, setShowBuildings] = useState(true);
-  const [showTerrain, setShowTerrain] = useState(true);
   const [showAnalytics, setShowAnalytics] = useState(true);
+  // 3D Terrain and 3D Buildings are always enabled
+  const showBuildings = true;
+  const showTerrain = true;
   const [isControlPanelOpen, setIsControlPanelOpen] = useState(true);
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
 
@@ -150,29 +151,19 @@ export const LiveHazardMap: React.FC<LiveHazardMapProps> = ({
                       <span className="ios-body" style={{ margin: 0, color: showRoutes ? 'var(--ios-text)' : 'var(--ios-secondary-text)' }}>Evacuation Routes</span>
                     </label>
 
-                    <label className="ios-flex" style={{ cursor: 'pointer', gap: 'var(--ios-spacing-sm)', padding: 'var(--ios-spacing-sm)', borderRadius: 'var(--ios-border-radius-medium)', transition: 'background-color var(--ios-transition-fast)', backgroundColor: showBuildings ? 'rgba(52, 199, 89, 0.1)' : 'transparent' }}>
-                      <input
-                        type="checkbox"
-                        checked={showBuildings}
-                        onChange={(e) => setShowBuildings(e.target.checked)}
-                        className="ios-input"
-                        style={{ width: '16px', height: '16px', margin: 0 }}
-                      />
-                      <Building2 className="w-4 h-4" style={{ color: showBuildings ? 'var(--ios-green)' : 'var(--ios-secondary-text)' }} />
-                      <span className="ios-body" style={{ margin: 0, color: showBuildings ? 'var(--ios-text)' : 'var(--ios-secondary-text)' }}>3D Buildings</span>
-                    </label>
+                    {/* 3D Buildings - Always Enabled */}
+                    <div className="ios-flex" style={{ gap: 'var(--ios-spacing-sm)', padding: 'var(--ios-spacing-sm)', borderRadius: 'var(--ios-border-radius-medium)', backgroundColor: 'rgba(52, 199, 89, 0.1)' }}>
+                      <Building2 className="w-4 h-4" style={{ color: 'var(--ios-green)' }} />
+                      <span className="ios-body" style={{ margin: 0, color: 'var(--ios-text)', fontWeight: '600' }}>3D Buildings</span>
+                      <span className="ios-caption" style={{ margin: 0, color: 'var(--ios-green)', marginLeft: 'auto' }}>Always On</span>
+                    </div>
 
-                    <label className="ios-flex" style={{ cursor: 'pointer', gap: 'var(--ios-spacing-sm)', padding: 'var(--ios-spacing-sm)', borderRadius: 'var(--ios-border-radius-medium)', transition: 'background-color var(--ios-transition-fast)', backgroundColor: showTerrain ? 'rgba(0, 122, 255, 0.1)' : 'transparent' }}>
-                      <input
-                        type="checkbox"
-                        checked={showTerrain}
-                        onChange={(e) => setShowTerrain(e.target.checked)}
-                        className="ios-input"
-                        style={{ width: '16px', height: '16px', margin: 0 }}
-                      />
-                      <Mountain className="w-4 h-4" style={{ color: showTerrain ? 'var(--ios-blue)' : 'var(--ios-secondary-text)' }} />
-                      <span className="ios-body" style={{ margin: 0, color: showTerrain ? 'var(--ios-text)' : 'var(--ios-secondary-text)' }}>3D Terrain</span>
-                    </label>
+                    {/* 3D Terrain - Always Enabled */}
+                    <div className="ios-flex" style={{ gap: 'var(--ios-spacing-sm)', padding: 'var(--ios-spacing-sm)', borderRadius: 'var(--ios-border-radius-medium)', backgroundColor: 'rgba(0, 122, 255, 0.1)' }}>
+                      <Mountain className="w-4 h-4" style={{ color: 'var(--ios-blue)' }} />
+                      <span className="ios-body" style={{ margin: 0, color: 'var(--ios-text)', fontWeight: '600' }}>3D Terrain</span>
+                      <span className="ios-caption" style={{ margin: 0, color: 'var(--ios-blue)', marginLeft: 'auto' }}>Always On</span>
+                    </div>
 
                     <label className="ios-flex" style={{ cursor: 'pointer', gap: 'var(--ios-spacing-sm)', padding: 'var(--ios-spacing-sm)', borderRadius: 'var(--ios-border-radius-medium)', transition: 'background-color var(--ios-transition-fast)', backgroundColor: showAnalytics ? 'rgba(88, 86, 214, 0.1)' : 'transparent' }}>
                       <input
@@ -219,24 +210,22 @@ export const LiveHazardMap: React.FC<LiveHazardMapProps> = ({
                         <div style={{ 
                           width: '8px', 
                           height: '8px', 
-                          backgroundColor: showBuildings ? 'var(--ios-green)' : 'var(--ios-light-gray)', 
-                          borderRadius: '50%',
-                          transition: 'background-color var(--ios-transition-fast)'
+                          backgroundColor: 'var(--ios-green)', 
+                          borderRadius: '50%'
                         }}></div>
-                        <span className="ios-caption" style={{ margin: 0, color: showBuildings ? 'var(--ios-text)' : 'var(--ios-secondary-text)' }}>
-                          Buildings: {showBuildings ? 'Visible' : 'Hidden'}
+                        <span className="ios-caption" style={{ margin: 0, color: 'var(--ios-text)' }}>
+                          Buildings: 3D Always Enabled
                         </span>
                       </div>
                       <div className="ios-flex" style={{ alignItems: 'center', gap: 'var(--ios-spacing-xs)' }}>
                         <div style={{ 
                           width: '8px', 
                           height: '8px', 
-                          backgroundColor: showTerrain ? 'var(--ios-blue)' : 'var(--ios-light-gray)', 
-                          borderRadius: '50%',
-                          transition: 'background-color var(--ios-transition-fast)'
+                          backgroundColor: 'var(--ios-blue)', 
+                          borderRadius: '50%'
                         }}></div>
-                        <span className="ios-caption" style={{ margin: 0, color: showTerrain ? 'var(--ios-text)' : 'var(--ios-secondary-text)' }}>
-                          Terrain: {showTerrain ? '3D Enabled' : '2D Only'}
+                        <span className="ios-caption" style={{ margin: 0, color: 'var(--ios-text)' }}>
+                          Terrain: 3D Always Enabled
                         </span>
                       </div>
                     </div>
