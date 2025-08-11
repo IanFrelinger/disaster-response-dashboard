@@ -90,22 +90,58 @@ export const BuildingEvacuationTracker: React.FC<BuildingEvacuationTrackerProps>
 
   return (
     <div className={`building-evacuation-tracker ${className}`}>
-      {/* Header */}
-      <div className="tracker-header">
-        <h3>🏠 Building Evacuation Tracking</h3>
-        <div className="view-toggle">
-          <button 
-            className={viewMode === 'zones' ? 'active' : ''}
-            onClick={() => setViewMode('zones')}
-          >
-            Zone Overview
-          </button>
-          <button 
-            className={viewMode === 'buildings' ? 'active' : ''}
-            onClick={() => setViewMode('buildings')}
-          >
-            Building Details
-          </button>
+      {/* Enhanced Header - Matching Live Map Style */}
+      <div className="ios-card" style={{ margin: '0 0 var(--ios-spacing-lg) 0' }}>
+        <div className="ios-container" style={{ padding: 0 }}>
+          <div className="ios-flex-between">
+            <div>
+              <h1 className="ios-headline" style={{ color: 'var(--ios-blue)', margin: 0, marginBottom: 'var(--ios-spacing-xs)' }}>
+                🏠 Building Evacuation Tracker
+              </h1>
+              <p className="ios-caption" style={{ margin: 0 }}>
+                Detailed building-level evacuation tracking with zone management and status updates
+              </p>
+            </div>
+            
+            <div className="ios-flex" style={{ gap: 'var(--ios-spacing-md)' }}>
+              <div className="ios-flex" style={{ gap: 'var(--ios-spacing-xs)' }}>
+                <span className="ios-caption" style={{ margin: 0, color: 'var(--ios-red)' }}>🏢</span>
+                <span className="ios-caption" style={{ margin: 0 }}>Buildings</span>
+              </div>
+              <div className="ios-flex" style={{ gap: 'var(--ios-spacing-xs)' }}>
+                <span className="ios-caption" style={{ margin: 0, color: 'var(--ios-blue)' }}>📍</span>
+                <span className="ios-caption" style={{ margin: 0 }}>Zones</span>
+              </div>
+              <div className="ios-flex" style={{ gap: 'var(--ios-spacing-xs)' }}>
+                <span className="ios-caption" style={{ margin: 0, color: 'var(--ios-green)' }}>📊</span>
+                <span className="ios-caption" style={{ margin: 0 }}>Progress</span>
+              </div>
+              <div className="ios-flex" style={{ gap: 'var(--ios-spacing-xs)' }}>
+                <span className="ios-caption" style={{ margin: 0, color: 'var(--ios-purple)' }}>⏰</span>
+                <span className="ios-caption" style={{ margin: 0 }}>Timeline</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* View Controls */}
+      <div className="ios-card" style={{ margin: '0 0 var(--ios-spacing-lg) 0' }}>
+        <div className="ios-container" style={{ padding: 0 }}>
+          <div className="ios-flex" style={{ gap: 'var(--ios-spacing-sm)' }}>
+            <button 
+              className={`ios-button ${viewMode === 'zones' ? 'primary' : 'secondary'} small`}
+              onClick={() => setViewMode('zones')}
+            >
+              Zone Overview
+            </button>
+            <button 
+              className={`ios-button ${viewMode === 'buildings' ? 'primary' : 'secondary'} small`}
+              onClick={() => setViewMode('buildings')}
+            >
+              Building Details
+            </button>
+          </div>
         </div>
       </div>
 

@@ -106,15 +106,48 @@ export const WeatherPanel: React.FC<WeatherPanelProps> = ({
 
   return (
     <div className={`weather-panel ${className} ${isCriticalConditions ? 'critical' : ''}`}>
-      {/* Header */}
-      <div className="weather-header">
-        <h3>🌤️ Weather Conditions</h3>
-        <button 
-          className="expand-button"
-          onClick={() => setExpanded(!expanded)}
-        >
-          {expanded ? '−' : '+'}
-        </button>
+      {/* Enhanced Header - Matching Live Map Style */}
+      <div className="ios-card" style={{ margin: '0 0 var(--ios-spacing-lg) 0' }}>
+        <div className="ios-container" style={{ padding: 0 }}>
+          <div className="ios-flex-between">
+            <div>
+              <h1 className="ios-headline" style={{ color: 'var(--ios-blue)', margin: 0, marginBottom: 'var(--ios-spacing-xs)' }}>
+                🌤️ Weather Conditions & Fire Risk
+              </h1>
+              <p className="ios-caption" style={{ margin: 0 }}>
+                Real-time weather monitoring with fire behavior prediction and emergency alerts
+              </p>
+            </div>
+            
+            <div className="ios-flex" style={{ gap: 'var(--ios-spacing-md)' }}>
+              <button 
+                className="ios-button secondary small"
+                onClick={() => setExpanded(!expanded)}
+                style={{ display: 'flex', alignItems: 'center', gap: 'var(--ios-spacing-xs)' }}
+              >
+                {expanded ? '−' : '+'}
+                {expanded ? 'Collapse' : 'Expand'}
+              </button>
+              
+              <div className="ios-flex" style={{ gap: 'var(--ios-spacing-xs)' }}>
+                <span className="ios-caption" style={{ margin: 0, color: 'var(--ios-red)' }}>🌡️</span>
+                <span className="ios-caption" style={{ margin: 0 }}>Temperature</span>
+              </div>
+              <div className="ios-flex" style={{ gap: 'var(--ios-spacing-xs)' }}>
+                <span className="ios-caption" style={{ margin: 0, color: 'var(--ios-blue)' }}>💨</span>
+                <span className="ios-caption" style={{ margin: 0 }}>Wind</span>
+              </div>
+              <div className="ios-flex" style={{ gap: 'var(--ios-spacing-xs)' }}>
+                <span className="ios-caption" style={{ margin: 0, color: 'var(--ios-orange)' }}>🔥</span>
+                <span className="ios-caption" style={{ margin: 0 }}>Fire Risk</span>
+              </div>
+              <div className="ios-flex" style={{ gap: 'var(--ios-spacing-xs)' }}>
+                <span className="ios-caption" style={{ margin: 0, color: 'var(--ios-purple)' }}>⚠️</span>
+                <span className="ios-caption" style={{ margin: 0 }}>Alerts</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Current Conditions */}

@@ -268,7 +268,7 @@ function App() {
     switch (activeView) {
       case 'dashboard':
         return (
-          <div className="ios-card large">
+          <div className="ios-card large" style={{ padding: 0, overflow: 'hidden', minHeight: '600px' }}>
             <EvacuationDashboard
               zones={mockEvacuationZones}
               buildings={mockBuildings}
@@ -290,14 +290,14 @@ function App() {
       
       case 'weather':
         return (
-          <div className="ios-card large">
+          <div className="ios-card large" style={{ padding: 0, overflow: 'hidden', minHeight: '600px' }}>
             <WeatherPanel weatherData={mockWeatherData} />
           </div>
         );
       
       case 'buildings':
         return (
-          <div className="ios-card large">
+          <div className="ios-card large" style={{ padding: 0, overflow: 'hidden', minHeight: '600px' }}>
             <BuildingEvacuationTracker 
               zones={mockEvacuationZones}
               buildings={mockBuildings}
@@ -307,7 +307,7 @@ function App() {
       
       default:
         return (
-          <div className="ios-card large">
+          <div className="ios-card large" style={{ padding: 0, overflow: 'hidden', minHeight: '600px' }}>
             <ChallengeDemo />
           </div>
         );
