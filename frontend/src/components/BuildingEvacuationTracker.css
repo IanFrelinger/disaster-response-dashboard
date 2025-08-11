@@ -1,0 +1,604 @@
+/* Building Evacuation Tracker Styles */
+.building-evacuation-tracker {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.tracker-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #e9ecef;
+}
+
+.tracker-header h3 {
+  margin: 0;
+  color: #2c3e50;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.view-toggle {
+  display: flex;
+  gap: 10px;
+}
+
+.view-toggle button {
+  padding: 8px 16px;
+  border: 2px solid #dee2e6;
+  background: white;
+  color: #6c757d;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.view-toggle button:hover {
+  border-color: #007bff;
+  color: #007bff;
+}
+
+.view-toggle button.active {
+  background: #007bff;
+  border-color: #007bff;
+  color: white;
+}
+
+/* Zones Overview */
+.zones-overview h4,
+.buildings-detail h4 {
+  margin: 0 0 20px 0;
+  color: #2c3e50;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.zones-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.zone-card {
+  background: white;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.zone-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.zone-card.immediate {
+  border-left-color: #dc3545;
+}
+
+.zone-card.warning {
+  border-left-color: #fd7e14;
+}
+
+.zone-card.standby {
+  border-left-color: #ffc107;
+}
+
+.zone-card.all_clear {
+  border-left-color: #28a745;
+}
+
+.zone-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.zone-header h5 {
+  margin: 0;
+  color: #2c3e50;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.priority-badge {
+  padding: 4px 8px;
+  border-radius: 4px;
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.zone-progress {
+  margin-bottom: 20px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: #e9ecef;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.progress-fill {
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.progress-stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.progress-stats .percentage {
+  font-weight: 700;
+  color: #2c3e50;
+  font-size: 1.1rem;
+}
+
+.progress-stats .counts {
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+.zone-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.detail-item .label {
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+.detail-item .value {
+  color: #2c3e50;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+/* Buildings Detail */
+.buildings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 15px;
+}
+
+.building-card {
+  background: white;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  padding: 15px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.building-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.building-card.evacuated {
+  border-left-color: #28a745;
+  background: #f8fff9;
+}
+
+.building-card.not-evacuated {
+  border-left-color: #ffc107;
+  background: #fffbf0;
+}
+
+.building-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.building-header h6 {
+  margin: 0;
+  color: #2c3e50;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.status-badge {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-badge.evacuated {
+  background: #d4edda;
+  color: #155724;
+}
+
+.status-badge.not-evacuated {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.building-info {
+  margin-bottom: 12px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.info-row .label {
+  color: #6c757d;
+  font-size: 0.85rem;
+}
+
+.info-row .value {
+  color: #2c3e50;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.info-row.special-needs .value {
+  color: #e74c3c;
+}
+
+.building-notes {
+  background: #f8f9fa;
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 0.85rem;
+  color: #495057;
+  font-style: italic;
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 12px;
+  max-width: 600px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 25px;
+  border-bottom: 2px solid #e9ecef;
+}
+
+.modal-header h3 {
+  margin: 0;
+  color: #2c3e50;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.modal-header button {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #6c757d;
+  cursor: pointer;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.modal-header button:hover {
+  background: #f8f9fa;
+  color: #2c3e50;
+}
+
+.zone-detail-content,
+.building-detail-content {
+  padding: 25px;
+}
+
+/* Zone Progress Detail */
+.zone-progress-detail h4,
+.zone-assignments h4,
+.zone-timeline h4,
+.building-status h4,
+.building-details h4,
+.special-needs-section h4,
+.notes-section h4 {
+  margin: 0 0 15px 0;
+  color: #2c3e50;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.progress-breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+.progress-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background: #f8f9fa;
+  border-radius: 6px;
+}
+
+.progress-item .status {
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 4px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.progress-item .status.evacuated {
+  background: #d4edda;
+  color: #155724;
+}
+
+.progress-item .status.in-progress {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.progress-item .status.refused {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.progress-item .status.no-contact {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.progress-item .status.unchecked {
+  background: #e2e3e5;
+  color: #383d41;
+}
+
+.progress-item .count {
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.progress-item .percentage {
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+.units-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 25px;
+}
+
+.unit-item {
+  background: #e3f2fd;
+  color: #1565c0;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.timeline-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.timeline-item:last-child {
+  border-bottom: none;
+}
+
+.timeline-item .time {
+  font-weight: 600;
+  color: #007bff;
+  min-width: 80px;
+}
+
+.timeline-item .event {
+  color: #2c3e50;
+}
+
+/* Building Detail Content */
+.building-status {
+  margin-bottom: 25px;
+}
+
+.status-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.status-btn {
+  padding: 8px 16px;
+  border: 2px solid #dee2e6;
+  background: white;
+  color: #6c757d;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.status-btn:hover {
+  border-color: #007bff;
+  color: #007bff;
+}
+
+.status-btn.active {
+  background: #007bff;
+  border-color: #007bff;
+  color: white;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.detail-grid .detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.detail-grid .detail-item .label {
+  font-size: 0.85rem;
+  color: #6c757d;
+}
+
+.detail-grid .detail-item .value {
+  font-size: 1rem;
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+.detail-grid .detail-item .value.intact {
+  color: #28a745;
+}
+
+.detail-grid .detail-item .value.damaged {
+  color: #ffc107;
+}
+
+.detail-grid .detail-item .value.unsafe {
+  color: #fd7e14;
+}
+
+.detail-grid .detail-item .value.destroyed {
+  color: #dc3545;
+}
+
+.needs-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 25px;
+}
+
+.need-item {
+  background: #fff3cd;
+  color: #856404;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.notes-content {
+  background: #f8f9fa;
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 15px;
+  color: #495057;
+  font-style: italic;
+}
+
+.notes-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: #6c757d;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .tracker-header {
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-start;
+  }
+  
+  .zones-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .buildings-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .modal-content {
+    width: 95%;
+    margin: 20px;
+  }
+  
+  .zone-detail-content,
+  .building-detail-content {
+    padding: 20px;
+  }
+  
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .timeline-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+  
+  .notes-meta {
+    flex-direction: column;
+    gap: 5px;
+  }
+}

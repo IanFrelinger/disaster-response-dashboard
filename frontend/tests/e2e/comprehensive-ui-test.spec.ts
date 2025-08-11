@@ -54,14 +54,16 @@ test.describe('Comprehensive UI Tests', () => {
     const nav = page.locator('nav');
     await expect(nav).toBeVisible();
     
-    // Check for main navigation items
-    const navItems = ['Home', 'Map', 'Dashboard', 'Analytics'];
+    // Check for main navigation items - updated to match current navigation structure
+    const navItems = ['📊 Dashboard', '🗺️ Live Map', '🌤️ Weather', '🏢 Buildings'];
     for (const item of navItems) {
       const navItem = page.locator(`text=${item}`);
-      if (await navItem.isVisible()) {
-        await expect(navItem).toBeVisible();
-      }
+      await expect(navItem).toBeVisible();
     }
+    
+    // Verify the navigation control is visible
+    const segmentedControl = page.locator('.ios-segmented-control');
+    await expect(segmentedControl).toBeVisible();
   });
 
   test('should load map component correctly', async ({ page }) => {

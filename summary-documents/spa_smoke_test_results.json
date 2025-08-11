@@ -1,0 +1,110 @@
+{
+  "timestamp": "2025-08-10T23:29:21.572336",
+  "total_pages": 3,
+  "passed_pages": 3,
+  "failed_pages": 0,
+  "error_pages": 0,
+  "total_checks": 30,
+  "passed_checks": 27,
+  "page_success_rate": 100.0,
+  "check_success_rate": 90.0,
+  "additional_tests_passed": 2,
+  "total_additional_tests": 3,
+  "page_results": [
+    {
+      "page": "Home Page",
+      "url": "http://localhost:3000/",
+      "status": "PASS",
+      "response_time_ms": 1.93,
+      "content_length": 474,
+      "checks": [
+        "\u2705 HTML structure found",
+        "\u2705 Title found: Disaster Response Dashboard",
+        "\u2705 React root div found",
+        "\u2705 1 JavaScript modules found",
+        "\u2705 Script: /assets/index-4t9oQwDw.js",
+        "\u2705 1 stylesheets found",
+        "\u2705 CSS: /assets/index-BFMjp1Lm.css",
+        "\u2705 Viewport meta tag found",
+        "\u2705 Charset meta tag found",
+        "\u274c Content too short: 474 bytes"
+      ],
+      "failed_checks": 1,
+      "total_checks": 10
+    },
+    {
+      "page": "Field View",
+      "url": "http://localhost:3000/field",
+      "status": "PASS",
+      "response_time_ms": 2.27,
+      "content_length": 474,
+      "checks": [
+        "\u2705 HTML structure found",
+        "\u2705 Title found: Disaster Response Dashboard",
+        "\u2705 React root div found",
+        "\u2705 1 JavaScript modules found",
+        "\u2705 Script: /assets/index-4t9oQwDw.js",
+        "\u2705 1 stylesheets found",
+        "\u2705 CSS: /assets/index-BFMjp1Lm.css",
+        "\u2705 Viewport meta tag found",
+        "\u2705 Charset meta tag found",
+        "\u274c Content too short: 474 bytes"
+      ],
+      "failed_checks": 1,
+      "total_checks": 10
+    },
+    {
+      "page": "Command View",
+      "url": "http://localhost:3000/command",
+      "status": "PASS",
+      "response_time_ms": 1.4,
+      "content_length": 474,
+      "checks": [
+        "\u2705 HTML structure found",
+        "\u2705 Title found: Disaster Response Dashboard",
+        "\u2705 React root div found",
+        "\u2705 1 JavaScript modules found",
+        "\u2705 Script: /assets/index-4t9oQwDw.js",
+        "\u2705 1 stylesheets found",
+        "\u2705 CSS: /assets/index-BFMjp1Lm.css",
+        "\u2705 Viewport meta tag found",
+        "\u2705 Charset meta tag found",
+        "\u274c Content too short: 474 bytes"
+      ],
+      "failed_checks": 1,
+      "total_checks": 10
+    }
+  ],
+  "asset_result": {
+    "test": "Asset Loading",
+    "status": "FAIL",
+    "checks": [
+      "\u274c Main JS bundle: 404 (153 bytes)",
+      "\u274c Main CSS bundle: 404 (153 bytes)",
+      "\u274c Vendor bundle: 404 (153 bytes)"
+    ],
+    "failed_checks": 3
+  },
+  "api_result": {
+    "test": "API Endpoints",
+    "status": "PASS",
+    "results": [
+      "\u2705 Health: OK (103 chars)",
+      "\u2705 Dashboard: OK (22256 chars)",
+      "\u2705 Hazards: OK (14109 chars)",
+      "\u2705 Routes: OK (5332 chars)"
+    ],
+    "failed_checks": 0
+  },
+  "routing_result": {
+    "test": "SPA Routing",
+    "status": "PASS",
+    "results": [
+      "\u2705 Home: SPA shell returned",
+      "\u2705 Field View: SPA shell returned",
+      "\u2705 Command View: SPA shell returned",
+      "\u2705 Non-existent: SPA shell returned"
+    ],
+    "failed_checks": 0
+  }
+}

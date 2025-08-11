@@ -1,356 +1,256 @@
-# Terrain3DViewer Component
-
-A reusable, configurable, and extensible 3D terrain visualization component with Johnny Ive-inspired design.
+# Disaster Response 3D Terrain Integration
 
 ## Overview
 
-The `Terrain3DViewer` component provides a complete 3D terrain visualization experience with built-in controls, location presets, and interactive features. It's designed to be highly configurable and can be used across multiple pages in the project.
+The Disaster Response 3D system provides a comprehensive, terrain-aware visualization platform for emergency operations. It integrates real-time hazard data, building evacuation status, operational routes, and emergency units into a unified 3D operational environment.
 
-## Features
+## Key Features
 
-- **🎨 Johnny Ive Design**: Minimalist, elegant interface with smooth animations
-- **⚙️ Fully Configurable**: Toggle any UI element on/off
-- **📍 Location Presets**: Customizable location presets with categories
-- **🏗️ Terrain Features**: Configurable feature lists with icons and descriptions
-- **🎮 Interactive Controls**: Elevation control, location selection, and instructions
-- **📱 Responsive**: Mobile-friendly with touch-optimized interactions
-- **♿ Accessible**: WCAG AA compliant with keyboard navigation
-- **🎯 Reusable**: Works in any container with flexible sizing
-- **🔧 Extensible**: Custom components and callbacks for advanced use cases
+### 🏔️ **3D Terrain Integration**
+- **Terrain-Aware Hazards**: All fire, flood, and smoke visualizations follow actual terrain contours
+- **Elevation-Based Rendering**: Buildings, routes, and hazards are positioned relative to real terrain height
+- **Dynamic Height Calculation**: Automatic terrain height queries for realistic 3D positioning
 
-## Basic Usage
+### 🔥 **Dynamic Hazard Visualization**
+- **3D Fire Volumes**: Fire hazards rendered as 3D extrusions with intensity-based coloring
+- **Smoke Plume Modeling**: Realistic smoke visualization that rises from terrain and follows wind patterns
+- **Flood Terrain Following**: Water levels that follow terrain contours for realistic flood representation
+- **Prediction Timeline**: Time-based hazard progression (0-3 hours) with visual indicators
 
-```tsx
-import { Terrain3DViewer } from './components/tacmap/Terrain3DViewer';
+### 🏢 **Building-Level Evacuation Tracking**
+- **3D Building Extrusion**: Buildings rendered as 3D objects with height based on type and status
+- **Evacuation Status Visualization**: Color-coded buildings (Green=Evacuated, Yellow=In Progress, Red=No Contact)
+- **Special Needs Highlighting**: Buildings with special needs shown at increased height
+- **Interactive Popups**: Click any building for detailed evacuation information and actions
 
-function MyPage() {
-  return (
-    <Terrain3DViewer
-      title="My 3D Terrain View"
-      subtitle="Custom terrain visualization"
-      onTerrainLoad={() => console.log('Terrain loaded')}
-    />
-  );
-}
-```
+### 🛣️ **3D Route Visualization**
+- **Terrain-Following Routes**: All evacuation and response routes follow terrain elevation
+- **Route Type Differentiation**: Color-coded routes by purpose (Green=Civilian, Blue=EMS, Red=Fire, Orange=Police)
+- **Dynamic Styling**: Active routes shown with enhanced visibility and animated patterns
+- **Waypoint Markers**: Elevated markers at key route points for tactical planning
 
-## Advanced Usage
+### 🌪️ **Weather Integration**
+- **Wind Particle System**: 3D wind visualization with terrain-following particles
+- **Fire Weather Index**: Real-time fire danger assessment with visual indicators
+- **Red Flag Warnings**: Prominent alerts for extreme fire conditions
+- **Wind Direction Compass**: Visual wind direction and speed indicators
 
-```tsx
-import { Terrain3DViewer, LocationPreset, TerrainFeature } from './components/tacmap/Terrain3DViewer';
+### 🚒 **Emergency Unit Management**
+- **3D Unit Positioning**: All emergency units positioned above terrain with realistic heights
+- **Status-Based Visibility**: Units filtered by deployment status at different zoom levels
+- **Interactive Unit Info**: Click any unit for detailed status and capability information
+- **Real-Time Updates**: Live unit location and status updates
 
-function CustomTerrainPage() {
-  const customLocations: LocationPreset[] = [
-    {
-      id: 'my-location',
-      name: 'My Location',
-      coords: [-122.4194, 37.7749],
-      description: 'Custom location description',
-      category: 'custom'
-    }
-  ];
+### 📊 **Enhanced HUD Overlay**
+- **Evacuation Progress**: Real-time evacuation completion tracking with visual progress bars
+- **Resource Tracker**: Comprehensive unit status and deployment information
+- **Weather Widget**: Current conditions with fire danger and wind information
+- **Prediction Status**: Timeline-based hazard progression indicators
 
-  const customFeatures: TerrainFeature[] = [
-    {
-      id: 'custom-feature',
-      icon: '🏢',
-      title: 'Custom Feature',
-      description: 'Custom feature description',
-      color: 'text-accent-blue',
-      category: 'custom'
-    }
-  ];
+### 🎛️ **Operational Controls**
+- **Layer Management**: Toggle visibility of all disaster response layers
+- **Camera Presets**: Quick navigation to operational views (Overview, Tactical, Inspection, Routing)
+- **Time Control**: Interactive timeline for hazard prediction visualization
+- **Quick Actions**: One-click access to common emergency operations
 
-  return (
-    <Terrain3DViewer
-      title="Custom Terrain View"
-      subtitle="Highly customized visualization"
-      locationPresets={customLocations}
-      terrainFeatures={customFeatures}
-      defaultLocationPresets={false}
-      defaultFeatures={false}
-      showHeader={true}
-      showControls={true}
-      showInfoPanel={true}
-      onLocationChange={(coords, preset) => {
-        console.log('Location changed:', preset.name);
-      }}
-      onElevationChange={(elevation) => {
-        console.log('Elevation changed:', elevation);
-      }}
-    />
-  );
-}
-```
+## Technical Architecture
 
-## Props Reference
+### **Performance Optimization**
+- **LOD System**: Level-of-detail rendering based on zoom level
+- **Dynamic Filtering**: Route and unit visibility optimized for different zoom levels
+- **Terrain Query Optimization**: Efficient elevation queries with fallback handling
+- **Particle Density Control**: Wind particle count adjusted based on zoom and performance
 
-### Core Configuration
+### **3D Rendering Features**
+- **Fill Extrusion**: 3D hazard volumes with terrain integration
+- **Line Rendering**: Elevated routes with terrain following
+- **Point Markers**: 3D positioned units and waypoints
+- **Custom Shaders**: Enhanced visual effects for critical information
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `title` | `string` | `'3D Terrain Visualization'` | Main title displayed in header |
-| `subtitle` | `string` | `'Real-time heightmap rendering...'` | Subtitle displayed in header |
-| `initialLocation` | `[number, number]` | `[-122.4194, 37.7749]` | Initial map center coordinates |
-| `initialElevation` | `number` | `1.5` | Initial elevation multiplier |
-| `initialZoom` | `number` | `12` | Initial zoom level |
-
-### Location Presets
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `locationPresets` | `LocationPreset[]` | `DEFAULT_LOCATION_PRESETS` | Custom location presets |
-| `defaultLocationPresets` | `boolean` | `true` | Use default location presets |
-
-### Features and Instructions
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `terrainFeatures` | `TerrainFeature[]` | `DEFAULT_TERRAIN_FEATURES` | Custom terrain features |
-| `controlInstructions` | `ControlInstruction[]` | `DEFAULT_CONTROL_INSTRUCTIONS` | Custom control instructions |
-| `defaultFeatures` | `boolean` | `true` | Use default terrain features |
-| `defaultInstructions` | `boolean` | `true` | Use default control instructions |
-
-### UI Configuration
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `showHeader` | `boolean` | `true` | Show/hide the header |
-| `showControls` | `boolean` | `true` | Show/hide the controls panel |
-| `showInfoPanel` | `boolean` | `true` | Show/hide the info panel |
-| `showLocationPresets` | `boolean` | `true` | Show/hide location presets |
-| `showElevationControl` | `boolean` | `true` | Show/hide elevation control |
-| `showFeaturesList` | `boolean` | `true` | Show/hide features list |
-| `showInstructions` | `boolean` | `true` | Show/hide control instructions |
-
-### Styling and Layout
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `className` | `string` | `''` | Additional CSS classes for main container |
-| `headerClassName` | `string` | `''` | Additional CSS classes for header |
-| `controlsClassName` | `string` | `''` | Additional CSS classes for controls |
-| `infoPanelClassName` | `string` | `''` | Additional CSS classes for info panel |
-| `terrainClassName` | `string` | `''` | Additional CSS classes for terrain container |
-
-### Callbacks
-
-| Prop | Type | Description |
-|------|------|-------------|
-| `onLocationChange` | `(coords: [number, number], preset: LocationPreset) => void` | Called when location changes |
-| `onElevationChange` | `(elevation: number) => void` | Called when elevation changes |
-| `onTerrainLoad` | `() => void` | Called when terrain finishes loading |
-| `onReset` | `() => void` | Called when view is reset |
-
-### Custom Components
-
-| Prop | Type | Description |
-|------|------|-------------|
-| `customHeader` | `ReactNode` | Custom header component |
-| `customControls` | `ReactNode` | Custom controls component |
-| `customInfoPanel` | `ReactNode` | Custom info panel component |
-
-### Advanced Configuration
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `enableAnimations` | `boolean` | `true` | Enable/disable animations |
-| `enableHoverEffects` | `boolean` | `true` | Enable/disable hover effects |
-| `enableKeyboardControls` | `boolean` | `true` | Enable/disable keyboard controls |
-| `enableTouchControls` | `boolean` | `true` | Enable/disable touch controls |
-
-### Accessibility
-
-| Prop | Type | Description |
-|------|------|-------------|
-| `ariaLabel` | `string` | Custom ARIA label |
-| `ariaDescription` | `string` | Custom ARIA description |
-
-## Type Definitions
-
-### LocationPreset
-
-```tsx
-interface LocationPreset {
-  id: string;
-  name: string;
-  coords: [number, number];
-  description: string;
-  category?: string;
-}
-```
-
-### TerrainFeature
-
-```tsx
-interface TerrainFeature {
-  id: string;
-  icon: string;
-  title: string;
-  description: string;
-  color: string;
-  category?: string;
-}
-```
-
-### ControlInstruction
-
-```tsx
-interface ControlInstruction {
-  id: string;
-  text: string;
-  category?: string;
-}
-```
+### **Data Integration**
+- **Real-Time Updates**: Live data integration for all disaster response elements
+- **Terrain Queries**: Automatic elevation calculation for all 3D features
+- **Coordinate Systems**: Seamless integration with Mapbox GL JS
+- **Type Safety**: Full TypeScript support with comprehensive type definitions
 
 ## Usage Examples
 
-### Minimal Configuration
+### **Basic Setup**
+```typescript
+import { DisasterResponse3D } from './components/tacmap/DisasterResponse3D';
 
-```tsx
-<Terrain3DViewer
-  showControls={false}
-  showInfoPanel={false}
-  showHeader={false}
+<DisasterResponse3D
+  map={mapboxMap}
+  hazards={activeHazards}
+  weather={currentWeather}
+  buildings={buildingData}
+  evacuationZones={evacuationData}
+  routes={operationalRoutes}
+  units={emergencyUnits}
+  onHazardClick={handleHazardSelection}
+  onBuildingClick={handleBuildingSelection}
+  onRouteClick={handleRouteSelection}
+  onUnitClick={handleUnitSelection}
 />
 ```
 
-### Custom Location Presets
+### **Camera Control**
+```typescript
+// Navigate to tactical view
+flyToPreset('tactical');
 
-```tsx
-const myLocations: LocationPreset[] = [
-  {
-    id: 'home',
-    name: 'Home',
-    coords: [-122.4194, 37.7749],
-    description: 'My home location',
-    category: 'personal'
-  }
-];
-
-<Terrain3DViewer
-  locationPresets={myLocations}
-  defaultLocationPresets={false}
-/>
+// Custom camera positioning
+map.flyTo({
+  center: [longitude, latitude],
+  zoom: 14,
+  pitch: 60,
+  bearing: windDirection - 180
+});
 ```
 
-### Embedded in Layout
+### **Layer Management**
+```typescript
+// Toggle specific layers
+toggleLayer('fire');
+toggleLayer('buildings');
+toggleLayer('routes');
 
-```tsx
-<div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-  <div className="lg:col-span-2">
-    <Terrain3DViewer
-      showHeader={false}
-      className="h-96"
-      terrainClassName="h-full"
-    />
-  </div>
-  <div className="lg:col-span-1">
-    {/* Sidebar content */}
-  </div>
-</div>
+// Show/hide HUD
+setShowHUD(!showHUD);
 ```
 
-### Custom Callbacks
+### **Time-Based Predictions**
+```typescript
+// Enable predictions
+setShowPredictions(true);
 
-```tsx
-<Terrain3DViewer
-  onLocationChange={(coords, preset) => {
-    // Update external state
-    setCurrentLocation(preset);
-    // Send analytics
-    analytics.track('location_changed', { location: preset.name });
-  }}
-  onElevationChange={(elevation) => {
-    // Update external state
-    setCurrentElevation(elevation);
-    // Trigger external actions
-    updateBuildingHeights(elevation);
-  }}
-  onTerrainLoad={() => {
-    // Show loading complete
-    setLoading(false);
-    // Initialize additional features
-    initializeCustomFeatures();
-  }}
-/>
+// Set prediction timeline
+setPredictionTime(90); // 90 minutes from now
 ```
 
-## Best Practices
+## Data Requirements
 
-### 1. Performance Optimization
-
-- Use `enableAnimations={false}` for embedded views in lists
-- Disable unused UI elements to reduce render overhead
-- Use `useCallback` for custom event handlers
-
-### 2. Accessibility
-
-- Always provide meaningful `ariaLabel` and `ariaDescription`
-- Test keyboard navigation thoroughly
-- Ensure sufficient color contrast for custom themes
-
-### 3. Mobile Optimization
-
-- Test touch interactions on various devices
-- Consider disabling hover effects on mobile (`enableHoverEffects={false}`)
-- Use appropriate touch targets for custom controls
-
-### 4. Customization
-
-- Extend the component through props rather than modifying the source
-- Use custom components for complex UI requirements
-- Leverage the callback system for external state management
-
-### 5. Error Handling
-
-- Implement error boundaries around the component
-- Handle terrain loading failures gracefully
-- Provide fallback content for unsupported browsers
-
-## Examples Directory
-
-See the `examples/` directory for complete usage examples:
-
-- `MinimalTerrainViewer.tsx` - Minimal configuration
-- `CustomTerrainViewer.tsx` - Custom location presets and features
-- `EmbeddedTerrainViewer.tsx` - Embedded in larger layouts
-
-## Migration from Terrain3DTest
-
-The original `Terrain3DTest` component has been refactored to use `Terrain3DViewer`:
-
-```tsx
-// Old way (Terrain3DTest.tsx)
-export const Terrain3DTest: React.FC = () => {
-  // Complex component with hardcoded values
-};
-
-// New way (using Terrain3DViewer)
-export const Terrain3DTest: React.FC = () => {
-  return (
-    <Terrain3DViewer
-      title="3D Terrain Visualization"
-      subtitle="Real-time heightmap rendering with building footprints and vegetation"
-      onTerrainLoad={() => console.log('3D Terrain loaded')}
-    />
-  );
-};
+### **Hazard Data Structure**
+```typescript
+interface HazardLayer {
+  id: string;
+  type: 'fire' | 'flood' | 'earthquake' | 'chemical' | 'landslide';
+  severity: 'low' | 'medium' | 'high' | 'critical';
+  location: [number, number];
+  fire?: {
+    active: number[][][];
+    intensity: number; // 0-100
+    spreadRate: number;
+    flameHeight: number;
+  };
+  flood?: {
+    current: {
+      geometry: number[][][];
+      depth: number;
+      flowRate: number;
+    };
+  };
+}
 ```
 
-## Contributing
+### **Building Data Structure**
+```typescript
+interface Building {
+  id: string;
+  address: string;
+  coordinates: [number, number];
+  type: 'residential' | 'commercial' | 'critical_facility';
+  evacuationStatus: {
+    evacuated: boolean;
+    lastContact?: Date;
+    notes?: string;
+    specialNeeds: string[];
+  };
+  buildingHeight?: number;
+}
+```
 
-When extending the component:
+### **Route Data Structure**
+```typescript
+interface OperationalRoute {
+  id: string;
+  profile: 'CIVILIAN_EVACUATION' | 'EMS_RESPONSE' | 'FIRE_TACTICAL';
+  waypoints: [number, number][];
+  status: 'planned' | 'active' | 'completed';
+  capacity: number;
+  estimatedTime: number;
+}
+```
 
-1. Add new props to the `Terrain3DViewerProps` interface
-2. Provide sensible defaults
-3. Update the documentation
-4. Add examples for new features
-5. Ensure backward compatibility
+## Performance Considerations
 
-## Dependencies
+### **Recommended Hardware**
+- **GPU**: Dedicated graphics card with 4GB+ VRAM
+- **RAM**: 16GB+ system memory
+- **CPU**: Multi-core processor for terrain calculations
 
-- React 18+
-- Framer Motion (for animations)
-- Lucide React (for icons)
-- Johnny Ive design system CSS
+### **Optimization Tips**
+- Use LOD system for large datasets
+- Limit particle count on lower-end devices
+- Implement data streaming for real-time updates
+- Cache terrain elevation data when possible
+
+### **Browser Support**
+- **Chrome**: 90+ (recommended)
+- **Firefox**: 88+
+- **Safari**: 14+
+- **Edge**: 90+
+
+## Integration Points
+
+### **Mapbox GL JS**
+- Terrain source integration
+- 3D layer rendering
+- Camera controls and navigation
+- Event handling and interactions
+
+### **Real-Time Data Sources**
+- WebSocket connections for live updates
+- REST API integration for hazard data
+- Database connections for building information
+- Weather service APIs
+
+### **Emergency Management Systems**
+- CAD system integration
+- Unit tracking systems
+- Evacuation management platforms
+- Incident command systems
+
+## Future Enhancements
+
+### **Planned Features**
+- **AI-Powered Predictions**: Machine learning hazard progression models
+- **Multi-Agency Coordination**: Cross-departmental resource sharing
+- **Mobile Integration**: Field unit mobile app synchronization
+- **Advanced Analytics**: Performance metrics and optimization insights
+
+### **Technical Improvements**
+- **WebGL 2.0**: Enhanced 3D rendering capabilities
+- **Real-Time Collaboration**: Multi-user operational coordination
+- **Offline Support**: Local data caching for connectivity issues
+- **Accessibility**: Enhanced screen reader and keyboard navigation
+
+## Support and Documentation
+
+### **API Reference**
+- Complete TypeScript definitions
+- Interactive examples and demos
+- Performance tuning guides
+- Integration tutorials
+
+### **Community Resources**
+- GitHub repository with issue tracking
+- Developer documentation and guides
+- User community forums
+- Training materials and webinars
+
+---
+
+**Built for Emergency Responders, by Emergency Responders**
+
+This system is designed to provide the most comprehensive and intuitive disaster response visualization platform available, helping emergency personnel make better decisions faster when every second counts.

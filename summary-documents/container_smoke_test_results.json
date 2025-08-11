@@ -1,0 +1,159 @@
+{
+  "timestamp": "2025-08-10T23:19:00.962308",
+  "total_tests": 6,
+  "passed_tests": 1,
+  "test_success_rate": 16.666666666666664,
+  "total_pages": 4,
+  "passed_pages": 4,
+  "page_success_rate": 100.0,
+  "service_health": {
+    "test": "Service Health",
+    "status": "FAIL",
+    "results": [
+      "\u2705 Frontend: Healthy (HTTP 200)",
+      "\u2705 Backend API: Healthy (HTTP 200)",
+      "\u274c Tile Server: HTTPConnectionPool(host='localhost', port=8080): Max retries exceeded with url: /data/admin_boundaries.json (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x1041ae350>: Failed to establish a new connection: [Errno 61] Connection refused'))"
+    ]
+  },
+  "tile_system": {
+    "test": "Tile System",
+    "status": "FAIL",
+    "tile_endpoints": [
+      "\u274c Admin Boundaries: HTTPConnectionPool(host='localhost', port=8080): Max retries exceeded with url: /data/admin_boundaries.json (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x1041de1d0>: Failed to establish a new connection: [Errno 61] Connection refused'))",
+      "\u274c California Counties: HTTPConnectionPool(host='localhost', port=8080): Max retries exceeded with url: /data/california_counties.json (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x1041ae2d0>: Failed to establish a new connection: [Errno 61] Connection refused'))",
+      "\u274c Hazards: HTTPConnectionPool(host='localhost', port=8080): Max retries exceeded with url: /data/hazards.json (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x1041dd610>: Failed to establish a new connection: [Errno 61] Connection refused'))",
+      "\u274c Routes: HTTPConnectionPool(host='localhost', port=8080): Max retries exceeded with url: /data/routes.json (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x1041dc710>: Failed to establish a new connection: [Errno 61] Connection refused'))"
+    ],
+    "tile_serving": [
+      "\u274c Admin Boundaries: HTTPConnectionPool(host='localhost', port=8080): Max retries exceeded with url: /data/admin_boundaries/8/40/98.pbf (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x1041e8e10>: Failed to establish a new connection: [Errno 61] Connection refused'))",
+      "\u274c California Counties: HTTPConnectionPool(host='localhost', port=8080): Max retries exceeded with url: /data/california_counties/8/40/98.pbf (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x1041eaf90>: Failed to establish a new connection: [Errno 61] Connection refused'))",
+      "\u274c Hazards: HTTPConnectionPool(host='localhost', port=8080): Max retries exceeded with url: /data/hazards/8/40/98.pbf (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x1041ed150>: Failed to establish a new connection: [Errno 61] Connection refused'))",
+      "\u274c Routes: HTTPConnectionPool(host='localhost', port=8080): Max retries exceeded with url: /data/routes/8/40/98.pbf (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x1041e9e90>: Failed to establish a new connection: [Errno 61] Connection refused'))"
+    ]
+  },
+  "frontend_integration": {
+    "test": "Frontend Tile Integration",
+    "results": [
+      {
+        "page": "Command View",
+        "status": "FAIL",
+        "checks": [
+          "\u2705 React root div found",
+          "\u2705 JavaScript bundles found",
+          "\u2705 CSS bundles found",
+          "\u274c Tile server configuration not found",
+          "\u274c Mapbox configuration not found",
+          "\u2705 Disaster response references found",
+          "\u274c Routing configuration not found"
+        ]
+      },
+      {
+        "page": "Field View",
+        "status": "FAIL",
+        "checks": [
+          "\u2705 React root div found",
+          "\u2705 JavaScript bundles found",
+          "\u2705 CSS bundles found",
+          "\u274c Tile server configuration not found",
+          "\u274c Mapbox configuration not found",
+          "\u2705 Disaster response references found",
+          "\u274c Routing configuration not found"
+        ]
+      },
+      {
+        "page": "Public View",
+        "status": "FAIL",
+        "checks": [
+          "\u2705 React root div found",
+          "\u2705 JavaScript bundles found",
+          "\u2705 CSS bundles found",
+          "\u274c Tile server configuration not found",
+          "\u274c Mapbox configuration not found",
+          "\u2705 Disaster response references found",
+          "\u274c Routing configuration not found"
+        ]
+      }
+    ]
+  },
+  "javascript_bundles": {
+    "test": "JavaScript Bundles",
+    "status": "FAIL",
+    "bundles": [
+      {
+        "url": "http://localhost:3000/assets/index-D3E0iIeF.js",
+        "size_bytes": 161288,
+        "checks": [
+          "\u2705 React framework found",
+          "\u274c Mapbox GL not found",
+          "\u274c Tile service not found",
+          "\u2705 Map components found",
+          "\u274c Routing not found"
+        ],
+        "status": "FAIL"
+      }
+    ]
+  },
+  "api_endpoints": {
+    "test": "API Endpoints",
+    "status": "PASS",
+    "results": [
+      "\u2705 Health: OK (104 chars)",
+      "\u2705 Dashboard: OK (22283 chars)",
+      "\u2705 Hazards: OK (14077 chars)",
+      "\u2705 Routes: OK (5316 chars)"
+    ]
+  },
+  "page_rendering": {
+    "test": "Page Rendering",
+    "results": [
+      {
+        "page": "Home Page",
+        "status": "PASS",
+        "response_time_ms": 1.99,
+        "content_length": 711,
+        "checks": [
+          "\u2705 Title tag found",
+          "\u2705 React root div found",
+          "\u2705 Script tags found",
+          "\u2705 Stylesheets found"
+        ]
+      },
+      {
+        "page": "Command View",
+        "status": "PASS",
+        "response_time_ms": 1.25,
+        "content_length": 711,
+        "checks": [
+          "\u2705 Title tag found",
+          "\u2705 React root div found",
+          "\u2705 Script tags found",
+          "\u2705 Stylesheets found"
+        ]
+      },
+      {
+        "page": "Field View",
+        "status": "PASS",
+        "response_time_ms": 2.05,
+        "content_length": 711,
+        "checks": [
+          "\u2705 Title tag found",
+          "\u2705 React root div found",
+          "\u2705 Script tags found",
+          "\u2705 Stylesheets found"
+        ]
+      },
+      {
+        "page": "Public View",
+        "status": "PASS",
+        "response_time_ms": 1.17,
+        "content_length": 711,
+        "checks": [
+          "\u2705 Title tag found",
+          "\u2705 React root div found",
+          "\u2705 Script tags found",
+          "\u2705 Stylesheets found"
+        ]
+      }
+    ]
+  }
+}

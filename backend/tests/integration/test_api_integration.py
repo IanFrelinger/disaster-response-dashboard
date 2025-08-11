@@ -15,7 +15,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # Test configuration
-BASE_URL = "http://localhost:5001"
+BASE_URL = "http://localhost:8000"
 API_BASE = f"{BASE_URL}/api"
 TIMEOUT = 30
 

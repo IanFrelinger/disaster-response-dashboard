@@ -1,0 +1,67 @@
+{
+  "timestamp": "2025-08-10T23:19:07.582358",
+  "tests": [
+    {
+      "test": "Home Page",
+      "status": "FAIL",
+      "url": "http://localhost:3000/",
+      "response_time": 2.422,
+      "content_length": 711,
+      "checks": [
+        "\u2705 Dashboard title found",
+        "\u274c System Status card not found",
+        "\u274c Active Hazards card not found",
+        "\u274c Safe Routes card not found",
+        "\u274c Challenge Demo section not found",
+        "\u274c JavaScript functions not found"
+      ],
+      "passed_checks": 1,
+      "total_checks": 6
+    },
+    {
+      "test": "Dashboard Functionality",
+      "status": "FAIL",
+      "checks": [
+        "\u274c API endpoint not configured",
+        "\u274c Data fetching functions missing",
+        "\u274c System status update function missing",
+        "\u274c Dashboard overview update function missing"
+      ],
+      "passed_checks": 0,
+      "total_checks": 4
+    }
+  ],
+  "api_tests": [
+    {
+      "endpoint": "Health",
+      "status": "PASS",
+      "response_length": 115
+    },
+    {
+      "endpoint": "Dashboard",
+      "status": "PASS",
+      "response_length": 43978
+    },
+    {
+      "endpoint": "Hazards",
+      "status": "PASS",
+      "response_length": 26287
+    },
+    {
+      "endpoint": "Routes",
+      "status": "PASS",
+      "response_length": 9148
+    }
+  ],
+  "summary": {
+    "total_tests": 2,
+    "passed_tests": 0,
+    "failed_tests": 2,
+    "error_tests": 0,
+    "total_checks": 10,
+    "passed_checks": 1,
+    "api_passed": 4,
+    "api_total": 4,
+    "overall_status": "POOR"
+  }
+}
