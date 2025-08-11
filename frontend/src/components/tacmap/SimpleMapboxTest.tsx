@@ -2243,7 +2243,7 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
       
       {/* Map is now full-screen without control panel */}
       
-      {/* Apple Maps-style Analytics Panel */}
+      {/* Apple Maps-style Analytics Panel - Repositioned to bottom-left with standard iOS colors */}
       {mapLoaded && showAnalytics && (
         <div 
           className="analytics-panel"
@@ -2263,6 +2263,7 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
           flexDirection: 'column',
           gap: '12px',
           minWidth: '280px',
+          maxWidth: '320px',
           fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif'
         }}>
           <h4 style={{ 
@@ -2286,7 +2287,7 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
           }}
           onClick={() => setShowHazards(!showHazards)}
           >
-            <span style={{ margin: 0, color: '#FF3B30', fontWeight: '500' }}>Hazards:</span>
+            <span style={{ margin: 0, color: 'var(--ios-red)', fontWeight: '500' }}>Hazards:</span>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <span style={{ margin: 0, color: '#1D1D1F', fontWeight: '600' }}>
                 {showHazards ? (hazardsAdded ? '3 Active' : 'Loading...') : 'Disabled'}
@@ -2298,7 +2299,7 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
                 style={{ 
                   width: '18px', 
                   height: '18px', 
-                  accentColor: '#FF3B30',
+                  accentColor: 'var(--ios-red)',
                   cursor: 'pointer'
                 }}
               />
@@ -2317,7 +2318,7 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
           }}
           onClick={() => setShowRoutes(!showRoutes)}
           >
-            <span style={{ margin: 0, color: '#FF9500', fontWeight: '500' }}>Routes:</span>
+            <span style={{ margin: 0, color: 'var(--ios-orange)', fontWeight: '500' }}>Routes:</span>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <span style={{ margin: 0, color: '#1D1D1F', fontWeight: '600' }}>
                 {showRoutes ? (escapeRouteAdded ? '5 Available' : 'Loading...') : 'Disabled'}
@@ -2329,7 +2330,7 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
                 style={{ 
                   width: '18px', 
                   height: '18px', 
-                  accentColor: '#FF9500',
+                  accentColor: 'var(--ios-orange)',
                   cursor: 'pointer'
                 }}
               />
@@ -2348,7 +2349,7 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
           }}
           onClick={() => setShowUnits(!showUnits)}
           >
-            <span style={{ margin: 0, color: '#007AFF', fontWeight: '500' }}>Units:</span>
+            <span style={{ margin: 0, color: 'var(--ios-blue)', fontWeight: '500' }}>Units:</span>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <span style={{ margin: 0, color: '#1D1D1F', fontWeight: '600' }}>
                 {showUnits ? '8 Active' : 'Disabled'}
@@ -2360,7 +2361,7 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
                 style={{ 
                   width: '18px', 
                   height: '18px', 
-                  accentColor: '#007AFF',
+                  accentColor: 'var(--ios-blue)',
                   cursor: 'pointer'
                 }}
               />
@@ -2376,7 +2377,7 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
             borderRadius: '8px',
             border: '1px solid rgba(52, 199, 89, 0.1)'
           }}>
-            <span style={{ margin: 0, color: '#34C759', fontWeight: '500' }}>Buildings:</span>
+            <span style={{ margin: 0, color: 'var(--ios-green)', fontWeight: '500' }}>Buildings:</span>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <span style={{ margin: 0, color: '#1D1D1F', fontWeight: '600' }}>
                 {buildingsAdded ? '25+ Visible' : 'Loading...'} Always On
@@ -2398,7 +2399,7 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
           }}
           onClick={() => setShowWeather(!showWeather)}
           >
-            <span style={{ margin: 0, color: '#5856D6', fontWeight: '500' }}>Weather:</span>
+            <span style={{ margin: 0, color: 'var(--ios-purple)', fontWeight: '500' }}>Weather:</span>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <span style={{ margin: 0, color: '#1D1D1F', fontWeight: '600' }}>
                 {showWeather ? 'Active' : 'Disabled'}
@@ -2410,7 +2411,7 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
                 style={{ 
                   width: '18px', 
                   height: '18px', 
-                  accentColor: '#5856D6',
+                  accentColor: 'var(--ios-purple)',
                   cursor: 'pointer'
                 }}
               />
@@ -2429,7 +2430,7 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
           }}
           onClick={() => setShowEvacuationZones(!showEvacuationZones)}
           >
-            <span style={{ margin: 0, color: '#FF3B30', fontWeight: '500' }}>Evac Zones:</span>
+            <span style={{ margin: 0, color: 'var(--ios-red)', fontWeight: '500' }}>Evac Zones:</span>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <span style={{ margin: 0, color: '#1D1D1F', fontWeight: '600' }}>
                 {showEvacuationZones ? 'Active' : 'Disabled'}
@@ -2441,7 +2442,7 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
                 style={{ 
                   width: '18px', 
                   height: '18px', 
-                  accentColor: '#FF3B30',
+                  accentColor: 'var(--ios-red)',
                   cursor: 'pointer'
                 }}
               />
@@ -2472,12 +2473,12 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
         </div>
       )}
       
-      {/* Enhanced iOS-style status indicator */}
+      {/* Enhanced iOS-style status indicator - Repositioned to top-right */}
       {mapLoaded && (
         <div style={{ 
           position: 'absolute', 
           top: 'var(--ios-spacing-md)', 
-          left: 'var(--ios-spacing-md)', 
+          right: 'var(--ios-spacing-md)', 
           background: 'rgba(0, 0, 0, 0.85)',
           backdropFilter: 'blur(20px) saturate(180%)',
           WebkitBackdropFilter: 'blur(20px) saturate(180%)',
@@ -2564,7 +2565,7 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
             </span>
           </div>
           
-          {/* Hazard Legend */}
+          {/* Hazard Legend with Standard iOS Colors */}
           {hazardsAdded && (
             <div style={{ 
               marginTop: 'var(--ios-spacing-sm)', 
@@ -2589,7 +2590,7 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
                 <div style={{ 
                   width: '8px', 
                   height: '8px', 
-                  backgroundColor: '#FF3B30', 
+                  backgroundColor: 'var(--ios-red)', 
                   borderRadius: '50%',
                   border: '1px solid rgba(255, 255, 255, 0.3)'
                 }}></div>
@@ -2600,7 +2601,7 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
                 <div style={{ 
                   width: '8px', 
                   height: '8px', 
-                  backgroundColor: '#FF9500', 
+                  backgroundColor: 'var(--ios-orange)', 
                   borderRadius: '50%',
                   border: '1px solid rgba(255, 255, 255, 0.3)'
                 }}></div>
@@ -2611,7 +2612,7 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
                 <div style={{ 
                   width: '8px', 
                   height: '8px', 
-                  backgroundColor: '#FFCC00', 
+                  backgroundColor: 'var(--ios-yellow)', 
                   borderRadius: '50%',
                   border: '1px solid rgba(255, 255, 255, 0.3)'
                 }}></div>
@@ -2664,7 +2665,7 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
         </div>
       )}
       
-      {/* Enhanced iOS-style map controls info */}
+      {/* Map Controls Info - Simplified and Repositioned to bottom-right */}
       <div style={{ 
         position: 'absolute', 
         bottom: 'var(--ios-spacing-md)', 
@@ -2677,8 +2678,8 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
         boxShadow: 'var(--ios-shadow-medium)',
         border: '1px solid rgba(255, 255, 255, 0.2)',
         zIndex: 1000,
-        maxWidth: '320px',
-        minWidth: '280px'
+        maxWidth: '280px',
+        minWidth: '240px'
       }}>
         <h4 className="ios-body" style={{ 
           margin: 0, 
@@ -2687,7 +2688,7 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
           color: '#FFFFFF',
           fontSize: '16px',
           letterSpacing: '-0.022em'
-        }}>3D Map Controls</h4>
+        }}>Map Controls</h4>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--ios-spacing-xs)' }}>
           <p className="ios-caption" style={{ 
             margin: 0, 
