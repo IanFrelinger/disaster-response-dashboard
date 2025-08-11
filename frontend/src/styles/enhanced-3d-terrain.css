@@ -1,0 +1,442 @@
+/* Enhanced 3D Terrain Component Styles */
+.enhanced-3d-terrain {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: #0f172a;
+  overflow: hidden;
+}
+
+/* Map Container */
+.map-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+/* Terrain Controls Overlay */
+.terrain-controls-overlay {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 800;
+}
+
+.terrain-controls {
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 12px;
+  padding: 20px;
+  color: #f8fafc;
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.4);
+  min-width: 250px;
+}
+
+.terrain-controls h3 {
+  margin: 0 0 16px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #f1f5f9;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+  padding-bottom: 8px;
+}
+
+.terrain-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.terrain-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.terrain-option input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #3b82f6;
+  cursor: pointer;
+}
+
+.terrain-option span {
+  font-size: 14px;
+  color: #cbd5e1;
+}
+
+.terrain-btn {
+  padding: 10px 16px;
+  background: rgba(30, 41, 59, 0.6);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 8px;
+  color: #cbd5e1;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.terrain-btn:hover {
+  background: rgba(30, 41, 59, 0.8);
+  border-color: rgba(59, 130, 246, 0.5);
+  color: #f1f5f9;
+}
+
+.terrain-btn:active {
+  transform: translateY(1px);
+}
+
+/* Loading Overlay */
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 23, 42, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  color: #f8fafc;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid rgba(148, 163, 184, 0.2);
+  border-top: 4px solid #3b82f6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.loading-spinner span {
+  font-size: 18px;
+  font-weight: 500;
+  color: #cbd5e1;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Mapbox GL Controls Customization */
+.mapboxgl-ctrl-group {
+  background: rgba(15, 23, 42, 0.9) !important;
+  border: 1px solid rgba(148, 163, 184, 0.2) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3) !important;
+}
+
+.mapboxgl-ctrl-group button {
+  background: transparent !important;
+  border: none !important;
+  color: #f1f5f9 !important;
+  transition: all 0.2s ease !important;
+}
+
+.mapboxgl-ctrl-group button:hover {
+  background: rgba(59, 130, 246, 0.2) !important;
+  color: #60a5fa !important;
+}
+
+.mapboxgl-ctrl-group button:active {
+  background: rgba(59, 130, 246, 0.3) !important;
+}
+
+.mapboxgl-ctrl-group button.mapboxgl-ctrl-zoom-in,
+.mapboxgl-ctrl-group button.mapboxgl-ctrl-zoom-out {
+  border-bottom: 1px solid rgba(148, 163, 184, 0.2) !important;
+}
+
+.mapboxgl-ctrl-group button:last-child {
+  border-bottom: none !important;
+}
+
+/* Geolocate Control Customization */
+.mapboxgl-ctrl-geolocate {
+  background: rgba(15, 23, 42, 0.9) !important;
+  border: 1px solid rgba(148, 163, 184, 0.2) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3) !important;
+}
+
+.mapboxgl-ctrl-geolocate button {
+  background: transparent !important;
+  border: none !important;
+  color: #f1f5f9 !important;
+  transition: all 0.2s ease !important;
+}
+
+.mapboxgl-ctrl-geolocate button:hover {
+  background: rgba(59, 130, 246, 0.2) !important;
+  color: #60a5fa !important;
+}
+
+.mapboxgl-ctrl-geolocate.mapboxgl-ctrl-geolocate-active button {
+  background: rgba(16, 185, 129, 0.2) !important;
+  color: #10b981 !important;
+}
+
+/* Fullscreen Control Customization */
+.mapboxgl-ctrl-fullscreen {
+  background: rgba(15, 23, 42, 0.9) !important;
+  border: 1px solid rgba(148, 163, 184, 0.2) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3) !important;
+}
+
+.mapboxgl-ctrl-fullscreen button {
+  background: transparent !important;
+  border: none !important;
+  color: #f1f5f9 !important;
+  transition: all 0.2s ease !important;
+}
+
+.mapboxgl-ctrl-fullscreen button:hover {
+  background: rgba(59, 130, 246, 0.2) !important;
+  color: #60a5fa !important;
+}
+
+/* Map Popup Customization */
+.mapboxgl-popup {
+  background: rgba(15, 23, 42, 0.95) !important;
+  backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(148, 163, 184, 0.2) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.4) !important;
+  color: #f8fafc !important;
+}
+
+.mapboxgl-popup-content {
+  background: transparent !important;
+  color: #f8fafc !important;
+  padding: 16px !important;
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+}
+
+.mapboxgl-popup-tip {
+  border-top-color: rgba(15, 23, 42, 0.95) !important;
+}
+
+/* Map Attribution Customization */
+.mapboxgl-ctrl-attrib {
+  background: rgba(15, 23, 42, 0.8) !important;
+  color: #94a3b8 !important;
+  font-size: 12px !important;
+  padding: 8px 12px !important;
+  border-radius: 8px !important;
+  margin: 8px !important;
+}
+
+.mapboxgl-ctrl-attrib a {
+  color: #60a5fa !important;
+  text-decoration: none !important;
+}
+
+.mapboxgl-ctrl-attrib a:hover {
+  text-decoration: underline !important;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .terrain-controls {
+    min-width: 220px;
+    padding: 16px;
+  }
+  
+  .terrain-controls h3 {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .enhanced-3d-terrain {
+    height: 100vh;
+  }
+  
+  .terrain-controls-overlay {
+    top: 10px;
+    left: 10px;
+  }
+  
+  .terrain-controls {
+    min-width: 200px;
+    padding: 16px;
+  }
+  
+  .terrain-options {
+    gap: 8px;
+  }
+  
+  .terrain-btn {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+  
+  .loading-spinner span {
+    font-size: 16px;
+  }
+  
+  .spinner {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .terrain-controls-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(15, 23, 42, 0.98);
+    border-radius: 0;
+    z-index: 1200;
+  }
+  
+  .terrain-controls {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .terrain-options {
+    width: 100%;
+    max-width: 300px;
+  }
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .terrain-controls {
+    background: rgba(0, 0, 0, 0.95);
+    border: 2px solid #ffffff;
+  }
+  
+  .terrain-btn {
+    border: 2px solid #ffffff;
+  }
+  
+  .loading-overlay {
+    background: rgba(0, 0, 0, 0.95);
+  }
+  
+  .spinner {
+    border-color: #ffffff;
+    border-top-color: #3b82f6;
+  }
+}
+
+/* Dark Mode Optimizations */
+@media (prefers-color-scheme: dark) {
+  .terrain-controls {
+    background: rgba(0, 0, 0, 0.95);
+  }
+  
+  .loading-overlay {
+    background: rgba(0, 0, 0, 0.95);
+  }
+}
+
+/* Accessibility Improvements */
+.terrain-btn:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+.terrain-option:focus-within {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Print Styles */
+@media print {
+  .terrain-controls-overlay,
+  .loading-overlay {
+    display: none;
+  }
+  
+  .enhanced-3d-terrain {
+    height: auto;
+  }
+}
+
+/* Animation Enhancements */
+.terrain-controls {
+  animation: slideInLeft 0.3s ease-out;
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.loading-overlay {
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Performance Optimizations */
+.enhanced-3d-terrain {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.terrain-controls,
+.loading-overlay {
+  will-change: opacity, transform;
+}
+
+/* Custom Scrollbar for Terrain Controls */
+.terrain-controls::-webkit-scrollbar {
+  width: 6px;
+}
+
+.terrain-controls::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.terrain-controls::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.3);
+  border-radius: 3px;
+}
+
+.terrain-controls::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.5);
+}

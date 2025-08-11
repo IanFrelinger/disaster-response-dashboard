@@ -6,16 +6,20 @@
       "properties": {
         "hazard_type": "wildfire",
         "severity": "high",
-        "id": "hazard_001"
+        "id": "hazard_001",
+        "description": "Wildfire spreading from Golden Gate Park area",
+        "timestamp": "2024-08-11T21:43:00Z",
+        "affected_area": "2.5 sq km",
+        "evacuation_required": true
       },
       "geometry": {
         "type": "Polygon",
         "coordinates": [[
-          [-122.5, 37.7],
-          [-122.4, 37.7],
-          [-122.4, 37.8],
-          [-122.5, 37.8],
-          [-122.5, 37.7]
+          [-122.485, 37.765],
+          [-122.475, 37.765],
+          [-122.475, 37.775],
+          [-122.485, 37.775],
+          [-122.485, 37.765]
         ]]
       }
     },
@@ -24,16 +28,146 @@
       "properties": {
         "hazard_type": "flood",
         "severity": "medium",
-        "id": "hazard_002"
+        "id": "hazard_002",
+        "description": "Coastal flooding in Fisherman's Wharf area",
+        "timestamp": "2024-08-11T21:43:00Z",
+        "affected_area": "1.8 sq km",
+        "evacuation_required": false
       },
       "geometry": {
         "type": "Polygon",
         "coordinates": [[
-          [-122.3, 37.6],
-          [-122.2, 37.6],
-          [-122.2, 37.7],
-          [-122.3, 37.7],
-          [-122.3, 37.6]
+          [-122.415, 37.805],
+          [-122.405, 37.805],
+          [-122.405, 37.815],
+          [-122.415, 37.815],
+          [-122.415, 37.805]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hazard_type": "earthquake",
+        "severity": "high",
+        "id": "hazard_003",
+        "description": "Recent earthquake activity near Mission Bay",
+        "timestamp": "2024-08-11T21:43:00Z",
+        "magnitude": "5.2",
+        "evacuation_required": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-122.395, 37.770]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hazard_type": "landslide",
+        "severity": "medium",
+        "id": "hazard_004",
+        "description": "Landslide risk in Twin Peaks area",
+        "timestamp": "2024-08-11T21:43:00Z",
+        "affected_area": "0.8 sq km",
+        "evacuation_required": true
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-122.445, 37.750],
+          [-122.435, 37.750],
+          [-122.435, 37.760],
+          [-122.445, 37.760],
+          [-122.445, 37.750]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hazard_type": "tsunami",
+        "severity": "low",
+        "id": "hazard_005",
+        "description": "Tsunami warning for coastal areas",
+        "timestamp": "2024-08-11T21:43:00Z",
+        "affected_area": "5.2 sq km",
+        "evacuation_required": true
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-122.520, 37.800],
+          [-122.480, 37.800],
+          [-122.480, 37.820],
+          [-122.520, 37.820],
+          [-122.520, 37.800]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hazard_type": "chemical_spill",
+        "severity": "high",
+        "id": "hazard_006",
+        "description": "Chemical spill in South San Francisco industrial area",
+        "timestamp": "2024-08-11T21:43:00Z",
+        "affected_area": "1.2 sq km",
+        "evacuation_required": true
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-122.380, 37.650],
+          [-122.370, 37.650],
+          [-122.370, 37.660],
+          [-122.380, 37.660],
+          [-122.380, 37.650]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hazard_type": "power_outage",
+        "severity": "medium",
+        "id": "hazard_007",
+        "description": "Major power outage affecting downtown area",
+        "timestamp": "2024-08-11T21:43:00Z",
+        "affected_area": "3.1 sq km",
+        "evacuation_required": false
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-122.405, 37.785],
+          [-122.395, 37.785],
+          [-122.395, 37.795],
+          [-122.405, 37.795],
+          [-122.405, 37.785]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hazard_type": "gas_leak",
+        "severity": "high",
+        "id": "hazard_008",
+        "description": "Natural gas leak in North Beach neighborhood",
+        "timestamp": "2024-08-11T21:43:00Z",
+        "affected_area": "0.6 sq km",
+        "evacuation_required": true
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-122.410, 37.800],
+          [-122.400, 37.800],
+          [-122.400, 37.810],
+          [-122.410, 37.810],
+          [-122.410, 37.800]
         ]]
       }
     }

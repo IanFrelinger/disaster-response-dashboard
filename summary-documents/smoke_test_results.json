@@ -1,0 +1,85 @@
+{
+  "timestamp": "2025-08-10T23:19:11.159166",
+  "total_pages": 3,
+  "passed_pages": 0,
+  "failed_pages": 3,
+  "error_pages": 0,
+  "total_checks": 29,
+  "passed_checks": 15,
+  "success_rate": 0.0,
+  "check_success_rate": 51.724137931034484,
+  "page_results": [
+    {
+      "page": "Home Page",
+      "url": "http://localhost:3000/",
+      "status": "FAIL",
+      "response_time_ms": 2.34,
+      "content_length": 711,
+      "checks": [
+        "\u2705 Title found: Disaster Response Dashboard",
+        "\u2705 Main content container found",
+        "\u2705 React root div found",
+        "\u2705 1 script tags found",
+        "\u2705 1 stylesheets found",
+        "\u274c Field Operations link not found",
+        "\u274c Command Center link not found",
+        "\u274c No headings found",
+        "\u274c No buttons found"
+      ],
+      "failed_checks": 4,
+      "total_checks": 9
+    },
+    {
+      "page": "Field View",
+      "url": "http://localhost:3000/field",
+      "status": "FAIL",
+      "response_time_ms": 1.85,
+      "content_length": 711,
+      "checks": [
+        "\u2705 Title found: Disaster Response Dashboard",
+        "\u2705 Main content container found",
+        "\u2705 React root div found",
+        "\u2705 1 script tags found",
+        "\u2705 1 stylesheets found",
+        "\u274c Tactical Map component not found",
+        "\u274c Navigation component not found",
+        "\u274c Quick Actions component not found",
+        "\u274c Tab navigation not found",
+        "\u274c No buttons found"
+      ],
+      "failed_checks": 5,
+      "total_checks": 10
+    },
+    {
+      "page": "Command View",
+      "url": "http://localhost:3000/command",
+      "status": "FAIL",
+      "response_time_ms": 2.33,
+      "content_length": 711,
+      "checks": [
+        "\u2705 Title found: Disaster Response Dashboard",
+        "\u2705 Main content container found",
+        "\u2705 React root div found",
+        "\u2705 1 script tags found",
+        "\u2705 1 stylesheets found",
+        "\u274c Metrics Grid component not found",
+        "\u274c Command Tactical Map component not found",
+        "\u274c Resource Table component not found",
+        "\u274c Command tab navigation not found",
+        "\u274c No buttons found"
+      ],
+      "failed_checks": 5,
+      "total_checks": 10
+    }
+  ],
+  "api_result": {
+    "test": "API Endpoints",
+    "status": "PASS",
+    "results": [
+      "\u2705 Health: OK (103 chars)",
+      "\u2705 Dashboard: OK (22283 chars)",
+      "\u2705 Hazards: OK (14014 chars)",
+      "\u2705 Routes: OK (5320 chars)"
+    ]
+  }
+}

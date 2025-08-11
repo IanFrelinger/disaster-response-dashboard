@@ -1,34 +1,34 @@
 {
-  "timestamp": "2025-08-07T19:28:41.544071",
+  "timestamp": "2025-08-10T23:03:16.261156",
   "total_tests": 6,
-  "passed_tests": 3,
-  "test_success_rate": 50.0,
+  "passed_tests": 1,
+  "test_success_rate": 16.666666666666664,
   "total_pages": 4,
-  "passed_pages": 4,
-  "page_success_rate": 100.0,
+  "passed_pages": 0,
+  "page_success_rate": 0.0,
   "service_health": {
     "test": "Service Health",
-    "status": "PASS",
+    "status": "FAIL",
     "results": [
-      "\u2705 Frontend: Healthy (HTTP 200)",
+      "\u274c Frontend: HTTPConnectionPool(host='localhost', port=3000): Read timed out. (read timeout=10)",
       "\u2705 Backend API: Healthy (HTTP 200)",
-      "\u2705 Tile Server: Healthy (HTTP 200)"
+      "\u274c Tile Server: HTTPConnectionPool(host='localhost', port=8080): Max retries exceeded with url: /data/admin_boundaries.json (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x105cb4190>: Failed to establish a new connection: [Errno 61] Connection refused'))"
     ]
   },
   "tile_system": {
     "test": "Tile System",
-    "status": "PASS",
+    "status": "FAIL",
     "tile_endpoints": [
-      "\u2705 Admin Boundaries: 1 tiles available",
-      "\u2705 California Counties: 1 tiles available",
-      "\u2705 Hazards: 1 tiles available",
-      "\u2705 Routes: 1 tiles available"
+      "\u274c Admin Boundaries: HTTPConnectionPool(host='localhost', port=8080): Max retries exceeded with url: /data/admin_boundaries.json (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x105ca8510>: Failed to establish a new connection: [Errno 61] Connection refused'))",
+      "\u274c California Counties: HTTPConnectionPool(host='localhost', port=8080): Max retries exceeded with url: /data/california_counties.json (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x105ca8c30>: Failed to establish a new connection: [Errno 61] Connection refused'))",
+      "\u274c Hazards: HTTPConnectionPool(host='localhost', port=8080): Max retries exceeded with url: /data/hazards.json (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x105c99490>: Failed to establish a new connection: [Errno 61] Connection refused'))",
+      "\u274c Routes: HTTPConnectionPool(host='localhost', port=8080): Max retries exceeded with url: /data/routes.json (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x105c3af10>: Failed to establish a new connection: [Errno 61] Connection refused'))"
     ],
     "tile_serving": [
-      "\u2705 Admin Boundaries: Tile served (573 bytes)",
-      "\u2705 California Counties: Tile served (159 bytes)",
-      "\u2705 Hazards: Tile served (107 bytes)",
-      "\u2705 Routes: Tile served (200 bytes)"
+      "\u274c Admin Boundaries: HTTPConnectionPool(host='localhost', port=8080): Max retries exceeded with url: /data/admin_boundaries/8/40/98.pbf (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x105c3b680>: Failed to establish a new connection: [Errno 61] Connection refused'))",
+      "\u274c California Counties: HTTPConnectionPool(host='localhost', port=8080): Max retries exceeded with url: /data/california_counties/8/40/98.pbf (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x105c3b8a0>: Failed to establish a new connection: [Errno 61] Connection refused'))",
+      "\u274c Hazards: HTTPConnectionPool(host='localhost', port=8080): Max retries exceeded with url: /data/hazards/8/40/98.pbf (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x105c3bac0>: Failed to establish a new connection: [Errno 61] Connection refused'))",
+      "\u274c Routes: HTTPConnectionPool(host='localhost', port=8080): Max retries exceeded with url: /data/routes/8/40/98.pbf (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x105c3bce0>: Failed to establish a new connection: [Errno 61] Connection refused'))"
     ]
   },
   "frontend_integration": {
@@ -36,71 +36,34 @@
     "results": [
       {
         "page": "Command View",
-        "status": "FAIL",
-        "checks": [
-          "\u2705 React root div found",
-          "\u2705 JavaScript bundles found",
-          "\u2705 CSS bundles found",
-          "\u274c Tile server configuration not found",
-          "\u274c Mapbox configuration not found",
-          "\u274c Disaster response references not found",
-          "\u2705 Routing configuration found"
-        ]
+        "status": "ERROR",
+        "error": "HTTPConnectionPool(host='localhost', port=3000): Read timed out. (read timeout=15)"
       },
       {
         "page": "Field View",
-        "status": "FAIL",
-        "checks": [
-          "\u2705 React root div found",
-          "\u2705 JavaScript bundles found",
-          "\u2705 CSS bundles found",
-          "\u274c Tile server configuration not found",
-          "\u274c Mapbox configuration not found",
-          "\u274c Disaster response references not found",
-          "\u2705 Routing configuration found"
-        ]
+        "status": "ERROR",
+        "error": "HTTPConnectionPool(host='localhost', port=3000): Read timed out. (read timeout=15)"
       },
       {
         "page": "Public View",
-        "status": "FAIL",
-        "checks": [
-          "\u2705 React root div found",
-          "\u2705 JavaScript bundles found",
-          "\u2705 CSS bundles found",
-          "\u274c Tile server configuration not found",
-          "\u274c Mapbox configuration not found",
-          "\u274c Disaster response references not found",
-          "\u2705 Routing configuration found"
-        ]
+        "status": "ERROR",
+        "error": "HTTPConnectionPool(host='localhost', port=3000): Read timed out. (read timeout=15)"
       }
     ]
   },
   "javascript_bundles": {
     "test": "JavaScript Bundles",
-    "status": "FAIL",
-    "bundles": [
-      {
-        "url": "http://localhost:3000/assets/index-CGkqZfuC.js",
-        "size_bytes": 208115,
-        "checks": [
-          "\u2705 React framework found",
-          "\u2705 Mapbox GL found",
-          "\u274c Tile service not found",
-          "\u2705 Map components found",
-          "\u2705 Routing found"
-        ],
-        "status": "FAIL"
-      }
-    ]
+    "status": "ERROR",
+    "error": "HTTPConnectionPool(host='localhost', port=3000): Read timed out. (read timeout=10)"
   },
   "api_endpoints": {
     "test": "API Endpoints",
     "status": "PASS",
     "results": [
       "\u2705 Health: OK (104 chars)",
-      "\u2705 Dashboard: OK (22271 chars)",
-      "\u2705 Hazards: OK (14000 chars)",
-      "\u2705 Routes: OK (5324 chars)"
+      "\u2705 Dashboard: OK (22223 chars)",
+      "\u2705 Hazards: OK (14079 chars)",
+      "\u2705 Routes: OK (5340 chars)"
     ]
   },
   "page_rendering": {
@@ -108,51 +71,23 @@
     "results": [
       {
         "page": "Home Page",
-        "status": "PASS",
-        "response_time_ms": 1.12,
-        "content_length": 618,
-        "checks": [
-          "\u2705 Title tag found",
-          "\u2705 React root div found",
-          "\u2705 Script tags found",
-          "\u2705 Stylesheets found"
-        ]
+        "status": "ERROR",
+        "error": "HTTPConnectionPool(host='localhost', port=3000): Read timed out. (read timeout=15)"
       },
       {
         "page": "Command View",
-        "status": "PASS",
-        "response_time_ms": 0.85,
-        "content_length": 618,
-        "checks": [
-          "\u2705 Title tag found",
-          "\u2705 React root div found",
-          "\u2705 Script tags found",
-          "\u2705 Stylesheets found"
-        ]
+        "status": "ERROR",
+        "error": "HTTPConnectionPool(host='localhost', port=3000): Read timed out. (read timeout=15)"
       },
       {
         "page": "Field View",
-        "status": "PASS",
-        "response_time_ms": 0.99,
-        "content_length": 618,
-        "checks": [
-          "\u2705 Title tag found",
-          "\u2705 React root div found",
-          "\u2705 Script tags found",
-          "\u2705 Stylesheets found"
-        ]
+        "status": "ERROR",
+        "error": "HTTPConnectionPool(host='localhost', port=3000): Read timed out. (read timeout=15)"
       },
       {
         "page": "Public View",
-        "status": "PASS",
-        "response_time_ms": 0.83,
-        "content_length": 618,
-        "checks": [
-          "\u2705 Title tag found",
-          "\u2705 React root div found",
-          "\u2705 Script tags found",
-          "\u2705 Stylesheets found"
-        ]
+        "status": "ERROR",
+        "error": "HTTPConnectionPool(host='localhost', port=3000): Read timed out. (read timeout=15)"
       }
     ]
   }

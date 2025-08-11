@@ -1,0 +1,110 @@
+{
+  "test_time": "2025-08-10T23:04:12.865616",
+  "test_duration_seconds": 0.102876,
+  "overall_status": "EXCELLENT",
+  "success_rate_percent": 95.5,
+  "total_tests": 11,
+  "passed_tests": 10,
+  "partial_tests": 1,
+  "failed_tests": 0,
+  "status_breakdown": {
+    "PASS": 10,
+    "PARTIAL": 1
+  },
+  "results": [
+    {
+      "test": "Health Endpoint",
+      "status": "PASS",
+      "response_time": 0.004552,
+      "data": {
+        "service": "synthetic-data-api",
+        "status": "healthy",
+        "success": true,
+        "timestamp": 1754881452.8726666
+      }
+    },
+    {
+      "test": "API Info Endpoint",
+      "status": "PASS",
+      "response_time": 0.00298,
+      "endpoint_count": 10
+    },
+    {
+      "test": "Dashboard Endpoint",
+      "status": "PASS",
+      "response_time": 0.005142,
+      "route_count": 5,
+      "hazard_count": 0,
+      "response_size": 43918
+    },
+    {
+      "test": "Hazards Endpoint",
+      "status": "PASS",
+      "response_time": 0.005177,
+      "hazard_count": 0,
+      "response_size": 26334
+    },
+    {
+      "test": "Routes Endpoint",
+      "status": "PASS",
+      "response_time": 0.003676,
+      "route_count": 0,
+      "response_size": 9159
+    },
+    {
+      "test": "Evacuation Routes Endpoint",
+      "status": "PASS",
+      "response_time": 0.002887,
+      "route_count": 0,
+      "hazard_count": 0,
+      "response_size": 4324
+    },
+    {
+      "test": "Hazard Summary Endpoint",
+      "status": "PASS",
+      "response_time": 0.00204,
+      "total_hazards": 0,
+      "critical_hazards": 0,
+      "response_size": 406
+    },
+    {
+      "test": "Risk Assessment Endpoint",
+      "status": "PASS",
+      "results": [
+        "\u2705 San Francisco: unknown",
+        "\u2705 San Jose: unknown",
+        "\u2705 Berkeley: unknown"
+      ],
+      "success_rate": "3/3"
+    },
+    {
+      "test": "Scenario Endpoints",
+      "status": "PARTIAL",
+      "results": [
+        "\u274c wildfire-napa: 'str' object has no attribute 'get'",
+        "\u274c flood-sacramento: 'str' object has no attribute 'get'",
+        "\u274c earthquake-sf: 'str' object has no attribute 'get'",
+        "\u274c hurricane-miami: 'str' object has no attribute 'get'"
+      ],
+      "success_rate": "0/4"
+    },
+    {
+      "test": "Refresh Endpoint",
+      "status": "PASS",
+      "response_time": 0.004001,
+      "response_size": 43963
+    },
+    {
+      "test": "API Performance",
+      "status": "PASS",
+      "results": [
+        "\u2705 /api/health: 1.8ms",
+        "\u2705 /api/info: 1.7ms",
+        "\u2705 /api/dashboard: 3.2ms",
+        "\u2705 /api/hazards: 2.9ms",
+        "\u2705 /api/routes: 2.6ms"
+      ],
+      "success_rate": "5/5"
+    }
+  ]
+}

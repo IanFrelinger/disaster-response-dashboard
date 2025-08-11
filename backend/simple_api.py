@@ -271,6 +271,6 @@ if __name__ == '__main__':
     print("   - GET  /api/health")
     print("   - POST /api/update-resource-status")
     print("   - POST /api/add-alert")
-    print("\n📍 Server running on http://localhost:5001")
+    print("\n📍 Server running on http://localhost:8000")
     
-    app.run(host='0.0.0.0', port=5001, debug=True)
+    app.run(host='0.0.0.0', port=8000, debug=False)
