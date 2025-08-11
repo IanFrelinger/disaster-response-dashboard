@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
+import { WeatherData } from '../../types/emergency-response';
 
-// Define hazard data structure
+// Define enhanced hazard data structure for EMS operations
 interface HazardFeature {
   type: 'Feature';
   properties: {
@@ -17,6 +18,14 @@ interface HazardFeature {
     affected_area?: string;
     timestamp?: string;
     magnitude?: string;
+    // EMS-specific properties
+    ems_impact?: 'low' | 'moderate' | 'high' | 'critical';
+    access_restricted?: boolean;
+    staging_area?: [number, number];
+    // Flood-specific properties
+    water_depth?: string;
+    projected_depth?: string;
+    projected_time?: string;
   };
   geometry: {
     type: 'Polygon' | 'Point';
@@ -36,9 +45,11 @@ interface SimpleMapboxTestProps {
   showBuildings?: boolean;
   showTerrain?: boolean;
   showAnalytics?: boolean;
+  showWeather?: boolean;
+  weatherData?: WeatherData;
 }
 
-// Mock hazard data for San Francisco area
+// Enhanced hazard data for San Francisco area with EMS focus
 const hazardData: HazardData = {
   type: 'FeatureCollection',
   features: [
@@ -54,7 +65,10 @@ const hazardData: HazardData = {
         tooltip: '🔥 High Risk Wildfire • Golden Gate Park • Immediate Action Required',
         evacuation_required: true,
         affected_area: '2.5 sq km',
-        timestamp: '2024-08-11T21:43:00Z'
+        timestamp: '2024-08-11T21:43:00Z',
+        ems_impact: 'high',
+        access_restricted: true,
+        staging_area: [-122.480, 37.770]
       },
       geometry: {
         type: 'Polygon',
@@ -71,15 +85,21 @@ const hazardData: HazardData = {
       type: 'Feature',
       properties: {
         hazard_type: 'flood',
-        severity: 'medium',
+        severity: 'high',
         id: 'hazard_002',
-        name: 'Fisherman\'s Wharf Flooding',
-        description: 'Coastal flooding in Fisherman\'s Wharf area',
+        name: 'Fisherman\'s Wharf Coastal Flooding',
+        description: 'Coastal flooding with rising tide and storm surge',
         location: 'Fisherman\'s Wharf, San Francisco',
-        tooltip: '🌊 Medium Risk Flood • Fisherman\'s Wharf • Monitor Conditions',
-        evacuation_required: false,
-        affected_area: '1.8 sq km',
-        timestamp: '2024-08-11T21:43:00Z'
+        tooltip: '🌊 HIGH RISK FLOOD • Fisherman\'s Wharf • Rising Water • EMS Access Limited',
+        evacuation_required: true,
+        affected_area: '2.1 sq km',
+        timestamp: '2024-08-11T21:43:00Z',
+        ems_impact: 'critical',
+        access_restricted: true,
+        water_depth: '3.2 ft',
+        projected_depth: '5.8 ft',
+        projected_time: '2 hours',
+        staging_area: [-122.410, 37.810]
       },
       geometry: {
         type: 'Polygon',
@@ -89,6 +109,37 @@ const hazardData: HazardData = {
           [-122.405, 37.815],
           [-122.415, 37.815],
           [-122.415, 37.805]
+        ]]
+      }
+    },
+    {
+      type: 'Feature',
+      properties: {
+        hazard_type: 'flood',
+        severity: 'medium',
+        id: 'hazard_004',
+        name: 'Mission Bay Inland Flooding',
+        description: 'Inland flooding from heavy rainfall and drainage overflow',
+        location: 'Mission Bay, San Francisco',
+        tooltip: '🌊 Medium Risk Flood • Mission Bay • Drainage Overflow • Monitor Water Levels',
+        evacuation_required: false,
+        affected_area: '1.5 sq km',
+        timestamp: '2024-08-11T21:43:00Z',
+        ems_impact: 'moderate',
+        access_restricted: false,
+        water_depth: '1.8 ft',
+        projected_depth: '2.5 ft',
+        projected_time: '4 hours',
+        staging_area: [-122.390, 37.770]
+      },
+      geometry: {
+        type: 'Polygon',
+        coordinates: [[
+          [-122.395, 37.765],
+          [-122.385, 37.765],
+          [-122.385, 37.775],
+          [-122.395, 37.775],
+          [-122.395, 37.765]
         ]]
       }
     },
@@ -245,7 +296,9 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
   showRoutes: initialShowRoutes = true,
   showBuildings: initialShowBuildings = true,
   showTerrain: initialShowTerrain = true,
-  showAnalytics: initialShowAnalytics = true
+  showAnalytics: initialShowAnalytics = true,
+  showWeather: initialShowWeather = true,
+  weatherData
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
@@ -254,6 +307,7 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
   const [terrainAdded, setTerrainAdded] = useState(false);
   const [escapeRouteAdded, setEscapeRouteAdded] = useState(false);
   const [hazardsAdded, setHazardsAdded] = useState(false);
+  const [unitsAdded, setUnitsAdded] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [tooltip, setTooltip] = useState<{ visible: boolean; content: string; x: number; y: number }>({
     visible: false,
@@ -267,6 +321,8 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
   const [showUnits, setShowUnits] = useState(initialShowUnits);
   const [showRoutes, setShowRoutes] = useState(initialShowRoutes);
   const [showAnalytics, setShowAnalytics] = useState(initialShowAnalytics);
+  const [showWeather, setShowWeather] = useState(initialShowWeather);
+  const [showEvacuationZones, setShowEvacuationZones] = useState(true);
   
   // 3D Terrain and 3D Buildings are always enabled
   const showBuildings = true;
@@ -335,6 +391,18 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
         // Earthquake icon (🌋)
         map.loadImage('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMTMuMDkgOC4yNkwyMCA5TDEzLjA5IDkuNzRMMTIgMTZMMTAuOTEgOS43NEw0IDlMMTAuOTEgOC4yNkwxMiAyWiIgZmlsbD0iI0ZGN0YwMCIvPgo8L3N2Zz4K', (error, image) => {
           if (!error && image) map.addImage('earthquake-icon', image);
+        });
+        
+        // Wind arrow icon for weather overlay
+        const windArrowSvg = `
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z" fill="#00AAFF"/>
+            <path d="M12 4L12 20M8 8L12 4L16 8" stroke="#00AAFF" stroke-width="2" fill="none"/>
+          </svg>
+        `;
+        const windArrowDataUrl = 'data:image/svg+xml;base64,' + btoa(windArrowSvg);
+        map.loadImage(windArrowDataUrl, (error, image) => {
+          if (!error && image) map.addImage('wind-arrow', image);
         });
         
         // Landslide icon (🏔️)
@@ -448,7 +516,16 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
       console.log('Analytics panel enabled');
     }
 
-  }, [showHazards, showUnits, showRoutes, showBuildings, showTerrain, showAnalytics, mapLoaded]);
+    // Control weather overlay
+    if (showWeather && weatherData) {
+      console.log('Weather overlay enabled');
+      addWeatherOverlay(mapRef.current);
+    } else if (!showWeather) {
+      console.log('Weather overlay disabled');
+      removeWeatherOverlay(mapRef.current);
+    }
+
+  }, [showHazards, showUnits, showRoutes, showBuildings, showTerrain, showAnalytics, showWeather, weatherData, mapLoaded]);
 
   const add3DTerrain = (map: mapboxgl.Map) => {
     try {
@@ -582,25 +659,33 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
         }
       });
 
-      // Add hazard labels
-      map.addLayer({
-        'id': 'hazard-labels',
-        'type': 'symbol',
-        'source': 'hazards',
-        'layout': {
-          'text-field': ['get', 'hazard_type'],
-          'text-font': ['Open Sans Bold'],
-          'text-size': 10,
-          'text-offset': [0, -2],
-          'text-anchor': 'top',
-          'text-allow-overlap': false
-        },
-        'paint': {
-          'text-color': '#FFFFFF',
-          'text-halo-color': '#000000',
-          'text-halo-width': 2
+      // Add hazard labels with safe font handling
+      try {
+        if (map.isStyleLoaded() && map.getStyle().glyphs) {
+          map.addLayer({
+            'id': 'hazard-labels',
+            'type': 'symbol',
+            'source': 'hazards',
+            'layout': {
+              'text-field': ['get', 'hazard_type'],
+              'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'],
+              'text-size': 10,
+              'text-offset': [0, -2],
+              'text-anchor': 'top',
+              'text-allow-overlap': false
+            },
+            'paint': {
+              'text-color': '#FFFFFF',
+              'text-halo-color': '#000000',
+              'text-halo-width': 2
+            }
+          });
+        } else {
+          console.log('Map style not fully loaded or glyphs not available, skipping hazard labels');
         }
-      });
+      } catch (error) {
+        console.log('Could not add hazard text labels:', error);
+      }
 
       // Add hazard icons for polygon centers
       map.addLayer({
@@ -870,21 +955,28 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
 
   const addEscapeRoute = (map: mapboxgl.Map) => {
     try {
-      console.log('Adding example escape route with enhanced tooltips...');
+      console.log('Adding enhanced EMS route system with civilian evacuation and deconflicted EMS routes...');
       
-      // Example escape route data - San Francisco evacuation route
-      const escapeRouteData: GeoJSON.FeatureCollection = {
+      // Enhanced route system with EMS deconfliction
+      const routeData: GeoJSON.FeatureCollection = {
         type: 'FeatureCollection',
         features: [
+          // CIVILIAN EVACUATION ROUTES (Min-hazard, high safety)
           {
             type: 'Feature',
             properties: {
-              routeName: 'Primary Evacuation Route',
+              routeType: 'civilian_evacuation',
+              routeName: 'Primary Civilian Evacuation Route',
               status: 'Active',
-              estimatedTime: '15 minutes',
+              estimatedTime: '18 minutes',
               capacity: 'High',
-              description: 'Main evacuation route from downtown to safe zone',
-              tooltip: '🚨 Primary Route: 15 min • High Capacity • Active • This is a longer tooltip to test text wrapping and scaling capabilities with multiple lines of content'
+              riskLevel: 'Low',
+              description: 'Minimum hazard route for civilian evacuation with maximum safety',
+              tooltip: '🚨 Primary Civilian Route: 18 min • Low Risk • High Capacity • Maximum Safety • Avoids all hazard zones',
+              ems_priority: 'low',
+              civilian_priority: 'high',
+              restrictions: 'No EMS vehicles during evacuation',
+              staging_area: [-122.400, 37.795]
             },
             geometry: {
               type: 'LineString',
@@ -900,12 +992,18 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
           {
             type: 'Feature',
             properties: {
-              routeName: 'Secondary Evacuation Route',
+              routeType: 'civilian_evacuation',
+              routeName: 'Secondary Civilian Evacuation Route',
               status: 'Active',
-              estimatedTime: '20 minutes',
+              estimatedTime: '22 minutes',
               capacity: 'Medium',
-              description: 'Alternative evacuation route via waterfront',
-              tooltip: '🟠 Secondary Route: 20 min • Medium Capacity • Active • Alternative path with different characteristics and longer description for testing'
+              riskLevel: 'Low',
+              description: 'Alternative civilian evacuation route via waterfront',
+              tooltip: '🟠 Secondary Civilian Route: 22 min • Low Risk • Medium Capacity • Alternative Safe Path',
+              ems_priority: 'low',
+              civilian_priority: 'high',
+              restrictions: 'No EMS vehicles during evacuation',
+              staging_area: [-122.440, 37.785]
             },
             geometry: {
               type: 'LineString',
@@ -917,14 +1015,105 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
                 [-122.4400, 37.7850], // Safe zone destination
               ]
             }
+          },
+          
+          // EMS RESPONSE ROUTES (Deconflicted, accepts calculated risk)
+          {
+            type: 'Feature',
+            properties: {
+              routeType: 'ems_response',
+              routeName: 'EMS Primary Response Route',
+              status: 'Active',
+              estimatedTime: '8 minutes',
+              capacity: 'EMS Only',
+              riskLevel: 'Moderate',
+              description: 'Deconflicted EMS route to hazard zones with calculated risk acceptance',
+              tooltip: '🚑 EMS Primary Route: 8 min • Moderate Risk • EMS Only • Deconflicted • Accepts calculated risk for rapid response',
+              ems_priority: 'high',
+              civilian_priority: 'none',
+              restrictions: 'EMS vehicles only, with PPE',
+              staging_area: [-122.480, 37.770],
+              hazard_access: 'direct',
+              escape_routes: 2
+            },
+            geometry: {
+              type: 'LineString',
+              coordinates: [
+                [-122.480, 37.770], // EMS staging area
+                [-122.475, 37.770], // Approach
+                [-122.470, 37.770], // Closer
+                [-122.465, 37.770], // Near hazard
+                [-122.460, 37.770], // Hazard zone entry
+              ]
+            }
+          },
+          {
+            type: 'Feature',
+            properties: {
+              routeType: 'ems_response',
+              routeName: 'EMS Secondary Response Route',
+              status: 'Active',
+              estimatedTime: '12 minutes',
+              capacity: 'EMS Only',
+              riskLevel: 'Moderate',
+              description: 'Alternative EMS route with different approach vector',
+              tooltip: '🚑 EMS Secondary Route: 12 min • Moderate Risk • EMS Only • Alternative Approach • Maintains escape routes',
+              ems_priority: 'high',
+              civilian_priority: 'none',
+              restrictions: 'EMS vehicles only, with PPE',
+              staging_area: [-122.410, 37.810],
+              hazard_access: 'direct',
+              escape_routes: 2
+            },
+            geometry: {
+              type: 'LineString',
+              coordinates: [
+                [-122.410, 37.810], // EMS staging area
+                [-122.415, 37.810], // Approach
+                [-122.420, 37.810], // Closer
+                [-122.425, 37.810], // Near hazard
+                [-122.430, 37.810], // Hazard zone entry
+              ]
+            }
+          },
+          
+          // EMS EVACUATION SUPPORT ROUTES
+          {
+            type: 'Feature',
+            properties: {
+              routeType: 'ems_evacuation_support',
+              routeName: 'EMS Evacuation Support Route',
+              status: 'Active',
+              estimatedTime: '15 minutes',
+              capacity: 'EMS + Special Needs',
+              riskLevel: 'Low',
+              description: 'EMS support route for special needs evacuation',
+              tooltip: '🚑 EMS Evacuation Support: 15 min • Low Risk • Special Needs Support • Medical Assistance Available',
+              ems_priority: 'medium',
+              civilian_priority: 'special_needs',
+              restrictions: 'Special needs civilians + EMS support',
+              staging_area: [-122.400, 37.795],
+              special_needs: true,
+              medical_support: true
+            },
+            geometry: {
+              type: 'LineString',
+              coordinates: [
+                [-122.400, 37.795], // Safe zone
+                [-122.405, 37.790], // Support point
+                [-122.410, 37.785], // Intermediate
+                [-122.415, 37.780], // Approach
+                [-122.4194, 37.7749], // Downtown (evacuation origin)
+              ]
+            }
           }
         ]
       };
 
-      // Add escape route source
+      // Add enhanced route source
       map.addSource('escape-routes', {
         'type': 'geojson',
-        'data': escapeRouteData
+        'data': routeData
       });
 
       // Add route icons at start and end points
@@ -986,6 +1175,34 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
         }
       });
 
+      // Add EMS response route layers
+      map.addLayer({
+        'id': 'ems-response-primary',
+        'type': 'line',
+        'source': 'escape-routes',
+        'filter': ['==', 'routeType', 'ems_response'],
+        'paint': {
+          'line-color': '#007AFF', // iOS blue for EMS routes
+          'line-width': 5,
+          'line-opacity': 0.8,
+          'line-dasharray': [3, 3] // Dotted line for EMS routes
+        }
+      });
+
+      // Add EMS evacuation support route layer
+      map.addLayer({
+        'id': 'ems-evacuation-support',
+        'type': 'line',
+        'source': 'escape-routes',
+        'filter': ['==', 'routeType', 'ems_evacuation_support'],
+        'paint': {
+          'line-color': '#34C759', // iOS green for support routes
+          'line-width': 4,
+          'line-opacity': 0.7,
+          'line-dasharray': [2, 4] // Different dotted pattern
+        }
+      });
+
       // Add route markers
       map.addLayer({
         'id': 'escape-route-markers',
@@ -999,24 +1216,35 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
         }
       });
 
-      // Add route labels
-      map.addLayer({
-        'id': 'escape-route-labels',
-        'type': 'symbol',
-        'source': 'escape-routes',
-        'layout': {
-          'text-field': ['get', 'routeName'],
-          'text-font': ['Open Sans Regular'],
-          'text-size': 12,
-          'text-offset': [0, -1.5],
-          'text-anchor': 'top'
-        },
-        'paint': {
-          'text-color': '#FFFFFF',
-          'text-halo-color': '#000000',
-          'text-halo-width': 1
+      // Add route labels with safe font handling
+      try {
+        // Check if the map style has glyphs available
+        if (map.isStyleLoaded() && map.getStyle().glyphs) {
+          map.addLayer({
+            'id': 'escape-route-labels',
+            'type': 'symbol',
+            'source': 'escape-routes',
+            'layout': {
+              'text-field': ['get', 'routeName'],
+              'text-font': ['Open Sans Regular', 'Arial Unicode MS Regular'],
+              'text-size': 12,
+              'text-offset': [0, -1.5],
+              'text-anchor': 'top',
+              'text-allow-overlap': false,
+              'text-ignore-placement': false
+            },
+            'paint': {
+              'text-color': '#FFFFFF',
+              'text-halo-color': '#000000',
+              'text-halo-width': 1
+            }
+          });
+        } else {
+          console.log('Map style not fully loaded or glyphs not available, skipping text labels');
         }
-      });
+      } catch (error) {
+        console.log('Could not add route text labels:', error);
+      }
 
       console.log('Escape route added successfully');
       setEscapeRouteAdded(true);
@@ -1024,7 +1252,7 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
       // Enhanced mouse over feedback and tooltips
       const handleMouseMove = (e: mapboxgl.MapMouseEvent) => {
         const features = map.queryRenderedFeatures(e.point, {
-          layers: ['escape-route-primary', 'escape-route-secondary']
+          layers: ['escape-route-primary', 'escape-route-secondary', 'ems-response-primary', 'ems-evacuation-support']
         });
 
         if (features.length > 0) {
@@ -1154,8 +1382,747 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
         }
       });
 
+      // EMS Response Route Interactions
+      map.on('mouseenter', 'ems-response-primary', (e) => {
+        map.getCanvas().style.cursor = 'pointer';
+        map.setPaintProperty('ems-response-primary', 'line-width', 7);
+        map.setPaintProperty('ems-response-primary', 'line-opacity', 1.0);
+        map.setPaintProperty('ems-response-primary', 'line-color', '#4A90E2');
+        
+        if (e.features && e.features[0] && e.features[0].properties) {
+          const properties = e.features[0].properties;
+          setTooltip({
+            visible: true,
+            content: properties.tooltip || '🚑 EMS Response Route',
+            x: e.point.x,
+            y: e.point.y
+          });
+        }
+      });
+
+      map.on('mouseleave', 'ems-response-primary', () => {
+        map.getCanvas().style.cursor = '';
+        map.setPaintProperty('ems-response-primary', 'line-width', 5);
+        map.setPaintProperty('ems-response-primary', 'line-opacity', 0.8);
+        map.setPaintProperty('ems-response-primary', 'line-color', '#007AFF');
+        setTooltip(prev => ({ ...prev, visible: false }));
+      });
+
+      // EMS Evacuation Support Route Interactions
+      map.on('mouseenter', 'ems-evacuation-support', (e) => {
+        map.getCanvas().style.cursor = 'pointer';
+        map.setPaintProperty('ems-evacuation-support', 'line-width', 6);
+        map.setPaintProperty('ems-evacuation-support', 'line-opacity', 0.9);
+        map.setPaintProperty('ems-evacuation-support', 'line-color', '#5AC18E');
+        
+        if (e.features && e.features[0] && e.features[0].properties) {
+          const properties = e.features[0].properties;
+          setTooltip({
+            visible: true,
+            content: properties.tooltip || '🚑 EMS Evacuation Support',
+            x: e.point.x,
+            y: e.point.y
+          });
+        }
+      });
+
+      map.on('mouseleave', 'ems-evacuation-support', () => {
+        map.getCanvas().style.cursor = '';
+        map.setPaintProperty('ems-evacuation-support', 'line-width', 4);
+        map.setPaintProperty('ems-evacuation-support', 'line-opacity', 0.7);
+        map.setPaintProperty('ems-evacuation-support', 'line-color', '#34C759');
+        setTooltip(prev => ({ ...prev, visible: false }));
+      });
+
     } catch (error) {
       console.error('Error adding escape route:', error);
+    }
+  };
+
+  // ===== WEATHER OVERLAY FUNCTIONS =====
+  
+  const addWeatherOverlay = (map: mapboxgl.Map) => {
+    if (!weatherData) {
+      console.log('No weather data available for overlay');
+      return;
+    }
+
+    try {
+      console.log('Adding weather overlay with wind vectors, temperature, and humidity...');
+      
+      // Create wind vector field
+      const windVectors = createWindVectorField(weatherData);
+      
+      // Add wind vectors source
+      map.addSource('wind-vectors', {
+        'type': 'geojson',
+        'data': windVectors
+      });
+
+      // Add wind vector layer
+      map.addLayer({
+        'id': 'wind-vectors-layer',
+        'type': 'symbol',
+        'source': 'wind-vectors',
+        'layout': {
+          'icon-image': 'wind-arrow',
+          'icon-size': [
+            'interpolate',
+            ['linear'],
+            ['get', 'windSpeed'],
+            0, 0.5,   // 0 mph = 0.5x size
+            50, 2.0   // 50+ mph = 2.0x size
+          ],
+          'icon-rotate': ['get', 'windDirection'],
+          'icon-allow-overlap': false,
+          'icon-ignore-placement': false
+        },
+        'paint': {
+          'icon-opacity': 0.8
+        }
+      });
+
+      // Add temperature heat map
+      const temperatureGrid = createTemperatureGrid(weatherData);
+      map.addSource('temperature-grid', {
+        'type': 'geojson',
+        'data': temperatureGrid
+      });
+
+      map.addLayer({
+        'id': 'temperature-heatmap',
+        'type': 'fill',
+        'source': 'temperature-grid',
+        'paint': {
+          'fill-color': [
+            'interpolate',
+            ['linear'],
+            ['get', 'temperature'],
+            50, '#0066FF',  // Cold (blue)
+            70, '#00FF00',  // Cool (green)
+            80, '#FFFF00',  // Warm (yellow)
+            90, '#FF6600',  // Hot (orange)
+            100, '#FF0000'  // Very hot (red)
+          ],
+          'fill-opacity': 0.3
+        }
+      });
+
+      // Add humidity moisture zones
+      const humidityZones = createHumidityZones(weatherData);
+      map.addSource('humidity-zones', {
+        'type': 'geojson',
+        'data': humidityZones
+      });
+
+      map.addLayer({
+        'id': 'humidity-moisture',
+        'type': 'fill',
+        'source': 'humidity-zones',
+        'paint': {
+          'fill-color': [
+            'interpolate',
+            ['linear'],
+            ['get', 'humidity'],
+            0, '#8B4513',   // Very dry (brown)
+            20, '#FFA500',  // Dry (orange)
+            40, '#FFFF00',  // Moderate (yellow)
+            60, '#90EE90',  // Moist (light green)
+            80, '#006400',  // Very moist (dark green)
+            100, '#0000FF'  // Saturated (blue)
+          ],
+          'fill-opacity': 0.4
+        }
+      });
+
+      // Add weather legend
+      addWeatherLegend(map);
+
+      console.log('Weather overlay added successfully');
+    } catch (error) {
+      console.error('Error adding weather overlay:', error);
+    }
+  };
+
+  const removeWeatherOverlay = (map: mapboxgl.Map) => {
+    try {
+      console.log('Removing weather overlay...');
+      
+      // Remove weather layers
+      if (map.getLayer('wind-vectors-layer')) {
+        map.removeLayer('wind-vectors-layer');
+      }
+      if (map.getLayer('temperature-heatmap')) {
+        map.removeLayer('temperature-heatmap');
+      }
+      if (map.getLayer('humidity-moisture')) {
+        map.removeLayer('humidity-moisture');
+      }
+      
+      // Remove weather sources
+      if (map.getSource('wind-vectors')) {
+        map.removeSource('wind-vectors');
+      }
+      if (map.getSource('temperature-grid')) {
+        map.removeSource('temperature-grid');
+      }
+      if (map.getSource('humidity-zones')) {
+        map.removeSource('humidity-zones');
+      }
+      
+      // Remove weather legend
+      const legend = map.getContainer().querySelector('.weather-legend');
+      if (legend) {
+        legend.remove();
+      }
+      
+      console.log('Weather overlay removed successfully');
+    } catch (error) {
+      console.error('Error removing weather overlay:', error);
+    }
+  };
+
+  const createWindVectorField = (weather: WeatherData) => {
+    // Create a grid of wind vectors across the map area
+    const vectors: GeoJSON.Feature[] = [];
+    const bounds = [-122.5, 37.7, -122.4, 37.8]; // San Francisco area
+    const gridSize = 0.01; // Grid spacing
+    
+    for (let lng = bounds[0]; lng <= bounds[2]; lng += gridSize) {
+      for (let lat = bounds[1]; lat <= bounds[3]; lat += gridSize) {
+        // Add some variation to wind direction and speed based on location
+        const windVariation = Math.sin(lng * 100) * Math.cos(lat * 100) * 0.1;
+        const adjustedDirection = weather.current.windDirection + (windVariation * 180);
+        const adjustedSpeed = weather.current.windSpeed + (windVariation * 5);
+        
+        vectors.push({
+          type: 'Feature',
+          properties: {
+            windSpeed: Math.max(0, adjustedSpeed),
+            windDirection: adjustedDirection % 360,
+            windGusts: weather.current.windGusts
+          },
+          geometry: {
+            type: 'Point',
+            coordinates: [lng, lat]
+          }
+        });
+      }
+    }
+
+    return {
+      type: 'FeatureCollection' as const,
+      features: vectors
+    };
+  };
+
+  const createTemperatureGrid = (weather: WeatherData) => {
+    // Create temperature grid with some spatial variation
+    const grid: GeoJSON.Feature[] = [];
+    const bounds = [-122.5, 37.7, -122.4, 37.8];
+    const gridSize = 0.005;
+    
+    for (let lng = bounds[0]; lng <= bounds[2]; lng += gridSize) {
+      for (let lat = bounds[1]; lat <= bounds[3]; lat += gridSize) {
+        // Add terrain-based temperature variation
+        const elevationFactor = Math.sin(lng * 200) * Math.cos(lat * 200) * 0.1;
+        const adjustedTemp = weather.current.temp + (elevationFactor * 10);
+        
+        grid.push({
+          type: 'Feature',
+          properties: {
+            temperature: Math.max(0, adjustedTemp)
+          },
+          geometry: {
+            type: 'Polygon',
+            coordinates: [[
+              [lng, lat],
+              [lng + gridSize, lat],
+              [lng + gridSize, lat + gridSize],
+              [lng, lat + gridSize],
+              [lng, lat]
+            ]]
+          }
+        });
+      }
+    }
+
+    return {
+      type: 'FeatureCollection' as const,
+      features: grid
+    };
+  };
+
+  const createHumidityZones = (weather: WeatherData) => {
+    // Create humidity zones with spatial variation
+    const zones: GeoJSON.Feature[] = [];
+    const bounds = [-122.5, 37.7, -122.4, 37.8];
+    const zoneSize = 0.01;
+    
+    for (let lng = bounds[0]; lng <= bounds[2]; lng += zoneSize) {
+      for (let lat = bounds[1]; lat <= bounds[3]; lat += zoneSize) {
+        // Add coastal influence on humidity
+        const coastalFactor = Math.exp(-Math.abs(lng + 122.4) * 10); // Higher humidity near coast
+        const adjustedHumidity = weather.current.humidity + (coastalFactor * 20);
+        
+        zones.push({
+          type: 'Feature',
+          properties: {
+            humidity: Math.min(100, Math.max(0, adjustedHumidity))
+          },
+          geometry: {
+            type: 'Polygon',
+            coordinates: [[
+              [lng, lat],
+              [lng + zoneSize, lat],
+              [lng + zoneSize, lat + zoneSize],
+              [lng, lat + zoneSize],
+              [lng, lat]
+            ]]
+          }
+        });
+      }
+    }
+
+    return {
+      type: 'FeatureCollection' as const,
+      features: zones
+    };
+  };
+
+  const addWeatherLegend = (map: mapboxgl.Map) => {
+    // Create enhanced EMS weather legend element
+    const legend = document.createElement('div');
+    legend.className = 'weather-legend';
+    legend.style.cssText = `
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      color: #1D1D1F;
+      padding: 20px;
+      border-radius: 16px;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+      font-size: 13px;
+      z-index: 1000;
+      min-width: 300px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+    `;
+
+    legend.innerHTML = `
+      <h4 style="margin: 0 0 15px 0; color: #007AFF; font-size: 17px; border-bottom: 1px solid rgba(0, 122, 255, 0.2); padding-bottom: 8px; font-weight: 600;">
+        🌤️ Weather Operations
+      </h4>
+      
+      <!-- Current Conditions -->
+      <div style="margin-bottom: 15px; padding: 12px; background: rgba(0, 122, 255, 0.05); border-radius: 12px; border: 1px solid rgba(0, 122, 255, 0.1);">
+        <h5 style="margin: 0 0 8px 0; color: #007AFF; font-size: 15px; font-weight: 600;">📊 Current Conditions</h5>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 13px;">
+          <div><span style="color: #007AFF; font-weight: 500;">🌡️ Temp:</span> ${weatherData?.current.temp}°F</div>
+          <div><span style="color: #007AFF; font-weight: 500;">💧 Humidity:</span> ${weatherData?.current.humidity}%</div>
+          <div><span style="color: #007AFF; font-weight: 500;">💨 Wind:</span> ${weatherData?.current.windSpeed} mph</div>
+          <div><span style="color: #007AFF; font-weight: 500;">🧭 Direction:</span> ${getWindDirection(weatherData?.current.windDirection || 0)}</div>
+        </div>
+      </div>
+
+      <!-- EMS Impact Assessment -->
+      <div style="margin-bottom: 15px; padding: 12px; background: rgba(255, 59, 48, 0.05); border-radius: 12px; border: 1px solid rgba(255, 59, 48, 0.1);">
+        <h5 style="margin: 0 0 8px 0; color: #FF3B30; font-size: 15px; font-weight: 600;">🚑 EMS Impact</h5>
+        <div style="font-size: 13px;">
+          <div style="margin-bottom: 6px;">
+            <span style="color: #FF3B30; font-weight: 500;">🔥 Fire Risk:</span> 
+            <span style="color: ${getFireRiskColor(weatherData?.current.fireWeatherIndex || 'low')}; font-weight: 600;">
+              ${weatherData?.current.fireWeatherIndex?.toUpperCase()}
+            </span>
+          </div>
+          <div style="margin-bottom: 6px;">
+            <span style="color: #FF3B30; font-weight: 500;">🚨 Evacuation:</span> 
+            <span style="color: ${getEvacuationRiskColor(weatherData?.current)}; font-weight: 600;">
+              ${getEvacuationRisk(weatherData?.current)}
+            </span>
+          </div>
+          <div>
+            <span style="color: #FF3B30; font-weight: 500;">🚁 Air Operations:</span> 
+            <span style="color: ${getAirOpsRiskColor(weatherData?.current)}; font-weight: 600;">
+              ${getAirOpsRisk(weatherData?.current)}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Forecast Box -->
+      <div style="padding: 12px; background: rgba(88, 86, 214, 0.05); border-radius: 12px; border: 1px solid rgba(88, 86, 214, 0.1);">
+        <h5 style="margin: 0 0 8px 0; color: #5856D6; font-size: 15px; font-weight: 600;">📅 Forecast</h5>
+        <div style="font-size: 13px; line-height: 1.4;">
+          ${weatherData?.forecast.redFlagWarning ? 
+            '<div style="color: #FF3B30; margin-bottom: 6px; font-weight: 600;">⚠️ RED FLAG WARNING ACTIVE</div>' : ''
+          }
+          <div style="margin-bottom: 6px;">
+            <span style="color: #5856D6; font-weight: 500;">18:00:</span> ${weatherData?.forecast.windShiftExpected || 'No wind shift expected'}
+          </div>
+          <div style="margin-bottom: 6px;">
+            <span style="color: #5856D6; font-weight: 500;">Overnight:</span> ${weatherData?.forecast.humidityRecovery || 'Humidity stable'}
+          </div>
+          <div>
+            <span style="color: #5856D6; font-weight: 500;">22:00:</span> ${weatherData?.forecast.tempDrop || 'Temperature stable'}
+          </div>
+        </div>
+      </div>
+
+      <div style="font-size: 12px; color: #8E8E93; margin-top: 15px; text-align: center; border-top: 1px solid rgba(142, 142, 147, 0.2); padding-top: 12px; line-height: 1.4;">
+        Wind vectors show direction and speed<br>
+        Colors indicate temperature and humidity<br>
+        <strong style="color: #1D1D1F;">Critical for EMS routing decisions</strong>
+      </div>
+    `;
+
+    // Add legend to map container
+    const mapContainer = map.getContainer();
+    mapContainer.appendChild(legend);
+  };
+
+  // EMS Weather Risk Assessment Functions
+  const getFireRiskColor = (risk: string): string => {
+    const colors = {
+      low: '#00FF00',
+      moderate: '#FFFF00', 
+      high: '#FF6600',
+      extreme: '#FF0000',
+      catastrophic: '#800080'
+    };
+    return colors[risk as keyof typeof colors] || '#00FF00';
+  };
+
+  const getEvacuationRiskColor = (weather: any): string => {
+    if (weather.humidity < 20 || weather.windSpeed > 25 || weather.temp > 90) return '#FF0000';
+    if (weather.humidity < 30 || weather.windSpeed > 20 || weather.temp > 85) return '#FF6600';
+    return '#00FF00';
+  };
+
+  const getEvacuationRisk = (weather: any): string => {
+    if (weather.humidity < 20 || weather.windSpeed > 25 || weather.temp > 90) return 'CRITICAL';
+    if (weather.humidity < 30 || weather.windSpeed > 20 || weather.temp > 85) return 'HIGH';
+    return 'LOW';
+  };
+
+  const getAirOpsRiskColor = (weather: any): string => {
+    if (weather.windSpeed > 30 || weather.visibility < 3) return '#FF0000';
+    if (weather.windSpeed > 20 || weather.visibility < 5) return '#FF6600';
+    return '#00FF00';
+  };
+
+  const getAirOpsRisk = (weather: any): string => {
+    if (weather.windSpeed > 30 || weather.visibility < 3) return 'GROUNDED';
+    if (weather.windSpeed > 20 || weather.visibility < 5) return 'RESTRICTED';
+    return 'CLEAR';
+  };
+
+  const getWindDirection = (degrees: number): string => {
+    const directions = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'];
+    const index = Math.round(degrees / 22.5) % 16;
+    return directions[index];
+  };
+
+  // ===== EVACUATION ZONES AND BUILDING STATUS SYSTEM =====
+  
+  const addEvacuationZones = (map: mapboxgl.Map) => {
+    try {
+      console.log('Adding evacuation zones and building status system...');
+      
+      // Evacuation zones data
+      const evacuationZonesData: GeoJSON.FeatureCollection = {
+        type: 'FeatureCollection',
+        features: [
+          {
+            type: 'Feature',
+            properties: {
+              zoneId: 'evac_zone_001',
+              zoneName: 'Golden Gate Park Evacuation Zone',
+              priority: 'immediate',
+              totalBuildings: 45,
+              totalPopulation: 1200,
+              evacuationProgress: {
+                confirmed: 28,
+                inProgress: 12,
+                refused: 3,
+                noContact: 2,
+                unchecked: 0,
+                specialNeeds: 8
+              },
+              status: 'active',
+              estimatedCompletion: '2 hours',
+              lastUpdated: new Date().toISOString()
+            },
+            geometry: {
+              type: 'Polygon',
+              coordinates: [[
+                [-122.485, 37.765],
+                [-122.475, 37.765],
+                [-122.475, 37.775],
+                [-122.485, 37.775],
+                [-122.485, 37.765]
+              ]]
+            }
+          },
+          {
+            type: 'Feature',
+            properties: {
+              zoneId: 'evac_zone_002',
+              zoneName: 'Fisherman\'s Wharf Evacuation Zone',
+              priority: 'immediate',
+              totalBuildings: 32,
+              totalPopulation: 800,
+              evacuationProgress: {
+                confirmed: 25,
+                inProgress: 5,
+                refused: 1,
+                noContact: 1,
+                unchecked: 0,
+                specialNeeds: 3
+              },
+              status: 'active',
+              estimatedCompletion: '1.5 hours',
+              lastUpdated: new Date().toISOString()
+            },
+            geometry: {
+              type: 'Polygon',
+              coordinates: [[
+                [-122.415, 37.805],
+                [-122.405, 37.805],
+                [-122.405, 37.815],
+                [-122.415, 37.815],
+                [-122.415, 37.805]
+              ]]
+            }
+          }
+        ]
+      };
+
+      // Add evacuation zones source
+      map.addSource('evacuation-zones', {
+        'type': 'geojson',
+        'data': evacuationZonesData
+      });
+
+      // Add evacuation zone layers
+      map.addLayer({
+        'id': 'evacuation-zones-fill',
+        'type': 'fill',
+        'source': 'evacuation-zones',
+        'paint': {
+          'fill-color': [
+            'case',
+            ['==', ['get', 'priority'], 'immediate'], '#FF0000',
+            ['==', ['get', 'priority'], 'warning'], '#FF6600',
+            ['==', ['get', 'priority'], 'standby'], '#FFFF00',
+            '#00FF00'
+          ],
+          'fill-opacity': 0.3
+        }
+      });
+
+      map.addLayer({
+        'id': 'evacuation-zones-border',
+        'type': 'line',
+        'source': 'evacuation-zones',
+        'paint': {
+          'line-color': [
+            'case',
+            ['==', ['get', 'priority'], 'immediate'], '#FF0000',
+            ['==', ['get', 'priority'], 'warning'], '#FF6600',
+            ['==', ['get', 'priority'], 'standby'], '#FFFF00',
+            '#00FF00'
+          ],
+          'line-width': 3,
+          'line-dasharray': [2, 2]
+        }
+      });
+
+      // Add evacuation zone labels with safe font handling
+      try {
+        if (map.isStyleLoaded() && map.getStyle().glyphs) {
+          map.addLayer({
+            'id': 'evacuation-zone-labels',
+            'type': 'symbol',
+            'source': 'evacuation-zones',
+            'layout': {
+              'text-field': ['get', 'zoneName'],
+              'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'],
+              'text-size': 14,
+              'text-offset': [0, 0],
+              'text-anchor': 'center'
+            },
+            'paint': {
+              'text-color': '#FFFFFF',
+              'text-halo-color': '#000000',
+              'text-halo-width': 2
+            }
+          });
+        } else {
+          console.log('Map style not fully loaded or glyphs not available, skipping evacuation zone labels');
+        }
+      } catch (error) {
+        console.log('Could not add evacuation zone text labels:', error);
+      }
+
+      // Add building evacuation status
+      const buildingStatusData: GeoJSON.FeatureCollection = {
+        type: 'FeatureCollection',
+        features: [
+          // Sample buildings with evacuation status
+          {
+            type: 'Feature',
+            properties: {
+              buildingId: 'bldg_001',
+              address: '123 Golden Gate Ave',
+              evacuationStatus: 'confirmed',
+              confirmedBy: 'EMS-Unit-5',
+              timestamp: new Date().toISOString(),
+              specialNeeds: ['wheelchair', 'oxygen'],
+              pets: 2,
+              vehicles: 1,
+              notes: 'Family of 4 evacuated successfully'
+            },
+            geometry: {
+              type: 'Point',
+              coordinates: [-122.480, 37.770]
+            }
+          },
+          {
+            type: 'Feature',
+            properties: {
+              buildingId: 'bldg_002',
+              address: '456 Park Boulevard',
+              evacuationStatus: 'in_progress',
+              confirmedBy: 'EMS-Unit-3',
+              timestamp: new Date().toISOString(),
+              specialNeeds: ['elderly'],
+              pets: 1,
+              vehicles: 0,
+              notes: 'Elderly resident, assistance required'
+            },
+            geometry: {
+              type: 'Point',
+              coordinates: [-122.478, 37.772]
+            }
+          },
+          {
+            type: 'Feature',
+            properties: {
+              buildingId: 'bldg_003',
+              address: '789 Sunset Drive',
+              evacuationStatus: 'refused',
+              confirmedBy: 'EMS-Unit-1',
+              timestamp: new Date().toISOString(),
+              specialNeeds: [],
+              pets: 0,
+              vehicles: 1,
+              notes: 'Resident refused evacuation, monitoring'
+            },
+            geometry: {
+              type: 'Point',
+              coordinates: [-122.476, 37.768]
+            }
+          }
+        ]
+      };
+
+      // Add building status source
+      map.addSource('building-status', {
+        'type': 'geojson',
+        'data': buildingStatusData
+      });
+
+      // Add building status layer
+      map.addLayer({
+        'id': 'building-evacuation-status',
+        'type': 'circle',
+        'source': 'building-status',
+        'paint': {
+          'circle-radius': 8,
+          'circle-color': [
+            'case',
+            ['==', ['get', 'evacuationStatus'], 'confirmed'], '#00FF00',
+            ['==', ['get', 'evacuationStatus'], 'in_progress'], '#FFFF00',
+            ['==', ['get', 'evacuationStatus'], 'refused'], '#FF6600',
+            ['==', ['get', 'evacuationStatus'], 'no_contact'], '#FF0000',
+            '#808080'
+          ],
+          'circle-stroke-color': '#FFFFFF',
+          'circle-stroke-width': 2
+        }
+      });
+
+      // Add building labels with safe font handling
+      try {
+        if (map.isStyleLoaded() && map.getStyle().glyphs) {
+          map.addLayer({
+            'id': 'building-status-labels',
+            'type': 'symbol',
+            'source': 'building-status',
+            'layout': {
+              'text-field': ['get', 'evacuationStatus'],
+              'text-font': ['Open Sans Regular', 'Arial Unicode MS Regular'],
+              'text-size': 10,
+              'text-offset': [0, 1.5],
+              'text-anchor': 'top'
+            },
+            'paint': {
+              'text-color': '#FFFFFF',
+              'text-halo-color': '#000000',
+              'text-halo-width': 1
+            }
+          });
+        } else {
+          console.log('Map style not fully loaded or glyphs not available, skipping building status labels');
+        }
+      } catch (error) {
+        console.log('Could not add building status text labels:', error);
+      }
+
+      console.log('Evacuation zones and building status system added successfully');
+    } catch (error) {
+      console.error('Error adding evacuation zones:', error);
+    }
+  };
+
+  const removeEvacuationZones = (map: mapboxgl.Map) => {
+    try {
+      console.log('Removing evacuation zones and building status system...');
+      
+      // Remove evacuation zone layers
+      if (map.getLayer('evacuation-zones-fill')) {
+        map.removeLayer('evacuation-zones-fill');
+      }
+      if (map.getLayer('evacuation-zones-border')) {
+        map.removeLayer('evacuation-zones-border');
+      }
+      if (map.getLayer('evacuation-zone-labels')) {
+        map.removeLayer('evacuation-zone-labels');
+      }
+      
+      // Remove building status layers
+      if (map.getLayer('building-evacuation-status')) {
+        map.removeLayer('building-evacuation-status');
+      }
+      if (map.getLayer('building-status-labels')) {
+        map.removeLayer('building-status-labels');
+      }
+      
+      // Remove sources
+      if (map.getSource('evacuation-zones')) {
+        map.removeSource('evacuation-zones');
+      }
+      if (map.getSource('building-status')) {
+        map.removeSource('building-status');
+      }
+      
+      console.log('Evacuation zones and building status system removed successfully');
+    } catch (error) {
+      console.error('Error removing evacuation zones:', error);
     }
   };
 
@@ -1274,113 +2241,9 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
         </div>
       )}
       
-      {/* Enhanced iOS-style controls */}
-      {mapLoaded && (
-        <div style={{ 
-          position: 'absolute', 
-          top: 'var(--ios-spacing-md)', 
-          right: 'var(--ios-spacing-md)', 
-          background: 'rgba(0, 0, 0, 0.85)',
-          backdropFilter: 'blur(20px) saturate(180%)',
-          WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-          borderRadius: 'var(--ios-border-radius-xl)',
-          padding: 'var(--ios-spacing-lg)',
-          boxShadow: 'var(--ios-shadow-medium)',
-          border: '1px solid rgba(255, 255, 255, 0.2)',
-          zIndex: 1000,
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 'var(--ios-spacing-sm)',
-          minWidth: '200px'
-        }}>
-          <h4 className="ios-body" style={{ 
-            margin: 0, 
-            marginBottom: 'var(--ios-spacing-sm)', 
-            fontWeight: '700',
-            color: '#FFFFFF',
-            fontSize: '16px',
-            letterSpacing: '-0.022em'
-          }}>Map Controls</h4>
-          
-          <div style={{ 
-            marginBottom: 'var(--ios-spacing-sm)', 
-            padding: 'var(--ios-spacing-xs)', 
-            background: 'rgba(255, 255, 255, 0.1)', 
-            borderRadius: 'var(--ios-border-radius-medium)',
-            fontSize: '11px',
-            color: '#CCCCCC'
-          }}>
-            Click checkboxes to toggle features
-          </div>
-          
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--ios-spacing-sm)' }}>
-            <div style={{ 
-              width: '16px', 
-              height: '16px', 
-              backgroundColor: 'var(--ios-blue)', 
-              borderRadius: '2px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}>
-              <span style={{ color: 'white', fontSize: '10px' }}>✓</span>
-            </div>
-            <span className="ios-caption" style={{ margin: 0, color: '#FFFFFF' }}>
-              3D Terrain ✅ Always On
-            </span>
-          </div>
-          
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--ios-spacing-sm)' }}>
-            <input
-              type="checkbox"
-              className="analytics-checkbox"
-              checked={showAnalytics}
-              onChange={(e) => {
-                setShowAnalytics(e.target.checked);
-                console.log('Analytics Panel toggled:', e.target.checked);
-              }}
-              style={{ width: '16px', height: '16px' }}
-            />
-            <span className="ios-caption" style={{ margin: 0, color: '#FFFFFF' }}>
-              Analytics Panel {showAnalytics ? '✅' : '❌'}
-            </span>
-          </div>
-          
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--ios-spacing-sm)' }}>
-            <input
-              type="checkbox"
-              checked={showHazards}
-              onChange={(e) => {
-                setShowHazards(e.target.checked);
-                console.log('Hazards toggled:', e.target.checked);
-              }}
-              style={{ width: '16px', height: '16px' }}
-            />
-            <span className="ios-caption" style={{ margin: 0, color: '#FFFFFF' }}>
-              Hazards {showHazards ? '✅' : '❌'}
-            </span>
-          </div>
-          
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--ios-spacing-sm)' }}>
-            <div style={{ 
-              width: '16px', 
-              height: '16px', 
-              backgroundColor: 'var(--ios-green)', 
-              borderRadius: '2px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}>
-              <span style={{ color: 'white', fontSize: '10px' }}>✓</span>
-            </div>
-            <span className="ios-caption" style={{ margin: 0, color: '#FFFFFF' }}>
-              3D Buildings ✅ Always On
-            </span>
-          </div>
-        </div>
-      )}
+      {/* Map is now full-screen without control panel */}
       
-      {/* Analytics Panel */}
+      {/* Apple Maps-style Analytics Panel */}
       {mapLoaded && showAnalytics && (
         <div 
           className="analytics-panel"
@@ -1388,72 +2251,219 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
           position: 'absolute', 
           bottom: 'var(--ios-spacing-md)', 
           left: 'var(--ios-spacing-md)', 
-          background: 'rgba(0, 0, 0, 0.85)',
+          background: 'rgba(255, 255, 255, 0.95)',
           backdropFilter: 'blur(20px) saturate(180%)',
           WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-          borderRadius: 'var(--ios-border-radius-xl)',
-          padding: 'var(--ios-spacing-lg)',
-          boxShadow: 'var(--ios-shadow-medium)',
-          border: '1px solid rgba(255, 255, 255, 0.2)',
+          borderRadius: '16px',
+          padding: '20px',
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08)',
+          border: '1px solid rgba(255, 255, 255, 0.8)',
           zIndex: 1000,
           display: 'flex',
           flexDirection: 'column',
-          gap: 'var(--ios-spacing-sm)',
-          minWidth: '250px'
+          gap: '12px',
+          minWidth: '280px',
+          fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif'
         }}>
-          <h4 className="ios-body" style={{ 
+          <h4 style={{ 
             margin: 0, 
-            marginBottom: 'var(--ios-spacing-sm)', 
-            fontWeight: '700',
-            color: '#FFFFFF',
-            fontSize: '16px',
+            marginBottom: '12px', 
+            fontWeight: '600',
+            color: '#1D1D1F',
+            fontSize: '17px',
             letterSpacing: '-0.022em'
-          }}>Analytics</h4>
+          }}>Map Analytics</h4>
           
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span className="ios-caption" style={{ margin: 0, color: '#CCCCCC' }}>Hazards:</span>
-            <span className="ios-caption" style={{ margin: 0, color: '#FFFFFF', fontWeight: '600' }}>
-              {showHazards ? (hazardsAdded ? '3 Active' : 'Loading...') : 'Disabled'}
-            </span>
+          <div style={{ 
+            display: 'flex', 
+            justifyContent: 'space-between', 
+            alignItems: 'center',
+            padding: '8px 12px',
+            background: 'rgba(255, 59, 48, 0.05)',
+            borderRadius: '8px',
+            border: '1px solid rgba(255, 59, 48, 0.1)',
+            cursor: 'pointer'
+          }}
+          onClick={() => setShowHazards(!showHazards)}
+          >
+            <span style={{ margin: 0, color: '#FF3B30', fontWeight: '500' }}>Hazards:</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ margin: 0, color: '#1D1D1F', fontWeight: '600' }}>
+                {showHazards ? (hazardsAdded ? '3 Active' : 'Loading...') : 'Disabled'}
+              </span>
+              <input 
+                type="checkbox" 
+                checked={showHazards}
+                onChange={() => setShowHazards(!showHazards)}
+                style={{ 
+                  width: '18px', 
+                  height: '18px', 
+                  accentColor: '#FF3B30',
+                  cursor: 'pointer'
+                }}
+              />
+            </div>
           </div>
           
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span className="ios-caption" style={{ margin: 0, color: '#CCCCCC' }}>Routes:</span>
-            <span className="ios-caption" style={{ margin: 0, color: '#FFFFFF', fontWeight: '600' }}>
-              {showRoutes ? (escapeRouteAdded ? '1 Available' : 'Loading...') : 'Disabled'}
-            </span>
+          <div style={{ 
+            display: 'flex', 
+            justifyContent: 'space-between', 
+            alignItems: 'center',
+            padding: '8px 12px',
+            background: 'rgba(255, 149, 0, 0.05)',
+            borderRadius: '8px',
+            border: '1px solid rgba(255, 149, 0, 0.1)',
+            cursor: 'pointer'
+          }}
+          onClick={() => setShowRoutes(!showRoutes)}
+          >
+            <span style={{ margin: 0, color: '#FF9500', fontWeight: '500' }}>Routes:</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ margin: 0, color: '#1D1D1F', fontWeight: '600' }}>
+                {showRoutes ? (escapeRouteAdded ? '5 Available' : 'Loading...') : 'Disabled'}
+              </span>
+              <input 
+                type="checkbox" 
+                checked={showRoutes}
+                onChange={() => setShowRoutes(!showRoutes)}
+                style={{ 
+                  width: '18px', 
+                  height: '18px', 
+                  accentColor: '#FF9500',
+                  cursor: 'pointer'
+                }}
+              />
+            </div>
           </div>
           
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span className="ios-caption" style={{ margin: 0, color: '#CCCCCC' }}>Buildings:</span>
-            <span className="ios-caption" style={{ margin: 0, color: '#FFFFFF', fontWeight: '600' }}>
-              {buildingsAdded ? '25+ Visible' : 'Loading...'} ✅ Always On
-            </span>
+          <div style={{ 
+            display: 'flex', 
+            justifyContent: 'space-between', 
+            alignItems: 'center',
+            padding: '8px 12px',
+            background: 'rgba(0, 122, 255, 0.05)',
+            borderRadius: '8px',
+            border: '1px solid rgba(0, 122, 255, 0.1)',
+            cursor: 'pointer'
+          }}
+          onClick={() => setShowUnits(!showUnits)}
+          >
+            <span style={{ margin: 0, color: '#007AFF', fontWeight: '500' }}>Units:</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ margin: 0, color: '#1D1D1F', fontWeight: '600' }}>
+                {showUnits ? '8 Active' : 'Disabled'}
+              </span>
+              <input 
+                type="checkbox" 
+                checked={showUnits}
+                onChange={() => setShowUnits(!showUnits)}
+                style={{ 
+                  width: '18px', 
+                  height: '18px', 
+                  accentColor: '#007AFF',
+                  cursor: 'pointer'
+                }}
+              />
+            </div>
           </div>
           
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span className="ios-caption" style={{ margin: 0, color: '#CCCCCC' }}>Terrain:</span>
-            <span className="ios-caption" style={{ margin: 0, color: '#FFFFFF', fontWeight: '600' }}>
-              {terrainAdded ? '3D Enabled' : 'Loading...'} ✅ Always On
-            </span>
+          <div style={{ 
+            display: 'flex', 
+            justifyContent: 'space-between', 
+            alignItems: 'center',
+            padding: '8px 12px',
+            background: 'rgba(52, 199, 89, 0.05)',
+            borderRadius: '8px',
+            border: '1px solid rgba(52, 199, 89, 0.1)'
+          }}>
+            <span style={{ margin: 0, color: '#34C759', fontWeight: '500' }}>Buildings:</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ margin: 0, color: '#1D1D1F', fontWeight: '600' }}>
+                {buildingsAdded ? '25+ Visible' : 'Loading...'} Always On
+              </span>
+            </div>
+          </div>
+          
+
+          
+          <div style={{ 
+            display: 'flex', 
+            justifyContent: 'space-between', 
+            alignItems: 'center',
+            padding: '8px 12px',
+            background: 'rgba(88, 86, 214, 0.05)',
+            borderRadius: '8px',
+            border: '1px solid rgba(88, 86, 214, 0.1)',
+            cursor: 'pointer'
+          }}
+          onClick={() => setShowWeather(!showWeather)}
+          >
+            <span style={{ margin: 0, color: '#5856D6', fontWeight: '500' }}>Weather:</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ margin: 0, color: '#1D1D1F', fontWeight: '600' }}>
+                {showWeather ? 'Active' : 'Disabled'}
+              </span>
+              <input 
+                type="checkbox" 
+                checked={showWeather}
+                onChange={() => setShowWeather(!showWeather)}
+                style={{ 
+                  width: '18px', 
+                  height: '18px', 
+                  accentColor: '#5856D6',
+                  cursor: 'pointer'
+                }}
+              />
+            </div>
+          </div>
+          
+          <div style={{ 
+            display: 'flex', 
+            justifyContent: 'space-between', 
+            alignItems: 'center',
+            padding: '8px 12px',
+            background: 'rgba(255, 59, 48, 0.05)',
+            borderRadius: '8px',
+            border: '1px solid rgba(255, 59, 48, 0.1)',
+            cursor: 'pointer'
+          }}
+          onClick={() => setShowEvacuationZones(!showEvacuationZones)}
+          >
+            <span style={{ margin: 0, color: '#FF3B30', fontWeight: '500' }}>Evac Zones:</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ margin: 0, color: '#1D1D1F', fontWeight: '600' }}>
+                {showEvacuationZones ? 'Active' : 'Disabled'}
+              </span>
+              <input 
+                type="checkbox" 
+                checked={showEvacuationZones}
+                onChange={() => setShowEvacuationZones(!showEvacuationZones)}
+                style={{ 
+                  width: '18px', 
+                  height: '18px', 
+                  accentColor: '#FF3B30',
+                  cursor: 'pointer'
+                }}
+              />
+            </div>
           </div>
           
           {/* Summary Section */}
           <div style={{ 
-            marginTop: 'var(--ios-spacing-sm)', 
-            paddingTop: 'var(--ios-spacing-sm)',
-            borderTop: '1px solid rgba(255, 255, 255, 0.2)'
+            marginTop: '12px', 
+            paddingTop: '12px',
+            borderTop: '1px solid rgba(142, 142, 147, 0.2)'
           }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span className="ios-caption" style={{ margin: 0, color: '#CCCCCC' }}>Active Features:</span>
-              <span className="ios-caption" style={{ margin: 0, color: '#FFFFFF', fontWeight: '600' }}>
-                {[showHazards, showRoutes].filter(Boolean).length + 2}/4 (3D Terrain & Buildings Always On)
+              <span style={{ margin: 0, color: '#8E8E93', fontWeight: '500' }}>Active Features:</span>
+              <span style={{ margin: 0, color: '#1D1D1F', fontWeight: '600' }}>
+                {[showHazards, showRoutes, showUnits, showWeather, showEvacuationZones].filter(Boolean).length + 1}/6 (3D Buildings Always On)
               </span>
             </div>
             <div style={{ 
-              marginTop: 'var(--ios-spacing-xs)',
-              fontSize: '10px',
-              color: '#CCCCCC',
+              marginTop: '8px',
+              fontSize: '12px',
+              color: '#8E8E93',
               fontStyle: 'italic'
             }}>
               {showAnalytics ? 'Analytics enabled' : 'Analytics disabled'}
