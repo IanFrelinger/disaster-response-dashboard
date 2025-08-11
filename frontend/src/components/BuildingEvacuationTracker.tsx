@@ -23,12 +23,12 @@ export const BuildingEvacuationTracker: React.FC<BuildingEvacuationTrackerProps>
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'evacuated': return '#28a745';
-      case 'inProgress': return '#ffc107';
-      case 'refused': return '#fd7e14';
-      case 'noContact': return '#dc3545';
-      case 'unchecked': return '#6c757d';
-      default: return '#6c757d';
+      case 'evacuated': return 'var(--ios-green)';
+      case 'inProgress': return 'var(--ios-orange)';
+      case 'refused': return 'var(--ios-orange-dark)';
+      case 'noContact': return 'var(--ios-red)';
+      case 'unchecked': return 'var(--ios-light-gray)';
+      default: return 'var(--ios-light-gray)';
     }
   };
 
@@ -45,11 +45,11 @@ export const BuildingEvacuationTracker: React.FC<BuildingEvacuationTrackerProps>
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case 'immediate': return '#dc3545';
-      case 'warning': return '#fd7e14';
-      case 'standby': return '#ffc107';
-      case 'all_clear': return '#28a745';
-      default: return '#6c757d';
+      case 'immediate': return 'var(--ios-red)';
+      case 'warning': return 'var(--ios-orange)';
+      case 'standby': return 'var(--ios-orange-dark)';
+      case 'all_clear': return 'var(--ios-green)';
+      default: return 'var(--ios-light-gray)';
     }
   };
 

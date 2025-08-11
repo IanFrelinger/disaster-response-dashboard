@@ -53,7 +53,7 @@ export const ChallengeDemo: React.FC = () => {
             <p className="ios-body"><strong>Component ID: {Math.random().toString(36).substr(2, 9)}</strong></p>
             
             <div className="ios-card" style={{ 
-              background: 'var(--ios-blue-light)', 
+              background: 'rgba(0, 122, 255, 0.1)', 
               padding: 'var(--ios-spacing-lg)', 
               margin: 'var(--ios-spacing-lg) 0',
               border: '1px solid var(--ios-blue)'

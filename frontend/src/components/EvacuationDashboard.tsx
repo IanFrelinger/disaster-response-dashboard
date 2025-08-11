@@ -44,23 +44,23 @@ export const EvacuationDashboard: React.FC<EvacuationDashboardProps> = ({
     };
   };
 
-  // Get zone priority color
+  // Get zone priority color using iOS color system
   const getPriorityColor = (priority: EvacuationZone['priority']) => {
     switch (priority) {
-      case 'immediate': return '#DC3545';
-      case 'warning': return '#FFC107';
-      case 'standby': return '#17A2B8';
-      case 'all_clear': return '#28A745';
-      default: return '#6C757D';
+      case 'immediate': return 'var(--ios-red)';
+      case 'warning': return 'var(--ios-orange)';
+      case 'standby': return 'var(--ios-blue)';
+      case 'all_clear': return 'var(--ios-green)';
+      default: return 'var(--ios-light-gray)';
     }
   };
 
-  // Get building status color
+  // Get building status color using iOS color system
   const getBuildingStatusColor = (building: Building) => {
-    if (building.evacuationStatus.evacuated) return '#28A745';
-    if (building.evacuationStatus.notes?.includes('refused')) return '#FFC107';
-    if (building.evacuationStatus.lastContact) return '#17A2B8';
-    return '#6C757D';
+    if (building.evacuationStatus.evacuated) return 'var(--ios-green)';
+    if (building.evacuationStatus.notes?.includes('refused')) return 'var(--ios-orange)';
+    if (building.evacuationStatus.lastContact) return 'var(--ios-blue)';
+    return 'var(--ios-light-gray)';
   };
 
   // Filter buildings by status
