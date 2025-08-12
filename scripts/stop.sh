@@ -1,1 +1,0 @@
-deployment/stop-containerized.sh

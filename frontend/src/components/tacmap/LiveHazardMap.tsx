@@ -79,7 +79,7 @@ export const LiveHazardMap: React.FC<LiveHazardMapProps> = ({
           <div className="ios-flex-between">
             <div>
               <h1 className="ios-headline" style={{ color: '#007AFF', margin: 0, marginBottom: '4px' }}>
-                🚨 Live Hazard Response Map
+                Live Hazard Response Map
               </h1>
               <p className="ios-caption" style={{ margin: 0 }}>
                 Real-time 3D terrain visualization with live hazard data and Foundry integration

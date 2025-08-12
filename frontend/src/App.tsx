@@ -8,7 +8,8 @@ import { RoleBasedRouting } from './components/RoleBasedRouting';
 import { SearchMarkings } from './components/SearchMarkings';
 import { EfficiencyMetrics } from './components/EfficiencyMetrics';
 import { DrillDownCapability } from './components/DrillDownCapability';
-import { useApplyBrowserSettings, useBrowserSettingsInfo } from './hooks/useBrowserSettings';
+
+
 import { 
   EvacuationZone, 
   Building, 
@@ -226,9 +227,7 @@ const mockWeatherData: WeatherData = {
 function App() {
   const [activeView, setActiveView] = useState<'dashboard' | 'map' | 'weather' | 'buildings'>('dashboard');
   
-  // Apply browser settings to the application
-  const browserSettings = useApplyBrowserSettings();
-  const settingsInfo = useBrowserSettingsInfo();
+
 
   const renderView = () => {
     switch (activeView) {
@@ -256,6 +255,7 @@ function App() {
             weatherData={mockWeatherData}
           />
         );
+
       default:
         return (
           <EvacuationDashboard
@@ -278,18 +278,18 @@ function App() {
       display: 'flex',
       flexDirection: 'column'
     }}>
-      {/* Header - Fixed positioning to avoid overlap */}
+      {/* Header - Apple-style design */}
       <header style={{ 
-        background: 'rgba(255, 255, 255, 0.95)',
-        backdropFilter: 'blur(20px)',
-        borderBottom: '1px solid rgba(0, 0, 0, 0.1)',
-        padding: '20px 0',
+        background: 'rgba(255, 255, 255, 0.98)',
+        backdropFilter: 'blur(30px) saturate(180%)',
+        borderBottom: '1px solid rgba(0, 0, 0, 0.08)',
+        padding: '16px 0',
         position: 'sticky',
         top: 0,
-        zIndex: 1000, // Higher z-index than main content
+        zIndex: 1000,
         width: '100%',
-        minHeight: '120px', // Ensure consistent header height
-        boxSizing: 'border-box'
+        boxSizing: 'border-box',
+        boxShadow: '0 1px 0 0 rgba(0, 0, 0, 0.04)'
       }}>
         {/* Title and navigation in single row */}
         <div style={{ 
@@ -304,77 +304,53 @@ function App() {
           <div style={{ 
             display: 'flex',
             justifyContent: 'space-between',
-            alignItems: 'center'
+            alignItems: 'center',
+            marginBottom: '16px'
           }}>
             <div style={{ 
               display: 'flex',
               alignItems: 'center',
-              gap: '16px'
+              gap: '12px'
             }}>
               <div style={{ 
-                background: '#f2f2f7',
-                borderRadius: '8px',
-                padding: '8px',
-                width: '40px',
-                height: '40px',
+                background: 'linear-gradient(135deg, #007AFF, #5856D6)',
+                borderRadius: '12px',
+                padding: '10px',
+                width: '44px',
+                height: '44px',
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'center'
+                justifyContent: 'center',
+                boxShadow: '0 2px 8px rgba(0, 122, 255, 0.3)'
               }}>
-                <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: '#007AFF' }}>
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-1.447-.894L15 4m0 13V4m-6 3l6-3" />
+                <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: 'white', strokeWidth: 2.5 }}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-1.447-.894L15 4m0 13V4m-6 3l6-3" />
                 </svg>
               </div>
               <div>
                 <h1 style={{ 
                   margin: 0,
-                  fontSize: '28px',
-                  fontWeight: '600',
-                  lineHeight: '1.28571',
-                  letterSpacing: '0.007em'
-                }}>Disaster Response Dashboard</h1>
+                  fontSize: '32px',
+                  fontWeight: '700',
+                  lineHeight: '1.2',
+                  letterSpacing: '-0.02em',
+                  background: 'linear-gradient(135deg, #1d1d1f, #2d2d30)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text'
+                }}>Command Center</h1>
                 <p style={{ 
-                  margin: '4px 0 0 0',
+                  margin: '6px 0 0 0',
                   fontSize: '15px',
-                  lineHeight: '1.33337',
-                  letterSpacing: '0.007em',
-                  color: '#8e8e93'
-                }}>Real-time 3D mapping with Foundry integration</p>
+                  lineHeight: '1.4',
+                  letterSpacing: '0.01em',
+                  color: '#86868b',
+                  fontWeight: '500'
+                }}>Centralized emergency response command and control</p>
               </div>
             </div>
             
-            <div style={{ 
-              display: 'flex',
-              alignItems: 'center',
-              gap: '16px'
-            }}>
-              <div style={{ 
-                background: '#34C759', 
-                color: 'white', 
-                padding: '8px 16px',
-                borderRadius: '8px',
-                fontSize: '14px',
-                fontWeight: '600',
-                letterSpacing: '-0.022em'
-              }}>
-                🏆 Challenge Ready
-              </div>
-              <div style={{ 
-                background: '#007AFF', 
-                color: 'white', 
-                padding: '8px 16px',
-                borderRadius: '8px',
-                fontSize: '12px',
-                fontWeight: '600',
-                letterSpacing: '-0.022em',
-                maxWidth: '200px',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                whiteSpace: 'nowrap'
-              }} title={settingsInfo.info}>
-                {browserSettings.colorScheme === 'dark' ? '🌙' : '☀️'} {browserSettings.contrast === 'high' ? '🔍' : ''} Browser Settings
-              </div>
-            </div>
+
           </div>
           
           {/* Navigation row */}
@@ -384,64 +360,70 @@ function App() {
           }}>
             <div style={{ 
               display: 'flex',
-              background: '#f2f2f7',
-              borderRadius: '12px',
-              padding: '2px',
-              gap: '2px',
-              boxShadow: 'inset 0 1px 2px rgba(0, 0, 0, 0.1)',
-              maxWidth: '400px',
-              width: '100%'
+              background: 'rgba(142, 142, 147, 0.08)',
+              borderRadius: '16px',
+              padding: '4px',
+              gap: '4px',
+              border: '1px solid rgba(142, 142, 147, 0.16)',
+              maxWidth: '600px',
+              width: '100%',
+              backdropFilter: 'blur(20px)'
             }}>
               <button 
                 onClick={() => setActiveView('dashboard')}
                 style={{ 
                   flex: 1,
-                  padding: '8px 16px',
+                  padding: '10px 20px',
                   textAlign: 'center',
-                  borderRadius: '8px',
+                  borderRadius: '12px',
                   cursor: 'pointer',
-                  transition: 'all 0.2s ease',
-                  fontWeight: '500',
+                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                  fontWeight: '600',
                   fontSize: '15px',
-                  lineHeight: '1.33337',
+                  lineHeight: '1.2',
                   letterSpacing: '-0.01em',
-                  minHeight: '32px',
+                  minHeight: '36px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  background: activeView === 'dashboard' ? '#007AFF' : 'transparent',
-                  color: activeView === 'dashboard' ? 'white' : 'inherit',
+                  background: activeView === 'dashboard' ? 'linear-gradient(135deg, #007AFF, #5856D6)' : 'transparent',
+                  color: activeView === 'dashboard' ? 'white' : '#1d1d1f',
                   border: 'none',
-                  outline: 'none'
+                  outline: 'none',
+                  boxShadow: activeView === 'dashboard' ? '0 4px 12px rgba(0, 122, 255, 0.3)' : 'none',
+                  transform: activeView === 'dashboard' ? 'scale(1.02)' : 'scale(1)'
                 }}
               >
-                📊 Dashboard
+                Commander Dashboard
               </button>
               <button 
                 onClick={() => setActiveView('map')}
                 style={{ 
                   flex: 1,
-                  padding: '8px 16px',
+                  padding: '10px 20px',
                   textAlign: 'center',
-                  borderRadius: '8px',
+                  borderRadius: '12px',
                   cursor: 'pointer',
-                  transition: 'all 0.2s ease',
-                  fontWeight: '500',
+                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                  fontWeight: '600',
                   fontSize: '15px',
-                  lineHeight: '1.33337',
+                  lineHeight: '1.2',
                   letterSpacing: '-0.01em',
-                  minHeight: '32px',
+                  minHeight: '36px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  background: activeView === 'map' ? '#007AFF' : 'transparent',
-                  color: activeView === 'map' ? 'white' : 'inherit',
+                  background: activeView === 'map' ? 'linear-gradient(135deg, #007AFF, #5856D6)' : 'transparent',
+                  color: activeView === 'map' ? 'white' : '#1d1d1f',
                   border: 'none',
-                  outline: 'none'
+                  outline: 'none',
+                  boxShadow: activeView === 'map' ? '0 4px 12px rgba(0, 122, 255, 0.3)' : 'none',
+                  transform: activeView === 'map' ? 'scale(1.02)' : 'scale(1)'
                 }}
               >
-                🗺️ Live Map
+                Live Map
               </button>
+
             </div>
           </div>
         </div>
@@ -482,7 +464,7 @@ function App() {
             justifyContent: 'space-between',
             alignItems: 'center'
           }}>
-            <p style={{ margin: 0, color: '#8e8e93', fontSize: '14px' }}>🚨 Emergency Response System v1.0.0</p>
+            <p style={{ margin: 0, color: '#8e8e93', fontSize: '14px' }}>Emergency Response System v1.0.0</p>
             <p style={{ margin: 0, color: '#8e8e93', fontSize: '14px' }}>Powered by Mapbox & React • Real-time disaster monitoring</p>
           </div>
         </div>

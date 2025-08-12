@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { EvacuationZone, Building, WeatherData } from '../types/emergency-response';
+import { AIPDecisionSupport, OperationalGuidance } from './AIPDecisionSupport';
+
 import './EvacuationDashboard.css';
 
 interface EvacuationDashboardProps {
@@ -23,7 +25,7 @@ export const EvacuationDashboard: React.FC<EvacuationDashboardProps> = ({
 }) => {
   const [selectedZone, setSelectedZone] = useState<EvacuationZone | null>(null);
   const [selectedBuilding, setSelectedBuilding] = useState<Building | null>(null);
-  const [viewMode, setViewMode] = useState<'zones' | 'buildings' | 'details' | 'weather' | 'building-overview'>('zones');
+  const [viewMode, setViewMode] = useState<'zones' | 'weather' | 'building-overview' | 'aip'>('zones');
   const [filterStatus, setFilterStatus] = useState<string>('all');
 
   // Calculate zone progress percentages
@@ -129,13 +131,13 @@ export const EvacuationDashboard: React.FC<EvacuationDashboardProps> = ({
 
   const handleZoneSelect = (zone: EvacuationZone) => {
     setSelectedZone(zone);
-    setViewMode('buildings');
+    // Stay in zones view since buildings view is removed
     if (onZoneSelect) onZoneSelect(zone);
   };
 
   const handleBuildingSelect = (building: Building) => {
     setSelectedBuilding(building);
-    setViewMode('details');
+    // Stay in current view since details view is removed
     if (onBuildingSelect) onBuildingSelect(building);
   };
 
@@ -150,7 +152,8 @@ export const EvacuationDashboard: React.FC<EvacuationDashboardProps> = ({
 
   const handleBackToBuildings = () => {
     setSelectedBuilding(null);
-    setViewMode('buildings');
+    // Go back to zones view since buildings view is removed
+    setViewMode('zones');
   };
 
   // Weather utility functions
@@ -210,31 +213,14 @@ export const EvacuationDashboard: React.FC<EvacuationDashboardProps> = ({
           <div className="ios-flex-between">
             <div>
               <h1 className="ios-headline" style={{ color: 'var(--ios-blue)', margin: 0, marginBottom: 'var(--ios-spacing-xs)' }}>
-                🏠 Evacuation Tracking Dashboard
+                Commander Dashboard
               </h1>
               <p className="ios-caption" style={{ margin: 0 }}>
-                Real-time evacuation progress monitoring with zone management and building status tracking
+                Command center for emergency response operations with real-time situational awareness
               </p>
             </div>
             
-            <div className="ios-flex" style={{ gap: 'var(--ios-spacing-md)' }}>
-              <div className="ios-flex" style={{ gap: 'var(--ios-spacing-xs)' }}>
-                <span className="ios-caption" style={{ margin: 0, color: 'var(--ios-red)' }}>🚨</span>
-                <span className="ios-caption" style={{ margin: 0 }}>Live Status</span>
-              </div>
-              <div className="ios-flex" style={{ gap: 'var(--ios-spacing-xs)' }}>
-                <span className="ios-caption" style={{ margin: 0, color: 'var(--ios-blue)' }}>📊</span>
-                <span className="ios-caption" style={{ margin: 0 }}>Progress</span>
-              </div>
-              <div className="ios-flex" style={{ gap: 'var(--ios-spacing-xs)' }}>
-                <span className="ios-caption" style={{ margin: 0, color: 'var(--ios-green)' }}>🏢</span>
-                <span className="ios-caption" style={{ margin: 0 }}>Buildings</span>
-              </div>
-              <div className="ios-flex" style={{ gap: 'var(--ios-spacing-xs)' }}>
-                <span className="ios-caption" style={{ margin: 0, color: 'var(--ios-purple)' }}>📍</span>
-                <span className="ios-caption" style={{ margin: 0 }}>Zones</span>
-              </div>
-            </div>
+
           </div>
         </div>
       </div>
@@ -242,39 +228,133 @@ export const EvacuationDashboard: React.FC<EvacuationDashboardProps> = ({
       {/* View Controls */}
       <div className="ios-card" style={{ margin: '0 0 var(--ios-spacing-lg) 0' }}>
         <div className="ios-container" style={{ padding: 0 }}>
-          <div className="ios-flex" style={{ gap: 'var(--ios-spacing-sm)' }}>
+          <div className="ios-flex" style={{ 
+            gap: 'var(--ios-spacing-sm)',
+            background: 'rgba(142, 142, 147, 0.08)',
+            borderRadius: '16px',
+            padding: '4px',
+            border: '1px solid rgba(142, 142, 147, 0.16)',
+            backdropFilter: 'blur(20px)',
+            maxWidth: '600px',
+            width: '100%'
+          }}>
             <button 
               className={`ios-button ${viewMode === 'zones' ? 'primary' : 'secondary'} small`}
               onClick={() => setViewMode('zones')}
+              style={{
+                flex: 1,
+                padding: '10px 20px',
+                textAlign: 'center',
+                borderRadius: '12px',
+                cursor: 'pointer',
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                fontWeight: '600',
+                fontSize: '15px',
+                lineHeight: '1.2',
+                letterSpacing: '-0.01em',
+                minHeight: '36px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: viewMode === 'zones' ? 'linear-gradient(135deg, #007AFF, #5856D6)' : 'transparent',
+                color: viewMode === 'zones' ? 'white' : '#1d1d1f',
+                border: 'none',
+                outline: 'none',
+                boxShadow: viewMode === 'zones' ? '0 4px 12px rgba(0, 122, 255, 0.3)' : 'none',
+                transform: viewMode === 'zones' ? 'scale(1.02)' : 'scale(1)'
+              }}
             >
-              🏘️ Zones
+              Operations
             </button>
-            <button 
-              className={`ios-button ${viewMode === 'buildings' ? 'primary' : 'secondary'} small`}
-              onClick={() => setViewMode('buildings')}
-              disabled={!selectedZone}
-            >
-              🏢 Buildings
-            </button>
-            <button 
-              className={`ios-button ${viewMode === 'details' ? 'primary' : 'secondary'} small`}
-              onClick={() => setViewMode('details')}
-              disabled={!selectedBuilding}
-            >
-              📋 Details
-            </button>
+
             <button 
               className={`ios-button ${viewMode === 'weather' ? 'primary' : 'secondary'} small`}
               onClick={() => setViewMode('weather')}
+              style={{
+                flex: 1,
+                padding: '10px 20px',
+                textAlign: 'center',
+                borderRadius: '12px',
+                cursor: 'pointer',
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                fontWeight: '600',
+                fontSize: '15px',
+                lineHeight: '1.2',
+                letterSpacing: '-0.01em',
+                minHeight: '36px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: viewMode === 'weather' ? 'linear-gradient(135deg, #007AFF, #5856D6)' : 'transparent',
+                color: viewMode === 'weather' ? 'white' : '#1d1d1f',
+                border: 'none',
+                outline: 'none',
+                boxShadow: viewMode === 'weather' ? '0 4px 12px rgba(0, 122, 255, 0.3)' : 'none',
+                transform: viewMode === 'weather' ? 'scale(1.02)' : 'scale(1)'
+              }}
             >
-              🌤️ Weather
+              Conditions
             </button>
             <button 
               className={`ios-button ${viewMode === 'building-overview' ? 'primary' : 'secondary'} small`}
               onClick={() => setViewMode('building-overview')}
+              style={{
+                flex: 1,
+                padding: '10px 20px',
+                textAlign: 'center',
+                borderRadius: '12px',
+                cursor: 'pointer',
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                fontWeight: '600',
+                fontSize: '15px',
+                lineHeight: '1.2',
+                letterSpacing: '-0.01em',
+                minHeight: '36px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: viewMode === 'building-overview' ? 'linear-gradient(135deg, #007AFF, #5856D6)' : 'transparent',
+                color: viewMode === 'building-overview' ? 'white' : '#1d1d1f',
+                border: 'none',
+                outline: 'none',
+                boxShadow: viewMode === 'building-overview' ? '0 4px 12px rgba(0, 122, 255, 0.3)' : 'none',
+                transform: viewMode === 'building-overview' ? 'scale(1.02)' : 'scale(1)'
+              }}
             >
-              🏗️ Building Overview
+              Assets
             </button>
+
+            <button 
+              className={`ios-button ${viewMode === 'aip' ? 'primary' : 'secondary'} small`}
+              onClick={() => setViewMode('aip')}
+              style={{
+                flex: 1,
+                padding: '10px 20px',
+                textAlign: 'center',
+                borderRadius: '12px',
+                cursor: 'pointer',
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                fontWeight: '600',
+                fontSize: '15px',
+                lineHeight: '1.2',
+                letterSpacing: '-0.01em',
+                minHeight: '36px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: viewMode === 'aip' ? 'linear-gradient(135deg, #007AFF, #5856D6)' : 'transparent',
+                color: viewMode === 'aip' ? 'white' : '#1d1d1f',
+                border: 'none',
+                outline: 'none',
+                boxShadow: viewMode === 'aip' ? '0 4px 12px rgba(0, 122, 255, 0.3)' : 'none',
+                transform: viewMode === 'aip' ? 'scale(1.02)' : 'scale(1)'
+              }}
+            >
+              AIP Commander
+            </button>
+
+
+
           </div>
         </div>
       </div>
@@ -378,238 +458,17 @@ export const EvacuationDashboard: React.FC<EvacuationDashboardProps> = ({
         </div>
       )}
 
-      {/* Buildings View */}
-      {viewMode === 'buildings' && selectedZone && (
-        <div className="buildings-view">
-          <div className="view-header">
-            <button className="back-button" onClick={handleBackToZones}>
-              ← Back to Zones
-            </button>
-            <h3>{selectedZone.name} - Buildings</h3>
-            <div className="filter-controls">
-              <select 
-                value={filterStatus} 
-                onChange={(e) => setFilterStatus(e.target.value)}
-                className="status-filter"
-              >
-                <option value="all">All Statuses</option>
-                <option value="evacuated">Evacuated</option>
-                <option value="inProgress">In Progress</option>
-                <option value="refused">Refused</option>
-                <option value="noContact">No Contact</option>
-                <option value="specialNeeds">Special Needs</option>
-              </select>
-            </div>
-          </div>
 
-          <div className="buildings-grid">
-            {getFilteredBuildings().map((building) => (
-              <div 
-                key={building.id}
-                className="building-card"
-                onClick={() => handleBuildingSelect(building)}
-                style={{ borderLeftColor: getBuildingStatusColor(building) }}
-              >
-                <div className="building-header">
-                  <h4>{building.address}</h4>
-                  <span className={`status-badge ${building.evacuationStatus.evacuated ? 'evacuated' : 'not-evacuated'}`}>
-                    {building.evacuationStatus.evacuated ? 'Evacuated' : 'Not Evacuated'}
-                  </span>
-                </div>
-                
-                <div className="building-details">
-                  <div className="detail">
-                    <span className="label">Type:</span>
-                    <span className="value">{building.type}</span>
-                  </div>
-                  <div className="detail">
-                    <span className="label">Units:</span>
-                    <span className="value">{building.units}</span>
-                  </div>
-                  <div className="detail">
-                    <span className="label">Population:</span>
-                    <span className="value">{building.population}</span>
-                  </div>
-                  {building.evacuationStatus.specialNeeds.length > 0 && (
-                    <div className="detail special-needs">
-                      <span className="label">Special Needs:</span>
-                      <span className="value">{building.evacuationStatus.specialNeeds.join(', ')}</span>
-                    </div>
-                  )}
-                </div>
 
-                {building.evacuationStatus.notes && (
-                  <div className="building-notes">
-                    {building.evacuationStatus.notes}
-                  </div>
-                )}
 
-                <div className="building-footer">
-                  <span className="last-updated">
-                    {building.evacuationStatus.timestamp 
-                      ? `Updated: ${building.evacuationStatus.timestamp.toLocaleTimeString()}`
-                      : 'Not yet checked'
-                    }
-                  </span>
-                  {building.evacuationStatus.confirmedBy && (
-                    <span className="confirmed-by">
-                      By: {building.evacuationStatus.confirmedBy}
-                    </span>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Building Details View */}
-      {viewMode === 'details' && selectedBuilding && (
-        <div className="building-details-view">
-          <div className="view-header">
-            <button className="back-button" onClick={handleBackToBuildings}>
-              ← Back to Buildings
-            </button>
-            <h3>{selectedBuilding.address}</h3>
-          </div>
-
-          <div className="building-detail-content">
-            <div className="detail-section">
-              <h4>Building Information</h4>
-              <div className="detail-grid">
-                <div className="detail-item">
-                  <span className="label">Type:</span>
-                  <span className="value">{selectedBuilding.type}</span>
-                </div>
-                <div className="detail-item">
-                  <span className="label">Units:</span>
-                  <span className="value">{selectedBuilding.units}</span>
-                </div>
-                <div className="detail-item">
-                  <span className="label">Population:</span>
-                  <span className="value">{selectedBuilding.population}</span>
-                </div>
-                <div className="detail-item">
-                  <span className="label">Structural Integrity:</span>
-                  <span className={`value ${selectedBuilding.structuralIntegrity}`}>
-                    {selectedBuilding.structuralIntegrity}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <div className="detail-section">
-              <h4>Evacuation Status</h4>
-              <div className="status-update-form">
-                <div className="form-group">
-                  <label>Status:</label>
-                  <select 
-                    value={selectedBuilding.evacuationStatus.evacuated ? 'evacuated' : 'not-evacuated'}
-                    onChange={(e) => {
-                      const evacuated = e.target.value === 'evacuated';
-                      handleStatusUpdate(selectedBuilding.id, { evacuated });
-                    }}
-                  >
-                    <option value="evacuated">Evacuated</option>
-                    <option value="not-evacuated">Not Evacuated</option>
-                  </select>
-                </div>
-                
-                <div className="form-group">
-                  <label>Notes:</label>
-                  <textarea 
-                    value={selectedBuilding.evacuationStatus.notes || ''}
-                    onChange={(e) => {
-                      handleStatusUpdate(selectedBuilding.id, { notes: e.target.value });
-                    }}
-                    placeholder="Enter evacuation notes..."
-                    rows={3}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label>Special Needs:</label>
-                  <input 
-                    type="text"
-                    value={selectedBuilding.evacuationStatus.specialNeeds.join(', ') || ''}
-                    onChange={(e) => {
-                      const specialNeeds = e.target.value.split(',').map(s => s.trim()).filter(s => s);
-                      handleStatusUpdate(selectedBuilding.id, { specialNeeds });
-                    }}
-                    placeholder="e.g., wheelchair, oxygen, pets"
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label>Pets:</label>
-                  <input 
-                    type="number"
-                    value={selectedBuilding.evacuationStatus.pets || 0}
-                    onChange={(e) => {
-                      handleStatusUpdate(selectedBuilding.id, { pets: parseInt(e.target.value) || 0 });
-                    }}
-                    min="0"
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label>Vehicles:</label>
-                  <input 
-                    type="number"
-                    value={selectedBuilding.evacuationStatus.vehicles || 0}
-                    onChange={(e) => {
-                      handleStatusUpdate(selectedBuilding.id, { vehicles: parseInt(e.target.value) || 0 });
-                    }}
-                    min="0"
-                  />
-                </div>
-
-                <button 
-                  className="update-button"
-                  onClick={() => {
-                    handleStatusUpdate(selectedBuilding.id, { 
-                      timestamp: new Date(),
-                      confirmedBy: 'Current User' // This would come from auth context
-                    });
-                  }}
-                >
-                  Update Status
-                </button>
-              </div>
-            </div>
-
-            {/* Search Markings */}
-            {selectedBuilding.searchMarkings && (
-              <div className="detail-section">
-                <h4>Search Markings (FEMA X-Code)</h4>
-                <div className="search-markings">
-                  <div className="x-code">
-                    <div className="x-code-top">{selectedBuilding.searchMarkings.structure.searchCode.top}</div>
-                    <div className="x-code-left">{selectedBuilding.searchMarkings.structure.searchCode.left}</div>
-                    <div className="x-code-center">{selectedBuilding.searchMarkings.structure.searchCode.center}</div>
-                    <div className="x-code-right">{selectedBuilding.searchMarkings.structure.searchCode.right}</div>
-                    <div className="x-code-bottom">{selectedBuilding.searchMarkings.structure.searchCode.bottom}</div>
-                  </div>
-                  <div className="marking-details">
-                    <p><strong>Search Team:</strong> {selectedBuilding.searchMarkings.structure.searchTeam}</p>
-                    <p><strong>Completed:</strong> {selectedBuilding.searchMarkings.structure.searchCompleted.toLocaleString()}</p>
-                    <p><strong>Re-entry:</strong> {selectedBuilding.searchMarkings.structure.reEntry}</p>
-                    <p><strong>Notes:</strong> {selectedBuilding.searchMarkings.structure.notes}</p>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
 
       {/* Weather View */}
       {viewMode === 'weather' && weatherData && (
         <div className="weather-view">
           <div className="view-header">
-            <h3>🌤️ Weather Operations Dashboard</h3>
+            <h3>Environmental Conditions</h3>
             <p className="ios-caption" style={{ margin: '8px 0 0 0', color: 'var(--ios-secondary)' }}>
-              Critical weather information for emergency response operations
+              Real-time environmental monitoring for operational decision making
             </p>
           </div>
 
@@ -618,28 +477,28 @@ export const EvacuationDashboard: React.FC<EvacuationDashboardProps> = ({
             <div className="ios-card">
               <div className="ios-container">
                 <h4 className="ios-headline" style={{ color: 'var(--ios-blue)', margin: '0 0 var(--ios-spacing-md) 0' }}>
-                  📊 Current Conditions
+                  Current Conditions
                 </h4>
                 <div className="weather-stats-grid">
                   <div className="weather-stat">
-                    <span className="stat-label">🌡️ Temperature:</span>
+                    <span className="stat-label">Temperature:</span>
                     <span className="stat-value">{weatherData.current.temp}°F</span>
                   </div>
                   <div className="weather-stat">
-                    <span className="stat-label">💧 Humidity:</span>
+                    <span className="stat-label">Humidity:</span>
                     <span className="stat-value">{weatherData.current.humidity}%</span>
                   </div>
                   <div className="weather-stat">
-                    <span className="stat-label">💨 Wind Speed:</span>
+                    <span className="stat-label">Wind Speed:</span>
                     <span className="stat-value">{weatherData.current.windSpeed} mph</span>
                   </div>
                   <div className="weather-stat">
-                    <span className="stat-label">🧭 Wind Direction:</span>
+                    <span className="stat-label">Wind Direction:</span>
                     <span className="stat-value">{getWindDirection(weatherData.current.windDirection)}</span>
                   </div>
                   {weatherData.current.windGusts && (
                     <div className="weather-stat">
-                      <span className="stat-label">💨 Wind Gusts:</span>
+                      <span className="stat-label">Wind Gusts:</span>
                       <span className="stat-value" style={{ color: 'var(--ios-orange)' }}>Active</span>
                     </div>
                   )}
@@ -651,11 +510,11 @@ export const EvacuationDashboard: React.FC<EvacuationDashboardProps> = ({
             <div className="ios-card">
               <div className="ios-container">
                 <h4 className="ios-headline" style={{ color: 'var(--ios-red)', margin: '0 0 var(--ios-spacing-md) 0' }}>
-                  🚑 EMS Impact Assessment
+                  EMS Impact Assessment
                 </h4>
                 <div className="impact-grid">
                   <div className="impact-item">
-                    <span className="impact-label">🔥 Fire Risk:</span>
+                    <span className="impact-label">Fire Risk:</span>
                     <span 
                       className="impact-value" 
                       style={{ color: getFireRiskColor(weatherData.current.fireWeatherIndex || 'low') }}
@@ -664,7 +523,7 @@ export const EvacuationDashboard: React.FC<EvacuationDashboardProps> = ({
                     </span>
                   </div>
                   <div className="impact-item">
-                    <span className="impact-label">🚨 Evacuation Risk:</span>
+                    <span className="impact-label">Evacuation Risk:</span>
                     <span 
                       className="impact-value" 
                       style={{ color: getEvacuationRiskColor(weatherData.current) }}
@@ -673,7 +532,7 @@ export const EvacuationDashboard: React.FC<EvacuationDashboardProps> = ({
                     </span>
                   </div>
                   <div className="impact-item">
-                    <span className="impact-label">🚁 Air Operations:</span>
+                    <span className="impact-label">Air Operations:</span>
                     <span 
                       className="impact-value" 
                       style={{ color: getAirOpsRiskColor(weatherData.current) }}
@@ -689,12 +548,12 @@ export const EvacuationDashboard: React.FC<EvacuationDashboardProps> = ({
             <div className="ios-card">
               <div className="ios-container">
                 <h4 className="ios-headline" style={{ color: 'var(--ios-purple)', margin: '0 0 var(--ios-spacing-md) 0' }}>
-                  📅 Forecast & Alerts
+                  Forecast & Alerts
                 </h4>
                 <div className="forecast-content">
                   {weatherData.forecast.redFlagWarning && (
                     <div className="red-flag-warning">
-                      <span style={{ color: 'var(--ios-red)', fontWeight: '600' }}>⚠️ RED FLAG WARNING ACTIVE</span>
+                      <span style={{ color: 'var(--ios-red)', fontWeight: '600' }}>RED FLAG WARNING ACTIVE</span>
                     </div>
                   )}
                   <div className="forecast-item">
@@ -720,9 +579,9 @@ export const EvacuationDashboard: React.FC<EvacuationDashboardProps> = ({
       {viewMode === 'building-overview' && (
         <div className="building-overview-view">
           <div className="view-header">
-            <h3>🏗️ Building Overview & Status</h3>
+            <h3>Asset Management & Status</h3>
             <p className="ios-caption" style={{ margin: '8px 0 0 0', color: 'var(--ios-secondary)' }}>
-              Comprehensive building status across all evacuation zones
+              Comprehensive asset tracking and operational status monitoring
             </p>
           </div>
 
@@ -731,7 +590,7 @@ export const EvacuationDashboard: React.FC<EvacuationDashboardProps> = ({
             <div className="ios-card">
               <div className="ios-container">
                 <h4 className="ios-headline" style={{ color: 'var(--ios-blue)', margin: '0 0 var(--ios-spacing-md) 0' }}>
-                  📊 Overall Statistics
+                  Overall Statistics
                 </h4>
                 <div className="overview-stats">
                   <div className="overview-stat">
@@ -762,7 +621,7 @@ export const EvacuationDashboard: React.FC<EvacuationDashboardProps> = ({
             <div className="ios-card">
               <div className="ios-container">
                 <h4 className="ios-headline" style={{ color: 'var(--ios-purple)', margin: '0 0 var(--ios-spacing-md) 0' }}>
-                  🏘️ Zone Summary
+                  Zone Summary
                 </h4>
                 <div className="zone-summary-list">
                   {zones.map(zone => {
@@ -813,6 +672,45 @@ export const EvacuationDashboard: React.FC<EvacuationDashboardProps> = ({
           </div>
         </div>
       )}
+
+      {/* AIP-Powered Decision Support View */}
+      {viewMode === 'aip' && (
+        <div className="aip-view">
+          <div className="ios-card" style={{ margin: '0 0 var(--ios-spacing-lg) 0' }}>
+            <div className="ios-container">
+              <div style={{ marginBottom: '24px' }}>
+                <h3 className="ios-headline" style={{ 
+                  margin: '0 0 8px 0',
+                  fontSize: '24px',
+                  fontWeight: '600',
+                  color: 'var(--ios-blue)'
+                }}>
+                  AIP-Powered Decision Support
+                </h3>
+                <p className="ios-caption" style={{ 
+                  margin: '0',
+                  fontSize: '16px',
+                  color: 'var(--ios-secondary)'
+                }}>
+                  Natural language command interface with explainable AI decisions for disaster response
+                </p>
+              </div>
+              
+              <AIPDecisionSupport 
+                onDecisionMade={(guidance: OperationalGuidance) => {
+                  console.log('AIP Decision Made:', guidance);
+                  // Here you could integrate with other dashboard components
+                  // For example, update evacuation zones based on AI recommendations
+                  if (guidance.recommendation.toLowerCase().includes('evacuate')) {
+                    console.log('AI recommends evacuation - updating zone priorities');
+                  }
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };

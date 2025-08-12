@@ -1,0 +1,46 @@
+{
+  "name": "disaster-response-video-production",
+  "version": "1.0.0",
+  "description": "Video production tools for Disaster Response Dashboard demo",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "narrate": "node scripts/narrate.js",
+    "assemble": "node scripts/assemble.js",
+    "final": "node scripts/final.js",
+    "build": "npm run narrate && npm run assemble && npm run final",
+    "dev": "node scripts/dev.js",
+    "test": "node scripts/test.js",
+    "validate": "node scripts/validate.js",
+    "test:integration": "node scripts/test-integration.js",
+    "test:validation": "node scripts/test-validation.js",
+    "build-and-validate": "npm run build && npm run validate",
+    "test:full": "npm run test:integration && npm run validate",
+    "clean": "rm -rf output/* temp/*"
+  },
+  "dependencies": {
+    "yaml": "^2.3.4",
+    "openai": "^4.20.1",
+    "elevenlabs-node": "^1.0.0",
+    "commander": "^11.1.0",
+    "chalk": "^5.3.0",
+    "ora": "^7.0.1",
+    "inquirer": "^9.2.12",
+    "fs-extra": "^11.1.1",
+    "path": "^0.12.7",
+    "glob": "^10.3.10"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.4",
+    "nodemon": "^3.0.2"
+  },
+  "keywords": [
+    "video",
+    "narration",
+    "tts",
+    "ffmpeg",
+    "disaster-response"
+  ],
+  "author": "Disaster Response Team",
+  "license": "MIT"
+}

@@ -119,7 +119,7 @@ export const WeatherPanel: React.FC<WeatherPanelProps> = ({
           <div className="ios-flex-between">
             <div>
               <h1 className="ios-headline" style={{ color: 'var(--ios-blue)', margin: 0, marginBottom: 'var(--ios-spacing-xs)' }}>
-                🌤️ Weather Conditions & Fire Risk
+                Weather Conditions & Fire Risk
               </h1>
               <p className="ios-caption" style={{ margin: 0 }}>
                 Real-time weather monitoring with fire behavior prediction and emergency alerts
@@ -137,7 +137,7 @@ export const WeatherPanel: React.FC<WeatherPanelProps> = ({
               </button>
               
               <div className="ios-flex" style={{ gap: 'var(--ios-spacing-xs)' }}>
-                <span className="ios-caption" style={{ margin: 0, color: 'var(--ios-red)' }}>🌡️</span>
+                                  <span className="ios-caption" style={{ margin: 0, color: 'var(--ios-red)' }}>Temp</span>
                 <span className="ios-caption" style={{ margin: 0 }}>Temperature</span>
               </div>
               <div className="ios-flex" style={{ gap: 'var(--ios-spacing-xs)' }}>
@@ -145,11 +145,11 @@ export const WeatherPanel: React.FC<WeatherPanelProps> = ({
                 <span className="ios-caption" style={{ margin: 0 }}>Wind</span>
               </div>
               <div className="ios-flex" style={{ gap: 'var(--ios-spacing-xs)' }}>
-                <span className="ios-caption" style={{ margin: 0, color: 'var(--ios-orange)' }}>🔥</span>
+                                  <span className="ios-caption" style={{ margin: 0, color: 'var(--ios-orange)' }}>Fire</span>
                 <span className="ios-caption" style={{ margin: 0 }}>Fire Risk</span>
               </div>
               <div className="ios-flex" style={{ gap: 'var(--ios-spacing-xs)' }}>
-                <span className="ios-caption" style={{ margin: 0, color: 'var(--ios-purple)' }}>⚠️</span>
+                                  <span className="ios-caption" style={{ margin: 0, color: 'var(--ios-purple)' }}>Alert</span>
                 <span className="ios-caption" style={{ margin: 0 }}>Alerts</span>
               </div>
             </div>
@@ -224,14 +224,14 @@ export const WeatherPanel: React.FC<WeatherPanelProps> = ({
           <div className="impact-value" style={{ 
             color: weatherData.current.windSpeed > 25 ? 'var(--ios-red)' : 'var(--ios-green)' 
           }}>
-            {weatherData.current.windSpeed > 25 ? '🔥 High spread risk' : '🟢 Normal spread'}
+                            {weatherData.current.windSpeed > 25 ? 'High spread risk' : 'Normal spread'}
           </div>
         </div>
       </div>
 
       {/* Fire Behavior Prediction */}
       <div className="fire-behavior-prediction">
-        <h4>🔥 Fire Behavior Prediction</h4>
+                        <h4>Fire Behavior Prediction</h4>
         <div className={`prediction-card ${firePrediction.risk}`}>
           <div className="prediction-header">
             <span className="prediction-behavior">{firePrediction.behavior}</span>
@@ -254,7 +254,7 @@ export const WeatherPanel: React.FC<WeatherPanelProps> = ({
           
           {weatherData.forecast.redFlagWarning && (
             <div className="alert critical">
-              ⚠️ Red Flag Warning Active
+                              Red Flag Warning Active
               <div className="warning-details">
                 Wind shift expected 18:00 - evacuation routes may change
               </div>
@@ -266,7 +266,7 @@ export const WeatherPanel: React.FC<WeatherPanelProps> = ({
               <div className="forecast-item">
                 <span className="time">18:00</span>
                 <span className="event">Wind shift to NE</span>
-                <span className="impact">⚠️ Routes may change</span>
+                <span className="impact">Routes may change</span>
               </div>
             )}
             
@@ -290,7 +290,7 @@ export const WeatherPanel: React.FC<WeatherPanelProps> = ({
           {/* Weather Alerts */}
           {weatherData.alerts.length > 0 && (
             <div className="alerts-section">
-              <h4>🚨 Active Alerts</h4>
+                              <h4>Active Alerts</h4>
               {weatherData.alerts.map((alert, index) => (
                 <div 
                   key={index}
@@ -330,7 +330,7 @@ export const WeatherPanel: React.FC<WeatherPanelProps> = ({
       {/* Critical Conditions Warning */}
       {isCriticalConditions && (
         <div className="critical-warning">
-          ⚠️ CRITICAL FIRE WEATHER CONDITIONS
+                          CRITICAL FIRE WEATHER CONDITIONS
           <div className="warning-details">
             Evacuation routes may be affected. Monitor wind shifts.
             <div className="immediate-actions">

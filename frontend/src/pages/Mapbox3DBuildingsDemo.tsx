@@ -41,7 +41,7 @@ export const Mapbox3DBuildingsDemo: React.FC = () => {
           <div className="ios-flex-between">
             <div>
               <h1 className="ios-headline" style={{ color: 'var(--ios-blue)', margin: 0, marginBottom: 'var(--ios-spacing-xs)' }}>
-                🏔️ 3D Terrain Visualization
+                3D Terrain Visualization
               </h1>
               <p className="ios-caption" style={{ margin: 0 }}>
                 Real 3D terrain and building footprints with Foundry data integration

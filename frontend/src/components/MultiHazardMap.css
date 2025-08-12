@@ -1,0 +1,515 @@
+/* Multi-Hazard Map Component Styles */
+
+.multi-hazard-map {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Layer Controls */
+.layer-controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--ios-spacing-md);
+  margin-top: var(--ios-spacing-md);
+}
+
+.layer-toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--ios-spacing-sm);
+  padding: var(--ios-spacing-sm);
+  background: var(--ios-light-gray);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.layer-toggle:hover {
+  background: var(--ios-light-gray-dark);
+}
+
+.layer-toggle input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--ios-blue);
+}
+
+.layer-icon {
+  font-size: 18px;
+  width: 24px;
+  text-align: center;
+}
+
+.layer-label {
+  flex: 1;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.layer-count {
+  background: var(--ios-blue);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  min-width: 20px;
+  text-align: center;
+}
+
+/* Hazard Map Container */
+.hazard-map-container {
+  margin: var(--ios-spacing-lg) 0;
+}
+
+.hazard-map {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--ios-spacing-md);
+  max-height: 600px;
+  overflow-y: auto;
+  padding: var(--ios-spacing-sm);
+  background: var(--ios-light-gray);
+  border-radius: 12px;
+}
+
+/* Hazard Items */
+.hazard-item {
+  background: white;
+  border: 2px solid;
+  border-radius: 12px;
+  padding: var(--ios-spacing-md);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.hazard-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.hazard-item.selected {
+  border-color: var(--ios-blue) !important;
+  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.2);
+}
+
+.hazard-item.critical {
+  border-color: var(--ios-red);
+}
+
+.hazard-item.high {
+  border-color: var(--ios-orange);
+}
+
+.hazard-item.medium {
+  border-color: var(--ios-yellow);
+}
+
+.hazard-item.low {
+  border-color: var(--ios-green);
+}
+
+/* Hazard Header */
+.hazard-header {
+  display: flex;
+  align-items: center;
+  gap: var(--ios-spacing-sm);
+  margin-bottom: var(--ios-spacing-md);
+  padding-bottom: var(--ios-spacing-sm);
+  border-bottom: 1px solid var(--ios-light-gray);
+}
+
+.hazard-icon {
+  font-size: 24px;
+  width: 32px;
+  text-align: center;
+}
+
+.hazard-type {
+  flex: 1;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.hazard-severity {
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.hazard-severity.critical {
+  background: var(--ios-red);
+  color: white;
+}
+
+.hazard-severity.high {
+  background: var(--ios-orange);
+  color: white;
+}
+
+.hazard-severity.medium {
+  background: var(--ios-yellow);
+  color: black;
+}
+
+.hazard-severity.low {
+  background: var(--ios-green);
+  color: white;
+}
+
+/* Hazard Geometry */
+.hazard-geometry {
+  margin: var(--ios-spacing-md) 0;
+}
+
+.fire-hazard > div,
+.flood-hazard > div,
+.earthquake-hazard > div,
+.chemical-hazard > div {
+  padding: var(--ios-spacing-sm);
+  border-radius: 8px;
+  margin-bottom: var(--ios-spacing-sm);
+  color: white;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.fire-active,
+.fire-predicted-1hr,
+.fire-predicted-3hr {
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.flood-current,
+.flood-projected {
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.earthquake-epicenter {
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.chemical-dispersion {
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.flood-details,
+.earthquake-details,
+.chemical-details {
+  margin-top: var(--ios-spacing-xs);
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+/* Hazard Info */
+.hazard-info {
+  margin-top: var(--ios-spacing-md);
+  font-size: 12px;
+  color: var(--ios-dark-gray);
+}
+
+.hazard-info > div {
+  margin-bottom: var(--ios-spacing-xs);
+  display: flex;
+  align-items: center;
+  gap: var(--ios-spacing-xs);
+}
+
+/* Hazard Details Panel */
+.hazard-details-panel {
+  margin-top: var(--ios-spacing-lg);
+}
+
+.hazard-details {
+  margin: var(--ios-spacing-md) 0;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--ios-spacing-sm) 0;
+  border-bottom: 1px solid var(--ios-light-gray);
+}
+
+.detail-row:last-child {
+  border-bottom: none;
+}
+
+.detail-row .label {
+  font-weight: 500;
+  color: var(--ios-dark-gray);
+}
+
+.detail-row .value {
+  font-weight: 600;
+  text-align: right;
+}
+
+.severity-critical {
+  color: var(--ios-red);
+}
+
+.severity-high {
+  color: var(--ios-orange);
+}
+
+.severity-medium {
+  color: var(--ios-yellow);
+}
+
+.severity-low {
+  color: var(--ios-green);
+}
+
+/* Type-specific details */
+.type-specific-details {
+  margin: var(--ios-spacing-md) 0;
+  padding: var(--ios-spacing-md);
+  background: var(--ios-light-gray);
+  border-radius: 8px;
+}
+
+.type-specific-details h4 {
+  margin: 0 0 var(--ios-spacing-md) 0;
+  color: var(--ios-blue);
+  font-size: 16px;
+}
+
+/* Hazard Actions */
+.hazard-actions {
+  display: flex;
+  gap: var(--ios-spacing-sm);
+  margin-top: var(--ios-spacing-md);
+  padding-top: var(--ios-spacing-md);
+  border-top: 1px solid var(--ios-light-gray);
+}
+
+.hazard-actions .ios-button {
+  flex: 1;
+}
+
+/* Hazard Summary */
+.hazard-summary {
+  margin-top: var(--ios-spacing-lg);
+}
+
+.summary-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: var(--ios-spacing-md);
+  margin-top: var(--ios-spacing-md);
+}
+
+.stat-item {
+  text-align: center;
+  padding: var(--ios-spacing-sm);
+  background: var(--ios-light-gray);
+  border-radius: 8px;
+}
+
+.stat-label {
+  display: block;
+  font-size: 12px;
+  color: var(--ios-dark-gray);
+  margin-bottom: var(--ios-spacing-xs);
+}
+
+.stat-value {
+  display: block;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--ios-blue);
+}
+
+.stat-value.critical {
+  color: var(--ios-red);
+}
+
+.stat-value.active {
+  color: var(--ios-orange);
+}
+
+.stat-value.contained {
+  color: var(--ios-green);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hazard-map {
+    grid-template-columns: 1fr;
+  }
+  
+  .layer-controls {
+    grid-template-columns: 1fr;
+  }
+  
+  .summary-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .hazard-actions {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .hazard-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--ios-spacing-xs);
+  }
+  
+  .hazard-severity {
+    align-self: flex-end;
+  }
+  
+  .summary-stats {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Animation for hazard updates */
+.hazard-item {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Critical hazard pulsing animation */
+.hazard-item.critical {
+  animation: criticalPulse 2s ease-in-out infinite;
+}
+
+@keyframes criticalPulse {
+  0%, 100% {
+    box-shadow: 0 2px 8px rgba(255, 68, 68, 0.3);
+  }
+  50% {
+    box-shadow: 0 2px 16px rgba(255, 68, 68, 0.6);
+  }
+}
+
+/* Hazard status transitions */
+.hazard-item {
+  transition: all 0.3s ease, border-color 0.2s ease;
+}
+
+.hazard-item:hover {
+  transform: translateY(-2px) scale(1.02);
+}
+
+/* Layer toggle animations */
+.layer-toggle {
+  transition: all 0.2s ease;
+}
+
+.layer-toggle:active {
+  transform: scale(0.98);
+}
+
+/* Hazard geometry hover effects */
+.hazard-geometry > div {
+  transition: all 0.2s ease;
+}
+
+.hazard-geometry > div:hover {
+  transform: scale(1.02);
+  filter: brightness(1.1);
+}
+
+/* Selected hazard emphasis */
+.hazard-item.selected {
+  animation: selectedEmphasis 0.5s ease-in-out;
+}
+
+@keyframes selectedEmphasis {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Loading states */
+.hazard-map.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.hazard-map.loading::after {
+  content: "Loading hazards...";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 16px;
+  color: var(--ios-dark-gray);
+}
+
+/* Empty state */
+.hazard-map:empty::after {
+  content: "No hazards detected in this area";
+  display: block;
+  text-align: center;
+  padding: var(--ios-spacing-xl);
+  color: var(--ios-dark-gray);
+  font-style: italic;
+}
+
+/* Accessibility improvements */
+.hazard-item:focus {
+  outline: 2px solid var(--ios-blue);
+  outline-offset: 2px;
+}
+
+.layer-toggle:focus-within {
+  outline: 2px solid var(--ios-blue);
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .hazard-item {
+    border-width: 3px;
+  }
+  
+  .hazard-severity {
+    border: 1px solid currentColor;
+  }
+  
+  .detail-row {
+    border-bottom-width: 2px;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .hazard-item,
+  .hazard-geometry > div,
+  .layer-toggle {
+    animation: none;
+    transition: none;
+  }
+  
+  .hazard-item:hover {
+    transform: none;
+  }
+}

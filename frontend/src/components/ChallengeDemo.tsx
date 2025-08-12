@@ -11,7 +11,7 @@ export const ChallengeDemo: React.FC = () => {
           <div className="ios-flex-between">
             <div>
               <h1 className="ios-headline" style={{ color: 'var(--ios-blue)', margin: 0, marginBottom: 'var(--ios-spacing-xs)' }}>
-                🚨 Challenge Demo Component
+                Challenge Demo Component
               </h1>
               <p className="ios-caption" style={{ margin: 0 }}>
                 Component testing and verification for React application development
@@ -20,11 +20,11 @@ export const ChallengeDemo: React.FC = () => {
             
             <div className="ios-flex" style={{ gap: 'var(--ios-spacing-md)' }}>
               <div className="ios-flex" style={{ gap: 'var(--ios-spacing-xs)' }}>
-                <span className="ios-caption" style={{ margin: 0, color: 'var(--ios-green)' }}>✅</span>
+                <span className="ios-caption" style={{ margin: 0, color: 'var(--ios-green)' }}>Ready</span>
                 <span className="ios-caption" style={{ margin: 0 }}>Mounted</span>
               </div>
               <div className="ios-flex" style={{ gap: 'var(--ios-spacing-xs)' }}>
-                <span className="ios-caption" style={{ margin: 0, color: 'var(--ios-blue)' }}>⚛️</span>
+                <span className="ios-caption" style={{ margin: 0, color: 'var(--ios-blue)' }}>React</span>
                 <span className="ios-caption" style={{ margin: 0 }}>React</span>
               </div>
               <div className="ios-flex" style={{ gap: 'var(--ios-spacing-xs)' }}>
@@ -45,7 +45,7 @@ export const ChallengeDemo: React.FC = () => {
         <div className="ios-container">
           <div style={{ textAlign: 'center' }}>
             <h2 className="ios-headline" style={{ color: 'var(--ios-blue)', marginBottom: 'var(--ios-spacing-lg)' }}>
-              🚨 ChallengeDemo Component Loaded Successfully!
+                              ChallengeDemo Component Loaded Successfully!
             </h2>
             <p className="ios-body">This is a test to verify the component is mounting properly.</p>
             <p className="ios-body">If you can see this message, the React app is working correctly.</p>
@@ -59,7 +59,7 @@ export const ChallengeDemo: React.FC = () => {
               border: '1px solid var(--ios-blue)'
             }}>
               <h3 className="ios-subheadline" style={{ color: 'var(--ios-blue)', marginBottom: 'var(--ios-spacing-md)' }}>
-                ✅ Component Status: MOUNTED
+                Component Status: MOUNTED
               </h3>
               <p className="ios-body">TypeScript compilation: SUCCESS</p>
               <p className="ios-body">React rendering: SUCCESS</p>
