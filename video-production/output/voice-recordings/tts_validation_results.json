@@ -1,0 +1,137 @@
+[
+  {
+    "scene": 1,
+    "file": "scene-01-problem-fragmented-response.wav",
+    "exists": true,
+    "size": 661558,
+    "validSize": true,
+    "method": "espeak",
+    "success": true
+  },
+  {
+    "scene": 2,
+    "file": "scene-02-problem-time-costs-lives.wav",
+    "exists": true,
+    "size": 661530,
+    "validSize": true,
+    "method": "espeak",
+    "success": true
+  },
+  {
+    "scene": 3,
+    "file": "scene-03-solution-unified-platform.wav",
+    "exists": true,
+    "size": 661522,
+    "validSize": true,
+    "method": "espeak",
+    "success": true
+  },
+  {
+    "scene": 4,
+    "file": "scene-04-real-time-threat-assessment.wav",
+    "exists": true,
+    "size": 661526,
+    "validSize": true,
+    "method": "espeak",
+    "success": true
+  },
+  {
+    "scene": 5,
+    "file": "scene-05-one-click-evacuation-planning.wav",
+    "exists": true,
+    "size": 661518,
+    "validSize": true,
+    "method": "espeak",
+    "success": true
+  },
+  {
+    "scene": 6,
+    "file": "scene-06-dynamic-route-updates.wav",
+    "exists": true,
+    "size": 661560,
+    "validSize": true,
+    "method": "espeak",
+    "success": true
+  },
+  {
+    "scene": 7,
+    "file": "scene-07-3d-terrain-intelligence.wav",
+    "exists": true,
+    "size": 661548,
+    "validSize": true,
+    "method": "espeak",
+    "success": true
+  },
+  {
+    "scene": 8,
+    "file": "scene-08-mass-evacuation-management.wav",
+    "exists": true,
+    "size": 661558,
+    "validSize": true,
+    "method": "espeak",
+    "success": true
+  },
+  {
+    "scene": 9,
+    "file": "scene-09-ai-powered-decisions.wav",
+    "exists": true,
+    "size": 661558,
+    "validSize": true,
+    "method": "espeak",
+    "success": true
+  },
+  {
+    "scene": 10,
+    "file": "scene-10-weather-integrated-planning.wav",
+    "exists": true,
+    "size": 661548,
+    "validSize": true,
+    "method": "espeak",
+    "success": true
+  },
+  {
+    "scene": 11,
+    "file": "scene-11-commanders-strategic-view.wav",
+    "exists": true,
+    "size": 661538,
+    "validSize": true,
+    "method": "espeak",
+    "success": true
+  },
+  {
+    "scene": 12,
+    "file": "scene-12-first-responder-tactical-view.wav",
+    "exists": true,
+    "size": 661544,
+    "validSize": true,
+    "method": "espeak",
+    "success": true
+  },
+  {
+    "scene": 13,
+    "file": "scene-13-public-communication.wav",
+    "exists": true,
+    "size": 661530,
+    "validSize": true,
+    "method": "espeak",
+    "success": true
+  },
+  {
+    "scene": 14,
+    "file": "scene-14-measurable-impact.wav",
+    "exists": true,
+    "size": 661560,
+    "validSize": true,
+    "method": "espeak",
+    "success": true
+  },
+  {
+    "scene": 15,
+    "file": "scene-15-call-to-action.wav",
+    "exists": true,
+    "size": 661558,
+    "validSize": true,
+    "method": "espeak",
+    "success": true
+  }
+]

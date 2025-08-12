@@ -1,0 +1,79 @@
+{
+  "timestamp": "2025-08-12T17:35:23.616Z",
+  "videoContent": {
+    "segments": 10,
+    "features": [
+      "satellite",
+      "terrain",
+      "risk",
+      "NASA",
+      "NOAA",
+      "sensors",
+      "spatial",
+      "evacuation",
+      "algorithm",
+      "hazard",
+      "resource",
+      "staging",
+      "alerts",
+      "notifications",
+      "risk",
+      "React",
+      "Mapbox",
+      "3D",
+      "Python",
+      "Redis",
+      "Celery",
+      "scikit-learn",
+      "Foundry",
+      "evacuation",
+      "hazard"
+    ]
+  },
+  "frontendScreenshots": {
+    "count": 7,
+    "screenshots": [
+      "01-main-dashboard",
+      "06-multi-hazard-map",
+      "07-evacuation-dashboard",
+      "08-role-based-routing",
+      "09-aip-decision-support",
+      "10-weather-panel",
+      "11-button-interactions"
+    ]
+  },
+  "comparison": {
+    "matches": [
+      "map",
+      "hazard layers",
+      "evacuation routes",
+      "resource allocation",
+      "alerts",
+      "3D visualization"
+    ],
+    "mismatches": [
+      "dashboard",
+      "building status",
+      "weather panel",
+      "real-time updates"
+    ],
+    "missing": [],
+    "recommendations": [
+      {
+        "type": "content",
+        "priority": "high",
+        "message": "Video mentions features not clearly visible in frontend screenshots",
+        "details": [
+          "dashboard",
+          "building status",
+          "weather panel",
+          "real-time updates"
+        ]
+      }
+    ]
+  },
+  "summary": {
+    "matchRate": 0.6,
+    "needsRerecording": true
+  }
+}

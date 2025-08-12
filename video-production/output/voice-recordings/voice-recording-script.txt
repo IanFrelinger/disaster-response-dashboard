@@ -1,0 +1,227 @@
+# Disaster Response Dashboard - Voice Recording Script
+
+Total Duration: 3:45 minutes
+Scenes: 15
+Target Duration per Scene: 15 seconds
+
+Recording Guidelines:
+- Tone: Professional, urgent, confident
+- Pace: Clear, measured, impactful
+- Focus: Problem-solving and user benefits
+- Length: 15 seconds per scene maximum
+
+Technical Requirements:
+- Audio Quality: High (44.1kHz, stereo)
+- Format: WAV
+- Noise Reduction: Minimal background noise
+
+=== SCENE 01 (0:00-0:15) ===
+Screenshot: 01-main-dashboard-overview.png
+Filename: scene-01-problem-fragmented-response.wav
+Duration: 15 seconds
+
+VOICE-OVER:
+"When disasters strike, emergency managers face a nightmare: fragmented data, slow coordination, and dangerous routing that puts lives at risk."
+
+NOTES:
+- Match tone to scene purpose
+- Emphasize key benefits
+- Clear pronunciation
+- Natural pacing
+
+=== SCENE 02 (0:15-0:30) ===
+Screenshot: 02-dashboard-with-metrics.png
+Filename: scene-02-problem-time-costs-lives.wav
+Duration: 15 seconds
+
+VOICE-OVER:
+"Every minute of delay costs lives. Traditional systems take hours to coordinate - we cut that to minutes."
+
+NOTES:
+- Match tone to scene purpose
+- Emphasize key benefits
+- Clear pronunciation
+- Natural pacing
+
+=== SCENE 03 (0:30-0:45) ===
+Screenshot: 03-navigation-menu-open.png
+Filename: scene-03-solution-unified-platform.wav
+Duration: 15 seconds
+
+VOICE-OVER:
+"Our unified dashboard gives emergency commanders, first responders, and agencies one platform for coordinated action."
+
+NOTES:
+- Match tone to scene purpose
+- Emphasize key benefits
+- Clear pronunciation
+- Natural pacing
+
+=== SCENE 04 (0:45-1:00) ===
+Screenshot: 04-multi-hazard-map.png
+Filename: scene-04-real-time-threat-assessment.wav
+Duration: 15 seconds
+
+VOICE-OVER:
+"See all threats in real-time. Our multi-hazard map integrates data from multiple sources instantly."
+
+NOTES:
+- Match tone to scene purpose
+- Emphasize key benefits
+- Clear pronunciation
+- Natural pacing
+
+=== SCENE 05 (1:00-1:15) ===
+Screenshot: 06-map-evacuation-routes.png
+Filename: scene-05-one-click-evacuation-planning.wav
+Duration: 15 seconds
+
+VOICE-OVER:
+"Generate safe evacuation routes with one click. Our system automatically avoids danger zones and optimizes for safety."
+
+NOTES:
+- Match tone to scene purpose
+- Emphasize key benefits
+- Clear pronunciation
+- Natural pacing
+
+=== SCENE 06 (1:15-1:30) ===
+Screenshot: 05-map-hazard-layers-active.png
+Filename: scene-06-dynamic-route-updates.wav
+Duration: 15 seconds
+
+VOICE-OVER:
+"Routes update automatically as conditions change. What took hours now happens in seconds."
+
+NOTES:
+- Match tone to scene purpose
+- Emphasize key benefits
+- Clear pronunciation
+- Natural pacing
+
+=== SCENE 07 (1:30-1:45) ===
+Screenshot: 07-3d-terrain-view.png
+Filename: scene-07-3d-terrain-intelligence.wav
+Duration: 15 seconds
+
+VOICE-OVER:
+"3D terrain visualization reveals critical elevation data that affects evacuation planning and resource deployment."
+
+NOTES:
+- Match tone to scene purpose
+- Emphasize key benefits
+- Clear pronunciation
+- Natural pacing
+
+=== SCENE 08 (1:45-2:00) ===
+Screenshot: 08-evacuation-dashboard-main.png
+Filename: scene-08-mass-evacuation-management.wav
+Duration: 15 seconds
+
+VOICE-OVER:
+"Manage mass evacuations efficiently. Our dashboard coordinates thousands of people with precision."
+
+NOTES:
+- Match tone to scene purpose
+- Emphasize key benefits
+- Clear pronunciation
+- Natural pacing
+
+=== SCENE 09 (2:00-2:15) ===
+Screenshot: 14-aip-decision-support-main.png
+Filename: scene-09-ai-powered-decisions.wav
+Duration: 15 seconds
+
+VOICE-OVER:
+"AI analyzes patterns and provides real-time recommendations. Make informed decisions when seconds count."
+
+NOTES:
+- Match tone to scene purpose
+- Emphasize key benefits
+- Clear pronunciation
+- Natural pacing
+
+=== SCENE 10 (2:15-2:30) ===
+Screenshot: 17-weather-panel-main.png
+Filename: scene-10-weather-integrated-planning.wav
+Duration: 15 seconds
+
+VOICE-OVER:
+"Real-time weather data from NOAA predicts how conditions will affect your response. Plan ahead, not react."
+
+NOTES:
+- Match tone to scene purpose
+- Emphasize key benefits
+- Clear pronunciation
+- Natural pacing
+
+=== SCENE 11 (2:30-2:45) ===
+Screenshot: 11-commander-view.png
+Filename: scene-11-commanders-strategic-view.wav
+Duration: 15 seconds
+
+VOICE-OVER:
+"Commanders get strategic overviews with high-level decision tools. Allocate resources where they're needed most."
+
+NOTES:
+- Match tone to scene purpose
+- Emphasize key benefits
+- Clear pronunciation
+- Natural pacing
+
+=== SCENE 12 (2:45-3:00) ===
+Screenshot: 12-first-responder-view.png
+Filename: scene-12-first-responder-tactical-view.wav
+Duration: 15 seconds
+
+VOICE-OVER:
+"First responders see tactical details for immediate action. Get the information you need, when you need it."
+
+NOTES:
+- Match tone to scene purpose
+- Emphasize key benefits
+- Clear pronunciation
+- Natural pacing
+
+=== SCENE 13 (3:00-3:15) ===
+Screenshot: 13-public-information-view.png
+Filename: scene-13-public-communication.wav
+Duration: 15 seconds
+
+VOICE-OVER:
+"Keep citizens informed with real-time updates. Clear communication saves lives and reduces panic."
+
+NOTES:
+- Match tone to scene purpose
+- Emphasize key benefits
+- Clear pronunciation
+- Natural pacing
+
+=== SCENE 14 (3:15-3:30) ===
+Screenshot: 24-alert-center.png
+Filename: scene-14-measurable-impact.wav
+Duration: 15 seconds
+
+VOICE-OVER:
+"Our system reduces response time by 80%, improves evacuation efficiency by 60%, and saves lives."
+
+NOTES:
+- Match tone to scene purpose
+- Emphasize key benefits
+- Clear pronunciation
+- Natural pacing
+
+=== SCENE 15 (3:30-3:45) ===
+Screenshot: 01-main-dashboard-overview.png
+Filename: scene-15-call-to-action.wav
+Duration: 15 seconds
+
+VOICE-OVER:
+"Transform your emergency response today. When minutes matter, our dashboard delivers coordinated action."
+
+NOTES:
+- Match tone to scene purpose
+- Emphasize key benefits
+- Clear pronunciation
+- Natural pacing
+

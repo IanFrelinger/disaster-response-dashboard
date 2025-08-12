@@ -1,0 +1,325 @@
+{
+  "metadata": {
+    "totalDuration": "3:45",
+    "totalScenes": 15,
+    "averageSceneDuration": 15,
+    "timestamp": "2025-08-12T17:51:26.690Z"
+  },
+  "scenes": [
+    {
+      "sceneNumber": 1,
+      "timestamp": "0:00-0:15",
+      "screenshot": {
+        "filename": "01-main-dashboard-overview.png",
+        "path": "../frontend/screenshots/01-main-dashboard-overview.png",
+        "description": "Main dashboard with overview panels and navigation"
+      },
+      "voiceOver": {
+        "text": "When disasters strike, emergency managers face a nightmare: fragmented data, slow coordination, and dangerous routing that puts lives at risk.",
+        "filename": "scene-01-problem-fragmented-response.wav",
+        "duration": 15,
+        "tone": "urgent, concerned"
+      },
+      "visualActions": [
+        "Show main dashboard",
+        "Highlight key metrics",
+        "Demonstrate interface design"
+      ],
+      "keyMessage": "Current systems fail when minutes matter"
+    },
+    {
+      "sceneNumber": 2,
+      "timestamp": "0:15-0:30",
+      "screenshot": {
+        "filename": "02-dashboard-with-metrics.png",
+        "path": "../frontend/screenshots/02-dashboard-with-metrics.png",
+        "description": "Dashboard showing key performance metrics and status indicators"
+      },
+      "voiceOver": {
+        "text": "Every minute of delay costs lives. Traditional systems take hours to coordinate - we cut that to minutes.",
+        "filename": "scene-02-problem-time-costs-lives.wav",
+        "duration": 15,
+        "tone": "urgent, concerned"
+      },
+      "visualActions": [
+        "Point to metrics",
+        "Show coordination challenges",
+        "Highlight routing problems"
+      ],
+      "keyMessage": "Time equals lives in emergencies"
+    },
+    {
+      "sceneNumber": 3,
+      "timestamp": "0:30-0:45",
+      "screenshot": {
+        "filename": "03-navigation-menu-open.png",
+        "path": "../frontend/screenshots/03-navigation-menu-open.png",
+        "description": "Navigation menu expanded showing all available sections"
+      },
+      "voiceOver": {
+        "text": "Our unified dashboard gives emergency commanders, first responders, and agencies one platform for coordinated action.",
+        "filename": "scene-03-solution-unified-platform.wav",
+        "duration": 15,
+        "tone": "confident, solution-focused"
+      },
+      "visualActions": [
+        "Open navigation menu",
+        "Show all sections",
+        "Demonstrate comprehensive coverage"
+      ],
+      "keyMessage": "One platform, coordinated response"
+    },
+    {
+      "sceneNumber": 4,
+      "timestamp": "0:45-1:00",
+      "screenshot": {
+        "filename": "04-multi-hazard-map.png",
+        "path": "../frontend/screenshots/04-multi-hazard-map.png",
+        "description": "Interactive map with multiple hazard layers and data visualization"
+      },
+      "voiceOver": {
+        "text": "See all threats in real-time. Our multi-hazard map integrates data from multiple sources instantly.",
+        "filename": "scene-04-real-time-threat-assessment.wav",
+        "duration": 15,
+        "tone": "confident, solution-focused"
+      },
+      "visualActions": [
+        "Show map interface",
+        "Demonstrate data integration",
+        "Highlight real-time feeds"
+      ],
+      "keyMessage": "Instant situational awareness"
+    },
+    {
+      "sceneNumber": 5,
+      "timestamp": "1:00-1:15",
+      "screenshot": {
+        "filename": "06-map-evacuation-routes.png",
+        "path": "../frontend/screenshots/06-map-evacuation-routes.png",
+        "description": "Map displaying evacuation routes and safe passage corridors"
+      },
+      "voiceOver": {
+        "text": "Generate safe evacuation routes with one click. Our system automatically avoids danger zones and optimizes for safety.",
+        "filename": "scene-05-one-click-evacuation-planning.wav",
+        "duration": 15,
+        "tone": "professional, demonstrating"
+      },
+      "visualActions": [
+        "Generate evacuation routes",
+        "Show route optimization",
+        "Highlight safety features"
+      ],
+      "keyMessage": "Instant, safe evacuation planning"
+    },
+    {
+      "sceneNumber": 6,
+      "timestamp": "1:15-1:30",
+      "screenshot": {
+        "filename": "05-map-hazard-layers-active.png",
+        "path": "../frontend/screenshots/05-map-hazard-layers-active.png",
+        "description": "Map with hazard layers toggled on showing fire, flood, and weather data"
+      },
+      "voiceOver": {
+        "text": "Routes update automatically as conditions change. What took hours now happens in seconds.",
+        "filename": "scene-06-dynamic-route-updates.wav",
+        "duration": 15,
+        "tone": "professional, demonstrating"
+      },
+      "visualActions": [
+        "Toggle hazard layers",
+        "Show layers activating",
+        "Demonstrate multiple hazards"
+      ],
+      "keyMessage": "Adaptive, real-time response"
+    },
+    {
+      "sceneNumber": 7,
+      "timestamp": "1:30-1:45",
+      "screenshot": {
+        "filename": "07-3d-terrain-view.png",
+        "path": "../frontend/screenshots/07-3d-terrain-view.png",
+        "description": "3D terrain visualization with elevation and topographic data"
+      },
+      "voiceOver": {
+        "text": "3D terrain visualization reveals critical elevation data that affects evacuation planning and resource deployment.",
+        "filename": "scene-07-3d-terrain-intelligence.wav",
+        "duration": 15,
+        "tone": "professional, demonstrating"
+      },
+      "visualActions": [
+        "Activate 3D view",
+        "Show terrain elevation",
+        "Demonstrate topographic features"
+      ],
+      "keyMessage": "Strategic terrain intelligence"
+    },
+    {
+      "sceneNumber": 8,
+      "timestamp": "1:45-2:00",
+      "screenshot": {
+        "filename": "08-evacuation-dashboard-main.png",
+        "path": "../frontend/screenshots/08-evacuation-dashboard-main.png",
+        "description": "Main evacuation management interface with route planning tools"
+      },
+      "voiceOver": {
+        "text": "Manage mass evacuations efficiently. Our dashboard coordinates thousands of people with precision.",
+        "filename": "scene-08-mass-evacuation-management.wav",
+        "duration": 15,
+        "tone": "professional, demonstrating"
+      },
+      "visualActions": [
+        "Show evacuation dashboard",
+        "Demonstrate management tools",
+        "Highlight coordination"
+      ],
+      "keyMessage": "Scale without chaos"
+    },
+    {
+      "sceneNumber": 9,
+      "timestamp": "2:00-2:15",
+      "screenshot": {
+        "filename": "14-aip-decision-support-main.png",
+        "path": "../frontend/screenshots/14-aip-decision-support-main.png",
+        "description": "AI-powered decision support interface with recommendations and insights"
+      },
+      "voiceOver": {
+        "text": "AI analyzes patterns and provides real-time recommendations. Make informed decisions when seconds count.",
+        "filename": "scene-09-ai-powered-decisions.wav",
+        "duration": 15,
+        "tone": "professional, demonstrating"
+      },
+      "visualActions": [
+        "Show AI interface",
+        "Demonstrate recommendations",
+        "Highlight intelligent insights"
+      ],
+      "keyMessage": "AI-enhanced decision making"
+    },
+    {
+      "sceneNumber": 10,
+      "timestamp": "2:15-2:30",
+      "screenshot": {
+        "filename": "17-weather-panel-main.png",
+        "path": "../frontend/screenshots/17-weather-panel-main.png",
+        "description": "Weather information panel with current conditions and forecasts"
+      },
+      "voiceOver": {
+        "text": "Real-time weather data from NOAA predicts how conditions will affect your response. Plan ahead, not react.",
+        "filename": "scene-10-weather-integrated-planning.wav",
+        "duration": 15,
+        "tone": "professional, demonstrating"
+      },
+      "visualActions": [
+        "Show weather panel",
+        "Demonstrate weather data",
+        "Highlight forecast integration"
+      ],
+      "keyMessage": "Proactive, not reactive"
+    },
+    {
+      "sceneNumber": 11,
+      "timestamp": "2:30-2:45",
+      "screenshot": {
+        "filename": "11-commander-view.png",
+        "path": "../frontend/screenshots/11-commander-view.png",
+        "description": "Strategic commander interface with high-level overview and decision tools"
+      },
+      "voiceOver": {
+        "text": "Commanders get strategic overviews with high-level decision tools. Allocate resources where they're needed most.",
+        "filename": "scene-11-commanders-strategic-view.wav",
+        "duration": 15,
+        "tone": "benefit-focused, reassuring"
+      },
+      "visualActions": [
+        "Show commander interface",
+        "Highlight strategic tools",
+        "Demonstrate decision support"
+      ],
+      "keyMessage": "Strategic resource optimization"
+    },
+    {
+      "sceneNumber": 12,
+      "timestamp": "2:45-3:00",
+      "screenshot": {
+        "filename": "12-first-responder-view.png",
+        "path": "../frontend/screenshots/12-first-responder-view.png",
+        "description": "Tactical first responder interface with detailed operational information"
+      },
+      "voiceOver": {
+        "text": "First responders see tactical details for immediate action. Get the information you need, when you need it.",
+        "filename": "scene-12-first-responder-tactical-view.wav",
+        "duration": 15,
+        "tone": "benefit-focused, reassuring"
+      },
+      "visualActions": [
+        "Switch to responder view",
+        "Show tactical details",
+        "Highlight operational tools"
+      ],
+      "keyMessage": "Tactical precision"
+    },
+    {
+      "sceneNumber": 13,
+      "timestamp": "3:00-3:15",
+      "screenshot": {
+        "filename": "13-public-information-view.png",
+        "path": "../frontend/screenshots/13-public-information-view.png",
+        "description": "Public information interface with citizen-facing alerts and updates"
+      },
+      "voiceOver": {
+        "text": "Keep citizens informed with real-time updates. Clear communication saves lives and reduces panic.",
+        "filename": "scene-13-public-communication.wav",
+        "duration": 15,
+        "tone": "benefit-focused, reassuring"
+      },
+      "visualActions": [
+        "Show public interface",
+        "Demonstrate citizen alerts",
+        "Highlight communication"
+      ],
+      "keyMessage": "Clear public communication"
+    },
+    {
+      "sceneNumber": 14,
+      "timestamp": "3:15-3:30",
+      "screenshot": {
+        "filename": "24-alert-center.png",
+        "path": "../frontend/screenshots/24-alert-center.png",
+        "description": "Central alert management system with active notifications"
+      },
+      "voiceOver": {
+        "text": "Our system reduces response time by 80%, improves evacuation efficiency by 60%, and saves lives.",
+        "filename": "scene-14-measurable-impact.wav",
+        "duration": 15,
+        "tone": "impressive, results-focused"
+      },
+      "visualActions": [
+        "Show alert center",
+        "Demonstrate notification system",
+        "Highlight communication tools"
+      ],
+      "keyMessage": "Proven results"
+    },
+    {
+      "sceneNumber": 15,
+      "timestamp": "3:30-3:45",
+      "screenshot": {
+        "filename": "01-main-dashboard-overview.png",
+        "path": "../frontend/screenshots/01-main-dashboard-overview.png",
+        "description": "Main dashboard with overview panels and navigation"
+      },
+      "voiceOver": {
+        "text": "Transform your emergency response today. When minutes matter, our dashboard delivers coordinated action.",
+        "filename": "scene-15-call-to-action.wav",
+        "duration": 15,
+        "tone": "confident, call-to-action"
+      },
+      "visualActions": [
+        "Show main dashboard",
+        "Highlight key metrics",
+        "Demonstrate interface design"
+      ],
+      "keyMessage": "Take action now"
+    }
+  ]
+}

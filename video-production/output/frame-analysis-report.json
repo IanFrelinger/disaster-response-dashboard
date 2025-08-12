@@ -1,0 +1,201 @@
+{
+  "timestamp": "2025-08-12T18:46:28.392Z",
+  "file": "disaster-response-animatic.mp4",
+  "totalFrames": 38,
+  "uniqueSizes": 37,
+  "frameSizes": [
+    {
+      "file": "keyframe-01-0.04s.png",
+      "size": 102478
+    },
+    {
+      "file": "keyframe-02-10.04s.png",
+      "size": 201270
+    },
+    {
+      "file": "keyframe-03-20.04s.png",
+      "size": 205571
+    },
+    {
+      "file": "keyframe-04-30.08s.png",
+      "size": 205505
+    },
+    {
+      "file": "keyframe-05-40.08s.png",
+      "size": 201617
+    },
+    {
+      "file": "keyframe-06-50.12s.png",
+      "size": 206874
+    },
+    {
+      "file": "keyframe-07-60.16s.png",
+      "size": 206482
+    },
+    {
+      "file": "keyframe-08-70.16s.png",
+      "size": 201669
+    },
+    {
+      "file": "keyframe-09-80.20s.png",
+      "size": 206088
+    },
+    {
+      "file": "keyframe-10-90.20s.png",
+      "size": 205490
+    },
+    {
+      "file": "keyframe-11-100.20s.png",
+      "size": 201532
+    },
+    {
+      "file": "keyframe-12-110.20s.png",
+      "size": 205435
+    },
+    {
+      "file": "keyframe-13-120.20s.png",
+      "size": 206968
+    },
+    {
+      "file": "keyframe-14-130.20s.png",
+      "size": 201463
+    },
+    {
+      "file": "keyframe-15-140.20s.png",
+      "size": 204764
+    },
+    {
+      "file": "keyframe-16-150.20s.png",
+      "size": 206887
+    },
+    {
+      "file": "keyframe-17-160.20s.png",
+      "size": 200921
+    },
+    {
+      "file": "keyframe-18-170.24s.png",
+      "size": 205193
+    },
+    {
+      "file": "keyframe-19-180.24s.png",
+      "size": 206409
+    },
+    {
+      "file": "keyframe-20-190.24s.png",
+      "size": 200958
+    },
+    {
+      "file": "keyframe-21-200.28s.png",
+      "size": 206037
+    },
+    {
+      "file": "keyframe-22-210.28s.png",
+      "size": 204892
+    },
+    {
+      "file": "keyframe-23-220.28s.png",
+      "size": 201534
+    },
+    {
+      "file": "scene-01-0s.png",
+      "size": 102478
+    },
+    {
+      "file": "scene-02-15s.png",
+      "size": 201897
+    },
+    {
+      "file": "scene-03-30s.png",
+      "size": 215996
+    },
+    {
+      "file": "scene-04-45s.png",
+      "size": 206792
+    },
+    {
+      "file": "scene-05-60s.png",
+      "size": 216751
+    },
+    {
+      "file": "scene-06-75s.png",
+      "size": 205067
+    },
+    {
+      "file": "scene-07-90s.png",
+      "size": 215432
+    },
+    {
+      "file": "scene-08-105s.png",
+      "size": 201982
+    },
+    {
+      "file": "scene-09-120s.png",
+      "size": 215548
+    },
+    {
+      "file": "scene-10-135s.png",
+      "size": 201881
+    },
+    {
+      "file": "scene-11-150s.png",
+      "size": 214772
+    },
+    {
+      "file": "scene-12-165s.png",
+      "size": 208700
+    },
+    {
+      "file": "scene-13-180s.png",
+      "size": 214970
+    },
+    {
+      "file": "scene-14-195s.png",
+      "size": 204701
+    },
+    {
+      "file": "scene-15-210s.png",
+      "size": 215233
+    }
+  ],
+  "frameFiles": [
+    "keyframe-01-0.04s.png",
+    "keyframe-02-10.04s.png",
+    "keyframe-03-20.04s.png",
+    "keyframe-04-30.08s.png",
+    "keyframe-05-40.08s.png",
+    "keyframe-06-50.12s.png",
+    "keyframe-07-60.16s.png",
+    "keyframe-08-70.16s.png",
+    "keyframe-09-80.20s.png",
+    "keyframe-10-90.20s.png",
+    "keyframe-11-100.20s.png",
+    "keyframe-12-110.20s.png",
+    "keyframe-13-120.20s.png",
+    "keyframe-14-130.20s.png",
+    "keyframe-15-140.20s.png",
+    "keyframe-16-150.20s.png",
+    "keyframe-17-160.20s.png",
+    "keyframe-18-170.24s.png",
+    "keyframe-19-180.24s.png",
+    "keyframe-20-190.24s.png",
+    "keyframe-21-200.28s.png",
+    "keyframe-22-210.28s.png",
+    "keyframe-23-220.28s.png",
+    "scene-01-0s.png",
+    "scene-02-15s.png",
+    "scene-03-30s.png",
+    "scene-04-45s.png",
+    "scene-05-60s.png",
+    "scene-06-75s.png",
+    "scene-07-90s.png",
+    "scene-08-105s.png",
+    "scene-09-120s.png",
+    "scene-10-135s.png",
+    "scene-11-150s.png",
+    "scene-12-165s.png",
+    "scene-13-180s.png",
+    "scene-14-195s.png",
+    "scene-15-210s.png"
+  ],
+  "analysis": "Different visual content detected"
+}

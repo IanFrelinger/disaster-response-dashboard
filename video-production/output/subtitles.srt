@@ -1,0 +1,60 @@
+1
+00:00:00,000 --> 00:00:15,000
+When disasters strike, emergency managers face a nightmare: fragmented data, slow coordination, and dangerous routing that puts lives at risk.
+
+2
+00:00:15,000 --> 00:00:30,000
+Every minute of delay costs lives. Traditional systems take hours to coordinate - we cut that to minutes.
+
+3
+00:00:30,000 --> 00:00:45,000
+Our unified dashboard gives emergency commanders, first responders, and agencies one platform for coordinated action.
+
+4
+00:00:45,000 --> 00:01:00,000
+See all threats in real-time. Our multi-hazard map integrates data from multiple sources instantly.
+
+5
+00:01:00,000 --> 00:01:15,000
+Generate safe evacuation routes with one click. Our system automatically avoids danger zones and optimizes for safety.
+
+6
+00:01:15,000 --> 00:01:30,000
+Routes update automatically as conditions change. What took hours now happens in seconds.
+
+7
+00:01:30,000 --> 00:01:45,000
+3D terrain visualization reveals critical elevation data that affects evacuation planning and resource deployment.
+
+8
+00:01:45,000 --> 00:02:00,000
+Manage mass evacuations efficiently. Our dashboard coordinates thousands of people with precision.
+
+9
+00:02:00,000 --> 00:02:15,000
+AI analyzes patterns and provides real-time recommendations. Make informed decisions when seconds count.
+
+10
+00:02:15,000 --> 00:02:30,000
+Real-time weather data from NOAA predicts how conditions will affect your response. Plan ahead, not react.
+
+11
+00:02:30,000 --> 00:02:45,000
+Commanders get strategic overviews with high-level decision tools. Allocate resources where they're needed most.
+
+12
+00:02:45,000 --> 00:03:00,000
+First responders see tactical details for immediate action. Get the information you need, when you need it.
+
+13
+00:03:00,000 --> 00:03:15,000
+Keep citizens informed with real-time updates. Clear communication saves lives and reduces panic.
+
+14
+00:03:15,000 --> 00:03:30,000
+Our system reduces response time by 80%, improves evacuation efficiency by 60%, and saves lives.
+
+15
+00:03:30,000 --> 00:03:45,000
+Transform your emergency response today. When minutes matter, our dashboard delivers coordinated action.
+

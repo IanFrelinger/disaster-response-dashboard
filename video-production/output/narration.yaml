@@ -1,0 +1,112 @@
+{
+  "project": "disaster-response-dashboard",
+  "language": "en-US",
+  "voice": "professional",
+  "beats": [
+    {
+      "id": "scene-01",
+      "startTime": "0:00",
+      "durationSeconds": 15,
+      "text": "When disasters strike, emergency managers face a nightmare: fragmented data, slow coordination, and dangerous routing that puts lives at risk.",
+      "emphasis": "high"
+    },
+    {
+      "id": "scene-02",
+      "startTime": "0:15",
+      "durationSeconds": 15,
+      "text": "Every minute of delay costs lives. Traditional systems take hours to coordinate - we cut that to minutes.",
+      "emphasis": "high"
+    },
+    {
+      "id": "scene-03",
+      "startTime": "0:30",
+      "durationSeconds": 15,
+      "text": "Our unified dashboard gives emergency commanders, first responders, and agencies one platform for coordinated action.",
+      "emphasis": "high"
+    },
+    {
+      "id": "scene-04",
+      "startTime": "0:45",
+      "durationSeconds": 15,
+      "text": "See all threats in real-time. Our multi-hazard map integrates data from multiple sources instantly.",
+      "emphasis": "high"
+    },
+    {
+      "id": "scene-05",
+      "startTime": "1:00",
+      "durationSeconds": 15,
+      "text": "Generate safe evacuation routes with one click. Our system automatically avoids danger zones and optimizes for safety.",
+      "emphasis": "high"
+    },
+    {
+      "id": "scene-06",
+      "startTime": "1:15",
+      "durationSeconds": 15,
+      "text": "Routes update automatically as conditions change. What took hours now happens in seconds.",
+      "emphasis": "high"
+    },
+    {
+      "id": "scene-07",
+      "startTime": "1:30",
+      "durationSeconds": 15,
+      "text": "3D terrain visualization reveals critical elevation data that affects evacuation planning and resource deployment.",
+      "emphasis": "high"
+    },
+    {
+      "id": "scene-08",
+      "startTime": "1:45",
+      "durationSeconds": 15,
+      "text": "Manage mass evacuations efficiently. Our dashboard coordinates thousands of people with precision.",
+      "emphasis": "high"
+    },
+    {
+      "id": "scene-09",
+      "startTime": "2:00",
+      "durationSeconds": 15,
+      "text": "AI analyzes patterns and provides real-time recommendations. Make informed decisions when seconds count.",
+      "emphasis": "high"
+    },
+    {
+      "id": "scene-10",
+      "startTime": "2:15",
+      "durationSeconds": 15,
+      "text": "Real-time weather data from NOAA predicts how conditions will affect your response. Plan ahead, not react.",
+      "emphasis": "high"
+    },
+    {
+      "id": "scene-11",
+      "startTime": "2:30",
+      "durationSeconds": 15,
+      "text": "Commanders get strategic overviews with high-level decision tools. Allocate resources where they're needed most.",
+      "emphasis": "high"
+    },
+    {
+      "id": "scene-12",
+      "startTime": "2:45",
+      "durationSeconds": 15,
+      "text": "First responders see tactical details for immediate action. Get the information you need, when you need it.",
+      "emphasis": "high"
+    },
+    {
+      "id": "scene-13",
+      "startTime": "3:00",
+      "durationSeconds": 15,
+      "text": "Keep citizens informed with real-time updates. Clear communication saves lives and reduces panic.",
+      "emphasis": "high"
+    },
+    {
+      "id": "scene-14",
+      "startTime": "3:15",
+      "durationSeconds": 15,
+      "text": "Our system reduces response time by 80%, improves evacuation efficiency by 60%, and saves lives.",
+      "emphasis": "high"
+    },
+    {
+      "id": "scene-15",
+      "startTime": "3:30",
+      "durationSeconds": 15,
+      "text": "Transform your emergency response today. When minutes matter, our dashboard delivers coordinated action.",
+      "emphasis": "high"
+    }
+  ]
+}
