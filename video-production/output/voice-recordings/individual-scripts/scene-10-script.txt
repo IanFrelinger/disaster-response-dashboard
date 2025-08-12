@@ -1,0 +1,19 @@
+# Scene 10 - 2:15-2:30
+
+Screenshot: 17-weather-panel-main.png
+Target Duration: 15 seconds
+Output File: scene-10-weather-integrated-planning.wav
+
+VOICE-OVER TEXT:
+"Real-time weather data from NOAA predicts how conditions will affect your response. Plan ahead, not react."
+
+RECORDING NOTES:
+- Professional, confident tone
+- Clear, measured pace
+- Emphasize problem-solving
+- Focus on user benefits
+
+VISUAL CUES:
+- Show 17-weather-panel-main.png
+- Highlight key UI elements
+- Demonstrate functionality

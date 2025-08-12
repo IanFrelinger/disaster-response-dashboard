@@ -1,0 +1,37 @@
+{
+  "project": "disaster-response-dashboard",
+  "version": "1.0.0",
+  "settings": {
+    "resolution": "1920x1080",
+    "fps": 30,
+    "quality": "high",
+    "audio": {
+      "sampleRate": 44100,
+      "channels": 2,
+      "bitrate": "192k"
+    }
+  },
+  "beats": [
+    {
+      "id": "scene-01",
+      "durationSeconds": 15,
+      "startTime": "0:00",
+      "endTime": "0:15",
+      "title": "Test Scene One"
+    },
+    {
+      "id": "scene-02",
+      "durationSeconds": 15,
+      "startTime": "0:15",
+      "endTime": "0:30",
+      "title": "Test Scene Two"
+    },
+    {
+      "id": "scene-03",
+      "durationSeconds": 15,
+      "startTime": "0:30",
+      "endTime": "0:45",
+      "title": "Test Scene Three"
+    }
+  ]
+}

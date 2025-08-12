@@ -1,0 +1,43 @@
+{
+  "timestamp": "2025-08-12T17:29:31.309Z",
+  "validationResults": {
+    "technical": {
+      "passed": 4,
+      "warnings": 0,
+      "errors": 0,
+      "total": 4
+    },
+    "visual": {
+      "passed": 2,
+      "warnings": 2,
+      "errors": 0,
+      "total": 4
+    },
+    "content": {
+      "passed": 3,
+      "warnings": 0,
+      "errors": 0,
+      "total": 3
+    }
+  },
+  "errors": [],
+  "warnings": [
+    {
+      "message": "Error checking video bitrate: Cannot read properties of undefined (reading 'bit_rate')",
+      "category": "visual"
+    },
+    {
+      "message": "Video has only 0 scene changes (may be too static)",
+      "category": "visual"
+    }
+  ],
+  "summary": {
+    "totalPassed": 9,
+    "totalTests": 11,
+    "totalErrors": 0,
+    "totalWarnings": 2
+  },
+  "recommendations": [
+    "Consider improving visual quality"
+  ]
+}

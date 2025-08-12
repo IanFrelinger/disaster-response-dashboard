@@ -1,0 +1,19 @@
+# Scene 09 - 2:00-2:15
+
+Screenshot: 14-aip-decision-support-main.png
+Target Duration: 15 seconds
+Output File: scene-09-ai-powered-decisions.wav
+
+VOICE-OVER TEXT:
+"AI analyzes patterns and provides real-time recommendations. Make informed decisions when seconds count."
+
+RECORDING NOTES:
+- Professional, confident tone
+- Clear, measured pace
+- Emphasize problem-solving
+- Focus on user benefits
+
+VISUAL CUES:
+- Show 14-aip-decision-support-main.png
+- Highlight key UI elements
+- Demonstrate functionality

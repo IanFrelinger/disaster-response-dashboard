@@ -3,9 +3,12 @@
 
 FROM node:18-alpine AS base
 
-# Install system dependencies
+# Install system dependencies including QuickTime-compatible codecs
 RUN apk add --no-cache \
     ffmpeg \
+    ffmpeg-dev \
+    imagemagick \
+    imagemagick-dev \
     python3 \
     py3-pip \
     git \
@@ -25,15 +28,50 @@ RUN apk add --no-cache \
     pixman-dev \
     cairo-dev \
     pango-dev \
+    espeak \
+    espeak-dev \
+    # QuickTime-compatible video dependencies (Alpine-compatible names)
+    x264-dev \
+    x265-dev \
+    libvpx-dev \
+    libvorbis-dev \
+    libtheora-dev \
+    lame-dev \
+    opus-dev \
+    libass-dev \
+    libbluray-dev \
+    dav1d-dev \
+    libwebp-dev \
+    aom-dev \
+    rav1e-dev \
+    svt-av1-dev \
+    xvidcore-dev \
+    openjpeg-dev \
+    speex-dev \
+    soxr-dev \
+    zeromq-dev \
+    zimg-dev \
+    # Additional container formats
+    libmatroska-dev \
     && rm -rf /var/cache/apk/*
 
-# Install additional Python packages for video processing
+# Install additional Python packages for video processing and AI TTS
 RUN pip3 install --no-cache-dir --break-system-packages \
     numpy \
     pillow \
     moviepy \
     imageio \
-    imageio-ffmpeg
+    imageio-ffmpeg \
+    gTTS \
+    pyttsx3 \
+    speechrecognition \
+    pydub \
+    requests \
+    beautifulsoup4 \
+    lxml \
+    # Additional video processing packages
+    opencv-python-headless \
+    ffmpeg-python
 
 # Set working directory
 WORKDIR /app
@@ -48,7 +86,7 @@ RUN npm ci --only=production
 COPY . .
 
 # Create necessary directories
-RUN mkdir -p output temp assets
+RUN mkdir -p output temp assets output/animatic output/voice-recordings
 
 # Set permissions
 RUN chmod +x scripts/*.js
@@ -64,6 +102,10 @@ RUN apk add --no-cache \
     vim \
     nano \
     htop \
+    # Additional video tools for development
+    mediainfo \
+    exiftool \
+    qt-faststart \
     && rm -rf /var/cache/apk/*
 
 # Install additional Python packages for development

@@ -1,0 +1,336 @@
+{
+  "totalDuration": 225,
+  "totalBeats": 15,
+  "beats": [
+    {
+      "id": "scene-01",
+      "durationSeconds": 15,
+      "narration": "When disasters strike, emergency managers face a nightmare: fragmented data, slow coordination, and dangerous routing that puts lives at risk.",
+      "actions": [
+        {
+          "type": "display",
+          "target": "current"
+        },
+        {
+          "type": "highlight",
+          "target": "data"
+        },
+        {
+          "type": "show",
+          "target": "point to coordination delays"
+        }
+      ],
+      "callouts": [
+        "Current systems fail when minutes matter"
+      ]
+    },
+    {
+      "id": "scene-02",
+      "durationSeconds": 15,
+      "narration": "Every minute of delay costs lives. Traditional systems take hours to coordinate - we cut that to minutes.",
+      "actions": [
+        {
+          "type": "display",
+          "target": "current"
+        },
+        {
+          "type": "highlight",
+          "target": "data"
+        },
+        {
+          "type": "demo",
+          "target": "feature"
+        }
+      ],
+      "callouts": [
+        "Time equals lives in emergencies"
+      ]
+    },
+    {
+      "id": "scene-03",
+      "durationSeconds": 15,
+      "narration": "Our unified dashboard gives emergency commanders, first responders, and agencies one platform for coordinated action.",
+      "actions": [
+        {
+          "type": "show",
+          "target": "open navigation menu"
+        },
+        {
+          "type": "display",
+          "target": "current"
+        },
+        {
+          "type": "demo",
+          "target": "feature"
+        }
+      ],
+      "callouts": [
+        "One platform, coordinated response"
+      ]
+    },
+    {
+      "id": "scene-04",
+      "durationSeconds": 15,
+      "narration": "See all threats in real-time. Our multi-hazard map integrates data from multiple sources instantly.",
+      "actions": [
+        {
+          "type": "display",
+          "target": "current"
+        },
+        {
+          "type": "demo",
+          "target": "feature"
+        },
+        {
+          "type": "highlight",
+          "target": "data"
+        }
+      ],
+      "callouts": [
+        "Instant situational awareness"
+      ]
+    },
+    {
+      "id": "scene-05",
+      "durationSeconds": 15,
+      "narration": "Generate safe evacuation routes with one click. Our system automatically avoids danger zones and optimizes for safety.",
+      "actions": [
+        {
+          "type": "click",
+          "target": "button"
+        },
+        {
+          "type": "display",
+          "target": "current"
+        },
+        {
+          "type": "highlight",
+          "target": "data"
+        }
+      ],
+      "callouts": [
+        "Instant, safe evacuation planning"
+      ]
+    },
+    {
+      "id": "scene-06",
+      "durationSeconds": 15,
+      "narration": "Routes update automatically as conditions change. What took hours now happens in seconds.",
+      "actions": [
+        {
+          "type": "show",
+          "target": "toggle hazard layers"
+        },
+        {
+          "type": "display",
+          "target": "current"
+        },
+        {
+          "type": "demo",
+          "target": "feature"
+        }
+      ],
+      "callouts": [
+        "Adaptive, real-time response"
+      ]
+    },
+    {
+      "id": "scene-07",
+      "durationSeconds": 15,
+      "narration": "3D terrain visualization reveals critical elevation data that affects evacuation planning and resource deployment.",
+      "actions": [
+        {
+          "type": "show",
+          "target": "activate 3d view"
+        },
+        {
+          "type": "display",
+          "target": "current"
+        },
+        {
+          "type": "demo",
+          "target": "feature"
+        }
+      ],
+      "callouts": [
+        "Strategic terrain intelligence"
+      ]
+    },
+    {
+      "id": "scene-08",
+      "durationSeconds": 15,
+      "narration": "Manage mass evacuations efficiently. Our dashboard coordinates thousands of people with precision.",
+      "actions": [
+        {
+          "type": "display",
+          "target": "current"
+        },
+        {
+          "type": "demo",
+          "target": "feature"
+        },
+        {
+          "type": "highlight",
+          "target": "data"
+        }
+      ],
+      "callouts": [
+        "Scale without chaos"
+      ]
+    },
+    {
+      "id": "scene-09",
+      "durationSeconds": 15,
+      "narration": "AI analyzes patterns and provides real-time recommendations. Make informed decisions when seconds count.",
+      "actions": [
+        {
+          "type": "display",
+          "target": "current"
+        },
+        {
+          "type": "demo",
+          "target": "feature"
+        },
+        {
+          "type": "highlight",
+          "target": "data"
+        }
+      ],
+      "callouts": [
+        "AI-enhanced decision making"
+      ]
+    },
+    {
+      "id": "scene-10",
+      "durationSeconds": 15,
+      "narration": "Real-time weather data from NOAA predicts how conditions will affect your response. Plan ahead, not react.",
+      "actions": [
+        {
+          "type": "display",
+          "target": "current"
+        },
+        {
+          "type": "demo",
+          "target": "feature"
+        },
+        {
+          "type": "highlight",
+          "target": "data"
+        }
+      ],
+      "callouts": [
+        "Proactive, not reactive"
+      ]
+    },
+    {
+      "id": "scene-11",
+      "durationSeconds": 15,
+      "narration": "Commanders get strategic overviews with high-level decision tools. Allocate resources where they're needed most.",
+      "actions": [
+        {
+          "type": "display",
+          "target": "current"
+        },
+        {
+          "type": "highlight",
+          "target": "data"
+        },
+        {
+          "type": "demo",
+          "target": "feature"
+        }
+      ],
+      "callouts": [
+        "Strategic resource optimization"
+      ]
+    },
+    {
+      "id": "scene-12",
+      "durationSeconds": 15,
+      "narration": "First responders see tactical details for immediate action. Get the information you need, when you need it.",
+      "actions": [
+        {
+          "type": "show",
+          "target": "switch to responder view"
+        },
+        {
+          "type": "display",
+          "target": "current"
+        },
+        {
+          "type": "highlight",
+          "target": "data"
+        }
+      ],
+      "callouts": [
+        "Tactical precision"
+      ]
+    },
+    {
+      "id": "scene-13",
+      "durationSeconds": 15,
+      "narration": "Keep citizens informed with real-time updates. Clear communication saves lives and reduces panic.",
+      "actions": [
+        {
+          "type": "display",
+          "target": "current"
+        },
+        {
+          "type": "demo",
+          "target": "feature"
+        },
+        {
+          "type": "highlight",
+          "target": "data"
+        }
+      ],
+      "callouts": [
+        "Clear public communication"
+      ]
+    },
+    {
+      "id": "scene-14",
+      "durationSeconds": 15,
+      "narration": "Our system reduces response time by 80%, improves evacuation efficiency by 60%, and saves lives.",
+      "actions": [
+        {
+          "type": "display",
+          "target": "current"
+        },
+        {
+          "type": "highlight",
+          "target": "data"
+        },
+        {
+          "type": "demo",
+          "target": "feature"
+        }
+      ],
+      "callouts": [
+        "Proven results"
+      ]
+    },
+    {
+      "id": "scene-15",
+      "durationSeconds": 15,
+      "narration": "Transform your emergency response today. When minutes matter, our dashboard delivers coordinated action.",
+      "actions": [
+        {
+          "type": "show",
+          "target": "return to main dashboard"
+        },
+        {
+          "type": "display",
+          "target": "current"
+        },
+        {
+          "type": "show",
+          "target": "end with strong visual"
+        }
+      ],
+      "callouts": [
+        "Take action now"
+      ]
+    }
+  ]
+}

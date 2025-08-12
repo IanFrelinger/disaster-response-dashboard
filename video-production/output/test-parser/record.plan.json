@@ -1,0 +1,60 @@
+{
+  "totalDuration": 45,
+  "totalBeats": 3,
+  "beats": [
+    {
+      "id": "scene-01",
+      "durationSeconds": 15,
+      "narration": "This is the first test scene with narration.",
+      "actions": [
+        {
+          "type": "display",
+          "target": "current"
+        },
+        {
+          "type": "highlight",
+          "target": "data"
+        }
+      ],
+      "callouts": [
+        "Test message one"
+      ]
+    },
+    {
+      "id": "scene-02",
+      "durationSeconds": 15,
+      "narration": "This is the second test scene with different content.",
+      "actions": [
+        {
+          "type": "demo",
+          "target": "feature"
+        },
+        {
+          "type": "click",
+          "target": "button"
+        }
+      ],
+      "callouts": [
+        "Test message two"
+      ]
+    },
+    {
+      "id": "scene-03",
+      "durationSeconds": 15,
+      "narration": "This is the third test scene to verify parsing.",
+      "actions": [
+        {
+          "type": "display",
+          "target": "current"
+        },
+        {
+          "type": "show",
+          "target": "pan to new area"
+        }
+      ],
+      "callouts": [
+        "Test message three"
+      ]
+    }
+  ]
+}

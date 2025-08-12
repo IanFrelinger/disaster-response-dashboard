@@ -1,0 +1,28 @@
+{
+  "project": "disaster-response-dashboard",
+  "language": "en-US",
+  "voice": "professional",
+  "beats": [
+    {
+      "id": "scene-01",
+      "startTime": "0:00",
+      "durationSeconds": 15,
+      "text": "This is the first test scene with narration.",
+      "emphasis": "high"
+    },
+    {
+      "id": "scene-02",
+      "startTime": "0:15",
+      "durationSeconds": 15,
+      "text": "This is the second test scene with different content.",
+      "emphasis": "high"
+    },
+    {
+      "id": "scene-03",
+      "startTime": "0:30",
+      "durationSeconds": 15,
+      "text": "This is the third test scene to verify parsing.",
+      "emphasis": "high"
+    }
+  ]
+}

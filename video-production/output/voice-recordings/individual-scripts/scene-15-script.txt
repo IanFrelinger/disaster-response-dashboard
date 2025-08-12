@@ -1,0 +1,19 @@
+# Scene 15 - 3:30-3:45
+
+Screenshot: 01-main-dashboard-overview.png
+Target Duration: 15 seconds
+Output File: scene-15-call-to-action.wav
+
+VOICE-OVER TEXT:
+"Transform your emergency response today. When minutes matter, our dashboard delivers coordinated action."
+
+RECORDING NOTES:
+- Professional, confident tone
+- Clear, measured pace
+- Emphasize problem-solving
+- Focus on user benefits
+
+VISUAL CUES:
+- Show 01-main-dashboard-overview.png
+- Highlight key UI elements
+- Demonstrate functionality
