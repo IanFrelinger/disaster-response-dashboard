@@ -62,7 +62,7 @@ const hazardData: HazardData = {
         name: 'Golden Gate Park Wildfire',
         description: 'Wildfire spreading from Golden Gate Park area',
         location: 'Golden Gate Park, San Francisco',
-        tooltip: '🔥 High Risk Wildfire • Golden Gate Park • Immediate Action Required',
+        tooltip: 'High Risk Wildfire • Golden Gate Park • Immediate Action Required',
         evacuation_required: true,
         affected_area: '2.5 sq km',
         timestamp: '2024-08-11T21:43:00Z',
@@ -171,7 +171,7 @@ const hazardData: HazardData = {
         name: 'Twin Peaks Landslide',
         description: 'Landslide risk in Twin Peaks area',
         location: 'Twin Peaks, San Francisco',
-        tooltip: '🏔️ Medium Risk Landslide • Twin Peaks • Monitor Conditions',
+        tooltip: 'Medium Risk Landslide • Twin Peaks • Monitor Conditions',
         evacuation_required: true,
         affected_area: '0.8 sq km',
         timestamp: '2024-08-11T21:43:00Z'
@@ -221,7 +221,7 @@ const hazardData: HazardData = {
         name: 'South SF Chemical Spill',
         description: 'Chemical spill in South San Francisco industrial area',
         location: 'South San Francisco',
-        tooltip: '☣️ High Risk Chemical Spill • South SF Industrial • Immediate Action Required',
+        tooltip: 'High Risk Chemical Spill • South SF Industrial • Immediate Action Required',
         evacuation_required: true,
         affected_area: '1.2 sq km',
         timestamp: '2024-08-11T21:43:00Z'
@@ -958,7 +958,7 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
           const properties = e.features[0].properties;
           setTooltip({
             visible: true,
-            content: `🏢 3D BUILDING\nHeight: ${properties.height || 'Unknown'}m\nType: ${properties.building || 'Commercial'}\nAddress: ${properties.address || 'Location available'}`,
+            content: `3D BUILDING\nHeight: ${properties.height || 'Unknown'}m\nType: ${properties.building || 'Commercial'}\nAddress: ${properties.address || 'Location available'}`,
             x: e.point.x,
             y: e.point.y
           });
@@ -1015,7 +1015,7 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
               capacity: 'High',
               riskLevel: 'Low',
               description: 'Minimum hazard route for civilian evacuation with maximum safety',
-              tooltip: '🚨 Primary Civilian Route: 18 min • Low Risk • High Capacity • Maximum Safety • Avoids all hazard zones',
+              tooltip: 'Primary Civilian Route: 18 min • Low Risk • High Capacity • Maximum Safety • Avoids all hazard zones',
               ems_priority: 'low',
               civilian_priority: 'high',
               restrictions: 'No EMS vehicles during evacuation',
@@ -1346,7 +1346,7 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
             const properties = e.features[0].properties;
             setTooltip({
               visible: true,
-              content: `🚨 PRIMARY EVACUATION ROUTE\n${properties.routeName || 'Main Route'}\nStatus: ${properties.status || 'Active'}\nTime: ${properties.estimatedTime || 'Unknown'}\nCapacity: ${properties.capacity || 'Unlimited'}`,
+              content: `PRIMARY EVACUATION ROUTE\n${properties.routeName || 'Main Route'}\nStatus: ${properties.status || 'Active'}\nTime: ${properties.estimatedTime || 'Unknown'}\nCapacity: ${properties.capacity || 'Unlimited'}`,
               x: e.point.x,
               y: e.point.y
             });
@@ -1379,7 +1379,7 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
             const properties = e.features[0].properties;
             setTooltip({
               visible: true,
-              content: `⚠️ SECONDARY EVACUATION ROUTE\n${properties.routeName || 'Alternative Route'}\nStatus: ${properties.status || 'Active'}\nTime: ${properties.estimatedTime || 'Unknown'}\nCapacity: ${properties.capacity || 'Limited'}`,
+              content: `SECONDARY EVACUATION ROUTE\n${properties.routeName || 'Alternative Route'}\nStatus: ${properties.status || 'Active'}\nTime: ${properties.estimatedTime || 'Unknown'}\nCapacity: ${properties.capacity || 'Limited'}`,
               x: e.point.x,
               y: e.point.y
             });
@@ -1579,7 +1579,7 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
         
         if (e.features && e.features[0] && e.features[0].properties) {
           const properties = e.features[0].properties;
-          const windInfo = `💨 WIND VECTOR\nSpeed: ${properties.windSpeed} mph\nDirection: ${properties.windDirection}°\nCategory: ${properties.windCategory.toUpperCase()}\n${properties.windGusts ? '⚠️ GUST DETECTED' : 'Normal conditions'}\n${properties.isHighWind ? '🚨 HIGH WIND WARNING' : ''}`;
+          const windInfo = `WIND VECTOR\nSpeed: ${properties.windSpeed} mph\nDirection: ${properties.windDirection}°\nCategory: ${properties.windCategory.toUpperCase()}\n${properties.windGusts ? 'GUST DETECTED' : 'Normal conditions'}\n${properties.isHighWind ? 'HIGH WIND WARNING' : ''}`;
           
           setTooltip({
             visible: true,
@@ -1628,7 +1628,7 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
         
         if (e.features && e.features[0] && e.features[0].properties) {
           const properties = e.features[0].properties;
-          const gustInfo = `💨 WIND GUST\nBase Speed: ${properties.windSpeed - properties.gustIntensity} mph\nGust Speed: ${properties.windSpeed} mph\nGust Intensity: +${properties.gustIntensity} mph\n${properties.isHighWind ? '🚨 HIGH WIND WARNING' : 'Moderate conditions'}`;
+          const gustInfo = `WIND GUST\nBase Speed: ${properties.windSpeed - properties.gustIntensity} mph\nGust Speed: ${properties.windSpeed} mph\nGust Intensity: +${properties.windIntensity} mph\n${properties.isHighWind ? 'HIGH WIND WARNING' : 'Moderate conditions'}`;
           
           setTooltip({
             visible: true,
@@ -1713,8 +1713,7 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
         }
       });
 
-      // Add weather legend
-      addWeatherLegend(map);
+      
 
       console.log('Weather overlay added successfully');
     } catch (error) {
@@ -1916,58 +1915,58 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
 
     legend.innerHTML = `
       <h4 style="margin: 0 0 15px 0; color: var(--ios-blue); font-size: 17px; border-bottom: 1px solid rgba(0, 122, 255, 0.2); padding-bottom: 8px; font-weight: 600;">
-        🌤️ Weather Operations
+        Weather Operations
       </h4>
       
       <!-- Current Conditions -->
       <div style="margin-bottom: 15px; padding: 12px; background: rgba(0, 122, 255, 0.05); border-radius: 12px; border: 1px solid rgba(0, 122, 255, 0.1);">
-        <h5 style="margin: 0 0 8px 0; color: var(--ios-blue); font-size: 15px; font-weight: 600;">📊 Current Conditions</h5>
+        <h5 style="margin: 0 0 8px 0; color: var(--ios-blue); font-size: 15px; font-weight: 600;">Current Conditions</h5>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 13px;">
-          <div><span style="color: var(--ios-blue); font-weight: 500;">🌡️ Temp:</span> ${weatherData?.current.temp}°F</div>
-          <div><span style="color: var(--ios-blue); font-weight: 500;">💧 Humidity:</span> ${weatherData?.current.humidity}%</div>
-          <div><span style="color: var(--ios-blue); font-weight: 500;">💨 Wind:</span> ${weatherData?.current.windSpeed} mph</div>
-          <div><span style="color: var(--ios-blue); font-weight: 500;">🧭 Direction:</span> ${getWindDirection(weatherData?.current.windDirection || 0)}</div>
-          ${weatherData?.current.windGusts ? '<div style="grid-column: 1 / -1;"><span style="color: var(--ios-orange); font-weight: 500;">💨 Gusts:</span> Active - Monitor for changes</div>' : ''}
+          <div><span style="color: var(--ios-blue); font-weight: 500;">Temp:</span> ${weatherData?.current.temp}°F</div>
+          <div><span style="color: var(--ios-blue); font-weight: 500;">Humidity:</span> ${weatherData?.current.humidity}%</div>
+          <div><span style="color: var(--ios-blue); font-weight: 500;">Wind:</span> ${weatherData?.current.windSpeed} mph</div>
+          <div><span style="color: var(--ios-blue); font-weight: 500;">Direction:</span> ${getWindDirection(weatherData?.current.windDirection || 0)}</div>
+          ${weatherData?.current.windGusts ? '<div style="grid-column: 1 / -1;"><span style="color: var(--ios-orange); font-weight: 500;">Gusts:</span> Active - Monitor for changes</div>' : ''}
         </div>
       </div>
 
       <!-- Wind Vector Legend -->
       <div style="margin-bottom: 15px; padding: 12px; background: rgba(0, 122, 255, 0.05); border-radius: 12px; border: 1px solid rgba(0, 122, 255, 0.1);">
-        <h5 style="margin: 0 0 8px 0; color: var(--ios-blue); font-size: 15px; font-weight: 600;">💨 Wind Vectors</h5>
+        <h5 style="margin: 0 0 8px 0; color: var(--ios-blue); font-size: 15px; font-weight: 600;">Wind Vectors</h5>
         <div style="font-size: 12px; line-height: 1.4;">
           <div style="margin-bottom: 4px;">
             <span style="color: var(--ios-blue); font-weight: 500;">→ Arrows:</span> Wind direction
           </div>
           <div style="margin-bottom: 4px;">
-            <span style="color: var(--ios-blue); font-weight: 500;">📏 Length:</span> Wind speed (longer = faster)
+            <span style="color: var(--ios-blue); font-weight: 500;">Length:</span> Wind speed (longer = faster)
           </div>
           <div style="margin-bottom: 4px;">
-            <span style="color: var(--ios-orange); font-weight: 500;">🟠 Circles:</span> Wind gusts detected
+            <span style="color: var(--ios-orange); font-weight: 500;">Circles:</span> Wind gusts detected
           </div>
           <div>
-            <span style="color: #FF3B30; font-weight: 500;">🔴 Red:</span> High wind warnings (>25 mph)
+            <span style="color: #FF3B30; font-weight: 500;">Red:</span> High wind warnings (>25 mph)
           </div>
         </div>
       </div>
 
       <!-- EMS Impact Assessment -->
       <div style="margin-bottom: 15px; padding: 12px; background: rgba(255, 59, 48, 0.05); border-radius: 12px; border: 1px solid rgba(255, 59, 48, 0.1);">
-        <h5 style="margin: 0 0 8px 0; color: #FF3B30; font-size: 15px; font-weight: 600;">🚑 EMS Impact</h5>
+        <h5 style="margin: 0 0 8px 0; color: #FF3B30; font-size: 15px; font-weight: 600;">EMS Impact</h5>
         <div style="font-size: 13px;">
           <div style="margin-bottom: 6px;">
-            <span style="color: #FF3B30; font-weight: 500;">🔥 Fire Risk:</span> 
+            <span style="color: #FF3B30; font-weight: 500;">Fire Risk:</span> 
             <span style="color: ${getFireRiskColor(weatherData?.current.fireWeatherIndex || 'low')}; font-weight: 600;">
               ${weatherData?.current.fireWeatherIndex?.toUpperCase()}
             </span>
           </div>
           <div style="margin-bottom: 6px;">
-            <span style="color: #FF3B30; font-weight: 500;">🚨 Evacuation:</span> 
+            <span style="color: #FF3B30; font-weight: 500;">Evacuation:</span> 
             <span style="color: ${getEvacuationRiskColor(weatherData?.current)}; font-weight: 600;">
               ${getEvacuationRisk(weatherData?.current)}
             </span>
           </div>
           <div>
-            <span style="color: #FF3B30; font-weight: 500;">🚁 Air Operations:</span> 
+            <span style="color: #FF3B30; font-weight: 500;">Air Operations:</span> 
             <span style="color: ${getAirOpsRiskColor(weatherData?.current)}; font-weight: 600;">
               ${getAirOpsRisk(weatherData?.current)}
             </span>
@@ -1977,10 +1976,10 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
 
       <!-- Forecast Box -->
       <div style="padding: 12px; background: rgba(88, 86, 214, 0.05); border-radius: 12px; border: 1px solid rgba(88, 86, 214, 0.1);">
-        <h5 style="margin: 0 0 8px 0; color: #5856D6; font-size: 15px; font-weight: 600;">📅 Forecast</h5>
+        <h5 style="margin: 0 0 8px 0; color: #5856D6; font-size: 15px; font-weight: 600;">Forecast</h5>
         <div style="font-size: 13px; line-height: 1.4;">
           ${weatherData?.forecast.redFlagWarning ? 
-            '<div style="color: #FF3B30; margin-bottom: 6px; font-weight: 600;">⚠️ RED FLAG WARNING ACTIVE</div>' : ''
+            '<div style="color: #FF3B30; margin-bottom: 6px; font-weight: 600;">RED FLAG WARNING ACTIVE</div>' : ''
           }
           <div style="margin-bottom: 6px;">
             <span style="color: #5856D6; font-weight: 500;">18:00:</span> ${weatherData?.forecast.windShiftExpected || 'No wind shift expected'}
@@ -2435,7 +2434,7 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
         zIndex: 100
       }}>
         <h2 style={{ margin: '0 0 10px 0', color: '#1D1D1F', fontSize: '24px' }}>
-          🗺️ Emergency Response Map
+          Emergency Response Map
         </h2>
         <p style={{ margin: '0', color: '#8E8E93', fontSize: '16px' }}>
           Real-time disaster monitoring and response coordination
@@ -2487,7 +2486,7 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
               fontSize: '12px',
               fontWeight: 'bold',
               color: '#DC3545'
-            }}>⚠️</div>
+            }}>Alert</div>
             <span className="ios-caption" style={{ 
               margin: 0, 
               fontWeight: '700',
@@ -2762,6 +2761,98 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
             </div>
           </div>
           
+          {/* Weather Operations Section */}
+          <div style={{ 
+            marginTop: '16px', 
+            paddingTop: '16px',
+            borderTop: '1px solid rgba(142, 142, 147, 0.2)'
+          }}>
+            <h5 style={{ 
+              margin: '0 0 12px 0', 
+              color: 'var(--ios-blue)', 
+              fontSize: '15px', 
+              fontWeight: '600',
+              letterSpacing: '-0.022em'
+            }}>Weather Operations</h5>
+            
+            {/* Current Conditions */}
+            <div style={{ 
+              marginBottom: '12px', 
+              padding: '10px', 
+              background: 'rgba(0, 122, 255, 0.05)', 
+              borderRadius: '8px', 
+              border: '1px solid rgba(0, 122, 255, 0.1)' 
+            }}>
+              <h6 style={{ margin: '0 0 6px 0', color: 'var(--ios-blue)', fontSize: '13px', fontWeight: '600' }}>Current Conditions</h6>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px', fontSize: '12px' }}>
+                <div><span style={{ color: 'var(--ios-blue)', fontWeight: '500' }}>Temp:</span> {weatherData?.current.temp}°F</div>
+                <div><span style={{ color: 'var(--ios-blue)', fontWeight: '500' }}>Humidity:</span> {weatherData?.current.humidity}%</div>
+                <div><span style={{ color: 'var(--ios-blue)', fontWeight: '500' }}>Wind:</span> {weatherData?.current.windSpeed} mph</div>
+                <div><span style={{ color: 'var(--ios-blue)', fontWeight: '500' }}>Direction:</span> {getWindDirection(weatherData?.current.windDirection || 0)}</div>
+                {weatherData?.current.windGusts && (
+                  <div style={{ gridColumn: '1 / -1' }}>
+                    <span style={{ color: 'var(--ios-orange)', fontWeight: '500' }}>Gusts:</span> Active - Monitor
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* EMS Impact Assessment */}
+            <div style={{ 
+              marginBottom: '12px', 
+              padding: '10px', 
+              background: 'rgba(255, 59, 48, 0.05)', 
+              borderRadius: '8px', 
+              border: '1px solid rgba(255, 59, 48, 0.1)' 
+            }}>
+              <h6 style={{ margin: '0 0 6px 0', color: '#FF3B30', fontSize: '13px', fontWeight: '600' }}>EMS Impact</h6>
+              <div style={{ fontSize: '12px' }}>
+                <div style={{ marginBottom: '4px' }}>
+                  <span style={{ color: '#FF3B30', fontWeight: '500' }}>Fire Risk:</span> 
+                  <span style={{ color: getFireRiskColor(weatherData?.current.fireWeatherIndex || 'low'), fontWeight: '600' }}>
+                    {weatherData?.current.fireWeatherIndex?.toUpperCase()}
+                  </span>
+                </div>
+                <div style={{ marginBottom: '4px' }}>
+                  <span style={{ color: '#FF3B30', fontWeight: '500' }}>Evacuation:</span> 
+                  <span style={{ color: getEvacuationRiskColor(weatherData?.current), fontWeight: '600' }}>
+                    {getEvacuationRisk(weatherData?.current)}
+                  </span>
+                </div>
+                <div>
+                  <span style={{ color: '#FF3B30', fontWeight: '500' }}>Air Ops:</span> 
+                  <span style={{ color: getAirOpsRiskColor(weatherData?.current), fontWeight: '600' }}>
+                    {getAirOpsRisk(weatherData?.current)}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Forecast Box */}
+            <div style={{ 
+              padding: '10px', 
+              background: 'rgba(88, 86, 214, 0.05)', 
+              borderRadius: '8px', 
+              border: '1px solid rgba(88, 86, 214, 0.1)' 
+            }}>
+              <h6 style={{ margin: '0 0 6px 0', color: '#5856D6', fontSize: '13px', fontWeight: '600' }}>Forecast</h6>
+              <div style={{ fontSize: '12px', lineHeight: '1.4' }}>
+                {weatherData?.forecast.redFlagWarning && (
+                  <div style={{ color: '#FF3B30', marginBottom: '6px', fontWeight: '600' }}>RED FLAG WARNING ACTIVE</div>
+                )}
+                <div style={{ marginBottom: '4px' }}>
+                  <span style={{ color: '#5856D6', fontWeight: '500' }}>18:00:</span> {weatherData?.forecast.windShiftExpected || 'No wind shift expected'}
+                </div>
+                <div style={{ marginBottom: '4px' }}>
+                  <span style={{ color: '#5856D6', fontWeight: '500' }}>Overnight:</span> {weatherData?.forecast.humidityRecovery || 'Humidity stable'}
+                </div>
+                <div>
+                  <span style={{ color: '#5856D6', fontWeight: '500' }}>22:00:</span> {weatherData?.forecast.tempDrop || 'Temperature stable'}
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* Summary Section */}
           <div style={{ 
             marginTop: '12px', 
@@ -2786,6 +2877,8 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
         </div>
       )}
       
+
+
       {/* Enhanced Robust Tooltip */}
       {tooltip.visible && (
         <div style={{

@@ -1,0 +1,74 @@
+version: '3.8'
+
+services:
+  video-production:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    container_name: disaster-response-video
+    volumes:
+      # Mount source code for development
+      - .:/app
+      - /app/node_modules
+      - /app/output
+      - /app/temp
+      # Mount host audio devices for TTS (macOS)
+      - /System/Library/Speech/Voices:/System/Library/Speech/Voices:ro
+      # Mount host fonts
+      - /System/Library/Fonts:/System/Library/Fonts:ro
+      - /Library/Fonts:/Library/Fonts:ro
+    environment:
+      - NODE_ENV=development
+      - DISPLAY=${DISPLAY}
+      - FFMPEG_BINARY=/usr/bin/ffmpeg
+      - PYTHONPATH=/app
+    ports:
+      - "3000:3000"  # Web interface (if needed)
+      - "8080:8080"  # Development server
+    working_dir: /app
+    command: npm run dev
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
+
+  # Alternative production service
+  video-production-prod:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: disaster-response-video-prod
+    volumes:
+      - ./output:/app/output
+      - ./assets:/app/assets
+      - ./narration.yaml:/app/narration.yaml
+    environment:
+      - NODE_ENV=production
+      - FFMPEG_BINARY=/usr/bin/ffmpeg
+    working_dir: /app
+    command: npm run build
+    profiles:
+      - production
+
+  # Testing service
+  video-testing:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    container_name: disaster-response-video-test
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=test
+      - FFMPEG_BINARY=/usr/bin/ffmpeg
+    working_dir: /app
+    command: npm run test
+    profiles:
+      - testing
+
+networks:
+  default:
+    name: video-production-network

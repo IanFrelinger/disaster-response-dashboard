@@ -1,1 +1,0 @@
-deployment/start-containerized.sh

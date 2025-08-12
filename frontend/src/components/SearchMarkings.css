@@ -1,0 +1,665 @@
+/* Search Markings Component Styles */
+
+.search-markings {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Quick Marking Interface */
+.quick-marking-interface {
+  margin-bottom: var(--ios-spacing-lg);
+}
+
+.quick-marking-description {
+  color: var(--ios-dark-gray);
+  font-size: 14px;
+  margin-bottom: var(--ios-spacing-md);
+}
+
+.quick-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--ios-spacing-md);
+}
+
+.quick-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--ios-spacing-sm);
+  padding: var(--ios-spacing-lg);
+  border: 2px solid;
+  border-radius: 12px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+  min-height: 120px;
+}
+
+.quick-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.quick-button.clear {
+  border-color: var(--ios-green);
+  color: var(--ios-green);
+}
+
+.quick-button.clear:hover {
+  background: var(--ios-green);
+  color: white;
+}
+
+.quick-button.hazard {
+  border-color: var(--ios-red);
+  color: var(--ios-red);
+}
+
+.quick-button.hazard:hover {
+  background: var(--ios-red);
+  color: white;
+}
+
+.quick-button.victims {
+  border-color: var(--ios-orange);
+  color: var(--ios-orange);
+}
+
+.quick-button.victims:hover {
+  background: var(--ios-orange);
+  color: white;
+}
+
+.button-icon {
+  font-size: 32px;
+}
+
+.button-label {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.button-description {
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+/* Create Marking Form */
+.create-marking {
+  margin-bottom: var(--ios-spacing-lg);
+}
+
+.marking-form {
+  margin-top: var(--ios-spacing-md);
+}
+
+.form-section {
+  margin-bottom: var(--ios-spacing-lg);
+  padding: var(--ios-spacing-md);
+  background: var(--ios-light-gray);
+  border-radius: 8px;
+}
+
+.form-section h5 {
+  margin: 0 0 var(--ios-spacing-md) 0;
+  color: var(--ios-blue);
+  font-size: 16px;
+}
+
+.form-row {
+  margin-bottom: var(--ios-spacing-md);
+}
+
+.form-label {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ios-spacing-xs);
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--ios-dark-gray);
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+  padding: var(--ios-spacing-sm);
+  border: 1px solid var(--ios-light-gray-dark);
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: inherit;
+  transition: border-color 0.2s ease;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: var(--ios-blue);
+  box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.2);
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.form-checkbox {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--ios-blue);
+  margin-right: var(--ios-spacing-xs);
+}
+
+/* Search Code Form */
+.search-code-form {
+  margin-top: var(--ios-spacing-md);
+}
+
+.code-input-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--ios-spacing-md);
+  margin-bottom: var(--ios-spacing-md);
+}
+
+.code-input {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ios-spacing-xs);
+}
+
+.code-label {
+  font-weight: 500;
+  font-size: 12px;
+  color: var(--ios-dark-gray);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.center-input {
+  grid-column: 1 / -1;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--ios-spacing-sm);
+}
+
+.center-input .code-label {
+  flex: 1;
+}
+
+.center-input span:last-child {
+  font-size: 14px;
+  color: var(--ios-dark-gray);
+}
+
+/* Form Actions */
+.form-actions {
+  display: flex;
+  gap: var(--ios-spacing-md);
+  justify-content: flex-end;
+  margin-top: var(--ios-spacing-lg);
+  padding-top: var(--ios-spacing-md);
+  border-top: 1px solid var(--ios-light-gray);
+}
+
+/* Markings Grid */
+.markings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--ios-spacing-md);
+  margin-top: var(--ios-spacing-md);
+}
+
+.marking-card {
+  background: white;
+  border: 1px solid var(--ios-light-gray);
+  border-radius: 12px;
+  padding: var(--ios-spacing-md);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.marking-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.marking-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--ios-spacing-md);
+  padding-bottom: var(--ios-spacing-sm);
+  border-bottom: 1px solid var(--ios-light-gray);
+}
+
+.marking-id {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--ios-blue);
+}
+
+.marking-team {
+  font-size: 12px;
+  color: var(--ios-dark-gray);
+  background: var(--ios-light-gray);
+  padding: 2px 8px;
+  border-radius: 12px;
+}
+
+/* Search Code Visual */
+.search-code-visual {
+  margin: var(--ios-spacing-md) 0;
+}
+
+.code-grid {
+  display: grid;
+  grid-template-areas:
+    ". top ."
+    "left center right"
+    ". bottom .";
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: 2px;
+  margin-bottom: var(--ios-spacing-md);
+}
+
+.code-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--ios-spacing-sm);
+  background: var(--ios-blue);
+  color: white;
+  font-weight: 600;
+  font-size: 12px;
+  border-radius: 4px;
+  min-height: 40px;
+  text-align: center;
+}
+
+.code-cell.top {
+  grid-area: top;
+}
+
+.code-cell.left {
+  grid-area: left;
+}
+
+.code-cell.center {
+  grid-area: center;
+  background: var(--ios-orange);
+  font-size: 18px;
+}
+
+.code-cell.right {
+  grid-area: right;
+}
+
+.code-cell.bottom {
+  grid-area: bottom;
+}
+
+.code-legend {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: var(--ios-spacing-sm);
+  font-size: 11px;
+}
+
+.legend-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ios-spacing-xs);
+  text-align: center;
+}
+
+.legend-label {
+  font-weight: 600;
+  color: var(--ios-blue);
+}
+
+.legend-value {
+  color: var(--ios-dark-gray);
+}
+
+/* Marking Assessment */
+.marking-assessment {
+  margin: var(--ios-spacing-md) 0;
+}
+
+.assessment-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--ios-spacing-xs) 0;
+  font-size: 12px;
+}
+
+.assessment-label {
+  color: var(--ios-dark-gray);
+  font-weight: 500;
+}
+
+.assessment-value {
+  font-weight: 600;
+  color: var(--ios-blue);
+}
+
+/* Marking Meta */
+.marking-meta {
+  margin-top: var(--ios-spacing-md);
+  padding-top: var(--ios-spacing-sm);
+  border-top: 1px solid var(--ios-light-gray);
+}
+
+.meta-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--ios-spacing-xs);
+  font-size: 11px;
+}
+
+.meta-label {
+  color: var(--ios-dark-gray);
+}
+
+.meta-value {
+  color: var(--ios-blue);
+  font-weight: 500;
+}
+
+.marking-notes {
+  margin-top: var(--ios-spacing-sm);
+  padding: var(--ios-spacing-sm);
+  background: var(--ios-light-gray);
+  border-radius: 6px;
+  font-size: 11px;
+  color: var(--ios-dark-gray);
+  font-style: italic;
+}
+
+/* Marking Details */
+.marking-details {
+  margin-top: var(--ios-spacing-lg);
+}
+
+.marking-details-content {
+  margin-top: var(--ios-spacing-md);
+}
+
+.detail-section {
+  margin-bottom: var(--ios-spacing-lg);
+}
+
+.detail-section h4 {
+  margin: 0 0 var(--ios-spacing-md) 0;
+  color: var(--ios-blue);
+  font-size: 16px;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--ios-spacing-sm);
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--ios-spacing-sm);
+  background: var(--ios-light-gray);
+  border-radius: 6px;
+}
+
+.detail-item .label {
+  font-weight: 500;
+  color: var(--ios-dark-gray);
+  font-size: 12px;
+}
+
+.detail-item .value {
+  font-weight: 600;
+  color: var(--ios-blue);
+  font-size: 12px;
+}
+
+.notes-content {
+  padding: var(--ios-spacing-md);
+  background: var(--ios-light-gray);
+  border-radius: 6px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ios-dark-gray);
+}
+
+/* Marking Actions */
+.marking-actions {
+  display: flex;
+  gap: var(--ios-spacing-sm);
+}
+
+.marking-actions .ios-button {
+  flex: 1;
+}
+
+.marking-actions .ios-button.danger {
+  background: var(--ios-red);
+  color: white;
+}
+
+.marking-actions .ios-button.danger:hover {
+  background: var(--ios-red-dark);
+}
+
+/* FEMA Legend */
+.fema-legend {
+  margin-top: var(--ios-spacing-lg);
+}
+
+.legend-content p {
+  color: var(--ios-dark-gray);
+  line-height: 1.5;
+  margin-bottom: var(--ios-spacing-md);
+}
+
+.legend-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--ios-spacing-sm);
+}
+
+.legend-grid .legend-item {
+  padding: var(--ios-spacing-sm);
+  background: var(--ios-light-gray);
+  border-radius: 6px;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.legend-grid .legend-item strong {
+  color: var(--ios-blue);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .quick-buttons {
+    grid-template-columns: 1fr;
+  }
+  
+  .markings-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .code-input-row {
+    grid-template-columns: 1fr;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+  }
+  
+  .marking-actions {
+    flex-direction: column;
+  }
+  
+  .legend-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .quick-button {
+    min-height: 100px;
+    padding: var(--ios-spacing-md);
+  }
+  
+  .button-icon {
+    font-size: 24px;
+  }
+  
+  .button-label {
+    font-size: 14px;
+  }
+  
+  .button-description {
+    font-size: 11px;
+  }
+  
+  .code-grid {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "top"
+      "left"
+      "center"
+      "right"
+      "bottom";
+  }
+  
+  .center-input {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* Animation for marking updates */
+.marking-card {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Quick button animations */
+.quick-button {
+  transition: all 0.3s ease;
+}
+
+.quick-button:active {
+  transform: scale(0.98);
+}
+
+/* Marking card hover effects */
+.marking-card:hover {
+  transform: translateY(-2px) scale(1.01);
+}
+
+/* Search code visual hover effects */
+.code-cell {
+  transition: all 0.2s ease;
+}
+
+.code-cell:hover {
+  transform: scale(1.05);
+  filter: brightness(1.1);
+}
+
+/* Loading states */
+.markings-grid.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.markings-grid.loading::after {
+  content: "Loading search markings...";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 16px;
+  color: var(--ios-dark-gray);
+}
+
+/* Empty state */
+.markings-grid:empty::after {
+  content: "No search markings found";
+  display: block;
+  text-align: center;
+  padding: var(--ios-spacing-xl);
+  color: var(--ios-dark-gray);
+  font-style: italic;
+}
+
+/* Accessibility improvements */
+.marking-card:focus {
+  outline: 2px solid var(--ios-blue);
+  outline-offset: 2px;
+}
+
+.quick-button:focus {
+  outline: 2px solid var(--ios-blue);
+  outline-offset: 2px;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  outline: 2px solid var(--ios-blue);
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .marking-card {
+    border-width: 2px;
+  }
+  
+  .quick-button {
+    border-width: 2px;
+  }
+  
+  .code-cell {
+    border: 1px solid currentColor;
+  }
+  
+  .detail-item {
+    border: 1px solid currentColor;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .marking-card,
+  .quick-button,
+  .code-cell {
+    animation: none;
+    transition: none;
+  }
+  
+  .marking-card:hover,
+  .quick-button:hover {
+    transform: none;
+  }
+}

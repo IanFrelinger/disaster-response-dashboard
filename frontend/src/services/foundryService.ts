@@ -105,7 +105,7 @@ class MockFoundryClient {
           estimatedTime: '15 minutes',
           capacity: 'High',
           description: 'Main evacuation route from downtown to safe zone',
-          tooltip: '🚨 Primary Route: 15 min • High Capacity • Active • Real-time hazard monitoring enabled',
+          tooltip: 'Primary Route: 15 min • High Capacity • Active • Real-time hazard monitoring enabled',
           duration: 15,
           vehicle_capacity: 500,
           is_blocked: false,
@@ -414,7 +414,7 @@ class FoundryService {
 
   // Generate dynamic tooltips
   private generateTooltip(properties: any): string {
-    const status = properties.is_blocked ? '🚫 Blocked' : '✅ Active';
+    const status = properties.is_blocked ? 'Blocked' : 'Active';
     const capacity = properties.vehicle_capacity > 400 ? 'High' : 
                     properties.vehicle_capacity > 200 ? 'Medium' : 'Low';
     

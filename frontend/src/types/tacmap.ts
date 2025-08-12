@@ -688,7 +688,7 @@ export class TooltipManager {
       </div>
       <div class="tooltip-body">
         <div class="tooltip-alert">
-          <span class="alert-icon">⚠️</span>
+          <span class="alert-icon">Alert</span>
           <span class="alert-text">DANGER ZONE</span>
         </div>
         <div class="tooltip-row">

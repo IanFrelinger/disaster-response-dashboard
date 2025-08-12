@@ -103,7 +103,7 @@ export const BuildingEvacuationTracker: React.FC<BuildingEvacuationTrackerProps>
           <div className="ios-flex-between">
             <div>
               <h1 className="ios-headline" style={{ color: 'var(--ios-blue)', margin: 0, marginBottom: 'var(--ios-spacing-xs)' }}>
-                🏠 Building Evacuation Tracker
+                Building Evacuation Tracker
               </h1>
               <p className="ios-caption" style={{ margin: 0 }}>
                 Detailed building-level evacuation tracking with zone management and status updates
@@ -112,15 +112,15 @@ export const BuildingEvacuationTracker: React.FC<BuildingEvacuationTrackerProps>
             
             <div className="ios-flex" style={{ gap: 'var(--ios-spacing-md)' }}>
               <div className="ios-flex" style={{ gap: 'var(--ios-spacing-xs)' }}>
-                <span className="ios-caption" style={{ margin: 0, color: 'var(--ios-red)' }}>🏢</span>
+                <span className="ios-caption" style={{ margin: 0, color: 'var(--ios-red)' }}>Buildings</span>
                 <span className="ios-caption" style={{ margin: 0 }}>Buildings</span>
               </div>
               <div className="ios-flex" style={{ gap: 'var(--ios-spacing-xs)' }}>
-                <span className="ios-caption" style={{ margin: 0, color: 'var(--ios-blue)' }}>📍</span>
+                <span className="ios-caption" style={{ margin: 0, color: 'var(--ios-blue)' }}>Location</span>
                 <span className="ios-caption" style={{ margin: 0 }}>Zones</span>
               </div>
               <div className="ios-flex" style={{ gap: 'var(--ios-spacing-xs)' }}>
-                <span className="ios-caption" style={{ margin: 0, color: 'var(--ios-green)' }}>📊</span>
+                <span className="ios-caption" style={{ margin: 0, color: 'var(--ios-green)' }}>Stats</span>
                 <span className="ios-caption" style={{ margin: 0 }}>Progress</span>
               </div>
               <div className="ios-flex" style={{ gap: 'var(--ios-spacing-xs)' }}>

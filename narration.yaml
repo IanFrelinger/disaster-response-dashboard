@@ -1,0 +1,162 @@
+# Disaster Response Dashboard - 4-Minute Video Narration
+# Palantir Building Challenge Submission
+
+metadata:
+  title: "Disaster Response Dashboard Demo"
+  duration: "4:00"
+  target: "Palantir Building Challenge"
+  voice_style: "professional_authoritative"
+  speed: 0.95
+  language: "en-US"
+
+beats:
+  - name: "Hook"
+    start_time: "0:00"
+    end_time: "0:15"
+    narration: "In fast-moving disasters, minutes matter. Here's how our tool cuts decision time dramatically."
+    visual_cues:
+      - "3D terrain visualization"
+      - "Timer countdown"
+      - "Hazard layers"
+    on_screen_labels:
+      - "Command Center"
+      - "Real-time Monitoring"
+
+  - name: "Problem Statement"
+    start_time: "0:15"
+    end_time: "0:45"
+    narration: "We picked disaster response because delays cost lives and millions in losses. Emergency managers face fragmented data, slow coordination, and dangerous routing that puts evacuees in harm's way. Our target users - emergency commanders, first responders, and government agencies - need a unified platform that turns chaos into coordinated action."
+    visual_cues:
+      - "Problem slide with statistics"
+      - "Who suffers, what's broken, target users"
+    on_screen_labels:
+      - "45-minute → 15-second evacuation orders"
+      - "80-150 lives saved annually"
+      - "$15M-$75M saved per major event"
+
+  - name: "Demo - Risk Grid"
+    start_time: "0:45"
+    end_time: "1:10"
+    narration: "Here's the demo: live satellite detections roll into a terrain-aware risk grid. NASA FIRMS data, NOAA weather, and ground sensors feed our H3 spatial indexing system, processing millions of data points in seconds. Each hexagon shows real-time risk scoring based on proximity, intensity, and weather conditions."
+    visual_cues:
+      - "Live hazard feed"
+      - "H3 risk hexagons over terrain"
+      - "Data flow animation"
+    on_screen_labels:
+      - "Live Satellite Feed"
+      - "H3 Spatial Indexing"
+      - "Real-time Risk Scoring"
+
+  - name: "Demo - Hazard-Aware Routes"
+    start_time: "1:10"
+    end_time: "1:35"
+    narration: "With one click, we generate safe evacuation routes that avoid advancing fire lines. Our A* algorithm with hazard weights finds optimal paths in real-time. Notice how routes dynamically adjust to avoid danger zones - this is the difference between life and death."
+    visual_cues:
+      - "Draw zone"
+      - "A* hazard-aware routes animate in"
+      - "Route optimization"
+    on_screen_labels:
+      - "A* Route Optimization"
+      - "Hazard Avoidance"
+      - "Dynamic Pathfinding"
+
+  - name: "Demo - Resource Management"
+    start_time: "1:35"
+    end_time: "2:00"
+    narration: "We position engines and medics where they'll have the most impact. Drag units to staging areas and watch ETAs and coverage update instantly. The system optimizes resource allocation based on real-time conditions and predicted needs."
+    visual_cues:
+      - "Drag units to staging"
+      - "ETAs and coverage update"
+      - "Resource allocation"
+    on_screen_labels:
+      - "Resource Allocation"
+      - "Real-time ETAs"
+      - "Coverage Optimization"
+
+  - name: "Demo - Communications"
+    start_time: "2:00"
+    end_time: "2:25"
+    narration: "Targeted alerts reach residents in seconds - with delivery and acknowledgement tracking. Emergency notifications cascade through multiple channels, ensuring no one is left behind. Real-time status updates keep everyone informed."
+    visual_cues:
+      - "Trigger alert"
+      - "Delivery and ack dashboards tick"
+      - "Multi-channel notifications"
+    on_screen_labels:
+      - "Multi-channel Alerts"
+      - "Delivery Tracking"
+      - "Status Updates"
+
+  - name: "Demo - Adaptive Updates"
+    start_time: "2:25"
+    end_time: "2:45"
+    narration: "As conditions change, routes and priorities update automatically. Fire lines shift, wind patterns change, and our system adapts instantly. This is real-time decision support that keeps pace with the disaster."
+    visual_cues:
+      - "Fire line shifts"
+      - "Auto-reroute"
+      - "Real-time updates"
+    on_screen_labels:
+      - "Live Condition Monitoring"
+      - "Auto-rerouting"
+      - "Predictive Analytics"
+
+  - name: "Technical Stack"
+    start_time: "2:45"
+    end_time: "3:25"
+    narration: "Under the hood: a React and Mapbox GL front end for stunning 3D visualization, Python services for real-time analysis with Redis and Celery, scikit-learn for risk and route models, and enterprise data fusion via Foundry to ground decisions in operational data."
+    visual_cues:
+      - "Tech stack slide"
+      - "3 bullet rows"
+      - "No jargon paragraphs"
+    on_screen_labels:
+      - "React + TypeScript + Mapbox GL"
+      - "Python + Flask + Redis + Celery"
+      - "scikit-learn + Foundry Integration"
+
+  - name: "Impact"
+    start_time: "3:25"
+    end_time: "3:50"
+    narration: "The result: dramatically faster coordination and meaningful cost avoidance during major events. Our goal: 65 to 90 percent faster emergency coordination, 15 to 75 million dollars saved per major event, and improved evacuation compliance that saves lives."
+    visual_cues:
+      - "Three big numbers"
+      - "Before/after timeline"
+      - "Impact metrics"
+    on_screen_labels:
+      - "65-90% Faster Coordination"
+      - "$15M-$75M Saved Per Event"
+      - "Improved Evacuation Compliance"
+
+  - name: "Close"
+    start_time: "3:50"
+    end_time: "4:00"
+    narration: "We're seeking pilot partners to validate across regions and hazards. This isn't just technology - it's a lifeline for communities facing disaster."
+    visual_cues:
+      - "Product name"
+      - "Contact information"
+      - "Demo data disclaimer"
+    on_screen_labels:
+      - "Disaster Response Dashboard"
+      - "Ready for Pilot Partners"
+      - "Demo Data - Production Ready"
+
+production_notes:
+  voice_settings:
+    style: "professional_authoritative"
+    speed: 0.95
+    pitch: "normal"
+    emphasis: "measured_urgent"
+  
+  visual_style:
+    color_scheme: "emergency_blue_red"
+    typography: "clean_modern"
+    animations: "smooth_professional"
+    
+  audio:
+    background_music: "subtle_urgent"
+    sound_effects: "minimal_tech"
+    mixing: "voice_forward"
+    
+  captions:
+    style: "high_contrast"
+    position: "bottom_center"
+    font_size: "readable"
+    timing: "sync_with_voice"

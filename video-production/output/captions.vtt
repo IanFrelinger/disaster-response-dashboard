@@ -1,0 +1,42 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:00.091
+In fast-moving disasters, minutes matter. Here's how our tool cuts decision time dramatically.
+
+2
+00:00:00.091 --> 00:00:00.442
+We picked disaster response because delays cost lives and millions in losses. Emergency managers face fragmented data, slow coordination, and dangerous routing that puts evacuees in harm's way. Our target users - emergency commanders, first responders, and government agencies - need a unified platform that turns chaos into coordinated action.
+
+3
+00:00:00.442 --> 00:00:00.764
+Here's the demo: live satellite detections roll into a terrain-aware risk grid. NASA FIRMS data, NOAA weather, and ground sensors feed our H3 spatial indexing system, processing millions of data points in seconds. Each hexagon shows real-time risk scoring based on proximity, intensity, and weather conditions.
+
+4
+00:00:00.764 --> 00:00:01.059
+With one click, we generate safe evacuation routes that avoid advancing fire lines. Our A* algorithm with hazard weights finds optimal paths in real-time. Notice how routes dynamically adjust to avoid danger zones - this is the difference between life and death.
+
+5
+00:00:01.059 --> 00:00:01.305
+We position engines and medics where they'll have the most impact. Drag units to staging areas and watch ETAs and coverage update instantly. The system optimizes resource allocation based on real-time conditions and predicted needs.
+
+6
+00:00:01.305 --> 00:00:01.515
+Targeted alerts reach residents in seconds - with delivery and acknowledgement tracking. Emergency notifications cascade through multiple channels, ensuring no one is left behind. Real-time status updates keep everyone informed.
+
+7
+00:00:01.515 --> 00:00:01.726
+As conditions change, routes and priorities update automatically. Fire lines shift, wind patterns change, and our system adapts instantly. This is real-time decision support that keeps pace with the disaster.
+
+8
+00:00:01.726 --> 00:00:02.014
+Under the hood: a React and Mapbox GL front end for stunning 3D visualization, Python services for real-time analysis with Redis and Celery, scikit-learn for risk and route models, and enterprise data fusion via Foundry to ground decisions in operational data.
+
+9
+00:00:02.014 --> 00:00:02.273
+The result: dramatically faster coordination and meaningful cost avoidance during major events. Our goal: 65 to 90 percent faster emergency coordination, 15 to 75 million dollars saved per major event, and improved evacuation compliance that saves lives.
+
+10
+00:00:02.273 --> 00:00:02.428
+We're seeking pilot partners to validate across regions and hazards. This isn't just technology - it's a lifeline for communities facing disaster.
+

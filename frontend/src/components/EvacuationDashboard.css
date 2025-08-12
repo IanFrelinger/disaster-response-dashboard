@@ -661,6 +661,31 @@
   flex: 1;
 }
 
+
+
+/* AIP-Powered Decision Support View */
+.aip-view {
+  padding: 20px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.aip-view .ios-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.aip-view .ios-headline {
+  color: var(--ios-blue);
+  margin-bottom: var(--ios-spacing-md);
+}
+
+.aip-view .ios-caption {
+  color: var(--ios-secondary);
+  line-height: 1.5;
+}
+
 .building-overview-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
@@ -761,6 +786,21 @@
   margin: 8px 0 0 0;
   color: #6c757d;
   font-size: 14px;
+}
+
+/* AIP Decision Support View */
+.aip-view {
+  padding: 0;
+}
+
+.aip-view .view-header {
+  margin-bottom: 20px;
+}
+
+.aip-view .aip-decision-support {
+  margin: 0;
+  box-shadow: none;
+  border: none;
 }
 
 /* Responsive Design */
