@@ -341,141 +341,172 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
   };
 
   useEffect(() => {
-    if (!containerRef.current) return;
-
-    const accessToken = getMapboxToken();
+    console.log('=== SIMPLEMAPBOXTEST DEBUG START ===');
     
-    // Check if we have a valid token
-    if (!accessToken || accessToken === 'your-mapbox-access-token-here') {
-      setError('Mapbox access token not configured. Please set VITE_MAPBOX_ACCESS_TOKEN in your environment variables.');
+    if (!containerRef.current) {
+      console.error('SimpleMapboxTest: Container ref is null');
+      setError('Container ref is null');
       return;
     }
 
-    console.log('SimpleMapboxTest: Initializing map with 3D terrain, hazards, and escape route...');
-    console.log('Mapbox available:', !!mapboxgl);
-    console.log('Mapbox Map available:', !!mapboxgl.Map);
-    console.log('Access token:', accessToken ? `${accessToken.substring(0, 20)}...` : 'Not set');
+    console.log('SimpleMapboxTest: Container ref found:', containerRef.current);
+    console.log('SimpleMapboxTest: Container dimensions:', containerRef.current.offsetWidth, 'x', containerRef.current.offsetHeight);
+    console.log('SimpleMapboxTest: Container style:', window.getComputedStyle(containerRef.current));
+
+    // Check if Mapbox is actually available
+    console.log('SimpleMapboxTest: Checking Mapbox availability...');
+    console.log('mapboxgl object:', mapboxgl);
+    console.log('mapboxgl type:', typeof mapboxgl);
+    console.log('mapboxgl keys:', Object.keys(mapboxgl || {}));
+    console.log('mapboxgl.Map:', mapboxgl?.Map);
+    console.log('mapboxgl.accessToken:', mapboxgl?.accessToken);
+
+    if (!mapboxgl) {
+      const error = 'Mapbox library not available - mapboxgl is undefined';
+      console.error('SimpleMapboxTest:', error);
+      setError(error);
+      return;
+    }
+
+    if (!mapboxgl.Map) {
+      const error = 'Mapbox library not available - mapboxgl.Map is undefined';
+      console.error('SimpleMapboxTest:', error);
+      setError(error);
+      return;
+    }
+
+    const accessToken = getMapboxToken();
+    console.log('SimpleMapboxTest: Got access token:', accessToken ? `${accessToken.substring(0, 20)}...` : 'Not set');
+    
+    // Check if we have a valid token
+    if (!accessToken || accessToken === 'your-mapbox-access-token-here') {
+      const error = 'Mapbox access token not configured. Please set VITE_MAPBOX_ACCESS_TOKEN in your environment variables.';
+      console.error('SimpleMapboxTest:', error);
+      setError(error);
+      return;
+    }
 
     try {
-      // Set the access token
+      console.log('SimpleMapboxTest: Setting access token...');
       mapboxgl.accessToken = accessToken;
+      console.log('SimpleMapboxTest: Access token set successfully');
 
+      console.log('SimpleMapboxTest: Creating new Mapbox map...');
+      console.log('Container element:', containerRef.current);
+      console.log('Container dimensions:', containerRef.current?.offsetWidth, 'x', containerRef.current?.offsetHeight);
+
+      // Create a minimal map first to test basic functionality
       const map = new mapboxgl.Map({
         container: containerRef.current,
-        style: 'mapbox://styles/mapbox/dark-v11', // Back to dark style
+        style: 'mapbox://styles/mapbox/streets-v12', // Use basic style first
         center: [-122.4194, 37.7749], // San Francisco
-        zoom: 16, // Higher zoom for 3D buildings
-        pitch: 60, // More dramatic pitch for 3D effect
-        bearing: 0,
-        antialias: true
+        zoom: 10, // Lower zoom for testing
+        pitch: 0, // No pitch for testing
+        bearing: 0
       });
 
+      console.log('SimpleMapboxTest: Map instance created successfully:', map);
+      console.log('SimpleMapboxTest: Map object type:', typeof map);
+      console.log('SimpleMapboxTest: Map object keys:', Object.keys(map || {}));
+      
       mapRef.current = map;
+
+      // Add comprehensive error handling for map loading
+      map.on('error', (e) => {
+        console.error('SimpleMapboxTest: Map error event:', e);
+        console.error('SimpleMapboxTest: Map error details:', e.error);
+        setError(`Map error event: ${e.error?.message || 'Unknown error'}`);
+      });
 
       map.on('load', () => {
         console.log('SimpleMapboxTest: Map loaded successfully!');
+        console.log('SimpleMapboxTest: Map load event fired');
         setMapLoaded(true);
         setError(null); // Clear any previous errors on successful load
         
-        // Add custom icons to the map
-        // Fire icon (🔥)
-        map.loadImage('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMTMuMDkgOC4yNkwyMCA5TDEzLjA5IDkuNzRMMTIgMTZMMTAuOTEgOS43NEw0IDlMMTAuOTEgOC4yNkwxMiAyWiIgZmlsbD0iI0ZGN0YwMCIvPgo8L3N2Zz4K', (error, image) => {
-          if (!error && image) map.addImage('fire-icon', image);
-        });
+        // Test basic map functionality
+        console.log('SimpleMapboxTest: Testing map functionality...');
+        console.log('Map center:', map.getCenter());
+        console.log('Map zoom:', map.getZoom());
         
-        // Flood icon (🌊)
-        map.loadImage('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMTMuMDkgOC4yNkwyMCA5TDEzLjA5IDkuNzRMMTIgMTZMMTAuOTEgOS43NEw0IDlMMTAuOTEgOC4yNkwxMiAyWiIgZmlsbD0iIzAwN0FGRiIvPgo8L3N2Zz4K', (error, image) => {
-          if (!error && image) map.addImage('flood-icon', image);
-        });
-        
-        // Earthquake icon (🌋)
-        map.loadImage('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMTMuMDkgOC4yNkwyMCA5TDEzLjA5IDkuNzRMMTIgMTZMMTAuOTEgOS43NEw0IDlMMTAuOTEgOC4yNkwxMiAyWiIgZmlsbD0iI0ZGN0YwMCIvPgo8L3N2Zz4K', (error, image) => {
-          if (!error && image) map.addImage('earthquake-icon', image);
-        });
-        
-        // Wind arrow icon for weather overlay
-        const windArrowSvg = `
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z" fill="#00AAFF"/>
-            <path d="M12 4L12 20M8 8L12 4L16 8" stroke="#00AAFF" stroke-width="2" fill="none"/>
-          </svg>
-        `;
-        const windArrowDataUrl = 'data:image/svg+xml;base64,' + btoa(windArrowSvg);
-        map.loadImage(windArrowDataUrl, (error, image) => {
-          if (!error && image) map.addImage('wind-arrow', image);
-        });
-        
-        // Landslide icon (🏔️)
-        map.loadImage('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMTMuMDkgOC4yNkwyMCA5TDEzLjA5IDkuNzRMMTIgMTZMMTAuOTEgOS43NEw0IDlMMTAuOTEgOC4yNkwxMiAyWiIgZmlsbD0iI0ZGN0YwMCIvPgo8L3N2Zz4K', (error, image) => {
-          if (!error && image) map.addImage('landslide-icon', image);
-        });
-        
-        // Tsunami icon (🌊)
-        map.loadImage('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMTMuMDkgOC4yNkwyMCA5TDEzLjA5IDkuNzRMMTIgMTZMMTAuOTEgOS43NEw0IDlMMTAuOTEgOC4yNkwxMiAyWiIgZmlsbD0iIzAwN0FGRiIvPgo8L3N2Zz4K', (error, image) => {
-          if (!error && image) map.addImage('tsunami-icon', image);
-        });
-        
-        // Chemical spill icon (☣️)
-        map.loadImage('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMTMuMDkgOC4yNkwyMCA5TDEzLjA5IDkuNzRMMTIgMTZMMTAuOTEgOS43NEw0IDlMMTAuOTEgOC4yNkwxMiAyWiIgZmlsbD0iI0ZGN0YwMCIvPgo8L3N2Zz4K', (error, image) => {
-          if (!error && image) map.addImage('chemical-icon', image);
-        });
-        
-        // Power outage icon (⚡)
-        map.loadImage('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMTMuMDkgOC4yNkwyMCA5TDEzLjA5IDkuNzRMMTIgMTZMMTAuOTEgOS43NEw0IDlMMTAuOTEgOC4yNkwxMiAyWiIgZmlsbD0iI0ZGN0YwMCIvPgo8L3N2Zz4K', (error, image) => {
-          if (!error && image) map.addImage('power-icon', image);
-        });
-        
-        // Gas leak icon (💨)
-        map.loadImage('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMTMuMDkgOC4yNkwyMCA5TDEzLjA5IDkuNzRMMTIgMTZMMTAuOTEgOS43NEw0IDlMMTAuOTEgOC4yNkwxMiAyWiIgZmlsbD0iI0ZGN0YwMCIvPgo8L3N2Zz4K', (error, image) => {
-          if (!error && image) map.addImage('gas-icon', image);
-        });
-        
-        // Default icon
-        map.loadImage('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMTMuMDkgOC4yNkwyMCA5TDEzLjA5IDkuNzRMMTIgMTZMMTAuOTEgOS43NEw0IDlMMTAuOTEgOC4yNkwxMiAyWiIgZmlsbD0iIzAwN0FGRiIvPgo8L3N2Zz4K', (error, image) => {
-          if (!error && image) map.addImage('default-icon', image);
-        });
-        
-        // Route start icon (🚪)
-        map.loadImage('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMTMuMDkgOC4yNkwyMCA5TDEzLjA5IDkuNzRMMTIgMTZMMTAuOTEgOS43NEw0IDlMMTAuOTEgOC4yNkwxMiAyWiIgZmlsbD0iIzAwN0FGRiIvPgo8L3N2Zz4K', (error, image) => {
-          if (!error && image) map.addImage('route-start-icon', image);
-        });
-        
-        // Route end icon (✅)
-        map.loadImage('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMTMuMDkgOC4yNkwyMCA5TDEzLjA5IDkuNzRMMTIgMTZMMTAuOTEgOS43NEw0IDlMMTAuOTEgOC4yNkwxMiAyWiIgZmlsbD0iIzAwN0FGRiIvPgo8L3N2Zz4K', (error, image) => {
-          if (!error && image) map.addImage('route-end-icon', image);
-        });
-        
-        setTimeout(() => {
-          add3DTerrain(map);
-          addHazards(map);
-          add3DBuildings(map);
-          addEscapeRoute(map);
-        }, 1000);
-      });
-
-      map.on('error', (e) => {
-        console.error('SimpleMapboxTest: Map error:', e);
-        setError(`Map error: ${e.error?.message || 'Unknown error'}`);
-      });
-
-      // Add 3D buildings when zoom changes to appropriate level
-      map.on('zoom', () => {
-        if (map.getZoom() >= 15 && !buildingsAdded) {
-          add3DBuildings(map);
+        // Add a simple marker to test if the map is working
+        try {
+          const marker = new mapboxgl.Marker()
+            .setLngLat([-122.4194, 37.7749])
+            .addTo(map);
+          console.log('SimpleMapboxTest: Basic marker added successfully:', marker);
+        } catch (markerError) {
+          console.error('SimpleMapboxTest: Error adding marker:', markerError);
         }
       });
 
+      // Add a simple error handler for the map
+      map.on('error', (e) => {
+        console.error('SimpleMapboxTest: Map error event (duplicate):', e);
+        setError(`Map error event: ${e.error?.message || 'Unknown error'}`);
+      });
+
+      // Add a simple render handler to see if the map is actually rendering
+      map.on('render', () => {
+        console.log('SimpleMapboxTest: Map render event fired');
+      });
+
+      // Add a simple idle handler to see if the map finishes loading
+      map.on('idle', () => {
+        console.log('SimpleMapboxTest: Map idle event fired - map is ready');
+        
+        // Now that the map is fully loaded, add all the features
+        console.log('SimpleMapboxTest: Adding map features...');
+        
+        try {
+          // Add 3D terrain first
+          add3DTerrain(map);
+          
+          // Add 3D buildings
+          add3DBuildings(map);
+          
+          // Add hazards
+          addHazards(map);
+          
+          // Add escape routes
+          addEscapeRoute(map);
+          
+          // Add evacuation zones
+          addEvacuationZones(map);
+          
+          console.log('SimpleMapboxTest: All map features added successfully');
+        } catch (featureError) {
+          console.error('SimpleMapboxTest: Error adding map features:', featureError);
+        }
+      });
+
+      // Add a simple style load handler
+      map.on('style.load', () => {
+        console.log('SimpleMapboxTest: Map style loaded');
+      });
+
+      // Add a simple data load handler
+      map.on('data', (e) => {
+        console.log('SimpleMapboxTest: Map data event:', e.type);
+      });
+
+      console.log('SimpleMapboxTest: All event listeners added successfully');
+
     } catch (error) {
       console.error('SimpleMapboxTest: Error creating map:', error);
+      console.error('SimpleMapboxTest: Error stack:', error instanceof Error ? error.stack : 'No stack trace');
       setError(`Failed to create map: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
 
+    console.log('=== SIMPLEMAPBOXTEST DEBUG END ===');
+
     return () => {
+      console.log('SimpleMapboxTest: Cleanup - removing map');
       if (mapRef.current) {
         mapRef.current.remove();
       }
     };
-  }, [buildingsAdded, terrainAdded, escapeRouteAdded, hazardsAdded]);
+  }, []);
 
   // Control layer visibility based on props
   useEffect(() => {
@@ -648,9 +679,9 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
           ],
           'circle-color': [
             'case',
-            ['==', ['get', 'severity'], 'high'], '#FF3B30', // iOS red for high severity
-            ['==', ['get', 'severity'], 'medium'], '#FF9500', // iOS orange for medium severity
-            ['==', ['get', 'severity'], 'low'], '#FFCC00', // iOS yellow for low severity
+            ['==', ['get', 'severity'], 'high'], '#FF3B30',
+            ['==', ['get', 'severity'], 'medium'], '#FF9500',
+            ['==', ['get', 'severity'], 'low'], '#FFCC00',
             '#FF3B30' // Default to red
           ],
           'circle-stroke-color': '#FFFFFF',
@@ -675,7 +706,7 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
               'text-allow-overlap': false
             },
             'paint': {
-              'text-color': '#FFFFFF',
+              'text-color': '#F2F2F7',
               'text-halo-color': '#000000',
               'text-halo-width': 2
             }
@@ -771,7 +802,7 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
               // Show tooltip
               setTooltip({
                 visible: true,
-                content: properties.tooltip || `${properties.hazard_type} - ${properties.severity} risk`,
+                content: `${properties.name || properties.hazard_type} - ${properties.severity.toUpperCase()} RISK\n${properties.description || 'No description available'}\nLocation: ${properties.location || 'Unknown'}`,
                 x: e.point.x,
                 y: e.point.y
               });
@@ -809,13 +840,13 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
                         height: 12px; 
                         border-radius: 50%; 
                         background-color: ${
-                          properties.severity === 'high' ? '#FF3B30' : 
-                          properties.severity === 'medium' ? '#FF9500' : '#FFCC00'
+                          properties.severity === 'high' ? 'var(--ios-red)' : 
+                          properties.severity === 'medium' ? 'var(--ios-orange)' : 'var(--ios-yellow)'
                         };
                         border: 2px solid #FFFFFF;
                         box-shadow: 0 0 8px rgba(0,0,0,0.3);
                       "></div>
-                      <h3 style="margin: 0; color: #FF3B30; font-size: 16px; font-weight: 600;">
+                      <h3 style="margin: 0; color: var(--ios-red); font-size: 16px; font-weight: 600;">
                         ${properties.name || 'Hazard Alert'}
                       </h3>
                     </div>
@@ -824,8 +855,8 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
                         display: inline-block;
                         padding: 4px 8px;
                         background-color: ${
-                          properties.severity === 'high' ? '#FF3B30' : 
-                          properties.severity === 'medium' ? '#FF9500' : '#FFCC00'
+                          properties.severity === 'high' ? 'var(--ios-red)' : 
+                          properties.severity === 'medium' ? 'var(--ios-orange)' : 'var(--ios-yellow)'
                         };
                         color: #FFFFFF;
                         border-radius: 12px;
@@ -919,12 +950,24 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
       setBuildingsAdded(true);
 
       // Add hover effect
-      map.on('mouseenter', '3d-buildings', () => {
+      map.on('mouseenter', '3d-buildings', (e) => {
         map.getCanvas().style.cursor = 'pointer';
+        
+        // Show building tooltip
+        if (e.features && e.features[0] && e.features[0].properties) {
+          const properties = e.features[0].properties;
+          setTooltip({
+            visible: true,
+            content: `🏢 3D BUILDING\nHeight: ${properties.height || 'Unknown'}m\nType: ${properties.building || 'Commercial'}\nAddress: ${properties.address || 'Location available'}`,
+            x: e.point.x,
+            y: e.point.y
+          });
+        }
       });
 
       map.on('mouseleave', '3d-buildings', () => {
         map.getCanvas().style.cursor = '';
+        setTooltip(prev => ({ ...prev, visible: false }));
       });
 
     } catch (error) {
@@ -1154,7 +1197,7 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
         'source': 'escape-routes',
         'filter': ['==', 'routeName', 'Primary Evacuation Route'],
         'paint': {
-          'line-color': '#FF3B30', // iOS red for emergency routes
+          'line-color': resolveColor('#FF3B30'), // iOS red for emergency routes
           'line-width': 6,
           'line-opacity': 0.8,
           'line-dasharray': [2, 2] // Dashed line for evacuation route
@@ -1168,7 +1211,7 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
         'source': 'escape-routes',
         'filter': ['==', 'routeName', 'Secondary Evacuation Route'],
         'paint': {
-          'line-color': '#FF9500', // iOS orange for secondary route
+          'line-color': resolveColor('#FF9500'), // iOS orange for secondary route
           'line-width': 4,
           'line-opacity': 0.6,
           'line-dasharray': [1, 1] // Different dash pattern
@@ -1182,12 +1225,15 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
         'source': 'escape-routes',
         'filter': ['==', 'routeType', 'ems_response'],
         'paint': {
-          'line-color': '#007AFF', // iOS blue for EMS routes
+          'line-color': resolveColor('#007AFF'), // iOS blue for EMS routes
           'line-width': 5,
           'line-opacity': 0.8,
           'line-dasharray': [3, 3] // Dotted line for EMS routes
         }
       });
+      
+      // Debug: Log the layer creation
+      console.log('Created ems-response-primary layer with line-color:', resolveColor('#007AFF'));
 
       // Add EMS evacuation support route layer
       map.addLayer({
@@ -1196,7 +1242,7 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
         'source': 'escape-routes',
         'filter': ['==', 'routeType', 'ems_evacuation_support'],
         'paint': {
-          'line-color': '#34C759', // iOS green for support routes
+          'line-color': resolveColor('#34C759'), // iOS green for support routes
           'line-width': 4,
           'line-opacity': 0.7,
           'line-dasharray': [2, 4] // Different dotted pattern
@@ -1210,7 +1256,7 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
         'source': 'escape-routes',
         'paint': {
           'circle-radius': 8,
-          'circle-color': '#FF3B30',
+          'circle-color': resolveColor('#FF3B30'),
           'circle-stroke-color': '#FFFFFF',
           'circle-stroke-width': 2
         }
@@ -1251,8 +1297,17 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
 
       // Enhanced mouse over feedback and tooltips
       const handleMouseMove = (e: mapboxgl.MapMouseEvent) => {
+        // Only query layers that actually exist on the map
+        const availableLayers = ['escape-route-primary', 'escape-route-secondary', 'ems-response-primary', 'ems-evacuation-support']
+          .filter(layerId => map.getLayer(layerId));
+        
+        if (availableLayers.length === 0) {
+          setTooltip(prev => ({ ...prev, visible: false }));
+          return;
+        }
+
         const features = map.queryRenderedFeatures(e.point, {
-          layers: ['escape-route-primary', 'escape-route-secondary', 'ems-response-primary', 'ems-evacuation-support']
+          layers: availableLayers
         });
 
         if (features.length > 0) {
@@ -1275,164 +1330,192 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
       // Add mouse move listener for tooltips
       map.on('mousemove', handleMouseMove);
 
-      // Enhanced hover effects for primary route
-      map.on('mouseenter', 'escape-route-primary', (e) => {
-        map.getCanvas().style.cursor = 'pointer';
-        map.setPaintProperty('escape-route-primary', 'line-width', 8);
-        map.setPaintProperty('escape-route-primary', 'line-opacity', 1.0);
-        
-        // Add glow effect
-        map.setPaintProperty('escape-route-primary', 'line-color', '#FF6B6B');
-        
-        // Show tooltip
-        if (e.features && e.features[0] && e.features[0].properties) {
-          const properties = e.features[0].properties;
-          setTooltip({
-            visible: true,
-            content: properties.tooltip || '🚨 Primary Evacuation Route',
-            x: e.point.x,
-            y: e.point.y
-          });
-        }
-      });
-
-      map.on('mouseleave', 'escape-route-primary', () => {
-        map.getCanvas().style.cursor = '';
-        map.setPaintProperty('escape-route-primary', 'line-width', 6);
-        map.setPaintProperty('escape-route-primary', 'line-opacity', 0.8);
-        map.setPaintProperty('escape-route-primary', 'line-color', '#FF3B30');
-        setTooltip(prev => ({ ...prev, visible: false }));
-      });
-
-      // Enhanced hover effects for secondary route
-      map.on('mouseenter', 'escape-route-secondary', (e) => {
-        map.getCanvas().style.cursor = 'pointer';
-        map.setPaintProperty('escape-route-secondary', 'line-width', 6);
-        map.setPaintProperty('escape-route-secondary', 'line-opacity', 0.9);
-        
-        // Add glow effect
-        map.setPaintProperty('escape-route-secondary', 'line-color', '#FFB347');
-        
-        // Show tooltip
-        if (e.features && e.features[0] && e.features[0].properties) {
-          const properties = e.features[0].properties;
-          setTooltip({
-            visible: true,
-            content: properties.tooltip || '🟠 Secondary Evacuation Route',
-            x: e.point.x,
-            y: e.point.y
-          });
-        }
-      });
-
-      map.on('mouseleave', 'escape-route-secondary', () => {
-        map.getCanvas().style.cursor = '';
-        map.setPaintProperty('escape-route-secondary', 'line-width', 4);
-        map.setPaintProperty('escape-route-secondary', 'line-opacity', 0.6);
-        map.setPaintProperty('escape-route-secondary', 'line-color', '#FF9500');
-        setTooltip(prev => ({ ...prev, visible: false }));
-      });
-
-      // Click interaction for route information
-      map.on('click', 'escape-route-primary', (e) => {
-        if (e.features && e.features[0]) {
-          const feature = e.features[0];
-          const geometry = feature.geometry as GeoJSON.LineString;
-          const properties = feature.properties;
+      // Enhanced hover effects for primary route - only if layer exists
+      if (map.getLayer('escape-route-primary')) {
+        map.on('mouseenter', 'escape-route-primary', (e) => {
+          map.getCanvas().style.cursor = 'pointer';
+          map.setPaintProperty('escape-route-primary', 'line-width', 8);
+          map.setPaintProperty('escape-route-primary', 'line-opacity', 1.0);
           
-          if (geometry.coordinates && properties) {
-            // Create popup with route information
-            new mapboxgl.Popup()
-              .setLngLat([geometry.coordinates[0][0], geometry.coordinates[0][1]])
-              .setHTML(`
-                <div style="font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; padding: 8px;">
-                  <h3 style="margin: 0 0 8px 0; color: #FF3B30; font-size: 16px;">${properties.routeName}</h3>
-                  <p style="margin: 0 0 4px 0; font-size: 14px;"><strong>Status:</strong> ${properties.status}</p>
-                  <p style="margin: 0 0 4px 0; font-size: 14px;"><strong>Time:</strong> ${properties.estimatedTime}</p>
-                  <p style="margin: 0 0 4px 0; font-size: 14px;"><strong>Capacity:</strong> ${properties.capacity}</p>
-                  <p style="margin: 0; font-size: 12px; color: #8E8E93;">${properties.description}</p>
-                </div>
-              `)
-              .addTo(map);
-          }
-        }
-      });
-
-      map.on('click', 'escape-route-secondary', (e) => {
-        if (e.features && e.features[0]) {
-          const feature = e.features[0];
-          const geometry = feature.geometry as GeoJSON.LineString;
-          const properties = feature.properties;
+          // Add glow effect
+          const colorValue = resolveColor('#FF6B6B');
+          map.setPaintProperty('escape-route-primary', 'line-color', colorValue);
           
-          if (geometry.coordinates && properties) {
-            // Create popup with route information
-            new mapboxgl.Popup()
-              .setLngLat([geometry.coordinates[0][0], geometry.coordinates[0][1]])
-              .setHTML(`
-                <div style="font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; padding: 8px;">
-                  <h3 style="margin: 0 0 8px 0; color: #FF9500; font-size: 16px;">${properties.routeName}</h3>
-                  <p style="margin: 0 0 4px 0; font-size: 14px;"><strong>Status:</strong> ${properties.status}</p>
-                  <p style="margin: 0 0 4px 0; font-size: 14px;"><strong>Time:</strong> ${properties.estimatedTime}</p>
-                  <p style="margin: 0 0 4px 0; font-size: 14px;"><strong>Capacity:</strong> ${properties.capacity}</p>
-                  <p style="margin: 0; font-size: 12px; color: #8E8E93;">${properties.description}</p>
-                </div>
-              `)
-              .addTo(map);
+          // Show tooltip
+          if (e.features && e.features[0] && e.features[0].properties) {
+            const properties = e.features[0].properties;
+            setTooltip({
+              visible: true,
+              content: `🚨 PRIMARY EVACUATION ROUTE\n${properties.routeName || 'Main Route'}\nStatus: ${properties.status || 'Active'}\nTime: ${properties.estimatedTime || 'Unknown'}\nCapacity: ${properties.capacity || 'Unlimited'}`,
+              x: e.point.x,
+              y: e.point.y
+            });
           }
-        }
-      });
+        });
 
-      // EMS Response Route Interactions
-      map.on('mouseenter', 'ems-response-primary', (e) => {
-        map.getCanvas().style.cursor = 'pointer';
-        map.setPaintProperty('ems-response-primary', 'line-width', 7);
-        map.setPaintProperty('ems-response-primary', 'line-opacity', 1.0);
-        map.setPaintProperty('ems-response-primary', 'line-color', '#4A90E2');
-        
-        if (e.features && e.features[0] && e.features[0].properties) {
-          const properties = e.features[0].properties;
-          setTooltip({
-            visible: true,
-            content: properties.tooltip || '🚑 EMS Response Route',
-            x: e.point.x,
-            y: e.point.y
-          });
-        }
-      });
+        map.on('mouseleave', 'escape-route-primary', () => {
+          map.getCanvas().style.cursor = '';
+          map.setPaintProperty('escape-route-primary', 'line-width', 6);
+          map.setPaintProperty('escape-route-primary', 'line-opacity', 0.8);
+          const colorValue = resolveColor('#FF3B30');
+          map.setPaintProperty('escape-route-primary', 'line-color', colorValue);
+          setTooltip(prev => ({ ...prev, visible: false }));
+        });
+      }
 
-      map.on('mouseleave', 'ems-response-primary', () => {
-        map.getCanvas().style.cursor = '';
-        map.setPaintProperty('ems-response-primary', 'line-width', 5);
-        map.setPaintProperty('ems-response-primary', 'line-opacity', 0.8);
-        map.setPaintProperty('ems-response-primary', 'line-color', '#007AFF');
-        setTooltip(prev => ({ ...prev, visible: false }));
-      });
+      // Enhanced hover effects for secondary route - only if layer exists
+      if (map.getLayer('escape-route-secondary')) {
+        map.on('mouseenter', 'escape-route-secondary', (e) => {
+          map.getCanvas().style.cursor = 'pointer';
+          map.setPaintProperty('escape-route-secondary', 'line-width', 6);
+          map.setPaintProperty('escape-route-secondary', 'line-opacity', 0.9);
+          
+          // Add glow effect
+          const colorValue = resolveColor('#FFB347');
+          map.setPaintProperty('escape-route-secondary', 'line-color', colorValue);
+          
+          // Show tooltip
+          if (e.features && e.features[0] && e.features[0].properties) {
+            const properties = e.features[0].properties;
+            setTooltip({
+              visible: true,
+              content: `⚠️ SECONDARY EVACUATION ROUTE\n${properties.routeName || 'Alternative Route'}\nStatus: ${properties.status || 'Active'}\nTime: ${properties.estimatedTime || 'Unknown'}\nCapacity: ${properties.capacity || 'Limited'}`,
+              x: e.point.x,
+              y: e.point.y
+            });
+          }
+        });
 
-      // EMS Evacuation Support Route Interactions
-      map.on('mouseenter', 'ems-evacuation-support', (e) => {
-        map.getCanvas().style.cursor = 'pointer';
-        map.setPaintProperty('ems-evacuation-support', 'line-width', 6);
-        map.setPaintProperty('ems-evacuation-support', 'line-opacity', 0.9);
-        map.setPaintProperty('ems-evacuation-support', 'line-color', '#5AC18E');
-        
-        if (e.features && e.features[0] && e.features[0].properties) {
-          const properties = e.features[0].properties;
-          setTooltip({
-            visible: true,
-            content: properties.tooltip || '🚑 EMS Evacuation Support',
-            x: e.point.x,
-            y: e.point.y
-          });
-        }
-      });
+        map.on('mouseleave', 'escape-route-secondary', () => {
+          map.getCanvas().style.cursor = '';
+          map.setPaintProperty('escape-route-secondary', 'line-width', 4);
+          map.setPaintProperty('escape-route-secondary', 'line-opacity', 0.6);
+          const colorValue = resolveColor('#FF9500');
+          map.setPaintProperty('escape-route-secondary', 'line-color', colorValue);
+          setTooltip(prev => ({ ...prev, visible: false }));
+        });
+      }
 
-      map.on('mouseleave', 'ems-evacuation-support', () => {
-        map.getCanvas().style.cursor = '';
-        map.setPaintProperty('ems-evacuation-support', 'line-width', 4);
-        map.setPaintProperty('ems-evacuation-support', 'line-opacity', 0.7);
-        map.setPaintProperty('ems-evacuation-support', 'line-color', '#34C759');
-        setTooltip(prev => ({ ...prev, visible: false }));
-      });
+      // Click interaction for route information - only if layers exist
+      if (map.getLayer('escape-route-primary')) {
+        map.on('click', 'escape-route-primary', (e) => {
+          if (e.features && e.features[0]) {
+            const feature = e.features[0];
+            const geometry = feature.geometry as GeoJSON.LineString;
+            const properties = feature.properties;
+            
+            if (geometry.coordinates && properties) {
+              // Create popup with route information
+              new mapboxgl.Popup()
+                .setLngLat([geometry.coordinates[0][0], geometry.coordinates[0][1]])
+                .setHTML(`
+                  <div style="font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; padding: 8px;">
+                    <h3 style="margin: 0 0 8px 0; color: #FF3B30; font-size: 16px;">${properties.routeName}</h3>
+                    <p style="margin: 0 0 4px 0; font-size: 14px;"><strong>Status:</strong> ${properties.status}</p>
+                    <p style="margin: 0 0 4px 0; font-size: 14px;"><strong>Time:</strong> ${properties.estimatedTime}</p>
+                    <p style="margin: 0 0 4px 0; font-size: 14px;"><strong>Capacity:</strong> ${properties.capacity}</p>
+                    <p style="margin: 0; font-size: 12px; color: #8E8E93;">${properties.description}</p>
+                  </div>
+                `)
+                .addTo(map);
+            }
+          }
+        });
+      }
+
+      if (map.getLayer('escape-route-secondary')) {
+        map.on('click', 'escape-route-secondary', (e) => {
+          if (e.features && e.features[0]) {
+            const feature = e.features[0];
+            const geometry = feature.geometry as GeoJSON.LineString;
+            const properties = feature.properties;
+            
+            if (geometry.coordinates && properties) {
+              // Create popup with route information
+              new mapboxgl.Popup()
+                .setLngLat([geometry.coordinates[0][0], geometry.coordinates[0][1]])
+                .setHTML(`
+                  <div style="font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; padding: 8px;">
+                    <h3 style="margin: 0 0 8px 0; color: #FF9500; font-size: 16px;">${properties.routeName}</h3>
+                    <p style="margin: 0 0 4px 0; font-size: 14px;"><strong>Status:</strong> ${properties.status}</p>
+                    <p style="margin: 0 0 4px 0; font-size: 14px;"><strong>Time:</strong> ${properties.estimatedTime}</p>
+                    <p style="margin: 0 0 4px 0; font-size: 14px;"><strong>Capacity:</strong> ${properties.capacity}</p>
+                    <p style="margin: 0; font-size: 12px; color: #8E8E93;">${properties.description}</p>
+                  </div>
+                `)
+                .addTo(map);
+            }
+          }
+        });
+      }
+
+      // EMS Response Route Interactions - only if layer exists
+      if (map.getLayer('ems-response-primary')) {
+        map.on('mouseenter', 'ems-response-primary', (e) => {
+          map.getCanvas().style.cursor = 'pointer';
+          map.setPaintProperty('ems-response-primary', 'line-width', 7);
+          map.setPaintProperty('ems-response-primary', 'line-opacity', 1.0);
+          
+          // Debug: Log the color value being set
+          const colorValue = resolveColor('#4A90E2');
+          console.log('Setting ems-response-primary line-color to:', colorValue);
+          map.setPaintProperty('ems-response-primary', 'line-color', colorValue);
+          
+          if (e.features && e.features[0] && e.features[0].properties) {
+            const properties = e.features[0].properties;
+            setTooltip({
+              visible: true,
+              content: properties.tooltip || '🚑 EMS Response Route',
+              x: e.point.x,
+              y: e.point.y
+            });
+          }
+        });
+
+        map.on('mouseleave', 'ems-response-primary', () => {
+          map.getCanvas().style.cursor = '';
+          map.setPaintProperty('ems-response-primary', 'line-width', 5);
+          map.setPaintProperty('ems-response-primary', 'line-opacity', 0.8);
+          
+          // Debug: Log the color value being set
+          const colorValue = resolveColor('#007AFF');
+          console.log('Setting ems-response-primary line-color to:', colorValue);
+          map.setPaintProperty('ems-response-primary', 'line-color', colorValue);
+          
+          setTooltip(prev => ({ ...prev, visible: false }));
+        });
+      }
+
+      // EMS Evacuation Support Route Interactions - only if layer exists
+      if (map.getLayer('ems-evacuation-support')) {
+        map.on('mouseenter', 'ems-evacuation-support', (e) => {
+          map.getCanvas().style.cursor = 'pointer';
+          map.setPaintProperty('ems-evacuation-support', 'line-width', 6);
+          map.setPaintProperty('ems-evacuation-support', 'line-opacity', 0.9);
+          
+          const colorValue = resolveColor('#5AC18E');
+          map.setPaintProperty('ems-evacuation-support', 'line-color', colorValue);
+          
+          if (e.features && e.features[0] && e.features[0].properties) {
+            const properties = e.features[0].properties;
+            setTooltip({
+              visible: true,
+              content: properties.tooltip || '🚑 EMS Evacuation Support',
+              x: e.point.x,
+              y: e.point.y
+            });
+          }
+        });
+
+        map.on('mouseleave', 'ems-evacuation-support', () => {
+          map.getCanvas().style.cursor = '';
+          map.setPaintProperty('ems-evacuation-support', 'line-width', 4);
+          map.setPaintProperty('ems-evacuation-support', 'line-opacity', 0.7);
+          const colorValue = resolveColor('#34C759');
+          map.setPaintProperty('ems-evacuation-support', 'line-color', colorValue);
+          setTooltip(prev => ({ ...prev, visible: false }));
+        });
+      }
 
     } catch (error) {
       console.error('Error adding escape route:', error);
@@ -1459,7 +1542,7 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
         'data': windVectors
       });
 
-      // Add wind vector layer
+      // Add wind vector layer with enhanced styling
       map.addLayer({
         'id': 'wind-vectors-layer',
         'type': 'symbol',
@@ -1470,15 +1553,110 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
             'interpolate',
             ['linear'],
             ['get', 'windSpeed'],
-            0, 0.5,   // 0 mph = 0.5x size
+            0, 0.3,   // 0 mph = 0.3x size
+            15, 0.8,  // 15 mph = 0.8x size
+            30, 1.2,  // 30 mph = 1.2x size
             50, 2.0   // 50+ mph = 2.0x size
           ],
           'icon-rotate': ['get', 'windDirection'],
           'icon-allow-overlap': false,
-          'icon-ignore-placement': false
+          'icon-ignore-placement': false,
+          'symbol-placement': 'point'
         },
         'paint': {
-          'icon-opacity': 0.8
+          'icon-opacity': [
+            'case',
+            ['get', 'isHighWind'], 0.95,  // High wind = more visible
+            ['get', 'windGusts'], 0.9,    // Gusts = more visible
+            0.7                            // Normal = less visible
+          ]
+        }
+      });
+
+      // Add mouse events for wind vectors
+      map.on('mouseenter', 'wind-vectors-layer', (e) => {
+        map.getCanvas().style.cursor = 'pointer';
+        
+        if (e.features && e.features[0] && e.features[0].properties) {
+          const properties = e.features[0].properties;
+          const windInfo = `💨 WIND VECTOR\nSpeed: ${properties.windSpeed} mph\nDirection: ${properties.windDirection}°\nCategory: ${properties.windCategory.toUpperCase()}\n${properties.windGusts ? '⚠️ GUST DETECTED' : 'Normal conditions'}\n${properties.isHighWind ? '🚨 HIGH WIND WARNING' : ''}`;
+          
+          setTooltip({
+            visible: true,
+            content: windInfo,
+            x: e.point.x,
+            y: e.point.y
+          });
+        }
+      });
+
+      map.on('mouseleave', 'wind-vectors-layer', () => {
+        map.getCanvas().style.cursor = '';
+        setTooltip(prev => ({ ...prev, visible: false }));
+      });
+
+      // Add wind gust indicators as separate layer
+      map.addLayer({
+        'id': 'wind-gusts-layer',
+        'type': 'circle',
+        'source': 'wind-vectors',
+        'filter': ['==', ['get', 'windGusts'], true],
+        'paint': {
+          'circle-radius': [
+            'interpolate',
+            ['linear'],
+            ['get', 'gustIntensity'],
+            0, 2,   // No gust = small circle
+            10, 6,  // Moderate gust = medium circle
+            20, 12  // Strong gust = large circle
+          ],
+          'circle-color': [
+            'case',
+            ['get', 'isHighWind'], '#FF3B30',  // High wind = red
+            '#FF9500'                          // Normal gust = orange
+          ],
+          'circle-opacity': 0.8,
+          'circle-stroke-width': 2,
+          'circle-stroke-color': '#FFFFFF',
+          'circle-stroke-opacity': 0.9
+        }
+      });
+
+      // Add mouse events for wind gusts
+      map.on('mouseenter', 'wind-gusts-layer', (e) => {
+        map.getCanvas().style.cursor = 'pointer';
+        
+        if (e.features && e.features[0] && e.features[0].properties) {
+          const properties = e.features[0].properties;
+          const gustInfo = `💨 WIND GUST\nBase Speed: ${properties.windSpeed - properties.gustIntensity} mph\nGust Speed: ${properties.windSpeed} mph\nGust Intensity: +${properties.gustIntensity} mph\n${properties.isHighWind ? '🚨 HIGH WIND WARNING' : 'Moderate conditions'}`;
+          
+          setTooltip({
+            visible: true,
+            content: gustInfo,
+            x: e.point.x,
+            y: e.point.y
+          });
+        }
+      });
+
+      map.on('mouseleave', 'wind-gusts-layer', () => {
+        map.getCanvas().style.cursor = '';
+        setTooltip(prev => ({ ...prev, visible: false }));
+      });
+
+      // Add high wind warning zones
+      map.addLayer({
+        'id': 'high-wind-warnings',
+        'type': 'circle',
+        'source': 'wind-vectors',
+        'filter': ['==', ['get', 'isHighWind'], true],
+        'paint': {
+          'circle-radius': 8,
+          'circle-color': '#FF3B30',
+          'circle-opacity': 0.6,
+          'circle-stroke-width': 3,
+          'circle-stroke-color': '#FF0000',
+          'circle-stroke-opacity': 0.8
         }
       });
 
@@ -1552,6 +1730,12 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
       if (map.getLayer('wind-vectors-layer')) {
         map.removeLayer('wind-vectors-layer');
       }
+      if (map.getLayer('wind-gusts-layer')) {
+        map.removeLayer('wind-gusts-layer');
+      }
+      if (map.getLayer('high-wind-warnings')) {
+        map.removeLayer('high-wind-warnings');
+      }
       if (map.getLayer('temperature-heatmap')) {
         map.removeLayer('temperature-heatmap');
       }
@@ -1583,24 +1767,37 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
   };
 
   const createWindVectorField = (weather: WeatherData) => {
-    // Create a grid of wind vectors across the map area
+    // Create a grid of wind vectors across the map area with enhanced gust detection
     const vectors: GeoJSON.Feature[] = [];
     const bounds = [-122.5, 37.7, -122.4, 37.8]; // San Francisco area
-    const gridSize = 0.01; // Grid spacing
+    const gridSize = 0.008; // Smaller grid for more detailed vectors
     
     for (let lng = bounds[0]; lng <= bounds[2]; lng += gridSize) {
       for (let lat = bounds[1]; lat <= bounds[3]; lat += gridSize) {
-        // Add some variation to wind direction and speed based on location
-        const windVariation = Math.sin(lng * 100) * Math.cos(lat * 100) * 0.1;
-        const adjustedDirection = weather.current.windDirection + (windVariation * 180);
-        const adjustedSpeed = weather.current.windSpeed + (windVariation * 5);
+        // Add realistic wind variation based on location and terrain
+        const terrainVariation = Math.sin(lng * 150) * Math.cos(lat * 150) * 0.15;
+        const coastalEffect = Math.exp(-Math.abs(lng + 122.4) * 8); // Windier near coast
         
+        // Calculate adjusted wind properties
+        const adjustedDirection = (weather.current.windDirection + (terrainVariation * 45)) % 360;
+        const baseSpeed = weather.current.windSpeed;
+        const gustMultiplier = weather.current.windGusts ? 1.5 : 1.0;
+        const adjustedSpeed = (baseSpeed + (terrainVariation * 8) + (coastalEffect * 5)) * gustMultiplier;
+        
+        // Determine if this is a gust area (random but realistic)
+        const isGustArea = Math.random() < 0.3 && weather.current.windGusts;
+        const gustSpeed = isGustArea ? adjustedSpeed * 1.8 : adjustedSpeed;
+        
+        // Create vector feature with enhanced properties
         vectors.push({
           type: 'Feature',
           properties: {
-            windSpeed: Math.max(0, adjustedSpeed),
-            windDirection: adjustedDirection % 360,
-            windGusts: weather.current.windGusts
+            windSpeed: Math.max(0, Math.round(gustSpeed)),
+            windDirection: Math.round(adjustedDirection),
+            windGusts: isGustArea,
+            gustIntensity: isGustArea ? Math.round(gustSpeed - adjustedSpeed) : 0,
+            isHighWind: gustSpeed > 25, // High wind warning threshold
+            windCategory: gustSpeed < 10 ? 'light' : gustSpeed < 20 ? 'moderate' : gustSpeed < 30 ? 'strong' : 'severe'
           },
           geometry: {
             type: 'Point',
@@ -1694,10 +1891,10 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
     // Create enhanced EMS weather legend element
     const legend = document.createElement('div');
     legend.className = 'weather-legend';
+    
+    // Use grid layout instead of absolute positioning
     legend.style.cssText = `
-      position: absolute;
-      top: 20px;
-      left: 20px;
+      grid-area: legend;
       background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(20px) saturate(180%);
       -webkit-backdrop-filter: blur(20px) saturate(180%);
@@ -1706,25 +1903,50 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
       border-radius: 16px;
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
       font-size: 13px;
-      z-index: 1000;
-      min-width: 300px;
+      z-index: 500;
+      min-width: 280px;
+      max-width: 320px;
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08);
       border: 1px solid rgba(255, 255, 255, 0.8);
+      max-height: 400px;
+      overflow-y: auto;
+      pointer-events: auto;
+      align-self: start;
     `;
 
     legend.innerHTML = `
-      <h4 style="margin: 0 0 15px 0; color: #007AFF; font-size: 17px; border-bottom: 1px solid rgba(0, 122, 255, 0.2); padding-bottom: 8px; font-weight: 600;">
+      <h4 style="margin: 0 0 15px 0; color: var(--ios-blue); font-size: 17px; border-bottom: 1px solid rgba(0, 122, 255, 0.2); padding-bottom: 8px; font-weight: 600;">
         🌤️ Weather Operations
       </h4>
       
       <!-- Current Conditions -->
       <div style="margin-bottom: 15px; padding: 12px; background: rgba(0, 122, 255, 0.05); border-radius: 12px; border: 1px solid rgba(0, 122, 255, 0.1);">
-        <h5 style="margin: 0 0 8px 0; color: #007AFF; font-size: 15px; font-weight: 600;">📊 Current Conditions</h5>
+        <h5 style="margin: 0 0 8px 0; color: var(--ios-blue); font-size: 15px; font-weight: 600;">📊 Current Conditions</h5>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 13px;">
-          <div><span style="color: #007AFF; font-weight: 500;">🌡️ Temp:</span> ${weatherData?.current.temp}°F</div>
-          <div><span style="color: #007AFF; font-weight: 500;">💧 Humidity:</span> ${weatherData?.current.humidity}%</div>
-          <div><span style="color: #007AFF; font-weight: 500;">💨 Wind:</span> ${weatherData?.current.windSpeed} mph</div>
-          <div><span style="color: #007AFF; font-weight: 500;">🧭 Direction:</span> ${getWindDirection(weatherData?.current.windDirection || 0)}</div>
+          <div><span style="color: var(--ios-blue); font-weight: 500;">🌡️ Temp:</span> ${weatherData?.current.temp}°F</div>
+          <div><span style="color: var(--ios-blue); font-weight: 500;">💧 Humidity:</span> ${weatherData?.current.humidity}%</div>
+          <div><span style="color: var(--ios-blue); font-weight: 500;">💨 Wind:</span> ${weatherData?.current.windSpeed} mph</div>
+          <div><span style="color: var(--ios-blue); font-weight: 500;">🧭 Direction:</span> ${getWindDirection(weatherData?.current.windDirection || 0)}</div>
+          ${weatherData?.current.windGusts ? '<div style="grid-column: 1 / -1;"><span style="color: var(--ios-orange); font-weight: 500;">💨 Gusts:</span> Active - Monitor for changes</div>' : ''}
+        </div>
+      </div>
+
+      <!-- Wind Vector Legend -->
+      <div style="margin-bottom: 15px; padding: 12px; background: rgba(0, 122, 255, 0.05); border-radius: 12px; border: 1px solid rgba(0, 122, 255, 0.1);">
+        <h5 style="margin: 0 0 8px 0; color: var(--ios-blue); font-size: 15px; font-weight: 600;">💨 Wind Vectors</h5>
+        <div style="font-size: 12px; line-height: 1.4;">
+          <div style="margin-bottom: 4px;">
+            <span style="color: var(--ios-blue); font-weight: 500;">→ Arrows:</span> Wind direction
+          </div>
+          <div style="margin-bottom: 4px;">
+            <span style="color: var(--ios-blue); font-weight: 500;">📏 Length:</span> Wind speed (longer = faster)
+          </div>
+          <div style="margin-bottom: 4px;">
+            <span style="color: var(--ios-orange); font-weight: 500;">🟠 Circles:</span> Wind gusts detected
+          </div>
+          <div>
+            <span style="color: #FF3B30; font-weight: 500;">🔴 Red:</span> High wind warnings (>25 mph)
+          </div>
         </div>
       </div>
 
@@ -1786,20 +2008,20 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
 
   // EMS Weather Risk Assessment Functions
   const getFireRiskColor = (risk: string): string => {
-    const colors = {
-      low: '#00FF00',
-      moderate: '#FFFF00', 
-      high: '#FF6600',
-      extreme: '#FF0000',
-      catastrophic: '#800080'
+    const colors: { [key: string]: string } = {
+      low: '#34C759',
+      moderate: '#FFCC00',
+      high: '#FF9500',
+      extreme: '#FF3B30',
+      catastrophic: '#AF52DE'
     };
-    return colors[risk as keyof typeof colors] || '#00FF00';
+    return colors[risk] || '#34C759';
   };
 
   const getEvacuationRiskColor = (weather: any): string => {
-    if (weather.humidity < 20 || weather.windSpeed > 25 || weather.temp > 90) return '#FF0000';
-    if (weather.humidity < 30 || weather.windSpeed > 20 || weather.temp > 85) return '#FF6600';
-    return '#00FF00';
+    if (weather.humidity < 20 || weather.windSpeed > 25 || weather.temp > 90) return '#FF3B30';
+    if (weather.humidity < 30 || weather.windSpeed > 20 || weather.temp > 85) return '#FF9500';
+    return '#34C759';
   };
 
   const getEvacuationRisk = (weather: any): string => {
@@ -1809,9 +2031,9 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
   };
 
   const getAirOpsRiskColor = (weather: any): string => {
-    if (weather.windSpeed > 30 || weather.visibility < 3) return '#FF0000';
-    if (weather.windSpeed > 20 || weather.visibility < 5) return '#FF6600';
-    return '#00FF00';
+    if (weather.windSpeed > 30 || weather.visibility < 5) return '#FF3B30';
+    if (weather.windSpeed > 20 || weather.visibility < 5) return '#FF9500';
+    return '#34C759';
   };
 
   const getAirOpsRisk = (weather: any): string => {
@@ -2126,20 +2348,112 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
     }
   };
 
+  // Debug: Check CSS variable resolution
+  useEffect(() => {
+    const root = document.documentElement;
+    const computedStyle = getComputedStyle(root);
+    const iosBlueValue = computedStyle.getPropertyValue('--ios-blue').trim();
+    console.log('CSS variable --ios-blue resolved to:', iosBlueValue);
+    console.log('Document root element:', root);
+    console.log('Computed style object:', computedStyle);
+  }, []);
+
+  // Utility function to safely resolve CSS variables to hex colors
+  const resolveColor = (colorValue: string): string => {
+    // If it's already a hex color, return it
+    if (colorValue.startsWith('#')) {
+      return colorValue;
+    }
+    
+    // If it's a CSS variable, resolve it
+    if (colorValue.startsWith('var(--')) {
+      const root = document.documentElement;
+      const computedStyle = getComputedStyle(root);
+      const resolvedValue = computedStyle.getPropertyValue(colorValue.slice(4, -1)).trim();
+      
+      // If the resolved value is still a CSS variable, fall back to a default
+      if (resolvedValue.startsWith('var(--') || !resolvedValue) {
+        console.warn(`Could not resolve CSS variable ${colorValue}, using fallback color`);
+        return '#007AFF'; // Default iOS blue
+      }
+      
+      return resolvedValue;
+    }
+    
+    // If it's any other format, return as-is (Mapbox will handle validation)
+    return colorValue;
+  };
+
+  useEffect(() => {
+    // Initialize map
+    if (!mapboxgl.accessToken) {
+      setError('Mapbox access token not found. Please set VITE_MAPBOX_ACCESS_TOKEN in your .env.local file.');
+      return;
+    }
+
+    // Map initialization logic will go here
+    // (removed resize handler since we're using CSS Grid now)
+  }, []);
+
   return (
     <div 
       className="simple-mapbox-test" 
       style={{ 
         width: '100%', 
-        height: '100%', 
+        height: '800px',
         position: 'relative',
-        backgroundColor: '#000000'
+        backgroundColor: '#f5f5f7',
+        borderRadius: '12px',
+        margin: '0',
+        boxSizing: 'border-box',
+        display: 'grid',
+        gridTemplateAreas: window.innerWidth < 1200 ? `
+          "header"
+          "map"
+          "controls"
+          "legend"
+        ` : `
+          "header header header"
+          "map map controls"
+          "map map legend"
+        `,
+        gridTemplateRows: window.innerWidth < 1200 ? 'auto 1fr auto auto' : 'auto 1fr auto',
+        gridTemplateColumns: window.innerWidth < 1200 ? '1fr' : '1fr 1fr 320px',
+        gap: '20px',
+        padding: '20px'
       }}
     >
+      {/* Header Area */}
+      <div style={{ 
+        gridArea: 'header',
+        background: 'rgba(255, 255, 255, 0.95)',
+        backdropFilter: 'blur(20px) saturate(180%)',
+        borderRadius: '16px',
+        padding: '20px',
+        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)',
+        border: '1px solid rgba(255, 255, 255, 0.8)',
+        zIndex: 100
+      }}>
+        <h2 style={{ margin: '0 0 10px 0', color: '#1D1D1F', fontSize: '24px' }}>
+          🗺️ Emergency Response Map
+        </h2>
+        <p style={{ margin: '0', color: '#8E8E93', fontSize: '16px' }}>
+          Real-time disaster monitoring and response coordination
+        </p>
+      </div>
+
+      {/* Map Container - Now properly positioned in grid */}
       <div 
         ref={containerRef} 
         className="mapbox-container"
-        style={{ width: '100%', height: '100%' }} 
+        style={{ 
+          gridArea: 'map',
+          width: '100%', 
+          height: '100%',
+          borderRadius: '12px',
+          zIndex: 1,
+          overflow: 'hidden'
+        }} 
       />
       
       {/* Error Display */}
@@ -2243,14 +2557,12 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
       
       {/* Map is now full-screen without control panel */}
       
-      {/* Apple Maps-style Analytics Panel - Repositioned to bottom-left with standard iOS colors */}
-      {mapLoaded && showAnalytics && (
+      {/* Apple Maps-style Layer Controls - Now properly positioned in grid */}
+      {mapLoaded && (
         <div 
-          className="analytics-panel"
+          className="layer-controls"
           style={{ 
-          position: 'absolute', 
-          bottom: 'var(--ios-spacing-md)', 
-          left: 'var(--ios-spacing-md)', 
+          gridArea: 'controls',
           background: 'rgba(255, 255, 255, 0.95)',
           backdropFilter: 'blur(20px) saturate(180%)',
           WebkitBackdropFilter: 'blur(20px) saturate(180%)',
@@ -2258,13 +2570,16 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
           padding: '20px',
           boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08)',
           border: '1px solid rgba(255, 255, 255, 0.8)',
-          zIndex: 1000,
+          zIndex: 400,
           display: 'flex',
           flexDirection: 'column',
           gap: '12px',
           minWidth: '280px',
           maxWidth: '320px',
-          fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif'
+          maxHeight: '400px',
+          overflowY: 'auto',
+          fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
+          alignSelf: 'start'
         }}>
           <h4 style={{ 
             margin: 0, 
@@ -2273,7 +2588,7 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
             color: '#1D1D1F',
             fontSize: '17px',
             letterSpacing: '-0.022em'
-          }}>Map Analytics</h4>
+          }}>Map Layers</h4>
           
           <div style={{ 
             display: 'flex', 
@@ -2385,8 +2700,6 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
             </div>
           </div>
           
-
-          
           <div style={{ 
             display: 'flex', 
             justifyContent: 'space-between', 
@@ -2467,159 +2780,9 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
               color: '#8E8E93',
               fontStyle: 'italic'
             }}>
-              {showAnalytics ? 'Analytics enabled' : 'Analytics disabled'}
+              Click toggles to show/hide map layers
             </div>
           </div>
-        </div>
-      )}
-      
-      {/* Enhanced iOS-style status indicator - Repositioned to top-right */}
-      {mapLoaded && (
-        <div style={{ 
-          position: 'absolute', 
-          top: 'var(--ios-spacing-md)', 
-          right: 'var(--ios-spacing-md)', 
-          background: 'rgba(0, 0, 0, 0.85)',
-          backdropFilter: 'blur(20px) saturate(180%)',
-          WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-          borderRadius: 'var(--ios-border-radius-xl)',
-          padding: 'var(--ios-spacing-lg)',
-          boxShadow: 'var(--ios-shadow-medium)',
-          border: '1px solid rgba(255, 255, 255, 0.2)',
-          zIndex: 1000,
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 'var(--ios-spacing-sm)',
-          minWidth: '220px'
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--ios-spacing-sm)' }}>
-            <div style={{ 
-              width: '10px', 
-              height: '10px', 
-              backgroundColor: terrainAdded ? 'var(--ios-green)' : 'var(--ios-orange)', 
-              borderRadius: '50%',
-              boxShadow: terrainAdded ? '0 0 8px var(--ios-green)' : '0 0 8px var(--ios-orange)'
-            }}></div>
-            <span className="ios-caption" style={{ 
-              margin: 0, 
-              fontWeight: '600',
-              color: '#FFFFFF',
-              fontSize: '13px',
-              letterSpacing: '-0.022em'
-            }}>
-              {terrainAdded ? '3D Terrain Loaded' : 'Loading 3D Terrain...'}
-            </span>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--ios-spacing-sm)' }}>
-            <div style={{ 
-              width: '10px', 
-              height: '10px', 
-              backgroundColor: buildingsAdded ? 'var(--ios-green)' : 'var(--ios-orange)', 
-              borderRadius: '50%',
-              boxShadow: buildingsAdded ? '0 0 8px var(--ios-green)' : '0 0 8px var(--ios-orange)'
-            }}></div>
-            <span className="ios-caption" style={{ 
-              margin: 0, 
-              fontWeight: '600',
-              color: '#FFFFFF',
-              fontSize: '13px',
-              letterSpacing: '-0.022em'
-            }}>
-              {buildingsAdded ? '3D Buildings Loaded' : 'Loading 3D Buildings...'}
-            </span>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--ios-spacing-sm)' }}>
-            <div style={{ 
-              width: '10px', 
-              height: '10px', 
-              backgroundColor: escapeRouteAdded ? 'var(--ios-green)' : 'var(--ios-orange)', 
-              borderRadius: '50%',
-              boxShadow: escapeRouteAdded ? '0 0 8px var(--ios-green)' : '0 0 8px var(--ios-orange)'
-            }}></div>
-            <span className="ios-caption" style={{ 
-              margin: 0, 
-              fontWeight: '600',
-              color: '#FFFFFF',
-              fontSize: '13px',
-              letterSpacing: '-0.022em'
-            }}>
-              {escapeRouteAdded ? 'Escape Routes Loaded' : 'Loading Escape Routes...'}
-            </span>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--ios-spacing-sm)' }}>
-            <div style={{ 
-              width: '10px', 
-              height: '10px', 
-              backgroundColor: hazardsAdded ? 'var(--ios-green)' : 'var(--ios-orange)', 
-              borderRadius: '50%',
-              boxShadow: hazardsAdded ? '0 0 8px var(--ios-green)' : '0 0 8px var(--ios-orange)'
-            }}></div>
-            <span className="ios-caption" style={{ 
-              margin: 0, 
-              fontWeight: '600',
-              color: '#FFFFFF',
-              fontSize: '13px',
-              letterSpacing: '-0.022em'
-            }}>
-              {hazardsAdded ? 'Hazards Loaded' : 'Loading Hazards...'}
-            </span>
-          </div>
-          
-          {/* Hazard Legend with Standard iOS Colors */}
-          {hazardsAdded && (
-            <div style={{ 
-              marginTop: 'var(--ios-spacing-sm)', 
-              paddingTop: 'var(--ios-spacing-sm)', 
-              borderTop: '1px solid rgba(255, 255, 255, 0.2)',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 'var(--ios-spacing-xs)'
-            }}>
-              <span className="ios-caption" style={{ 
-                margin: 0, 
-                fontWeight: '600', 
-                color: '#FFFFFF',
-                fontSize: '11px',
-                textTransform: 'uppercase',
-                letterSpacing: '0.5px'
-              }}>
-                Hazard Legend
-              </span>
-              
-              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--ios-spacing-xs)' }}>
-                <div style={{ 
-                  width: '8px', 
-                  height: '8px', 
-                  backgroundColor: 'var(--ios-red)', 
-                  borderRadius: '50%',
-                  border: '1px solid rgba(255, 255, 255, 0.3)'
-                }}></div>
-                <span className="ios-caption" style={{ margin: 0, fontSize: '10px', color: '#FFFFFF' }}>High Risk</span>
-              </div>
-              
-              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--ios-spacing-xs)' }}>
-                <div style={{ 
-                  width: '8px', 
-                  height: '8px', 
-                  backgroundColor: 'var(--ios-orange)', 
-                  borderRadius: '50%',
-                  border: '1px solid rgba(255, 255, 255, 0.3)'
-                }}></div>
-                <span className="ios-caption" style={{ margin: 0, fontSize: '10px', color: '#FFFFFF' }}>Medium Risk</span>
-              </div>
-              
-              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--ios-spacing-xs)' }}>
-                <div style={{ 
-                  width: '8px', 
-                  height: '8px', 
-                  backgroundColor: 'var(--ios-yellow)', 
-                  borderRadius: '50%',
-                  border: '1px solid rgba(255, 255, 255, 0.3)'
-                }}></div>
-                <span className="ios-caption" style={{ margin: 0, fontSize: '10px', color: '#FFFFFF' }}>Low Risk</span>
-              </div>
-            </div>
-          )}
         </div>
       )}
       
@@ -2631,20 +2794,20 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
           top: Math.max(tooltip.y - 40, 10), // Prevent overflow
           background: 'rgba(0, 0, 0, 0.95)',
           color: '#FFFFFF',
-          padding: 'var(--ios-spacing-md)',
-          borderRadius: 'var(--ios-border-radius-large)',
-          fontSize: '13px',
-          fontWeight: '500',
+          padding: '16px',
+          borderRadius: '12px',
+          fontSize: '14px',
+          fontWeight: '600',
           fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
           zIndex: 2000,
           pointerEvents: 'none',
-          maxWidth: '300px',
-          minWidth: '200px',
-          boxShadow: 'var(--ios-shadow-large)',
+          maxWidth: '350px',
+          minWidth: '250px',
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3), 0 4px 16px rgba(0, 0, 0, 0.2)',
           backdropFilter: 'blur(20px) saturate(180%)',
           WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-          border: '1px solid rgba(255, 255, 255, 0.2)',
-          lineHeight: '1.4',
+          border: '2px solid rgba(255, 255, 255, 0.3)',
+          lineHeight: '1.5',
           letterSpacing: '-0.022em',
           wordWrap: 'break-word',
           overflowWrap: 'break-word',
@@ -2653,123 +2816,17 @@ export const SimpleMapboxTest: React.FC<SimpleMapboxTestProps> = ({
           {tooltip.content}
           <div style={{
             position: 'absolute',
-            left: -6,
+            left: -8,
             top: '50%',
             transform: 'translateY(-50%)',
             width: 0,
             height: 0,
-            borderTop: '6px solid transparent',
-            borderBottom: '6px solid transparent',
-            borderRight: '6px solid rgba(0, 0, 0, 0.95)'
+            borderTop: '8px solid transparent',
+            borderBottom: '8px solid transparent',
+            borderRight: '8px solid rgba(0, 0, 0, 0.95)'
           }}></div>
         </div>
       )}
-      
-      {/* Map Controls Info - Simplified and Repositioned to bottom-right */}
-      <div style={{ 
-        position: 'absolute', 
-        bottom: 'var(--ios-spacing-md)', 
-        right: 'var(--ios-spacing-md)', 
-        background: 'rgba(0, 0, 0, 0.85)',
-        backdropFilter: 'blur(20px) saturate(180%)',
-        WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-        borderRadius: 'var(--ios-border-radius-xl)',
-        padding: 'var(--ios-spacing-lg)',
-        boxShadow: 'var(--ios-shadow-medium)',
-        border: '1px solid rgba(255, 255, 255, 0.2)',
-        zIndex: 1000,
-        maxWidth: '280px',
-        minWidth: '240px'
-      }}>
-        <h4 className="ios-body" style={{ 
-          margin: 0, 
-          marginBottom: 'var(--ios-spacing-sm)', 
-          fontWeight: '700',
-          color: '#FFFFFF',
-          fontSize: '16px',
-          letterSpacing: '-0.022em'
-        }}>Map Controls</h4>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--ios-spacing-xs)' }}>
-          <p className="ios-caption" style={{ 
-            margin: 0, 
-            color: '#CCCCCC',
-            fontSize: '12px',
-            letterSpacing: '-0.022em'
-          }}>• Drag to rotate</p>
-          <p className="ios-caption" style={{ 
-            margin: 0, 
-            color: '#CCCCCC',
-            fontSize: '12px',
-            letterSpacing: '-0.022em'
-          }}>• Scroll to zoom</p>
-          <p className="ios-caption" style={{ 
-            margin: 0, 
-            color: '#CCCCCC',
-            fontSize: '12px',
-            letterSpacing: '-0.022em'
-          }}>• Right-click to tilt</p>
-        </div>
-        <div style={{ 
-          marginTop: 'var(--ios-spacing-sm)', 
-          paddingTop: 'var(--ios-spacing-sm)',
-          borderTop: '1px solid rgba(255, 255, 255, 0.2)'
-        }}>
-          <p className="ios-caption" style={{ 
-            margin: 0, 
-            marginBottom: 'var(--ios-spacing-xs)',
-            fontWeight: '600',
-            color: '#FFFFFF',
-            fontSize: '12px',
-            letterSpacing: '-0.022em'
-          }}>
-            Features:
-          </p>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--ios-spacing-xs)' }}>
-            <p className="ios-caption" style={{ 
-              margin: 0, 
-              color: '#CCCCCC',
-              fontSize: '12px',
-              letterSpacing: '-0.022em'
-            }}>• 3D Terrain with elevation</p>
-            <p className="ios-caption" style={{ 
-              margin: 0, 
-              color: '#CCCCCC',
-              fontSize: '12px',
-              letterSpacing: '-0.022em'
-            }}>• 3D Buildings on terrain</p>
-            <p className="ios-caption" style={{ 
-              margin: 0, 
-              color: '#CCCCCC',
-              fontSize: '12px',
-              letterSpacing: '-0.022em'
-            }}>• Emergency escape routes</p>
-            <p className="ios-caption" style={{ 
-              margin: 0, 
-              color: '#CCCCCC',
-              fontSize: '12px',
-              letterSpacing: '-0.022em'
-            }}>• Hover for tooltips</p>
-            <p className="ios-caption" style={{ 
-              margin: 0, 
-              color: '#CCCCCC',
-              fontSize: '12px',
-              letterSpacing: '-0.022em'
-            }}>• Click routes for details</p>
-            <p className="ios-caption" style={{ 
-              margin: 0, 
-              color: '#CCCCCC',
-              fontSize: '12px',
-              letterSpacing: '-0.022em'
-            }}>• Zoom to 15+ for buildings</p>
-            <p className="ios-caption" style={{ 
-              margin: 0, 
-              color: '#CCCCCC',
-              fontSize: '12px',
-              letterSpacing: '-0.022em'
-            }}>• Hazards on map</p>
-          </div>
-        </div>
-      </div>
     </div>
   );
 };

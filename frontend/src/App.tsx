@@ -1,24 +1,35 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { EvacuationDashboard } from './components/EvacuationDashboard';
-import { ChallengeDemo } from './components/ChallengeDemo';
-
-import { LiveHazardMap } from './components/tacmap/LiveHazardMap';
+import { SimpleMapboxTest } from './components/tacmap/SimpleMapboxTest';
 import { WeatherPanel } from './components/WeatherPanel';
 import { BuildingEvacuationTracker } from './components/BuildingEvacuationTracker';
-import { foundryService } from './services/foundryService';
-import { EvacuationZone, Building, WeatherData } from './types/emergency-response';
+import { MultiHazardMap } from './components/MultiHazardMap';
+import { RoleBasedRouting } from './components/RoleBasedRouting';
+import { SearchMarkings } from './components/SearchMarkings';
+import { EfficiencyMetrics } from './components/EfficiencyMetrics';
+import { DrillDownCapability } from './components/DrillDownCapability';
 import { useApplyBrowserSettings, useBrowserSettingsInfo } from './hooks/useBrowserSettings';
-import './styles/ios-design.css';
-import './App.css';
+import { 
+  EvacuationZone, 
+  Building, 
+  WeatherData, 
+  HazardLayer, 
+  OperationalRoute, 
+  EmergencyUnit, 
+  StagingArea,
+  SearchMarking,
+  EfficiencyMetrics as EfficiencyMetricsType,
+  DetailLevels
+} from './types/emergency-response';
 
-// Mock data for demonstration
+// Mock data that matches the expected types
 const mockEvacuationZones: EvacuationZone[] = [
   {
     id: 'zone-001',
-    name: 'Downtown San Francisco',
+    name: 'Zone A',
     priority: 'immediate',
     totalBuildings: 150,
-    totalPopulation: 25000,
+    totalPopulation: 1500,
     evacuationProgress: {
       confirmed: 120,
       inProgress: 20,
@@ -39,15 +50,15 @@ const mockEvacuationZones: EvacuationZone[] = [
       ]]
     },
     assignedUnits: ['unit-001', 'unit-002'],
-    estimatedCompletion: new Date(Date.now() + 2 * 60 * 60 * 1000), // 2 hours from now
+    estimatedCompletion: new Date(Date.now() + 2 * 60 * 60 * 1000),
     lastUpdated: new Date()
   },
   {
     id: 'zone-002',
-    name: 'Golden Gate Park',
+    name: 'Zone B',
     priority: 'warning',
     totalBuildings: 75,
-    totalPopulation: 12000,
+    totalPopulation: 2200,
     evacuationProgress: {
       confirmed: 60,
       inProgress: 10,
@@ -67,7 +78,35 @@ const mockEvacuationZones: EvacuationZone[] = [
       ]]
     },
     assignedUnits: ['unit-003'],
-    estimatedCompletion: new Date(Date.now() + 4 * 60 * 60 * 1000), // 4 hours from now
+    estimatedCompletion: new Date(Date.now() + 4 * 60 * 60 * 1000),
+    lastUpdated: new Date()
+  },
+  {
+    id: 'zone-003',
+    name: 'Zone C',
+    priority: 'standby',
+    totalBuildings: 50,
+    totalPopulation: 800,
+    evacuationProgress: {
+      confirmed: 40,
+      inProgress: 5,
+      refused: 1,
+      noContact: 1,
+      unchecked: 1,
+      specialNeeds: 2
+    },
+    boundaries: {
+      type: 'Polygon',
+      coordinates: [[
+        [-122.400, 37.780],
+        [-122.390, 37.780],
+        [-122.390, 37.790],
+        [-122.400, 37.790],
+        [-122.400, 37.780]
+      ]]
+    },
+    assignedUnits: ['unit-004'],
+    estimatedCompletion: new Date(Date.now() + 6 * 60 * 60 * 1000),
     lastUpdated: new Date()
   }
 ];
@@ -116,236 +155,335 @@ const mockBuildings: Building[] = [
     structuralIntegrity: 'intact',
     accessRoutes: ['route-002'],
     hazards: ['smoke-exposure']
+  },
+  {
+    id: 'building-003',
+    address: '50 Oak St',
+    coordinates: [-122.4100, 37.7850],
+    type: 'residential',
+    units: 120,
+    population: 120,
+    specialNeeds: ['elderly', 'children'],
+    evacuationStatus: {
+      evacuated: false,
+      confirmedBy: 'Unit-003',
+      timestamp: new Date(),
+      notes: 'Building secure, monitoring',
+      specialNeeds: ['elderly', 'children'],
+      pets: 15,
+      vehicles: 45,
+      lastContact: new Date()
+    },
+    structuralIntegrity: 'intact',
+    accessRoutes: ['route-003'],
+    hazards: []
   }
 ];
 
 const mockWeatherData: WeatherData = {
   current: {
-    temp: 87,
-    humidity: 35,
-    windSpeed: 25,
+    temp: 72,
+    humidity: 65,
+    windSpeed: 12,
     windDirection: 270,
-    windGusts: 35,
-    fireWeatherIndex: 'high',
-    visibility: 8,
+    windGusts: 15,
+    fireWeatherIndex: 'moderate',
+    visibility: 10,
     pressure: 1013
   },
   forecast: {
-    redFlagWarning: true,
+    redFlagWarning: false,
     windShiftExpected: '18:00 - Wind shift to NE',
     humidityRecovery: 'Overnight to 40%',
     tempDrop: '22:00 - Drop to 65°F',
     nextHour: {
-      temp: 89,
-      humidity: 30,
-      windSpeed: 28,
+      temp: 74,
+      humidity: 60,
+      windSpeed: 14,
       windDirection: 275
     }
-  }
+  },
+  alerts: [
+    {
+      type: 'high_wind',
+      severity: 'warning',
+      message: 'High Wind Warning',
+      validFrom: new Date(),
+      validTo: new Date(Date.now() + 24 * 60 * 60 * 1000),
+      affectedAreas: ['San Francisco Bay Area']
+    },
+    {
+      type: 'low_humidity',
+      severity: 'watch',
+      message: 'Fire Weather Watch',
+      validFrom: new Date(),
+      validTo: new Date(Date.now() + 48 * 60 * 60 * 1000),
+      affectedAreas: ['Northern California']
+    }
+  ]
 };
-
-// iOS-Style Navigation Component
-const IOSNavigation = ({ 
-  activeView, 
-  setActiveView,
-  browserSettings,
-  settingsInfo
-}: {
-  activeView: 'dashboard' | 'map' | 'weather' | 'buildings';
-  setActiveView: (view: 'dashboard' | 'map' | 'weather' | 'buildings') => void;
-  browserSettings: any;
-  settingsInfo: any;
-}) => (
-  <nav className="ios-navbar">
-    <div className="ios-container">
-      <div className="ios-flex-between">
-        <div className="ios-flex">
-          <div className="ios-card compact" style={{ margin: 0, marginRight: 'var(--ios-spacing-md)' }}>
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: 'var(--ios-blue)' }}>
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-1.447-.894L15 4m0 13V4m-6 3l6-3" />
-            </svg>
-          </div>
-          <div>
-            <h1 className="ios-headline" style={{ margin: 0, marginBottom: 'var(--ios-spacing-xs)' }}>Disaster Response Dashboard</h1>
-            <p className="ios-caption" style={{ margin: 0 }}>Real-time 3D mapping with Foundry integration</p>
-          </div>
-        </div>
-        
-        <div className="ios-flex" style={{ gap: 'var(--ios-spacing-md)' }}>
-          <div className="ios-card compact" style={{ 
-            background: 'var(--ios-green)', 
-            color: 'white', 
-            padding: 'var(--ios-spacing-sm) var(--ios-spacing-md)',
-            borderRadius: 'var(--ios-border-radius-medium)',
-            fontSize: '14px',
-            fontWeight: '600',
-            letterSpacing: '-0.022em'
-          }}>
-            🏆 Challenge Ready
-          </div>
-          <div className="ios-card compact" style={{ 
-            background: 'var(--ios-blue)', 
-            color: 'white', 
-            padding: 'var(--ios-spacing-sm) var(--ios-spacing-md)',
-            borderRadius: 'var(--ios-border-radius-medium)',
-            fontSize: '12px',
-            fontWeight: '600',
-            letterSpacing: '-0.022em',
-            maxWidth: '200px',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            whiteSpace: 'nowrap'
-          }} title={settingsInfo.info}>
-            {browserSettings.colorScheme === 'dark' ? '🌙' : '☀️'} {browserSettings.contrast === 'high' ? '🔍' : ''} Browser Settings
-          </div>
-        </div>
-      </div>
-      
-      {/* iOS-Style Segmented Control for Navigation */}
-      <div className="ios-segmented-control" style={{ marginTop: 'var(--ios-spacing-lg)' }}>
-        <div 
-          className={`ios-segment ${activeView === 'dashboard' ? 'active' : ''}`}
-          onClick={() => setActiveView('dashboard')}
-        >
-          📊 Dashboard
-        </div>
-        <div 
-          className={`ios-segment ${activeView === 'map' ? 'active' : ''}`}
-          onClick={() => setActiveView('map')}
-        >
-          🗺️ Live Map
-        </div>
-
-        <div 
-          className={`ios-segment ${activeView === 'weather' ? 'active' : ''}`}
-          onClick={() => setActiveView('weather')}
-        >
-          🌤️ Weather
-        </div>
-        <div 
-          className={`ios-segment ${activeView === 'buildings' ? 'active' : ''}`}
-          onClick={() => setActiveView('buildings')}
-        >
-          🏢 Buildings
-        </div>
-      </div>
-    </div>
-  </nav>
-);
 
 function App() {
   const [activeView, setActiveView] = useState<'dashboard' | 'map' | 'weather' | 'buildings'>('dashboard');
-  const [hazards, setHazards] = useState([]);
-  const [routes, setRoutes] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
   
   // Apply browser settings to the application
   const browserSettings = useApplyBrowserSettings();
   const settingsInfo = useBrowserSettingsInfo();
 
-  useEffect(() => {
-    const loadData = async () => {
-      try {
-        setIsLoading(true);
-        const [hazardsData, routesData] = await Promise.all([
-          foundryService.getHazardZones(),
-          foundryService.getLiveEvacuationRoutes()
-        ]);
-        setHazards(hazardsData);
-        setRoutes(routesData);
-      } catch (error) {
-        console.error('Error loading data:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadData();
-  }, []);
-
   const renderView = () => {
-    console.log('renderView called with activeView:', activeView);
     switch (activeView) {
       case 'dashboard':
         return (
-          <div className="ios-card large" style={{ padding: 0, overflow: 'hidden', minHeight: '600px' }}>
-            <EvacuationDashboard
-              zones={mockEvacuationZones}
-              buildings={mockBuildings}
-              onZoneSelect={(zone) => console.log('Zone selected:', zone)}
-              onBuildingSelect={(building) => console.log('Building selected:', building)}
-              onStatusUpdate={(buildingId, status) => console.log('Status update:', buildingId, status)}
-            />
-          </div>
+          <EvacuationDashboard
+            zones={mockEvacuationZones}
+            buildings={mockBuildings}
+            weatherData={mockWeatherData}
+            onZoneSelect={(zone) => console.log('Zone selected:', zone)}
+            onBuildingSelect={(building) => console.log('Building selected:', building)}
+            onStatusUpdate={(buildingId, status) => console.log('Status update:', buildingId, status)}
+          />
         );
-      
       case 'map':
         return (
-          <div className="ios-card large" style={{ padding: 0, overflow: 'hidden', minHeight: '600px' }}>
-            <LiveHazardMap />
-          </div>
+          <SimpleMapboxTest
+            showHazards={true}
+            showUnits={true}
+            showRoutes={true}
+            showBuildings={true}
+            showTerrain={true}
+            showAnalytics={true}
+            showWeather={true}
+            weatherData={mockWeatherData}
+          />
         );
-      
-
-      
-      case 'weather':
-        return (
-          <div className="ios-card large" style={{ padding: 0, overflow: 'hidden', minHeight: '600px' }}>
-            <WeatherPanel weatherData={mockWeatherData} />
-          </div>
-        );
-      
-      case 'buildings':
-        return (
-          <div className="ios-card large" style={{ padding: 0, overflow: 'hidden', minHeight: '600px' }}>
-            <BuildingEvacuationTracker 
-              zones={mockEvacuationZones}
-              buildings={mockBuildings}
-            />
-          </div>
-        );
-      
       default:
         return (
-          <div className="ios-card large" style={{ padding: 0, overflow: 'hidden', minHeight: '600px' }}>
-            <ChallengeDemo />
-          </div>
+          <EvacuationDashboard
+            zones={mockEvacuationZones}
+            buildings={mockBuildings}
+            weatherData={mockWeatherData}
+            onZoneSelect={(zone) => console.log('Zone selected:', zone)}
+            onBuildingSelect={(building) => console.log('Building selected:', building)}
+            onStatusUpdate={(buildingId, status) => console.log('Status update:', buildingId, status)}
+          />
         );
     }
   };
 
-  if (isLoading) {
-    return (
-      <div style={{ minHeight: '100vh', backgroundColor: 'var(--ios-background)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <div className="ios-card large" style={{ textAlign: 'center' }}>
-          <div className="ios-spinner large" style={{ margin: '0 auto var(--ios-spacing-lg)' }}></div>
-          <h2 className="ios-headline" style={{ color: 'var(--ios-blue)', margin: 0, marginBottom: 'var(--ios-spacing-lg)' }}>Loading Disaster Response Dashboard...</h2>
-          <p className="ios-body" style={{ color: 'var(--ios-secondary-text)' }}>Initializing emergency response systems...</p>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: 'var(--ios-background)' }}>
-      <IOSNavigation 
-        activeView={activeView}
-        setActiveView={setActiveView}
-        browserSettings={browserSettings}
-        settingsInfo={settingsInfo}
-      />
-      
-      <main style={{ paddingTop: 'var(--ios-spacing-xl)', paddingBottom: 'var(--ios-spacing-xl)' }}>
-        <div className="ios-container">
-          {renderView()}
+    <div style={{ 
+      minHeight: '100vh', 
+      backgroundColor: '#ffffff',
+      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+      display: 'flex',
+      flexDirection: 'column'
+    }}>
+      {/* Header - Fixed positioning to avoid overlap */}
+      <header style={{ 
+        background: 'rgba(255, 255, 255, 0.95)',
+        backdropFilter: 'blur(20px)',
+        borderBottom: '1px solid rgba(0, 0, 0, 0.1)',
+        padding: '20px 0',
+        position: 'sticky',
+        top: 0,
+        zIndex: 1000, // Higher z-index than main content
+        width: '100%',
+        minHeight: '120px', // Ensure consistent header height
+        boxSizing: 'border-box'
+      }}>
+        {/* Title and navigation in single row */}
+        <div style={{ 
+          maxWidth: '1200px',
+          margin: '0 auto',
+          padding: '0 24px',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '20px'
+        }}>
+          {/* Title row */}
+          <div style={{ 
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center'
+          }}>
+            <div style={{ 
+              display: 'flex',
+              alignItems: 'center',
+              gap: '16px'
+            }}>
+              <div style={{ 
+                background: '#f2f2f7',
+                borderRadius: '8px',
+                padding: '8px',
+                width: '40px',
+                height: '40px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}>
+                <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: '#007AFF' }}>
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-1.447-.894L15 4m0 13V4m-6 3l6-3" />
+                </svg>
+              </div>
+              <div>
+                <h1 style={{ 
+                  margin: 0,
+                  fontSize: '28px',
+                  fontWeight: '600',
+                  lineHeight: '1.28571',
+                  letterSpacing: '0.007em'
+                }}>Disaster Response Dashboard</h1>
+                <p style={{ 
+                  margin: '4px 0 0 0',
+                  fontSize: '15px',
+                  lineHeight: '1.33337',
+                  letterSpacing: '0.007em',
+                  color: '#8e8e93'
+                }}>Real-time 3D mapping with Foundry integration</p>
+              </div>
+            </div>
+            
+            <div style={{ 
+              display: 'flex',
+              alignItems: 'center',
+              gap: '16px'
+            }}>
+              <div style={{ 
+                background: '#34C759', 
+                color: 'white', 
+                padding: '8px 16px',
+                borderRadius: '8px',
+                fontSize: '14px',
+                fontWeight: '600',
+                letterSpacing: '-0.022em'
+              }}>
+                🏆 Challenge Ready
+              </div>
+              <div style={{ 
+                background: '#007AFF', 
+                color: 'white', 
+                padding: '8px 16px',
+                borderRadius: '8px',
+                fontSize: '12px',
+                fontWeight: '600',
+                letterSpacing: '-0.022em',
+                maxWidth: '200px',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap'
+              }} title={settingsInfo.info}>
+                {browserSettings.colorScheme === 'dark' ? '🌙' : '☀️'} {browserSettings.contrast === 'high' ? '🔍' : ''} Browser Settings
+              </div>
+            </div>
+          </div>
+          
+          {/* Navigation row */}
+          <div style={{ 
+            display: 'flex',
+            justifyContent: 'center'
+          }}>
+            <div style={{ 
+              display: 'flex',
+              background: '#f2f2f7',
+              borderRadius: '12px',
+              padding: '2px',
+              gap: '2px',
+              boxShadow: 'inset 0 1px 2px rgba(0, 0, 0, 0.1)',
+              maxWidth: '400px',
+              width: '100%'
+            }}>
+              <button 
+                onClick={() => setActiveView('dashboard')}
+                style={{ 
+                  flex: 1,
+                  padding: '8px 16px',
+                  textAlign: 'center',
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  fontWeight: '500',
+                  fontSize: '15px',
+                  lineHeight: '1.33337',
+                  letterSpacing: '-0.01em',
+                  minHeight: '32px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  background: activeView === 'dashboard' ? '#007AFF' : 'transparent',
+                  color: activeView === 'dashboard' ? 'white' : 'inherit',
+                  border: 'none',
+                  outline: 'none'
+                }}
+              >
+                📊 Dashboard
+              </button>
+              <button 
+                onClick={() => setActiveView('map')}
+                style={{ 
+                  flex: 1,
+                  padding: '8px 16px',
+                  textAlign: 'center',
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  fontWeight: '500',
+                  fontSize: '15px',
+                  lineHeight: '1.33337',
+                  letterSpacing: '-0.01em',
+                  minHeight: '32px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  background: activeView === 'map' ? '#007AFF' : 'transparent',
+                  color: activeView === 'map' ? 'white' : 'inherit',
+                  border: 'none',
+                  outline: 'none'
+                }}
+              >
+                🗺️ Live Map
+              </button>
+            </div>
+          </div>
         </div>
+      </header>
+      
+      {/* Main Content - Separate container with clear positioning */}
+      <main style={{ 
+        flex: 1,
+        padding: '80px 24px 40px 24px', // Further increased top padding for clear separation
+        maxWidth: '1200px',
+        margin: '0 auto',
+        width: '100%',
+        boxSizing: 'border-box',
+        position: 'relative', // Ensure proper positioning context
+        zIndex: 1, // Lower z-index than header
+        borderTop: '1px solid rgba(0, 0, 0, 0.05)', // Visual separation
+        background: '#ffffff' // Ensure clean background
+      }}>
+        {renderView()}
       </main>
 
-      <footer className="ios-toolbar">
-        <div className="ios-container">
-          <div className="ios-flex-between">
-            <p className="ios-caption" style={{ margin: 0, color: 'var(--ios-secondary-text)' }}>🚨 Emergency Response System v1.0.0</p>
-            <p className="ios-caption" style={{ margin: 0, color: 'var(--ios-secondary-text)' }}>Powered by Mapbox & React • Real-time disaster monitoring</p>
+      {/* Footer - Separate container */}
+      <footer style={{ 
+        background: 'rgba(255, 255, 255, 0.95)',
+        backdropFilter: 'blur(20px)',
+        borderTop: '1px solid rgba(0, 0, 0, 0.1)',
+        padding: '20px 0',
+        width: '100%',
+        marginTop: 'auto'
+      }}>
+        <div style={{ 
+          maxWidth: '1200px',
+          margin: '0 auto',
+          padding: '0 24px'
+        }}>
+          <div style={{ 
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center'
+          }}>
+            <p style={{ margin: 0, color: '#8e8e93', fontSize: '14px' }}>🚨 Emergency Response System v1.0.0</p>
+            <p style={{ margin: 0, color: '#8e8e93', fontSize: '14px' }}>Powered by Mapbox & React • Real-time disaster monitoring</p>
           </div>
         </div>
       </footer>
