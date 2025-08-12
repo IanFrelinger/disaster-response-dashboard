@@ -89,7 +89,14 @@ export const BuildingEvacuationTracker: React.FC<BuildingEvacuationTrackerProps>
   };
 
   return (
-    <div className={`building-evacuation-tracker ${className}`}>
+    <div className={`building-evacuation-tracker ${className}`} style={{
+      padding: '20px',
+      backgroundColor: '#f5f5f7',
+      borderRadius: '12px',
+      minHeight: '600px',
+      margin: '0',
+      boxSizing: 'border-box'
+    }}>
       {/* Enhanced Header - Matching Live Map Style */}
       <div className="ios-card" style={{ margin: '0 0 var(--ios-spacing-lg) 0' }}>
         <div className="ios-container" style={{ padding: 0 }}>

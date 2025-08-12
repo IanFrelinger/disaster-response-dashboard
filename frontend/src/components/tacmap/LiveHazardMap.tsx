@@ -72,13 +72,13 @@ export const LiveHazardMap: React.FC<LiveHazardMapProps> = ({
   }, [autoUpdate]);
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: 'var(--ios-background)' }}>
+    <div style={{ minHeight: '100vh', backgroundColor: '#F2F2F7' }}>
       {/* Enhanced Header */}
-      <div className="ios-card" style={{ margin: '0 0 var(--ios-spacing-lg) 0' }}>
+      <div className="ios-card" style={{ margin: '0 0 16px 0' }}>
         <div className="ios-container" style={{ padding: 0 }}>
           <div className="ios-flex-between">
             <div>
-              <h1 className="ios-headline" style={{ color: 'var(--ios-blue)', margin: 0, marginBottom: 'var(--ios-spacing-xs)' }}>
+              <h1 className="ios-headline" style={{ color: '#007AFF', margin: 0, marginBottom: '4px' }}>
                 🚨 Live Hazard Response Map
               </h1>
               <p className="ios-caption" style={{ margin: 0 }}>
@@ -86,21 +86,21 @@ export const LiveHazardMap: React.FC<LiveHazardMapProps> = ({
               </p>
             </div>
             
-            <div className="ios-flex" style={{ gap: 'var(--ios-spacing-md)' }}>
-              <div className="ios-flex" style={{ gap: 'var(--ios-spacing-xs)' }}>
-                <Activity className="w-4 h-4" style={{ color: 'var(--ios-red)' }} />
+            <div className="ios-flex" style={{ gap: '12px' }}>
+              <div className="ios-flex" style={{ gap: '4px' }}>
+                <Activity className="w-4 h-4" style={{ color: '#FF3B30' }} />
                 <span className="ios-caption" style={{ margin: 0 }}>Live Data</span>
               </div>
-              <div className="ios-flex" style={{ gap: 'var(--ios-spacing-xs)' }}>
-                <Mountain className="w-4 h-4" style={{ color: 'var(--ios-blue)' }} />
+              <div className="ios-flex" style={{ gap: '4px' }}>
+                <Mountain className="w-4 h-4" style={{ color: '#007AFF' }} />
                 <span className="ios-caption" style={{ margin: 0 }}>3D Terrain</span>
               </div>
-              <div className="ios-flex" style={{ gap: 'var(--ios-spacing-xs)' }}>
-                <Building2 className="w-4 h-4" style={{ color: 'var(--ios-green)' }} />
+              <div className="ios-flex" style={{ gap: '4px' }}>
+                <Building2 className="w-4 h-4" style={{ color: '#007AFF' }} />
                 <span className="ios-caption" style={{ margin: 0 }}>3D Buildings</span>
               </div>
-              <div className="ios-flex" style={{ gap: 'var(--ios-spacing-xs)' }}>
-                <Layers className="w-4 h-4" style={{ color: 'var(--ios-purple)' }} />
+              <div className="ios-flex" style={{ gap: '4px' }}>
+                <Layers className="w-4 h-4" style={{ color: '#AF52DE' }} />
                 <span className="ios-caption" style={{ margin: 0 }}>Foundry Data</span>
               </div>
             </div>
@@ -126,21 +126,21 @@ export const LiveHazardMap: React.FC<LiveHazardMapProps> = ({
         </div>
 
         {/* Enhanced Status Bar */}
-        <div className="ios-card" style={{ margin: 'var(--ios-spacing-md) 0 0 0' }}>
+        <div className="ios-card" style={{ margin: '12px 0 0 0' }}>
           <div className="ios-flex-between">
-            <div className="ios-flex" style={{ gap: 'var(--ios-spacing-lg)' }}>
+            <div className="ios-flex" style={{ gap: '16px' }}>
               <span className="ios-caption" style={{ margin: 0 }}>
-                Location: <span style={{ color: 'var(--ios-blue)', fontWeight: '600' }}>San Francisco</span>
+                Location: <span style={{ color: '#007AFF', fontWeight: '600' }}>San Francisco</span>
               </span>
               <span className="ios-caption" style={{ margin: 0 }}>
-                View: <span style={{ color: 'var(--ios-green)', fontWeight: '600' }}>Live Hazard Response with 3D Terrain</span>
+                View: <span style={{ color: '#34C759', fontWeight: '600' }}>Live Hazard Response with 3D Terrain</span>
               </span>
               <span className="ios-caption" style={{ margin: 0 }}>
-                Last Update: <span style={{ color: 'var(--ios-orange)', fontWeight: '600' }}>{lastUpdate.toLocaleTimeString()}</span>
+                Last Update: <span style={{ color: '#FF9500', fontWeight: '600' }}>{lastUpdate.toLocaleTimeString()}</span>
               </span>
             </div>
-            <div className="ios-flex" style={{ gap: 'var(--ios-spacing-sm)' }}>
-              <div style={{ width: '8px', height: '8px', backgroundColor: 'var(--ios-red)', borderRadius: '50%', animation: 'pulse 2s infinite' }}></div>
+            <div className="ios-flex" style={{ gap: '8px' }}>
+              <div style={{ width: '8px', height: '8px', backgroundColor: '#FF3B30', borderRadius: '50%', animation: 'pulse 2s infinite' }}></div>
               <span className="ios-caption" style={{ margin: 0 }}>Live Data</span>
             </div>
           </div>
@@ -148,13 +148,13 @@ export const LiveHazardMap: React.FC<LiveHazardMapProps> = ({
       </div>
 
       {/* Enhanced Footer */}
-      <div className="ios-card" style={{ margin: 'var(--ios-spacing-xl) 0 0 0' }}>
+      <div className="ios-card" style={{ margin: '20px 0 0 0' }}>
         <div className="ios-container" style={{ padding: 0 }}>
           <div style={{ textAlign: 'center' }}>
             <p className="ios-caption" style={{ margin: 0 }}>
               Live Hazard Response Map • Real-time 3D terrain visualization with Foundry data integration
             </p>
-            <p className="ios-caption" style={{ margin: 'var(--ios-spacing-xs) 0 0 0' }}>
+            <p className="ios-caption" style={{ margin: '4px 0 0 0' }}>
               Built with Mapbox GL JS, React, and Palantir Foundry Data Fusion
             </p>
           </div>

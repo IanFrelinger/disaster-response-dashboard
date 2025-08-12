@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { EvacuationZone, Building } from '../types/emergency-response';
+import { EvacuationZone, Building, WeatherData } from '../types/emergency-response';
 import './EvacuationDashboard.css';
 
 interface EvacuationDashboardProps {
   zones: EvacuationZone[];
   buildings: Building[];
+  weatherData?: WeatherData;
   onZoneSelect?: (zone: EvacuationZone) => void;
   onBuildingSelect?: (building: Building) => void;
   onStatusUpdate?: (buildingId: string, status: Partial<Building['evacuationStatus']>) => void;
@@ -14,6 +15,7 @@ interface EvacuationDashboardProps {
 export const EvacuationDashboard: React.FC<EvacuationDashboardProps> = ({
   zones,
   buildings,
+  weatherData,
   onZoneSelect,
   onBuildingSelect,
   onStatusUpdate,
@@ -21,7 +23,7 @@ export const EvacuationDashboard: React.FC<EvacuationDashboardProps> = ({
 }) => {
   const [selectedZone, setSelectedZone] = useState<EvacuationZone | null>(null);
   const [selectedBuilding, setSelectedBuilding] = useState<Building | null>(null);
-  const [viewMode, setViewMode] = useState<'zones' | 'buildings' | 'details'>('zones');
+  const [viewMode, setViewMode] = useState<'zones' | 'buildings' | 'details' | 'weather' | 'building-overview'>('zones');
   const [filterStatus, setFilterStatus] = useState<string>('all');
 
   // Calculate zone progress percentages
@@ -151,8 +153,57 @@ export const EvacuationDashboard: React.FC<EvacuationDashboardProps> = ({
     setViewMode('buildings');
   };
 
+  // Weather utility functions
+  const getWindDirection = (degrees: number): string => {
+    const directions = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'];
+    const index = Math.round(degrees / 22.5) % 16;
+    return directions[index];
+  };
+
+  const getFireRiskColor = (risk: string): string => {
+    const colors: { [key: string]: string } = {
+      low: '#34C759',
+      moderate: '#FFCC00',
+      high: '#FF9500',
+      extreme: '#FF3B30',
+      catastrophic: '#AF52DE'
+    };
+    return colors[risk] || '#34C759';
+  };
+
+  const getEvacuationRiskColor = (weather: any): string => {
+    if (weather.humidity < 20 || weather.windSpeed > 25 || weather.temp > 90) return '#FF3B30';
+    if (weather.humidity < 30 || weather.windSpeed > 20 || weather.temp > 85) return '#FF9500';
+    return '#34C759';
+  };
+
+  const getEvacuationRisk = (weather: any): string => {
+    if (weather.humidity < 20 || weather.windSpeed > 25 || weather.temp > 90) return 'CRITICAL';
+    if (weather.humidity < 30 || weather.windSpeed > 20 || weather.temp > 85) return 'HIGH';
+    return 'LOW';
+  };
+
+  const getAirOpsRiskColor = (weather: any): string => {
+    if (weather.windSpeed > 30 || weather.visibility < 5) return '#FF3B30';
+    if (weather.windSpeed > 20 || weather.visibility < 5) return '#FF9500';
+    return '#34C759';
+  };
+
+  const getAirOpsRisk = (weather: any): string => {
+    if (weather.windSpeed > 30 || weather.visibility < 3) return 'GROUNDED';
+    if (weather.windSpeed > 20 || weather.visibility < 5) return 'RESTRICTED';
+    return 'CLEAR';
+  };
+
   return (
-    <div className={`evacuation-dashboard ${className}`}>
+    <div className={`evacuation-dashboard ${className}`} style={{
+      padding: '20px',
+      backgroundColor: '#f5f5f7',
+      borderRadius: '12px',
+      minHeight: '600px',
+      margin: '0',
+      boxSizing: 'border-box'
+    }}>
       {/* Enhanced Header - Matching Live Map Style */}
       <div className="ios-card" style={{ margin: '0 0 var(--ios-spacing-lg) 0' }}>
         <div className="ios-container" style={{ padding: 0 }}>
@@ -196,21 +247,33 @@ export const EvacuationDashboard: React.FC<EvacuationDashboardProps> = ({
               className={`ios-button ${viewMode === 'zones' ? 'primary' : 'secondary'} small`}
               onClick={() => setViewMode('zones')}
             >
-              Zones
+              🏘️ Zones
             </button>
             <button 
               className={`ios-button ${viewMode === 'buildings' ? 'primary' : 'secondary'} small`}
               onClick={() => setViewMode('buildings')}
               disabled={!selectedZone}
             >
-              Buildings
+              🏢 Buildings
             </button>
             <button 
               className={`ios-button ${viewMode === 'details' ? 'primary' : 'secondary'} small`}
               onClick={() => setViewMode('details')}
               disabled={!selectedBuilding}
             >
-              Details
+              📋 Details
+            </button>
+            <button 
+              className={`ios-button ${viewMode === 'weather' ? 'primary' : 'secondary'} small`}
+              onClick={() => setViewMode('weather')}
+            >
+              🌤️ Weather
+            </button>
+            <button 
+              className={`ios-button ${viewMode === 'building-overview' ? 'primary' : 'secondary'} small`}
+              onClick={() => setViewMode('building-overview')}
+            >
+              🏗️ Building Overview
             </button>
           </div>
         </div>
@@ -536,6 +599,217 @@ export const EvacuationDashboard: React.FC<EvacuationDashboardProps> = ({
                 </div>
               </div>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* Weather View */}
+      {viewMode === 'weather' && weatherData && (
+        <div className="weather-view">
+          <div className="view-header">
+            <h3>🌤️ Weather Operations Dashboard</h3>
+            <p className="ios-caption" style={{ margin: '8px 0 0 0', color: 'var(--ios-secondary)' }}>
+              Critical weather information for emergency response operations
+            </p>
+          </div>
+
+          <div className="weather-grid">
+            {/* Current Conditions */}
+            <div className="ios-card">
+              <div className="ios-container">
+                <h4 className="ios-headline" style={{ color: 'var(--ios-blue)', margin: '0 0 var(--ios-spacing-md) 0' }}>
+                  📊 Current Conditions
+                </h4>
+                <div className="weather-stats-grid">
+                  <div className="weather-stat">
+                    <span className="stat-label">🌡️ Temperature:</span>
+                    <span className="stat-value">{weatherData.current.temp}°F</span>
+                  </div>
+                  <div className="weather-stat">
+                    <span className="stat-label">💧 Humidity:</span>
+                    <span className="stat-value">{weatherData.current.humidity}%</span>
+                  </div>
+                  <div className="weather-stat">
+                    <span className="stat-label">💨 Wind Speed:</span>
+                    <span className="stat-value">{weatherData.current.windSpeed} mph</span>
+                  </div>
+                  <div className="weather-stat">
+                    <span className="stat-label">🧭 Wind Direction:</span>
+                    <span className="stat-value">{getWindDirection(weatherData.current.windDirection)}</span>
+                  </div>
+                  {weatherData.current.windGusts && (
+                    <div className="weather-stat">
+                      <span className="stat-label">💨 Wind Gusts:</span>
+                      <span className="stat-value" style={{ color: 'var(--ios-orange)' }}>Active</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* EMS Impact Assessment */}
+            <div className="ios-card">
+              <div className="ios-container">
+                <h4 className="ios-headline" style={{ color: 'var(--ios-red)', margin: '0 0 var(--ios-spacing-md) 0' }}>
+                  🚑 EMS Impact Assessment
+                </h4>
+                <div className="impact-grid">
+                  <div className="impact-item">
+                    <span className="impact-label">🔥 Fire Risk:</span>
+                    <span 
+                      className="impact-value" 
+                      style={{ color: getFireRiskColor(weatherData.current.fireWeatherIndex || 'low') }}
+                    >
+                      {weatherData.current.fireWeatherIndex?.toUpperCase() || 'LOW'}
+                    </span>
+                  </div>
+                  <div className="impact-item">
+                    <span className="impact-label">🚨 Evacuation Risk:</span>
+                    <span 
+                      className="impact-value" 
+                      style={{ color: getEvacuationRiskColor(weatherData.current) }}
+                    >
+                      {getEvacuationRisk(weatherData.current)}
+                    </span>
+                  </div>
+                  <div className="impact-item">
+                    <span className="impact-label">🚁 Air Operations:</span>
+                    <span 
+                      className="impact-value" 
+                      style={{ color: getAirOpsRiskColor(weatherData.current) }}
+                    >
+                      {getAirOpsRisk(weatherData.current)}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Forecast Information */}
+            <div className="ios-card">
+              <div className="ios-container">
+                <h4 className="ios-headline" style={{ color: 'var(--ios-purple)', margin: '0 0 var(--ios-spacing-md) 0' }}>
+                  📅 Forecast & Alerts
+                </h4>
+                <div className="forecast-content">
+                  {weatherData.forecast.redFlagWarning && (
+                    <div className="red-flag-warning">
+                      <span style={{ color: 'var(--ios-red)', fontWeight: '600' }}>⚠️ RED FLAG WARNING ACTIVE</span>
+                    </div>
+                  )}
+                  <div className="forecast-item">
+                    <span className="forecast-label">18:00:</span>
+                    <span className="forecast-value">{weatherData.forecast.windShiftExpected || 'No wind shift expected'}</span>
+                  </div>
+                  <div className="forecast-item">
+                    <span className="forecast-label">Overnight:</span>
+                    <span className="forecast-value">{weatherData.forecast.humidityRecovery || 'Humidity stable'}</span>
+                  </div>
+                  <div className="forecast-item">
+                    <span className="forecast-label">22:00:</span>
+                    <span className="forecast-value">{weatherData.forecast.tempDrop || 'Temperature stable'}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Building Overview View */}
+      {viewMode === 'building-overview' && (
+        <div className="building-overview-view">
+          <div className="view-header">
+            <h3>🏗️ Building Overview & Status</h3>
+            <p className="ios-caption" style={{ margin: '8px 0 0 0', color: 'var(--ios-secondary)' }}>
+              Comprehensive building status across all evacuation zones
+            </p>
+          </div>
+
+          <div className="building-overview-grid">
+            {/* Overall Statistics */}
+            <div className="ios-card">
+              <div className="ios-container">
+                <h4 className="ios-headline" style={{ color: 'var(--ios-blue)', margin: '0 0 var(--ios-spacing-md) 0' }}>
+                  📊 Overall Statistics
+                </h4>
+                <div className="overview-stats">
+                  <div className="overview-stat">
+                    <span className="stat-label">Total Buildings:</span>
+                    <span className="stat-value">{buildings.length}</span>
+                  </div>
+                  <div className="overview-stat">
+                    <span className="stat-label">Total Population:</span>
+                    <span className="stat-value">{buildings.reduce((sum, b) => sum + b.population, 0)}</span>
+                  </div>
+                  <div className="overview-stat">
+                    <span className="stat-label">Evacuated:</span>
+                    <span className="stat-value" style={{ color: 'var(--ios-green)' }}>
+                      {buildings.filter(b => b.evacuationStatus.evacuated).length}
+                    </span>
+                  </div>
+                  <div className="overview-stat">
+                    <span className="stat-label">Special Needs:</span>
+                    <span className="stat-value" style={{ color: 'var(--ios-orange)' }}>
+                      {buildings.filter(b => b.evacuationStatus.specialNeeds.length > 0).length}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Zone Summary */}
+            <div className="ios-card">
+              <div className="ios-container">
+                <h4 className="ios-headline" style={{ color: 'var(--ios-purple)', margin: '0 0 var(--ios-spacing-md) 0' }}>
+                  🏘️ Zone Summary
+                </h4>
+                <div className="zone-summary-list">
+                  {zones.map(zone => {
+                    const zoneBuildings = buildings.filter(b => {
+                      // Simple coordinate check for zone membership
+                      const boundaries = zone.boundaries;
+                      if ('coordinates' in boundaries && Array.isArray(boundaries.coordinates)) {
+                        const coords = boundaries.coordinates.flat();
+                        const minX = Math.min(...coords.filter((_, i) => i % 2 === 0).map(c => Number(c)));
+                        const maxX = Math.max(...coords.filter((_, i) => i % 2 === 0).map(c => Number(c)));
+                        const minY = Math.min(...coords.filter((_, i) => i % 2 === 1).map(c => Number(c)));
+                        const maxY = Math.max(...coords.filter((_, i) => i % 2 === 1).map(c => Number(c)));
+                        
+                        return b.coordinates[0] >= minX && b.coordinates[0] <= maxX &&
+                               b.coordinates[1] >= minY && b.coordinates[1] <= maxY;
+                      }
+                      return false;
+                    });
+                    
+                    const evacuatedCount = zoneBuildings.filter(b => b.evacuationStatus.evacuated).length;
+                    const progress = (evacuatedCount / zoneBuildings.length) * 100;
+                    
+                    return (
+                      <div key={zone.id} className="zone-summary-item" onClick={() => handleZoneSelect(zone)}>
+                        <div className="zone-summary-header">
+                          <span className="zone-name">{zone.name}</span>
+                          <span className="zone-priority" style={{ color: getPriorityColor(zone.priority) }}>
+                            {zone.priority.toUpperCase()}
+                          </span>
+                        </div>
+                        <div className="zone-summary-stats">
+                          <span>{zoneBuildings.length} buildings</span>
+                          <span>{zone.totalPopulation} people</span>
+                          <span style={{ color: 'var(--ios-green)' }}>{evacuatedCount} evacuated</span>
+                        </div>
+                        <div className="zone-progress-bar">
+                          <div 
+                            className="zone-progress-fill" 
+                            style={{ width: `${progress}%`, backgroundColor: 'var(--ios-green)' }}
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       )}
