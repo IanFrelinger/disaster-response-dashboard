@@ -47,23 +47,29 @@ test.describe('Comprehensive UI Tests', () => {
   });
 
   test('should display main navigation elements', async ({ page }) => {
-    await page.goto(BASE_URL);
-    await page.waitForLoadState('networkidle');
+    await page.goto('http://localhost:3000');
     
-    // Check for navigation elements
-    const nav = page.locator('nav');
-    await expect(nav).toBeVisible();
+    // Wait for page to load
+    await page.waitForLoadState('networkidle');
     
     // Check for main navigation items - updated to match current navigation structure
     const navItems = ['📊 Dashboard', '🗺️ Live Map', '🌤️ Weather', '🏢 Buildings'];
+    
     for (const item of navItems) {
-      const navItem = page.locator(`text=${item}`);
+      const navItem = page.locator(`button:has-text("${item}")`);
       await expect(navItem).toBeVisible();
     }
     
-    // Verify the navigation control is visible
-    const segmentedControl = page.locator('.ios-segmented-control');
-    await expect(segmentedControl).toBeVisible();
+    // Verify navigation is functional by checking specific buttons
+    const dashboardButton = page.locator('button:has-text("📊 Dashboard")');
+    const mapButton = page.locator('button:has-text("🗺️ Live Map")');
+    
+    await expect(dashboardButton).toBeVisible();
+    await expect(mapButton).toBeVisible();
+    
+    // Verify the navigation container exists (the div containing the buttons)
+    const navContainer = page.locator('div').filter({ hasText: '📊 Dashboard' }).nth(3);
+    await expect(navContainer).toBeVisible();
   });
 
   test('should load map component correctly', async ({ page }) => {

@@ -233,10 +233,12 @@ body {
   -webkit-backdrop-filter: blur(20px) saturate(180%);
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   padding: var(--ios-spacing-md) var(--ios-spacing-lg);
-  position: sticky;
+  position: relative;
   top: 0;
   z-index: var(--ios-z-sticky);
   transition: all var(--ios-transition-normal);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .ios-navbar.scrolled {
@@ -407,9 +409,11 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: sticky;
+  position: relative;
   bottom: 0;
   z-index: var(--ios-z-sticky);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* iOS Status Bar - Enhanced */
@@ -504,6 +508,33 @@ body {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 var(--ios-spacing-lg);
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Prevent overlaps in main content */
+main {
+  position: relative;
+  z-index: 1;
+  margin-top: 0;
+  padding-top: var(--ios-spacing-xl);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Ensure cards don't overlap */
+.ios-card {
+  position: relative;
+  z-index: 1;
+  margin-bottom: var(--ios-spacing-lg);
+  flex-shrink: 0;
+}
+
+.ios-card:last-child {
+  margin-bottom: 0;
 }
 
 .ios-grid {

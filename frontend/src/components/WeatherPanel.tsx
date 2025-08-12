@@ -105,7 +105,14 @@ export const WeatherPanel: React.FC<WeatherPanelProps> = ({
   }, [weatherData, isCriticalConditions, onWeatherAlert]);
 
   return (
-    <div className={`weather-panel ${className} ${isCriticalConditions ? 'critical' : ''}`}>
+    <div className={`weather-panel ${className} ${isCriticalConditions ? 'critical' : ''}`} style={{
+      padding: '20px',
+      backgroundColor: '#f5f5f7',
+      borderRadius: '12px',
+      minHeight: '600px',
+      margin: '0',
+      boxSizing: 'border-box'
+    }}>
       {/* Enhanced Header - Matching Live Map Style */}
       <div className="ios-card" style={{ margin: '0 0 var(--ios-spacing-lg) 0' }}>
         <div className="ios-container" style={{ padding: 0 }}>
