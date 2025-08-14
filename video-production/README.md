@@ -1,348 +1,282 @@
-# 🎬 Disaster Response Dashboard - Video Production Tools
+# Disaster Response Dashboard - Headless Video Pipeline
 
-Complete video production pipeline for creating the 4-minute Palantir Building Challenge demo video.
+A fully automated, headless video production pipeline that creates professional demo videos from your web application using AI voiceover, dynamic music, and automated screen recording.
 
-## 🚀 Quick Start
+## 🚀 Features
 
-```bash
-# Install dependencies
-npm install
-
-# Run the complete pipeline
-npm run build
-
-# Or run individual steps
-npm run narrate    # Generate voiceover
-npm run assemble   # Create rough cut
-npm run final      # Create final MP4
-```
+- **AI Voiceover**: Multiple TTS providers (OpenAI, ElevenLabs, Azure, Piper)
+- **Dynamic Music**: AI-generated background music via Loudly API
+- **Automated Recording**: Playwright-based screen capture with configurable actions
+- **Professional Assembly**: FFmpeg-based video assembly with transitions and effects
+- **YouTube Upload**: Automated upload with privacy controls
+- **Cross-Platform**: Works on macOS, Windows, and Linux
 
 ## 📋 Prerequisites
 
-- **Node.js 18+** and npm
-- **FFmpeg** (for video processing)
-- **macOS** (for TTS - other platforms supported with fallback)
+### System Requirements
+- **OS**: macOS 12+, Windows 10+, or Ubuntu 20.04+
+- **Node.js**: 18+ (LTS recommended)
+- **Python**: 3.10+ (3.11+ recommended)
+- **FFmpeg**: 6.0+ with libx264, aac, and subtitles filter
+- **Memory**: 8GB+ RAM recommended
+- **Storage**: 10GB+ free space
 
-### Installing FFmpeg
+### Dependencies
+- **pnpm** (or npm) for Node.js package management
+- **pip** for Python package management
+- **Playwright** for browser automation
+- **OpenTimelineIO** for timeline management
 
-**macOS:**
+## 🛠️ Installation
+
+1. **Clone and navigate to the video-production directory:**
+   ```bash
+   cd video-production
+   ```
+
+2. **Install Node.js dependencies:**
+   ```bash
+   pnpm install
+   ```
+
+3. **Install Python dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. **Install Playwright browsers:**
+   ```bash
+   npx playwright install chromium
+   ```
+
+5. **Verify installation:**
+   ```bash
+   pnpm run preflight
+   ```
+
+## ⚙️ Configuration
+
+### 1. Environment Variables
+Copy the example configuration and fill in your API keys:
 ```bash
-brew install ffmpeg
+cp config.env.example config.env
+# Edit config.env with your actual API keys
 ```
 
-**Ubuntu/Debian:**
+### 2. Required API Keys
+- **OpenAI API Key**: For TTS generation (`narrate:openai`)
+- **ElevenLabs API Key**: For premium voice synthesis (`narrate:eleven`)
+- **Azure Speech Key**: For Microsoft Neural voices (`narrate:azure`)
+- **Loudly API Key**: For dynamic music generation (`genmusic`)
+
+### 3. YouTube Upload Setup
+For automated YouTube uploads, you'll need:
+1. Google Cloud Console project
+2. YouTube Data API v3 enabled
+3. OAuth 2.0 credentials in `client_secrets.json`
+
+## 🎬 Pipeline Commands
+
+### Core Commands
 ```bash
-sudo apt update
-sudo apt install ffmpeg
+# Generate dynamic background music
+pnpm run genmusic
+
+# Generate AI voiceover (choose provider)
+pnpm run narrate:openai      # OpenAI TTS
+pnpm run narrate:eleven      # ElevenLabs
+pnpm run narrate:azure       # Azure Speech
+pnpm run narrate:piper       # Local Piper TTS
+
+# Record screen captures
+pnpm run record
+
+# Assemble video
+pnpm run assemble
+
+# Final render
+pnpm run final
+
+# Upload to YouTube
+pnpm run submit
 ```
 
-**Windows:**
-Download from [FFmpeg website](https://ffmpeg.org/download.html)
+### Pipeline Automation
+```bash
+# Full pipeline (OpenAI TTS)
+pnpm run pipeline:full
 
-## 🎯 Features
+# Local pipeline (Piper TTS, no upload)
+pnpm run pipeline:local
+```
 
-### **Complete Video Pipeline**
-- ✅ **Text-to-Speech Generation** - Professional voiceover from YAML script
-- ✅ **Visual Generation** - Dynamic visuals for each beat
-- ✅ **Video Assembly** - Automatic timing and synchronization
-- ✅ **Final Polish** - Captions, background music, high-quality encoding
-- ✅ **Thumbnail Generation** - Auto-generated video thumbnail
-
-### **Professional Quality**
-- **Resolution**: 1920x1080 (Full HD)
-- **Format**: MP4 with H.264 encoding
-- **Audio**: AAC 192kbps
-- **Quality**: CRF 18 (high quality)
-- **Duration**: Exactly 4:00 for Palantir submission
-
-### **Development Tools**
-- **Script Preview** - Review narration before generation
-- **TTS Testing** - Test voice synthesis
-- **Timing Analysis** - Word-per-minute calculations
-- **Configuration Validation** - Ensure YAML is correct
-- **Interactive Menu** - Easy development workflow
-
-## 📁 Project Structure
+## 📁 Directory Structure
 
 ```
 video-production/
-├── package.json              # Dependencies and scripts
-├── narration.yaml            # Video script and configuration
-├── scripts/
-│   ├── narrate.js           # Voiceover generation
-│   ├── assemble.js          # Video assembly
-│   ├── final.js             # Final processing
-│   └── dev.js               # Development tools
-├── output/                   # Generated files
-│   ├── voiceover.wav        # Merged audio
-│   ├── captions.vtt         # Subtitles
-│   ├── roughcut.mp4         # Intermediate video
-│   ├── disaster-response-demo.mp4  # Final video
-│   ├── thumbnail.jpg        # Video thumbnail
-│   └── video-metadata.json  # Video metadata
-├── temp/                     # Temporary files
-└── assets/                   # Background music, images
+├── captures/           # Recorded screen captures (.webm)
+├── audio/             # Voiceover and music files
+├── subs/              # Subtitles and captions
+├── luts/              # Color grading LUTs
+├── out/               # Final video outputs
+├── scripts/           # Pipeline scripts
+├── narration.yaml     # Voiceover configuration
+├── timeline.yaml      # Video timeline and effects
+├── record.config.json # Recording configuration
+└── requirements.txt   # Python dependencies
 ```
 
-## 🎬 Usage
+## 🎯 Configuration Files
 
-### **1. Generate Voiceover**
-```bash
-npm run narrate
-```
-- Reads `narration.yaml` configuration
-- Generates individual audio files for each beat
-- Merges into single `voiceover.wav` file
-- Creates `captions.vtt` subtitles
-
-### **2. Assemble Video**
-```bash
-npm run assemble
-```
-- Creates visual elements for each beat
-- Synchronizes visuals with audio timing
-- Generates `roughcut.mp4` intermediate video
-
-### **3. Final Processing**
-```bash
-npm run final
-```
-- Adds captions and background music
-- Applies high-quality encoding
-- Creates final `disaster-response-demo.mp4`
-- Generates thumbnail and metadata
-
-### **4. Complete Pipeline**
-```bash
-npm run build
-```
-- Runs all three steps in sequence
-- Creates production-ready video
-
-## 🛠️ Development
-
-### **Interactive Development Tools**
-```bash
-npm run dev
-```
-Provides menu with options:
-- 📝 Preview narration script
-- 🎵 Test TTS generation
-- 🎨 Preview visual elements
-- 📊 Show timing breakdown
-- 🔧 Validate configuration
-- 🚀 Run full pipeline
-
-### **Configuration Validation**
-```bash
-npm run dev
-# Select "Validate configuration"
-```
-Checks for:
-- Required YAML structure
-- Missing narration text
-- Timing consistency
-- Visual cue definitions
-
-### **TTS Testing**
-```bash
-npm run dev
-# Select "Test TTS generation"
-```
-Tests text-to-speech system and saves sample audio.
-
-## 📝 Configuration
-
-### **narration.yaml Structure**
-
+### `narration.yaml`
+Defines voiceover content, TTS providers, and audio settings:
 ```yaml
-metadata:
-  title: "Disaster Response Dashboard Demo"
-  duration: "4:00"
-  voice_style: "professional_authoritative"
-  speed: 0.95
-  language: "en-US"
-
-beats:
-  - name: "Hook"
-    start_time: "0:00"
-    end_time: "0:15"
-    narration: "In fast-moving disasters, minutes matter..."
-    visual_cues:
-      - "3D terrain visualization"
-      - "Timer countdown"
-    on_screen_labels:
-      - "Command Center"
-      - "Real-time Monitoring"
-
-production_notes:
-  voice_settings:
-    style: "professional_authoritative"
-    speed: 0.95
-  visual_style:
-    color_scheme: "emergency_blue_red"
-    typography: "clean_modern"
+scenes:
+  - id: "intro"
+    title: "Dashboard Overview"
+    duration: 8
+    narration: "When disasters strike..."
+    voice: "alloy"
 ```
 
-### **Customization Options**
-
-**Voice Settings:**
-- `speed`: 0.5-2.0 (default: 0.95 for gravitas)
-- `style`: "professional_authoritative", "news_anchor", "conversational"
-- `language`: "en-US", "en-GB", etc.
-
-**Visual Settings:**
-- `color_scheme`: "emergency_blue_red", "professional_blue", "dark_theme"
-- `typography`: "clean_modern", "bold_impact", "minimal"
-- `animations`: "smooth_professional", "dynamic", "subtle"
-
-## 🎵 Audio Options
-
-### **Background Music**
-Place background music in `assets/background-music.mp3` for automatic inclusion.
-
-### **TTS Voices**
-The system uses macOS `say` command by default. For enhanced voices:
-
-**ElevenLabs Integration:**
-```javascript
-// In narrate.js, replace generateBeatAudio method
-const { ElevenLabs } = require('elevenlabs-node');
-const elevenlabs = new ElevenLabs(process.env.ELEVENLABS_API_KEY);
+### `timeline.yaml`
+Configures video assembly, transitions, and effects:
+```yaml
+tracks:
+  video:
+    - name: "intro"
+      source: "captures/intro.webm"
+      start: 0
+      duration: 8
+      transitions:
+        in: "fade"
+        out: "fade"
 ```
 
-**OpenAI TTS:**
-```javascript
-// In narrate.js, replace generateBeatAudio method
-const OpenAI = require('openai');
-const openai = new OpenAI(process.env.OPENAI_API_KEY);
+### `record.config.json`
+Defines screen recording behavior and actions:
+```json
+{
+  "app": {
+    "url": "http://localhost:3000",
+    "viewport": {"width": 1920, "height": 1080}
+  },
+  "beats": [
+    {
+      "id": "intro",
+      "duration": 8,
+      "actions": ["waitForSelector('.dashboard')"]
+    }
+  ]
+}
 ```
 
-## 🎨 Visual Customization
+## 🔧 Customization
 
-### **Custom Visuals**
-Replace the canvas-based visuals in `assemble.js` with:
+### Adding New Scenes
+1. Add scene to `narration.yaml`
+2. Add corresponding beat to `record.config.json`
+3. Add video track to `timeline.yaml`
 
-**Screenshots from your app:**
-```javascript
-// Load actual app screenshots
-const screenshot = await loadImage(`../frontend/screenshots/${beat.name}.png`);
-ctx.drawImage(screenshot, 0, 0, 1920, 1080);
+### Custom Transitions
+Modify the `timeline.yaml` file to add custom transition effects:
+```yaml
+transitions:
+  in: "custom-transition"
+  out: "fade"
+  custom_transition:
+    type: "slide"
+    direction: "left"
+    duration: 0.5
 ```
 
-**Screen recordings:**
-```javascript
-// Use screen recordings instead of static images
-const videoInput = `-i "recordings/${beat.name}.mp4"`;
+### Voice Customization
+Adjust TTS parameters in `narration.yaml`:
+```yaml
+voice_settings:
+  speed: 1.0
+  pitch: 0
+  volume: 1.0
 ```
 
-## 📊 Output Files
+## 🚨 Troubleshooting
 
-### **Generated Files**
-- `voiceover.wav` - Professional voiceover audio
-- `captions.vtt` - WebVTT subtitles
-- `roughcut.mp4` - Intermediate video with visuals
-- `disaster-response-demo.mp4` - Final production video
-- `thumbnail.jpg` - Auto-generated thumbnail
-- `video-metadata.json` - Video metadata for platforms
-
-### **Video Specifications**
-- **Resolution**: 1920x1080 (Full HD)
-- **Frame Rate**: 30 fps
-- **Codec**: H.264
-- **Audio**: AAC 192kbps
-- **Duration**: Exactly 4:00
-- **File Size**: ~50-100MB (depending on content)
-
-## 🚀 Deployment
-
-### **YouTube Upload**
-1. Upload `disaster-response-demo.mp4` to YouTube
-2. Set as "Unlisted"
-3. Copy video URL
-4. Email to recruiter with submission
-
-### **Palantir Submission**
-1. Include video URL in Building Challenge submission
-2. Attach `video-metadata.json` for reference
-3. Include `thumbnail.jpg` if needed
-
-## 🔧 Troubleshooting
-
-### **Common Issues**
+### Common Issues
 
 **FFmpeg not found:**
 ```bash
-# Install FFmpeg
-brew install ffmpeg  # macOS
-sudo apt install ffmpeg  # Ubuntu
+# macOS
+brew install ffmpeg
+
+# Ubuntu/Debian
+sudo apt-get install ffmpeg
+
+# Windows
+winget install Gyan.FFmpeg
 ```
 
-**TTS not working:**
+**Playwright browser issues:**
 ```bash
-# Test system TTS
-say "Hello world"
-# If not working, the script will use fallback
+npx playwright install --force chromium
 ```
 
-**Canvas not working:**
+**Python dependencies:**
 ```bash
-# Reinstall canvas
-npm rebuild canvas
+pip install --upgrade -r requirements.txt
 ```
 
-**Memory issues:**
+**API key errors:**
+- Verify API keys are set in `config.env`
+- Check API quotas and billing
+- Ensure proper environment variable loading
+
+### Debug Mode
+Run individual components with verbose output:
 ```bash
-# Increase Node.js memory
-node --max-old-space-size=4096 scripts/assemble.js
+# Debug TTS generation
+python3 scripts/tts.py --debug
+
+# Debug recording
+DEBUG=1 pnpm run record
+
+# Debug assembly
+python3 scripts/assemble_ffmpeg.py --verbose
 ```
 
-### **Performance Optimization**
-- Use SSD for faster file I/O
-- Close other applications during video processing
-- Consider using GPU acceleration for FFmpeg
+## 📊 Performance Tips
 
-## 📈 Advanced Features
+- **Recording**: Use SSD storage for captures
+- **Processing**: Close other applications during video assembly
+- **Memory**: Ensure sufficient RAM for large video files
+- **Network**: Stable internet for API calls and uploads
 
-### **Multi-Language Support**
-```yaml
-metadata:
-  language: "es-ES"  # Spanish
-  # or "fr-FR", "de-DE", etc.
-```
+## 🔒 Security Notes
 
-### **Custom Voice Models**
-```javascript
-// In narrate.js
-const customVoice = {
-  name: "Emergency Commander",
-  style: "authoritative",
-  speed: 0.9
-};
-```
-
-### **Batch Processing**
-```bash
-# Process multiple scripts
-for script in scripts/*.yaml; do
-  cp "$script" narration.yaml
-  npm run build
-  mv output/disaster-response-demo.mp4 "output/$(basename $script .yaml).mp4"
-done
-```
+- Never commit API keys to version control
+- Use environment variables for sensitive data
+- Regularly rotate API keys
+- Monitor API usage and quotas
 
 ## 🤝 Contributing
 
 1. Fork the repository
-2. Create feature branch
-3. Make changes
-4. Test with `npm run dev`
-5. Submit pull request
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
 
 ## 📄 License
 
-MIT License - see LICENSE file for details.
+MIT License - see LICENSE file for details
+
+## 🆘 Support
+
+For issues and questions:
+1. Check the troubleshooting section
+2. Review the preflight check results
+3. Check API provider status pages
+4. Open an issue with detailed error information
 
 ---
 
-**Ready to create your Palantir Building Challenge video!** 🎬
+**Ready to create professional demo videos? Run `pnpm run pipeline:full` to get started!**

@@ -1,7 +1,0 @@
-{
-  "timestamp": "2025-08-12T20:09:04.668Z",
-  "status": "PENDING",
-  "videoPath": "/app/output/disaster-response-final.mp4",
-  "feedbackReport": "/app/output/feedback/feedback-report.json",
-  "approvalFile": "/app/output/feedback/approval.json"
-}
