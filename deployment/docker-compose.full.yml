@@ -55,7 +55,6 @@ services:
     build:
       context: ../video-production
       dockerfile: Dockerfile
-      target: production
     container_name: disaster-response-video
     ports:
       - "3001:3000"  # Video production web interface
@@ -63,18 +62,20 @@ services:
     environment:
       - NODE_ENV=production
       - FFMPEG_BINARY=/usr/bin/ffmpeg
+      - HOST_FRONTEND_URL=http://host.docker.internal:3000
     volumes:
+      - ../video-production:/app
       - ../video-production/output:/app/output
       - ../video-production/assets:/app/assets
       - ../video-production/narration.yaml:/app/narration.yaml
+    env_file:
+      - ../video-production/config.env.clean
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     networks:
       - disaster-network
+    command: ["tail", "-f", "/dev/null"]
     restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "node", "-e", "console.log('Video production healthy')"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
 
   # PostgreSQL Database
   postgres:

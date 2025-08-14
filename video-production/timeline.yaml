@@ -1,0 +1,215 @@
+timeline:
+  duration: 117  # Total duration in seconds
+  fps: 30
+  resolution: [1920, 1080]
+  
+  tracks:
+    video:
+      - name: "intro"
+        source: "captures/intro.webm"
+        start: 0
+        duration: 8
+        transitions:
+          in: "fade"
+          out: "fade"
+      
+      - name: "hazards"
+        source: "captures/hazards.webm"
+        start: 8
+        duration: 10
+        transitions:
+          in: "slide-left"
+          out: "slide-right"
+      
+      - name: "routes"
+        source: "captures/routes.webm"
+        start: 18
+        duration: 12
+        transitions:
+          in: "zoom-in"
+          out: "zoom-out"
+      
+      - name: "3d-terrain"
+        source: "captures/3d-terrain.webm"
+        start: 30
+        duration: 10
+        transitions:
+          in: "rotate-3d"
+          out: "fade"
+      
+      - name: "evacuation"
+        source: "captures/evacuation.webm"
+        start: 40
+        duration: 12
+        transitions:
+          in: "slide-up"
+          out: "slide-down"
+      
+      - name: "ai-support"
+        source: "captures/ai-support.webm"
+        start: 52
+        duration: 15
+        transitions:
+          in: "glitch"
+          out: "fade"
+      
+      - name: "weather"
+        source: "captures/weather.webm"
+        start: 67
+        duration: 10
+        transitions:
+          in: "weather-transition"
+          out: "fade"
+      
+      - name: "commander"
+        source: "captures/commander.webm"
+        start: 77
+        duration: 8
+        transitions:
+          in: "slide-right"
+          out: "slide-left"
+      
+      - name: "responder"
+        source: "captures/responder.webm"
+        start: 85
+        duration: 8
+        transitions:
+          in: "slide-up"
+          out: "slide-down"
+      
+      - name: "public"
+        source: "captures/public.webm"
+        start: 93
+        duration: 8
+        transitions:
+          in: "fade"
+          out: "slide-up"
+      
+      - name: "outro"
+        source: "captures/outro.webm"
+        start: 101
+        duration: 6
+        transitions:
+          in: "zoom-in"
+          out: "fade"
+    
+    audio:
+      voiceover:
+        source: "audio/voiceover.wav"
+        start: 0
+        duration: 117
+        volume: 1.0
+        ducking: true
+        
+      music:
+        source: "audio/music.wav"
+        start: 0
+        duration: 117
+        volume: 0.3
+        fade:
+          in: 2
+          out: 3
+        
+      effects:
+        - name: "transition-sound"
+          source: "audio/transition.wav"
+          start: 8
+          duration: 0.5
+          volume: 0.4
+        - name: "highlight-sound"
+          source: "audio/highlight.wav"
+          start: 52
+          duration: 0.3
+          volume: 0.6
+    
+    graphics:
+      lower-thirds:
+        - text: "Multi-Hazard Dashboard"
+          start: 8
+          duration: 10
+          position: "bottom-left"
+          style: "emergency-red"
+        
+        - text: "AI-Powered Route Planning"
+          start: 18
+          duration: 12
+          position: "bottom-center"
+          style: "tech-blue"
+        
+        - text: "3D Terrain Analysis"
+          start: 30
+          duration: 10
+          position: "top-right"
+          style: "terrain-green"
+        
+        - text: "Real-Time Evacuation"
+          start: 40
+          duration: 12
+          position: "bottom-left"
+          style: "emergency-red"
+        
+        - text: "AI Decision Support"
+          start: 52
+          duration: 15
+          position: "center"
+          style: "ai-purple"
+        
+        - text: "Weather Integration"
+          start: 67
+          duration: 10
+          position: "top-left"
+          style: "weather-blue"
+        
+        - text: "Commander View"
+          start: 77
+          duration: 8
+          position: "bottom-right"
+          style: "command-gold"
+        
+        - text: "First Responder View"
+          start: 85
+          duration: 8
+          position: "bottom-left"
+          style: "responder-orange"
+        
+        - text: "Public Information"
+          start: 93
+          duration: 8
+          position: "center"
+          style: "public-green"
+      
+      captions:
+        source: "subs/vo.srt"
+        style: "modern"
+        position: "bottom-center"
+        background: "semi-transparent"
+        font: "Arial"
+        size: 24
+        color: "white"
+        outline: "black"
+    
+    effects:
+      color-grading:
+        lut: "luts/emergency-response.cube"
+        intensity: 0.7
+        
+      stabilization:
+        enabled: true
+        smoothing: 0.3
+        
+      enhancement:
+        sharpness: 1.2
+        contrast: 1.1
+        saturation: 1.05
+        
+  output:
+    rough-cut: "out/roughcut.mp4"
+    final: "out/final.mp4"
+    edl: "out/final.edl"
+    premiere: "out/premiere.xml"
+    metadata:
+      title: "Disaster Response Dashboard - Comprehensive Demo"
+      description: "Real-time emergency management platform with AI-powered decision support"
+      author: "Disaster Response Team"
+      copyright: "2024 Disaster Response Team"
+      keywords: ["emergency", "disaster", "response", "dashboard", "AI", "evacuation"]

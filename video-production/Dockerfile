@@ -1,144 +1,152 @@
-# Video Production Environment for Disaster Response Dashboard
-# Multi-stage build for optimal size and functionality
+# Headless Video Pipeline Docker Image
+# Includes Node.js, Python, FFmpeg, Playwright, and all video production tools
 
-FROM node:18-alpine AS base
+FROM ubuntu:22.04
 
-# Install system dependencies including QuickTime-compatible codecs
-RUN apk add --no-cache \
-    ffmpeg \
-    ffmpeg-dev \
-    imagemagick \
-    imagemagick-dev \
-    python3 \
-    py3-pip \
-    git \
-    bash \
-    curl \
-    wget \
-    unzip \
-    build-base \
-    gcc \
-    g++ \
-    make \
-    cmake \
-    pkgconfig \
-    freetype-dev \
-    libpng-dev \
-    jpeg-dev \
-    pixman-dev \
-    cairo-dev \
-    pango-dev \
-    espeak \
-    espeak-dev \
-    # QuickTime-compatible video dependencies (Alpine-compatible names)
-    x264-dev \
-    x265-dev \
-    libvpx-dev \
-    libvorbis-dev \
-    libtheora-dev \
-    lame-dev \
-    opus-dev \
-    libass-dev \
-    libbluray-dev \
-    dav1d-dev \
-    libwebp-dev \
-    aom-dev \
-    rav1e-dev \
-    svt-av1-dev \
-    xvidcore-dev \
-    openjpeg-dev \
-    speex-dev \
-    soxr-dev \
-    zeromq-dev \
-    zimg-dev \
-    # Additional container formats
-    libmatroska-dev \
-    && rm -rf /var/cache/apk/*
-
-# Install additional Python packages for video processing and AI TTS
-RUN pip3 install --no-cache-dir --break-system-packages \
-    numpy \
-    pillow \
-    moviepy \
-    imageio \
-    imageio-ffmpeg \
-    gTTS \
-    pyttsx3 \
-    speechrecognition \
-    pydub \
-    requests \
-    beautifulsoup4 \
-    lxml \
-    # Additional video processing packages
-    opencv-python-headless \
-    ffmpeg-python
+# Set environment variables
+ENV DEBIAN_FRONTEND=noninteractive
+ENV NODE_VERSION=18
+ENV PYTHON_VERSION=3.11
+ENV FFMPEG_VERSION=6.0
 
 # Set working directory
 WORKDIR /app
 
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    # Basic tools
+    curl \
+    wget \
+    git \
+    unzip \
+    software-properties-common \
+    apt-transport-https \
+    ca-certificates \
+    gnupg \
+    lsb-release \
+    \
+    # Python dependencies
+    python3 \
+    python3-pip \
+    python3-venv \
+    python3-dev \
+    build-essential \
+    cmake \
+    pkg-config \
+    \
+    # Audio/Video dependencies
+    ffmpeg \
+    libx264-dev \
+    libx265-dev \
+    libvpx-dev \
+    libaom-dev \
+    libfdk-aac-dev \
+    libmp3lame-dev \
+    libopus-dev \
+    libvorbis-dev \
+    libass-dev \
+    libfreetype6-dev \
+    libfontconfig1-dev \
+    \
+    # Browser dependencies for Playwright (comprehensive list)
+    libnss3 \
+    libatk-bridge2.0-0 \
+    libdrm2 \
+    libxkbcommon0 \
+    libxcomposite1 \
+    libxdamage1 \
+    libxrandr2 \
+    libgbm1 \
+    libpango-1.0-0 \
+    libcairo2 \
+    libasound2 \
+    libgtk-3-0 \
+    libgdk-pixbuf2.0-0 \
+    libxss1 \
+    libxtst6 \
+    libx11-xcb1 \
+    libxcb-dri3-0 \
+    libdrm2 \
+    libxcomposite1 \
+    libxdamage1 \
+    libxrandr2 \
+    libgbm1 \
+    libpango-1.0-0 \
+    libcairo2 \
+    libasound2 \
+    libatspi2.0-0 \
+    libatk1.0-0 \
+    libatk-bridge2.0-0 \
+    \
+    # Fonts for video rendering
+    fonts-liberation \
+    fonts-noto \
+    fonts-noto-cjk \
+    \
+    # Clean up
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Node.js
+RUN curl -fsSL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash - \
+    && apt-get install -y nodejs
+
+# Install pnpm
+RUN npm install -g pnpm
+
+# Install Python packages
+COPY requirements.txt .
+RUN pip3 install --no-cache-dir -r requirements.txt
+
 # Copy package files
-COPY package*.json ./
+COPY package.json pnpm-lock.yaml* ./
 
 # Install Node.js dependencies
-RUN npm ci --only=production
+RUN pnpm install
+
+# Install Playwright browsers with all dependencies as root
+RUN npx playwright install --with-deps
+
+# Install Playwright system dependencies explicitly
+RUN npx playwright install-deps
+
+# Create a non-root user
+RUN useradd -m -s /bin/bash videoproducer
+
+# Create necessary directories
+RUN mkdir -p \
+    captures \
+    audio \
+    subs \
+    luts \
+    out \
+    scripts \
+    voices
 
 # Copy application files
 COPY . .
 
-# Create necessary directories
-RUN mkdir -p output temp assets output/animatic output/voice-recordings
+# Make scripts executable
+RUN chmod +x scripts/*.py scripts/*.js scripts/*.ts scripts/*.sh
 
-# Set permissions
-RUN chmod +x scripts/*.js
+# Set up environment
+ENV NODE_ENV=production
+ENV PYTHONPATH=/app
+ENV PATH="/app/venv/bin:$PATH"
 
-# Development stage with additional tools
-FROM base AS development
+# Copy Playwright browsers from root cache to videoproducer cache
+RUN mkdir -p /home/videoproducer/.cache && \
+    cp -r /root/.cache/ms-playwright /home/videoproducer/.cache/ && \
+    chown -R videoproducer:videoproducer /home/videoproducer/.cache
 
-# Install development dependencies
-RUN npm ci
-
-# Install additional development tools
-RUN apk add --no-cache \
-    vim \
-    nano \
-    htop \
-    # Additional video tools for development
-    mediainfo \
-    exiftool \
-    qt-faststart \
-    && rm -rf /var/cache/apk/*
-
-# Install additional Python packages for development
-RUN pip3 install --no-cache-dir --break-system-packages \
-    pytest \
-    pytest-cov \
-    black \
-    flake8
-
-# Production stage (minimal)
-FROM base AS production
-
-# Remove development files
-RUN rm -rf node_modules/.cache \
-    && rm -rf temp/* \
-    && rm -rf .git
-
-# Create non-root user
-RUN addgroup -g 1001 -S nodejs \
-    && adduser -S nodejs -u 1001
-
-# Change ownership of app directory
-RUN chown -R nodejs:nodejs /app
+# Change ownership of all files to videoproducer
+RUN chown -R videoproducer:videoproducer /app
 
 # Switch to non-root user
-USER nodejs
-
-# Expose port for web interface (if needed)
-EXPOSE 3000
+USER videoproducer
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD node -e "console.log('Video production environment is healthy')" || exit 1
+    CMD python3 -c "import yaml, openai; print('OK')" || exit 1
 
 # Default command
-CMD ["npm", "run", "dev"]
+CMD ["bash"]

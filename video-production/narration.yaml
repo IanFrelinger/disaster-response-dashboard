@@ -3,160 +3,136 @@
 
 metadata:
   title: "Disaster Response Dashboard Demo"
-  duration: "4:00"
-  target: "Palantir Building Challenge"
-  voice_style: "professional_authoritative"
-  speed: 0.95
+  duration: 117
   language: "en-US"
-
-beats:
-  - name: "Hook"
-    start_time: "0:00"
-    end_time: "0:15"
-    narration: "In fast-moving disasters, minutes matter. Here's how our tool cuts decision time dramatically."
-    visual_cues:
-      - "3D terrain visualization"
-      - "Timer countdown"
-      - "Hazard layers"
-    on_screen_labels:
-      - "Command Center"
-      - "Real-time Monitoring"
-
-  - name: "Problem Statement"
-    start_time: "0:15"
-    end_time: "0:45"
-    narration: "We picked disaster response because delays cost lives and millions in losses. Emergency managers face fragmented data, slow coordination, and dangerous routing that puts evacuees in harm's way. Our target users - emergency commanders, first responders, and government agencies - need a unified platform that turns chaos into coordinated action."
-    visual_cues:
-      - "Problem slide with statistics"
-      - "Who suffers, what's broken, target users"
-    on_screen_labels:
-      - "45-minute → 15-second evacuation orders"
-      - "80-150 lives saved annually"
-      - "$15M-$75M saved per major event"
-
-  - name: "Demo - Risk Grid"
-    start_time: "0:45"
-    end_time: "1:10"
-    narration: "Here's the demo: live satellite detections roll into a terrain-aware risk grid. NASA FIRMS data, NOAA weather, and ground sensors feed our H3 spatial indexing system, processing millions of data points in seconds. Each hexagon shows real-time risk scoring based on proximity, intensity, and weather conditions."
-    visual_cues:
-      - "Live hazard feed"
-      - "H3 risk hexagons over terrain"
-      - "Data flow animation"
-    on_screen_labels:
-      - "Live Satellite Feed"
-      - "H3 Spatial Indexing"
-      - "Real-time Risk Scoring"
-
-  - name: "Demo - Hazard-Aware Routes"
-    start_time: "1:10"
-    end_time: "1:35"
-    narration: "With one click, we generate safe evacuation routes that avoid advancing fire lines. Our A* algorithm with hazard weights finds optimal paths in real-time. Notice how routes dynamically adjust to avoid danger zones - this is the difference between life and death."
-    visual_cues:
-      - "Draw zone"
-      - "A* hazard-aware routes animate in"
-      - "Route optimization"
-    on_screen_labels:
-      - "A* Route Optimization"
-      - "Hazard Avoidance"
-      - "Dynamic Pathfinding"
-
-  - name: "Demo - Resource Management"
-    start_time: "1:35"
-    end_time: "2:00"
-    narration: "We position engines and medics where they'll have the most impact. Drag units to staging areas and watch ETAs and coverage update instantly. The system optimizes resource allocation based on real-time conditions and predicted needs."
-    visual_cues:
-      - "Drag units to staging"
-      - "ETAs and coverage update"
-      - "Resource allocation"
-    on_screen_labels:
-      - "Resource Allocation"
-      - "Real-time ETAs"
-      - "Coverage Optimization"
-
-  - name: "Demo - Communications"
-    start_time: "2:00"
-    end_time: "2:25"
-    narration: "Targeted alerts reach residents in seconds - with delivery and acknowledgement tracking. Emergency notifications cascade through multiple channels, ensuring no one is left behind. Real-time status updates keep everyone informed."
-    visual_cues:
-      - "Trigger alert"
-      - "Delivery and ack dashboards tick"
-      - "Multi-channel notifications"
-    on_screen_labels:
-      - "Multi-channel Alerts"
-      - "Delivery Tracking"
-      - "Status Updates"
-
-  - name: "Demo - Adaptive Updates"
-    start_time: "2:25"
-    end_time: "2:45"
-    narration: "As conditions change, routes and priorities update automatically. Fire lines shift, wind patterns change, and our system adapts instantly. This is real-time decision support that keeps pace with the disaster."
-    visual_cues:
-      - "Fire line shifts"
-      - "Auto-reroute"
-      - "Real-time updates"
-    on_screen_labels:
-      - "Live Condition Monitoring"
-      - "Auto-rerouting"
-      - "Predictive Analytics"
-
-  - name: "Technical Stack"
-    start_time: "2:45"
-    end_time: "3:25"
-    narration: "Under the hood: a React and Mapbox GL front end for stunning 3D visualization, Python services for real-time analysis with Redis and Celery, scikit-learn for risk and route models, and enterprise data fusion via Foundry to ground decisions in operational data."
-    visual_cues:
-      - "Tech stack slide"
-      - "3 bullet rows"
-      - "No jargon paragraphs"
-    on_screen_labels:
-      - "React + TypeScript + Mapbox GL"
-      - "Python + Flask + Redis + Celery"
-      - "scikit-learn + Foundry Integration"
-
-  - name: "Impact"
-    start_time: "3:25"
-    end_time: "3:50"
-    narration: "The result: dramatically faster coordination and meaningful cost avoidance during major events. Our goal: 65 to 90 percent faster emergency coordination, 15 to 75 million dollars saved per major event, and improved evacuation compliance that saves lives."
-    visual_cues:
-      - "Three big numbers"
-      - "Before/after timeline"
-      - "Impact metrics"
-    on_screen_labels:
-      - "65-90% Faster Coordination"
-      - "$15M-$75M Saved Per Event"
-      - "Improved Evacuation Compliance"
-
-  - name: "Close"
-    start_time: "3:50"
-    end_time: "4:00"
-    narration: "We're seeking pilot partners to validate across regions and hazards. This isn't just technology - it's a lifeline for communities facing disaster."
-    visual_cues:
-      - "Product name"
-      - "Contact information"
-      - "Demo data disclaimer"
-    on_screen_labels:
-      - "Disaster Response Dashboard"
-      - "Ready for Pilot Partners"
-      - "Demo Data - Production Ready"
-
-production_notes:
+  voice_provider: "openai"  # openai, elevenlabs, azure, piper
   voice_settings:
-    style: "professional_authoritative"
-    speed: 0.95
-    pitch: "normal"
-    emphasis: "measured_urgent"
+    speed: 1.0
+    pitch: 0
+    volume: 1.0
+
+scenes:
+  - id: "intro"
+    title: "Dashboard Overview"
+    duration: 8
+    narration: "When disasters hit, emergency managers are stuck dealing with a mess of disconnected systems and slow responses. Every minute wasted puts lives at risk. The old way takes hours to get organized - but we don't have hours to spare."
+    voice: "alloy"  # OpenAI voice
+    emphasis: "disasters, mess, slow, lives, hours"
+    
+  - id: "hazards"
+    title: "Multi-Hazard Map"
+    duration: 10
+    narration: "We've built one dashboard that brings everyone together - emergency commanders, first responders, and agencies all working from the same page. You can see every threat as it happens. Our map pulls together wildfire, flood, earthquake, and weather data in real-time."
+    voice: "alloy"
+    emphasis: "one, together, same, threat, pulls"
+    
+  - id: "routes"
+    title: "Evacuation Routes"
+    duration: 12
+    narration: "Get safe evacuation routes with just one click. Our AI looks at the terrain, checks for hazards, and monitors traffic to find the safest way out. The routes keep updating as things change - what was safe ten minutes ago might be dangerous now."
+    voice: "alloy"
+    emphasis: "safe, AI, looks, updating, dangerous"
+    
+  - id: "3d-terrain"
+    title: "3D Terrain View"
+    duration: 10
+    narration: "3D terrain view shows you the lay of the land like never before. You can see elevation changes, flood zones, and escape routes that flat maps just can't show. Navigate tricky landscapes with confidence, knowing every hill and obstacle."
+    voice: "alloy"
+    emphasis: "3D, lay, never, tricky, confidence"
+    
+  - id: "evacuation"
+    title: "Evacuation Management"
+    duration: 12
+    narration: "Managing mass evacuations doesn't have to be chaos. Our dashboard keeps track of every vehicle, person, and resource as it moves. Coordinate thousands of people through safe zones while keeping your finger on the pulse of the situation."
+    voice: "alloy"
+    emphasis: "chaos, keeps, thousands, safe, pulse"
+    
+  - id: "ai-support"
+    title: "AI Decision Support"
+    duration: 15
+    narration: "AI spots patterns and gives you real-time advice when you need it most. Make smart decisions even under pressure. Our system learns from every incident, constantly getting better at response strategies and figuring out where to put resources."
+    voice: "alloy"
+    emphasis: "spots, advice, smart, learns, better"
+    
+  - id: "weather"
+    title: "Weather Integration"
+    duration: 10
+    narration: "Real-time weather data from NOAA shows you what's coming, so you can stay ahead of the storm. We connect forecasts with evacuation planning and hazard assessment, so you're not just reacting - you're planning ahead."
+    voice: "alloy"
+    emphasis: "shows, coming, ahead, connecting, planning"
+    
+  - id: "commander"
+    title: "Commander View"
+    duration: 8
+    narration: "Commanders get the big picture with key metrics and resource allocation at a glance. Monitor multiple incidents at once while keeping control of the whole operation. It's like having eyes everywhere without getting overwhelmed."
+    voice: "alloy"
+    emphasis: "big, key, once, control, everywhere"
+    
+  - id: "responder"
+    title: "First Responder View"
+    duration: 8
+    narration: "First responders get the details they need for immediate action - turn-by-turn directions, hazard alerts, and team status. Get what you need when every second counts, without drowning in unnecessary information."
+    voice: "alloy"
+    emphasis: "details, immediate, second, drowning, unnecessary"
+    
+  - id: "public"
+    title: "Public Information"
+    duration: 8
+    narration: "Keep people in the loop with real-time updates. Clear communication saves lives and keeps panic at bay. Give folks accurate, timely information through multiple channels so everyone stays safe and informed."
+    voice: "alloy"
+    emphasis: "loop, saves, panic, accurate, informed"
+    
+  - id: "outro"
+    title: "Call to Action"
+    duration: 6
+    narration: "Our system dramatically increases response throughput and allows for greater effectiveness of emergency responses. Transform your emergency management today. When minutes matter, every second you save could mean the difference between life and death."
+    voice: "alloy"
+    emphasis: "dramatically, increases, effectiveness, transform, difference"
+
+voice_providers:
+  openai:
+    model: "gpt-4o-mini-tts"
+    voice: "alloy"
+    speed: 1.0
+    api_key_env: "OPENAI_API_KEY"
+    
+  elevenlabs:
+    voice_id: "21m00Tcm4TlvDq8ikWAM"  # Rachel voice
+    stability: 0.5
+    similarity_boost: 0.75
+    api_key_env: "ELEVEN_API_KEY"
+    
+  azure:
+    voice: "en-US-JennyNeural"
+    region: "eastus"
+    api_key_env: "AZURE_SPEECH_KEY"
+    region_env: "AZURE_SPEECH_REGION"
+    
+  piper:
+    voice: "en_US-amy-low.onnx"
+    model_path: "./voices/en_US-amy-low.onnx"
+    config_path: "./voices/en_US-amy-low.onnx.json"
+    speed: 1.0
+    noise_scale: 0.667
+    length_scale: 1.0
+    noise_w: 0.8
+
+audio_settings:
+  sample_rate: 44100
+  bit_depth: 16
+  channels: 1
+  format: "wav"
+  normalization: "loudness"
+  target_lufs: -23.0
+  true_peak: -1.0
   
-  visual_style:
-    color_scheme: "emergency_blue_red"
-    typography: "clean_modern"
-    animations: "smooth_professional"
+  processing:
+    noise_reduction: true
+    compression: true
+    equalization: true
+    reverb: false
     
-  audio:
-    background_music: "subtle_urgent"
-    sound_effects: "minimal_tech"
-    mixing: "voice_forward"
-    
-  captions:
-    style: "high_contrast"
-    position: "bottom_center"
-    font_size: "readable"
-    timing: "sync_with_voice"
+  output:
+    per_scene: "audio/vo/"
+    merged: "audio/voiceover.wav"
+    subtitles: "subs/vo.srt"

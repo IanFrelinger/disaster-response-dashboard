@@ -1,0 +1,46 @@
+{
+  "timestamp": "2025-08-12T17:34:24.974Z",
+  "totalScreenshots": 7,
+  "screenshots": [
+    {
+      "name": "01-main-dashboard",
+      "path": "/Users/ianfrelinger/PycharmProjects/disaster-response-dashboard/frontend/screenshots/01-main-dashboard.png",
+      "size": 121559
+    },
+    {
+      "name": "06-multi-hazard-map",
+      "path": "/Users/ianfrelinger/PycharmProjects/disaster-response-dashboard/frontend/screenshots/06-multi-hazard-map.png",
+      "size": 121808
+    },
+    {
+      "name": "07-evacuation-dashboard",
+      "path": "/Users/ianfrelinger/PycharmProjects/disaster-response-dashboard/frontend/screenshots/07-evacuation-dashboard.png",
+      "size": 121778
+    },
+    {
+      "name": "08-role-based-routing",
+      "path": "/Users/ianfrelinger/PycharmProjects/disaster-response-dashboard/frontend/screenshots/08-role-based-routing.png",
+      "size": 121501
+    },
+    {
+      "name": "09-aip-decision-support",
+      "path": "/Users/ianfrelinger/PycharmProjects/disaster-response-dashboard/frontend/screenshots/09-aip-decision-support.png",
+      "size": 121825
+    },
+    {
+      "name": "10-weather-panel",
+      "path": "/Users/ianfrelinger/PycharmProjects/disaster-response-dashboard/frontend/screenshots/10-weather-panel.png",
+      "size": 121114
+    },
+    {
+      "name": "11-button-interactions",
+      "path": "/Users/ianfrelinger/PycharmProjects/disaster-response-dashboard/frontend/screenshots/11-button-interactions.png",
+      "size": 121299
+    }
+  ],
+  "summary": {
+    "mainDashboard": 2,
+    "components": 6,
+    "interactions": 3
+  }
+}

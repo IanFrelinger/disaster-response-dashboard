@@ -54,7 +54,7 @@ class VideoAssembler {
         
         try {
             // Check if voiceover exists
-            const voiceoverFile = join(this.outputDir, 'voiceover.wav');
+            const voiceoverFile = join(__dirname, '../audio/voiceover.wav');
             if (!existsSync(voiceoverFile)) {
                 throw new Error('Voiceover file not found. Run npm run narrate first.');
             }
@@ -67,7 +67,7 @@ class VideoAssembler {
             
             // Create a 4-minute video (240 seconds) to meet validation targets
             const targetDuration = 240; // 4 minutes
-            const outputFile = join(this.outputDir, 'roughcut.mp4');
+            const outputFile = join(__dirname, '../out/roughcut.mp4');
             
             // Create a video with color bars and the voiceover, loop the audio if needed
             const command = `ffmpeg -f lavfi -i "testsrc=duration=${targetDuration}:size=1920x1080:rate=30" -stream_loop -1 -i "${voiceoverFile}" -c:v libx264 -preset fast -crf 23 -c:a aac -b:a 128k -shortest "${outputFile}" -y`;

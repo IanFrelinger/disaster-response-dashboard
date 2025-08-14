@@ -1,0 +1,191 @@
+{
+  "timestamp": "2025-08-12T17:41:07.624Z",
+  "totalScreenshots": 25,
+  "screenshots": [
+    {
+      "name": "01-main-dashboard-overview",
+      "description": "Main dashboard with overview panels and navigation",
+      "path": "/Users/ianfrelinger/PycharmProjects/disaster-response-dashboard/frontend/screenshots/01-main-dashboard-overview.png",
+      "url": "http://localhost:3000",
+      "size": 121574
+    },
+    {
+      "name": "02-dashboard-with-metrics",
+      "description": "Dashboard showing key performance metrics and status indicators",
+      "path": "/Users/ianfrelinger/PycharmProjects/disaster-response-dashboard/frontend/screenshots/02-dashboard-with-metrics.png",
+      "url": "http://localhost:3000",
+      "size": 121821
+    },
+    {
+      "name": "03-navigation-menu-open",
+      "description": "Navigation menu expanded showing all available sections",
+      "path": "/Users/ianfrelinger/PycharmProjects/disaster-response-dashboard/frontend/screenshots/03-navigation-menu-open.png",
+      "url": "http://localhost:3000",
+      "size": 121656
+    },
+    {
+      "name": "04-multi-hazard-map",
+      "description": "Interactive map showing multiple hazard layers and data visualization",
+      "path": "/Users/ianfrelinger/PycharmProjects/disaster-response-dashboard/frontend/screenshots/04-multi-hazard-map.png",
+      "url": "http://localhost:3000/multi-hazard",
+      "size": 121587
+    },
+    {
+      "name": "05-map-hazard-layers-active",
+      "description": "Map with hazard layers toggled on showing fire, flood, and weather data",
+      "path": "/Users/ianfrelinger/PycharmProjects/disaster-response-dashboard/frontend/screenshots/05-map-hazard-layers-active.png",
+      "url": "http://localhost:3000/multi-hazard",
+      "size": 121542
+    },
+    {
+      "name": "06-map-evacuation-routes",
+      "description": "Map displaying evacuation routes and safe passage corridors",
+      "path": "/Users/ianfrelinger/PycharmProjects/disaster-response-dashboard/frontend/screenshots/06-map-evacuation-routes.png",
+      "url": "http://localhost:3000/multi-hazard",
+      "size": 121436
+    },
+    {
+      "name": "07-3d-terrain-view",
+      "description": "3D terrain visualization with elevation and topographic data",
+      "path": "/Users/ianfrelinger/PycharmProjects/disaster-response-dashboard/frontend/screenshots/07-3d-terrain-view.png",
+      "url": "http://localhost:3000/multi-hazard",
+      "size": 121414
+    },
+    {
+      "name": "08-evacuation-dashboard-main",
+      "description": "Main evacuation management interface with route planning tools",
+      "path": "/Users/ianfrelinger/PycharmProjects/disaster-response-dashboard/frontend/screenshots/08-evacuation-dashboard-main.png",
+      "url": "http://localhost:3000/evacuation",
+      "size": 121413
+    },
+    {
+      "name": "09-route-planning-interface",
+      "description": "Route planning interface with origin, destination, and optimization settings",
+      "path": "/Users/ianfrelinger/PycharmProjects/disaster-response-dashboard/frontend/screenshots/09-route-planning-interface.png",
+      "url": "http://localhost:3000/evacuation",
+      "size": 121372
+    },
+    {
+      "name": "10-evacuation-zones",
+      "description": "Map showing evacuation zones and affected areas",
+      "path": "/Users/ianfrelinger/PycharmProjects/disaster-response-dashboard/frontend/screenshots/10-evacuation-zones.png",
+      "url": "http://localhost:3000/evacuation",
+      "size": 121373
+    },
+    {
+      "name": "11-commander-view",
+      "description": "Strategic commander interface with high-level overview and decision tools",
+      "path": "/Users/ianfrelinger/PycharmProjects/disaster-response-dashboard/frontend/screenshots/11-commander-view.png",
+      "url": "http://localhost:3000/routing",
+      "size": 121297
+    },
+    {
+      "name": "12-first-responder-view",
+      "description": "Tactical first responder interface with detailed operational information",
+      "path": "/Users/ianfrelinger/PycharmProjects/disaster-response-dashboard/frontend/screenshots/12-first-responder-view.png",
+      "url": "http://localhost:3000/routing",
+      "size": 121579
+    },
+    {
+      "name": "13-public-information-view",
+      "description": "Public information interface with citizen-facing alerts and updates",
+      "path": "/Users/ianfrelinger/PycharmProjects/disaster-response-dashboard/frontend/screenshots/13-public-information-view.png",
+      "url": "http://localhost:3000/routing",
+      "size": 121645
+    },
+    {
+      "name": "14-aip-decision-support-main",
+      "description": "AI-powered decision support interface with recommendations and insights",
+      "path": "/Users/ianfrelinger/PycharmProjects/disaster-response-dashboard/frontend/screenshots/14-aip-decision-support-main.png",
+      "url": "http://localhost:3000/aip",
+      "size": 121671
+    },
+    {
+      "name": "15-ai-recommendations-panel",
+      "description": "Panel showing AI-generated recommendations for resource allocation",
+      "path": "/Users/ianfrelinger/PycharmProjects/disaster-response-dashboard/frontend/screenshots/15-ai-recommendations-panel.png",
+      "url": "http://localhost:3000/aip",
+      "size": 121283
+    },
+    {
+      "name": "16-risk-analysis-view",
+      "description": "Risk analysis interface with threat assessment and probability modeling",
+      "path": "/Users/ianfrelinger/PycharmProjects/disaster-response-dashboard/frontend/screenshots/16-risk-analysis-view.png",
+      "url": "http://localhost:3000/aip",
+      "size": 121464
+    },
+    {
+      "name": "17-weather-panel-main",
+      "description": "Weather information panel with current conditions and forecasts",
+      "path": "/Users/ianfrelinger/PycharmProjects/disaster-response-dashboard/frontend/screenshots/17-weather-panel-main.png",
+      "url": "http://localhost:3000/weather",
+      "size": 121615
+    },
+    {
+      "name": "18-weather-forecast-view",
+      "description": "Extended weather forecast with multiple time periods and conditions",
+      "path": "/Users/ianfrelinger/PycharmProjects/disaster-response-dashboard/frontend/screenshots/18-weather-forecast-view.png",
+      "url": "http://localhost:3000/weather",
+      "size": 121284
+    },
+    {
+      "name": "19-environmental-conditions",
+      "description": "Environmental monitoring with air quality, wind patterns, and other factors",
+      "path": "/Users/ianfrelinger/PycharmProjects/disaster-response-dashboard/frontend/screenshots/19-environmental-conditions.png",
+      "url": "http://localhost:3000/weather",
+      "size": 131228
+    },
+    {
+      "name": "20-button-interactions",
+      "description": "Various interactive buttons and controls throughout the interface",
+      "path": "/Users/ianfrelinger/PycharmProjects/disaster-response-dashboard/frontend/screenshots/20-button-interactions.png",
+      "url": "http://localhost:3000",
+      "size": 121506
+    },
+    {
+      "name": "21-panel-interactions",
+      "description": "Expandable panels and collapsible sections in the interface",
+      "path": "/Users/ianfrelinger/PycharmProjects/disaster-response-dashboard/frontend/screenshots/21-panel-interactions.png",
+      "url": "http://localhost:3000",
+      "size": 121522
+    },
+    {
+      "name": "22-search-functionality",
+      "description": "Search interface with filters and query capabilities",
+      "path": "/Users/ianfrelinger/PycharmProjects/disaster-response-dashboard/frontend/screenshots/22-search-functionality.png",
+      "url": "http://localhost:3000",
+      "size": 121798
+    },
+    {
+      "name": "23-settings-configuration",
+      "description": "Settings panel with user preferences and system configuration",
+      "path": "/Users/ianfrelinger/PycharmProjects/disaster-response-dashboard/frontend/screenshots/23-settings-configuration.png",
+      "url": "http://localhost:3000",
+      "size": 121876
+    },
+    {
+      "name": "24-alert-center",
+      "description": "Central alert management system with active notifications",
+      "path": "/Users/ianfrelinger/PycharmProjects/disaster-response-dashboard/frontend/screenshots/24-alert-center.png",
+      "url": "http://localhost:3000",
+      "size": 121218
+    },
+    {
+      "name": "25-emergency-notifications",
+      "description": "Emergency notification system with priority alerts and status tracking",
+      "path": "/Users/ianfrelinger/PycharmProjects/disaster-response-dashboard/frontend/screenshots/25-emergency-notifications.png",
+      "url": "http://localhost:3000",
+      "size": 121405
+    }
+  ],
+  "categories": {
+    "dashboard": 3,
+    "map": 3,
+    "evacuation": 3,
+    "roleBased": 7,
+    "aip": 1,
+    "weather": 2,
+    "interactive": 2,
+    "alerts": 1
+  }
+}

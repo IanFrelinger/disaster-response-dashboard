@@ -1,0 +1,135 @@
+{
+  "app": {
+    "url": "http://localhost:3000",
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "waitForSelector": "#root",
+    "timeout": 30000
+  },
+  "beats": [
+    {
+      "id": "intro",
+      "title": "Dashboard Overview",
+      "duration": 8,
+      "actions": [
+        "waitForSelector('#root')",
+        "wait(2000)"
+      ]
+    },
+    {
+      "id": "hazards",
+      "title": "Multi-Hazard Map",
+      "duration": 10,
+      "actions": [
+        "click('.hazard-layer-toggle')",
+        "waitForSelector('.hazard-layer.active')",
+        "click('.map-controls .zoom-in')",
+        "wait(2000)"
+      ]
+    },
+    {
+      "id": "routes",
+      "title": "Evacuation Routes",
+      "duration": 12,
+      "actions": [
+        "click('.route-generator')",
+        "waitForSelector('.route-display')",
+        "click('.route-optimizer')",
+        "wait(3000)"
+      ]
+    },
+    {
+      "id": "3d-terrain",
+      "title": "3D Terrain View",
+      "duration": 10,
+      "actions": [
+        "click('.3d-toggle')",
+        "waitForSelector('.3d-container')",
+        "click('.camera-controls .rotate')",
+        "wait(3000)"
+      ]
+    },
+    {
+      "id": "evacuation",
+      "title": "Evacuation Management",
+      "duration": 12,
+      "actions": [
+        "click('.evacuation-dashboard')",
+        "waitForSelector('.evacuation-zones')",
+        "click('.zone-selector')",
+        "wait(3000)"
+      ]
+    },
+    {
+      "id": "ai-support",
+      "title": "AI Decision Support",
+      "duration": 15,
+      "actions": [
+        "click('.ai-panel')",
+        "waitForSelector('.ai-recommendations')",
+        "click('.risk-analysis')",
+        "wait(4000)"
+      ]
+    },
+    {
+      "id": "weather",
+      "title": "Weather Integration",
+      "duration": 10,
+      "actions": [
+        "click('.weather-panel')",
+        "waitForSelector('.forecast-display')",
+        "click('.weather-layers')",
+        "wait(3000)"
+      ]
+    },
+    {
+      "id": "commander",
+      "title": "Commander View",
+      "duration": 8,
+      "actions": [
+        "click('.view-selector')",
+        "selectOption('.view-selector', 'commander')",
+        "waitForSelector('.commander-dashboard')"
+      ]
+    },
+    {
+      "id": "responder",
+      "title": "First Responder View",
+      "duration": 8,
+      "actions": [
+        "selectOption('.view-selector', 'responder')",
+        "waitForSelector('.responder-dashboard')",
+        "click('.tactical-overlay')"
+      ]
+    },
+    {
+      "id": "public",
+      "title": "Public Information",
+      "duration": 8,
+      "actions": [
+        "selectOption('.view-selector', 'public')",
+        "waitForSelector('.public-dashboard')",
+        "click('.alert-center')"
+      ]
+    },
+    {
+      "id": "outro",
+      "title": "Call to Action",
+      "duration": 6,
+      "actions": [
+        "click('.nav-menu-toggle')",
+        "waitForSelector('.nav-menu')",
+        "click('.cta-button')"
+      ]
+    }
+  ],
+  "recording": {
+    "format": "webm",
+    "codec": "vp9",
+    "quality": "high",
+    "fps": 30,
+    "audio": false
+  }
+}

@@ -1,69 +1,63 @@
-version: '3.8'
-
 services:
-  video-production:
+  video-pipeline:
     build:
       context: .
       dockerfile: Dockerfile
-      target: development
-    container_name: disaster-response-video
+    container_name: disaster-response-video-pipeline
     volumes:
-      # Mount source code for development
-      - .:/app
-      - /app/node_modules
-      - /app/output
-      - /app/temp
+      # Mount output directories for persistence
+      - ./captures:/app/captures
+      - ./audio:/app/audio
+      - ./subs:/app/subs
+      - ./luts:/app/luts
+      - ./out:/app/out
+      - ./voices:/app/voices
+      # Mount configuration files
+      - ./narration.yaml:/app/narration.yaml:ro
+      - ./timeline.yaml:/app/timeline.yaml:ro
+      - ./record.config.json:/app/record.config.json:ro
+      # Mount environment file
+      - ./config.env:/app/config.env:ro
     environment:
-      - NODE_ENV=development
-      - DISPLAY=${DISPLAY}
-      - FFMPEG_BINARY=/usr/bin/ffmpeg
-      - PYTHONPATH=/app
-    ports:
-      - "3001:3000"  # Web interface (if needed)
-      - "8081:8080"  # Development server
+      # Load environment variables from config.env
+      - ENV_FILE=/app/config.env
+      # API key validation flag
+      - API_KEYS_VALIDATED=false
+    env_file:
+      - config.env
     working_dir: /app
-    command: npm run dev
-    stdin_open: true
-    tty: true
+    # Keep container running
+    command: ["tail", "-f", "/dev/null"]
+    # Enable GPU support if available (optional)
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+    # For headless operation
+    stdin_open: false
+    tty: false
+    # Restart policy
     restart: unless-stopped
+    # Resource limits
+    mem_limit: 4g
+    cpus: 2.0
 
-  # Alternative production service
-  video-production-prod:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      target: production
-    container_name: disaster-response-video-prod
-    volumes:
-      - ./output:/app/output
-      - ./assets:/app/assets
-      - ./narration.yaml:/app/narration.yaml
-    environment:
-      - NODE_ENV=production
-      - FFMPEG_BINARY=/usr/bin/ffmpeg
-    working_dir: /app
-    command: npm run build
-    profiles:
-      - production
-
-  # Testing service
-  video-testing:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      target: development
-    container_name: disaster-response-video-test
-    volumes:
-      - .:/app
-      - /app/node_modules
-    environment:
-      - NODE_ENV=test
-      - FFMPEG_BINARY=/usr/bin/ffmpeg
-    working_dir: /app
-    command: npm run test
-    profiles:
-      - testing
+  # Optional: Web interface for monitoring (if needed)
+  # web-monitor:
+  #   image: nginx:alpine
+  #   container_name: video-pipeline-monitor
+  #   ports:
+  #     - "8080:80"
+  #   volumes:
+  #     - ./out:/usr/share/nginx/html:ro
+  #     - ./nginx.conf:/etc/nginx/nginx.conf:ro
+  #   depends_on:
+  #     - video-pipeline
+  #   restart: unless-stopped
 
 networks:
   default:
-    name: video-production-network
+    name: video-pipeline-network
