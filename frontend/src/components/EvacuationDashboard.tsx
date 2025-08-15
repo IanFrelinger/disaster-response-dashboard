@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
-import { EvacuationZone, Building, WeatherData } from '../types/emergency-response';
+import { EvacuationZone, Building, WeatherData, EmergencyUnit, OperationalRoute } from '../types/emergency-response';
 import { AIPDecisionSupport, OperationalGuidance } from './AIPDecisionSupport';
+import UnitManagement from './UnitManagement';
+import RoleBasedRouting from './RoleBasedRouting';
+import TechnicalArchitecture from './TechnicalArchitecture';
+import { mockRoutes, mockUnits, mockStagingAreas } from '../data/mockData';
 
 import './EvacuationDashboard.css';
 
@@ -25,7 +29,7 @@ export const EvacuationDashboard: React.FC<EvacuationDashboardProps> = ({
 }) => {
   const [selectedZone, setSelectedZone] = useState<EvacuationZone | null>(null);
   const [selectedBuilding, setSelectedBuilding] = useState<Building | null>(null);
-  const [viewMode, setViewMode] = useState<'zones' | 'weather' | 'building-overview' | 'aip'>('zones');
+  const [viewMode, setViewMode] = useState<'zones' | 'weather' | 'building-overview' | 'aip' | 'routing' | 'units' | 'architecture'>('zones');
   const [filterStatus, setFilterStatus] = useState<string>('all');
 
   // Calculate zone progress percentages
@@ -353,7 +357,92 @@ export const EvacuationDashboard: React.FC<EvacuationDashboardProps> = ({
               AIP Commander
             </button>
 
+            <button 
+              className={`ios-button ${viewMode === 'routing' ? 'primary' : 'secondary'} small`}
+              onClick={() => setViewMode('routing')}
+              style={{
+                flex: 1,
+                padding: '10px 20px',
+                textAlign: 'center',
+                borderRadius: '12px',
+                cursor: 'pointer',
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                fontWeight: '600',
+                fontSize: '15px',
+                lineHeight: '1.2',
+                letterSpacing: '-0.01em',
+                minHeight: '36px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: viewMode === 'routing' ? 'linear-gradient(135deg, #007AFF, #5856D6)' : 'transparent',
+                color: viewMode === 'routing' ? 'white' : '#1d1d1f',
+                border: 'none',
+                outline: 'none',
+                boxShadow: viewMode === 'routing' ? '0 4px 12px rgba(0, 122, 255, 0.3)' : 'none',
+                transform: viewMode === 'routing' ? 'scale(1.02)' : 'scale(1)'
+              }}
+            >
+              🛣️ Routing
+            </button>
 
+            <button 
+              className={`ios-button ${viewMode === 'units' ? 'primary' : 'secondary'} small`}
+              onClick={() => setViewMode('units')}
+              style={{
+                flex: 1,
+                padding: '10px 20px',
+                textAlign: 'center',
+                borderRadius: '12px',
+                cursor: 'pointer',
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                fontWeight: '600',
+                fontSize: '15px',
+                lineHeight: '1.2',
+                letterSpacing: '-0.01em',
+                minHeight: '36px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: viewMode === 'units' ? 'linear-gradient(135deg, #007AFF, #5856D6)' : 'transparent',
+                color: viewMode === 'units' ? 'white' : '#1d1d1f',
+                border: 'none',
+                outline: 'none',
+                boxShadow: viewMode === 'units' ? '0 4px 12px rgba(0, 122, 255, 0.3)' : 'none',
+                transform: viewMode === 'units' ? 'scale(1.02)' : 'scale(1)'
+              }}
+            >
+              🚒 Units
+            </button>
+
+            <button 
+              className={`ios-button ${viewMode === 'architecture' ? 'primary' : 'secondary'} small`}
+              onClick={() => setViewMode('architecture')}
+              style={{
+                flex: 1,
+                padding: '10px 20px',
+                textAlign: 'center',
+                borderRadius: '12px',
+                cursor: 'pointer',
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                fontWeight: '600',
+                fontSize: '15px',
+                lineHeight: '1.2',
+                letterSpacing: '-0.01em',
+                minHeight: '36px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: viewMode === 'architecture' ? 'linear-gradient(135deg, #007AFF, #5856D6)' : 'transparent',
+                color: viewMode === 'architecture' ? 'white' : '#1d1d1f',
+                border: 'none',
+                outline: 'none',
+                boxShadow: viewMode === 'architecture' ? '0 4px 12px rgba(0, 122, 255, 0.3)' : 'none',
+                transform: viewMode === 'architecture' ? 'scale(1.02)' : 'scale(1)'
+              }}
+            >
+              🏗️ Architecture
+            </button>
 
           </div>
         </div>
@@ -706,6 +795,113 @@ export const EvacuationDashboard: React.FC<EvacuationDashboardProps> = ({
                   }
                 }}
               />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Role-Based Routing View */}
+      {viewMode === 'routing' && (
+        <div className="routing-view">
+          <div className="ios-card" style={{ margin: '0 0 var(--ios-spacing-lg) 0' }}>
+            <div className="ios-container">
+              <div style={{ marginBottom: '24px' }}>
+                <h3 className="ios-headline" style={{ 
+                  margin: '0 0 8px 0',
+                  fontSize: '24px',
+                  fontWeight: '600',
+                  color: 'var(--ios-blue)'
+                }}>
+                  Role-Based Routing System
+                </h3>
+                <p className="ios-caption" style={{ 
+                  margin: '0',
+                  fontSize: '16px',
+                  color: 'var(--ios-secondary)'
+                }}>
+                  Intelligent route optimization with A* Star algorithm for different emergency response roles
+                </p>
+              </div>
+              
+              <RoleBasedRouting 
+                routes={mockRoutes}
+                units={mockUnits}
+                stagingAreas={mockStagingAreas}
+                onRouteSelect={(route) => {
+                  console.log('Route selected:', route);
+                }}
+                onRouteUpdate={(routeId, updates) => {
+                  console.log('Route updated:', routeId, updates);
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Unit Management View */}
+      {viewMode === 'units' && (
+        <div className="units-view">
+          <div className="ios-card" style={{ margin: '0 0 var(--ios-spacing-lg) 0' }}>
+            <div className="ios-container">
+              <div style={{ marginBottom: '24px' }}>
+                <h3 className="ios-headline" style={{ 
+                  margin: '0 0 8px 0',
+                  fontSize: '24px',
+                  fontWeight: '600',
+                  color: 'var(--ios-blue)'
+                }}>
+                  Unit Management System
+                </h3>
+                <p className="ios-caption" style={{ 
+                  margin: '0',
+                  fontSize: '16px',
+                  color: 'var(--ios-secondary)'
+                }}>
+                  Drag-and-drop unit assignment and real-time status tracking for emergency response
+                </p>
+              </div>
+              
+              <UnitManagement 
+                units={mockUnits}
+                zones={zones}
+                routes={mockRoutes}
+                onUnitAssign={(unitId, targetId, targetType) => {
+                  console.log('Unit assigned:', unitId, targetId, targetType);
+                }}
+                onUnitStatusUpdate={(unitId, status) => {
+                  console.log('Unit status updated:', unitId, status);
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Technical Architecture View */}
+      {viewMode === 'architecture' && (
+        <div className="architecture-view">
+          <div className="ios-card" style={{ margin: '0 0 var(--ios-spacing-lg) 0' }}>
+            <div className="ios-container">
+              <div style={{ marginBottom: '24px' }}>
+                <h3 className="ios-headline" style={{ 
+                  margin: '0 0 8px 0',
+                  fontSize: '24px',
+                  fontWeight: '600',
+                  color: 'var(--ios-blue)'
+                }}>
+                  Technical Architecture
+                </h3>
+                <p className="ios-caption" style={{ 
+                  margin: '0',
+                  fontSize: '16px',
+                  color: 'var(--ios-secondary)'
+                }}>
+                  System design, data flow, and Foundry integration overview
+                </p>
+              </div>
+              
+              <TechnicalArchitecture />
             </div>
           </div>
         </div>

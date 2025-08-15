@@ -5,7 +5,7 @@ metadata:
   title: "Disaster Response Dashboard Demo"
   duration: 117
   language: "en-US"
-  voice_provider: "openai"  # openai, elevenlabs, azure, piper
+  voice_provider: "elevenlabs"  # openai, elevenlabs, azure, piper
   voice_settings:
     speed: 1.0
     pitch: 0
@@ -97,7 +97,7 @@ voice_providers:
     api_key_env: "OPENAI_API_KEY"
     
   elevenlabs:
-    voice_id: "21m00Tcm4TlvDq8ikWAM"  # Rachel voice
+    voice_id: "LIpBYrITLsIquxoXdSkr"  # Cloned voice ID from config
     stability: 0.5
     similarity_boost: 0.75
     api_key_env: "ELEVEN_API_KEY"

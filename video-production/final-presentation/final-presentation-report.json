@@ -1,0 +1,94 @@
+{
+  "timestamp": "2025-08-14T19:35:08.416Z",
+  "assembly": {
+    "success": true,
+    "outputPath": "final-presentation/disaster-response-presentation.mp4",
+    "duration": 240.046016,
+    "fileSize": 8256602
+  },
+  "beats": [
+    {
+      "id": "intro",
+      "title": "Introduction",
+      "filePath": "synced-beats/intro.mp4",
+      "exists": true
+    },
+    {
+      "id": "problem-statement",
+      "title": "Problem Statement & Motivation",
+      "filePath": "synced-beats/problem-statement.mp4",
+      "exists": true
+    },
+    {
+      "id": "user-persona",
+      "title": "Target User Persona",
+      "filePath": "synced-beats/user-persona.mp4",
+      "exists": true
+    },
+    {
+      "id": "technical-architecture",
+      "title": "Technical Architecture & API Data Flow",
+      "filePath": "synced-beats/technical-architecture.mp4",
+      "exists": true
+    },
+    {
+      "id": "detect-verify",
+      "title": "Detect & Verify",
+      "filePath": "synced-beats/detect-verify.mp4",
+      "exists": true
+    },
+    {
+      "id": "triage-risk",
+      "title": "Triage & Risk Scoring",
+      "filePath": "synced-beats/triage-risk.mp4",
+      "exists": true
+    },
+    {
+      "id": "define-zones",
+      "title": "Define Zones",
+      "filePath": "synced-beats/define-zones.mp4",
+      "exists": true
+    },
+    {
+      "id": "plan-routes",
+      "title": "Plan Routes",
+      "filePath": "synced-beats/plan-routes.mp4",
+      "exists": true
+    },
+    {
+      "id": "assign-units",
+      "title": "Assign Units & Track Assets",
+      "filePath": "synced-beats/assign-units.mp4",
+      "exists": true
+    },
+    {
+      "id": "ai-support",
+      "title": "AI Support & Replan",
+      "filePath": "synced-beats/ai-support.mp4",
+      "exists": true
+    },
+    {
+      "id": "value-proposition",
+      "title": "Value Proposition & Impact",
+      "filePath": "synced-beats/value-proposition.mp4",
+      "exists": true
+    },
+    {
+      "id": "foundry-integration",
+      "title": "Foundry Integration & AI Assistance",
+      "filePath": "synced-beats/foundry-integration.mp4",
+      "exists": true
+    },
+    {
+      "id": "conclusion",
+      "title": "Conclusion & Call to Action",
+      "filePath": "synced-beats/conclusion.mp4",
+      "exists": true
+    }
+  ],
+  "summary": {
+    "totalBeats": 13,
+    "totalDuration": 240.046016,
+    "totalSize": 8256602
+  }
+}
