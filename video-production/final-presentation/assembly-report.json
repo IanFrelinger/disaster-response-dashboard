@@ -1,0 +1,91 @@
+{
+  "timestamp": "2025-08-14T20:48:40.451Z",
+  "outputFile": "disaster-response-elevenlabs-presentation.mp4",
+  "totalBeats": 13,
+  "totalDuration": 267.022969,
+  "fileSizeBytes": 9757944,
+  "fileSizeMB": 9.305900573730469,
+  "beats": [
+    {
+      "id": "intro",
+      "title": "Introduction",
+      "duration": 15,
+      "filePath": "synced-beats/intro.mp4"
+    },
+    {
+      "id": "problem-statement",
+      "title": "Problem Statement & Motivation",
+      "duration": 25,
+      "filePath": "synced-beats/problem-statement.mp4"
+    },
+    {
+      "id": "user-persona",
+      "title": "Target User Persona",
+      "duration": 19,
+      "filePath": "synced-beats/user-persona.mp4"
+    },
+    {
+      "id": "technical-architecture",
+      "title": "Technical Architecture & API Data Flow",
+      "duration": 52,
+      "filePath": "synced-beats/technical-architecture.mp4"
+    },
+    {
+      "id": "detect-verify",
+      "title": "Detect & Verify",
+      "duration": 15,
+      "filePath": "synced-beats/detect-verify.mp4"
+    },
+    {
+      "id": "triage-risk",
+      "title": "Triage & Risk Scoring",
+      "duration": 10,
+      "filePath": "synced-beats/triage-risk.mp4"
+    },
+    {
+      "id": "define-zones",
+      "title": "Define Zones",
+      "duration": 10,
+      "filePath": "synced-beats/define-zones.mp4"
+    },
+    {
+      "id": "plan-routes",
+      "title": "Plan Routes",
+      "duration": 20,
+      "filePath": "synced-beats/plan-routes.mp4"
+    },
+    {
+      "id": "assign-units",
+      "title": "Assign Units & Track Assets",
+      "duration": 11,
+      "filePath": "synced-beats/assign-units.mp4"
+    },
+    {
+      "id": "ai-support",
+      "title": "AI Support & Replan",
+      "duration": 20,
+      "filePath": "synced-beats/ai-support.mp4"
+    },
+    {
+      "id": "value-proposition",
+      "title": "Value Proposition & Impact",
+      "duration": 30,
+      "filePath": "synced-beats/value-proposition.mp4"
+    },
+    {
+      "id": "foundry-integration",
+      "title": "Foundry Integration & AI Assistance",
+      "duration": 20,
+      "filePath": "synced-beats/foundry-integration.mp4"
+    },
+    {
+      "id": "conclusion",
+      "title": "Conclusion & Call to Action",
+      "duration": 20,
+      "filePath": "synced-beats/conclusion.mp4"
+    }
+  ],
+  "audioProvider": "ElevenLabs",
+  "voiceType": "Cloned Voice",
+  "format": "MP4 (H.264 + AAC)"
+}
