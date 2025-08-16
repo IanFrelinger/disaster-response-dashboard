@@ -1,0 +1,61 @@
+metadata:
+  voice_provider: "elevenlabs"
+  voice_settings:
+    speed: 1.0
+    pitch: 0
+    volume: 1.0
+
+voice_providers:
+  elevenlabs:
+    voice_id: "LIpBYrITLsIquxoXdSkr"
+    stability: 0.5
+    similarity_boost: 0.75
+
+scenes:
+  - id: "introduction"
+    title: "Introduction"
+    duration: 10
+    narration: "Hi, I'm Ian Frelinger, and welcome to my Palantir Building Challenge submission. I've built a prototype of a disaster-response dashboard that helps coordinate emergency operations when every second counts."
+    voice: "elevenlabs"
+
+  - id: "problem_statement"
+    title: "Problem Statement"
+    duration: 15
+    narration: "Emergency responders often juggle radios, maps and spreadsheets. Traditional common operating pictures can overwhelm them with information, and front-line teams rarely have access to the high-level tools reserved for Incident Commanders. This project aims to unify critical data in one place without replacing human judgment."
+    voice: "elevenlabs"
+
+  - id: "user_persona"
+    title: "User Persona"
+    duration: 10
+    narration: "This dashboard is built for Incident Commanders, Operations and Planning chiefs, dispatchers and front-line responders. We keep the Incident Commander at the top of the chain of command but give every role the same real-time situational awareness."
+    voice: "elevenlabs"
+
+  - id: "technical_architecture"
+    title: "Technical Architecture"
+    duration: 15
+    narration: "The front end uses React and Mapbox to deliver a responsive, 3-D map. The backend is Python/Flask with WebSockets for live updates. We ingest satellite, weather and population data, fuse it in Foundry, and expose it through an API. This simplified data-flow diagram shows the path from ingestion through hazard processing into the map."
+    voice: "elevenlabs"
+
+  - id: "commander_dashboard"
+    title: "Commander Dashboard"
+    duration: 20
+    narration: "Here's the Commander Dashboard, which summarises our zones, populations and building counts. Zone A is Immediate, Zone B is Warning, and Zone C is Standby. We can quickly see how many buildings have been evacuated, the total population at risk and any special-needs residents."
+    voice: "elevenlabs"
+
+  - id: "live_map_hazard"
+    title: "Live Map & Hazard View"
+    duration: 20
+    narration: "On the Live Map, hazards appear as red clusters over the city. We can toggle layers for hazards, routes, units and evacuation zones to focus on what matters. This view updates in real time as new detections come in."
+    voice: "elevenlabs"
+
+  - id: "simplified_flow"
+    title: "Simplified Flow"
+    duration: 15
+    narration: "Because the current UI is a work in progress, today's demo focuses on the dashboard and live hazard view. Future versions will include zone drawing, hazard-aware routing, unit assignment and AI recommendations. For now, this prototype proves that we can unify core data sources and present them clearly to the Incident Commander and the team."
+    voice: "elevenlabs"
+
+  - id: "conclusion"
+    title: "Conclusion"
+    duration: 22
+    narration: "In summary, this prototype shows that real-time data fusion and a clean interface can accelerate disaster response while keeping the Incident Commander firmly in charge. I'm excited to expand this into a full system—with zones, routing and AI—and would love to explore pilots or collaborations."
+    voice: "elevenlabs"

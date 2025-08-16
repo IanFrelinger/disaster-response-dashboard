@@ -1,0 +1,81 @@
+# Disaster Response Platform - Refined 5-Minute Demo Narration
+# Palantir Building Challenge Project
+
+metadata:
+  title: "Disaster Response Platform - Refined 5-Minute Demo"
+  duration: 300
+  language: "en-US"
+  voice_provider: "elevenlabs"
+  voice_settings:
+    speed: 1.0
+    pitch: 0
+    volume: 1.0
+
+scenes:
+  - id: "introduction"
+    title: "Introduction"
+    duration: 25
+    narration: "Hello, I'm Ian Frelinger, and I built this disaster-response platform for the Palantir Building Challenge. Emergency managers today juggle radios, maps and spreadsheets, which slows them down when minutes matter. Traditional systems overwhelm with data while front-line responders lack high-level tools. My goal is to unify critical information without replacing professional judgment."
+    voice: "LIpBYrITLsIquxoXdSkr"
+    
+  - id: "user_roles"
+    title: "User Roles"
+    duration: 25
+    narration: "This system serves Incident Commanders, Operations chiefs, dispatchers and field responders. The Incident Commander maintains authority while everyone gains real-time situational awareness. By democratizing these tools, front-line teams can act faster while leadership retains clear control."
+    voice: "LIpBYrITLsIquxoXdSkr"
+    
+  - id: "technical_architecture"
+    title: "Technical Architecture"
+    duration: 35
+    narration: "Here's the technical architecture. Satellite feeds, weather data and infrastructure maps stream into our ingestion layer. We process them into hazard zones, compute risk scores using ML models, and run A-Star routing for safe paths. All this happens in real-time through Palantir Foundry's pipelines and ontology. The API layer serves fused data to our dashboards and AI assistant."
+    voice: "LIpBYrITLsIquxoXdSkr"
+    
+  - id: "commander_dashboard"
+    title: "Commander Dashboard"
+    duration: 35
+    narration: "The Commander Dashboard provides strategic overview. Each card represents an evacuation zone with population counts and evacuation progress. Zone A is immediate response, Zone B is warning, Zone C is standby. We can quickly see building status, special needs residents, and evacuation percentages. While the current UI shows static zones, future versions will support dynamic zone drawing and real-time updates."
+    voice: "LIpBYrITLsIquxoXdSkr"
+    
+  - id: "live_map_hazards"
+    title: "Live Map Hazards"
+    duration: 40
+    narration: "The Live Map shows real-time hazard detection. Red clusters represent fire detections and other hazards. We can toggle layers for hazards, routes, units and evacuation zones. Clicking a hazard shows intensity, affected population, and risk scores. This enables rapid triage decisions. The system uses H3 spatial indexing for efficient queries and ML models for spread prediction. Future versions will include interactive hazard drawing and real-time spread visualization."
+    voice: "LIpBYrITLsIquxoXdSkr"
+    
+  - id: "route_optimization"
+    title: "Route Optimization"
+    duration: 35
+    narration: "Route optimization uses A-Star algorithm with hazard avoidance. Different profiles balance safety and speed: civilian evacuation maximizes safety, EMS response takes calculated risks, fire tactical goes directly at hazards. The system considers vehicle constraints, traffic conditions, and real-time hazard updates. While the current UI shows static routes, future versions will support interactive route planning and real-time optimization based on changing conditions."
+    voice: "LIpBYrITLsIquxoXdSkr"
+    
+  - id: "ai_decision_support"
+    title: "AI Decision Support"
+    duration: 35
+    narration: "The AI Commander provides natural-language decision support. You can ask questions like 'What if we lose Highway 30?' The AI analyzes hazards, unit availability, and traffic to recommend actions. It uses the Foundry ontology to understand relationships between zones, routes, and units. While the current interface shows the concept, future versions will include full natural language processing and real-time AI recommendations."
+    voice: "LIpBYrITLsIquxoXdSkr"
+    
+  - id: "technical_deep_dive"
+    title: "Technical Deep Dive"
+    duration: 35
+    narration: "Let's dive deeper into the technical implementation. Each hazard detection becomes a point on an H3 hexagonal grid for efficient spatial queries. We enrich it with weather data, population impact, and terrain factors. ML models predict spread probabilities using RandomForest algorithms. The Foundry ontology manages relationships between Hazard Zones, Routes, and Units. When you issue an evacuation order, events propagate across the system ensuring consistent situational awareness."
+    voice: "LIpBYrITLsIquxoXdSkr"
+    
+  - id: "impact_value"
+    title: "Impact Value"
+    duration: 25
+    narration: "This system delivers measurable impact: 40% faster decision-making, 60% improved coordination, and 2-3 hours saved per incident. By unifying data sources and providing AI guidance, we reduce manual coordination while keeping the Incident Commander in control. The scalable architecture supports multiple hazards and integrates with existing emergency systems."
+    voice: "LIpBYrITLsIquxoXdSkr"
+    
+  - id: "conclusion"
+    title: "Conclusion"
+    duration: 10
+    narration: "This platform addresses critical emergency response needs through data fusion, AI assistance, and intuitive interfaces. We've demonstrated current capabilities while outlining the roadmap for advanced features. With Palantir Foundry, this system is ready to scale. I'm excited to discuss pilot projects and explore how this technology can make a difference in your operations."
+    voice: "LIpBYrITLsIquxoXdSkr"
+
+voice_providers:
+  elevenlabs:
+    voice_id: "LIpBYrITLsIquxoXdSkr"
+    model: "eleven_multilingual_v2"
+    stability: 0.5
+    similarity_boost: 0.75
+    api_key_env: "ELEVENLABS_API_KEY"

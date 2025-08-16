@@ -1,0 +1,148 @@
+timeline:
+  duration: 127  # Total duration in seconds (2:07)
+  fps: 30
+  resolution: [1920, 1080]
+  title: "Disaster Response Platform - Palantir Building Challenge"
+  description: "Simplified timeline matching current capabilities of disaster-response web app"
+  
+  tracks:
+    video:
+      - name: "introduction"
+        start: 0
+        duration: 10
+        transitions:
+          in: "fade"
+          out: "crossfade"
+        narration: "Hi, I'm Ian Frelinger, and welcome to my Palantir Building Challenge submission. I've built a prototype of a disaster-response dashboard that helps coordinate emergency operations when every second counts."
+        visual: "abstract_swirling_artwork"
+        graphics:
+          - type: "intro_template"
+            title: "Disaster Response Platform"
+            subtitle: "Palantir Building Challenge Project"
+            colors: "emergency_response_blue"
+            transition: "fade=t=in:st=0:d=1"
+        production_notes: "Start from black with fade-in transition, letting swirling art and titles appear gracefully"
+      
+      - name: "problem_statement"
+        start: 10
+        duration: 15
+        transitions:
+          in: "crossfade"
+          out: "slide-left"
+        narration: "Emergency responders often juggle radios, maps and spreadsheets. Traditional common operating pictures can overwhelm them with information, and front-line teams rarely have access to the high-level tools reserved for Incident Commanders. This project aims to unify critical data in one place without replacing human judgment."
+        visual: "hazard_detection_map"
+        graphics:
+          - type: "callout_alert"
+            text: "Fragmented systems slow response"
+            animation: "bounce"
+          - type: "callout_info"
+            text: "Data overload, Manual fusion, Limited access"
+            position: "slide-right"
+            colors: "blue"
+        production_notes: "Show hazard detection map to illustrate starting point of the problem"
+      
+      - name: "user_persona"
+        start: 25
+        duration: 10
+        transitions:
+          in: "slide-left"
+          out: "fade"
+        narration: "This dashboard is built for Incident Commanders, Operations and Planning chiefs, dispatchers and front-line responders. We keep the Incident Commander at the top of the chain of command but give every role the same real-time situational awareness."
+        visual: "vector_silhouettes"
+        graphics:
+          - type: "label_role"
+            roles: ["Commander", "Planner", "Responder"]
+            animation: "fade-in"
+          - type: "lower_third_basic"
+            name: "Ian Frelinger"
+            title: "Developer & Presenter"
+        production_notes: "Display vector silhouettes representing firefighter, medic and police officer"
+      
+      - name: "technical_architecture"
+        start: 35
+        duration: 15
+        transitions:
+          in: "fade"
+          out: "fade"
+        narration: "The front end uses React and Mapbox to deliver a responsive, 3-D map. The backend is Python/Flask with WebSockets for live updates. We ingest satellite, weather and population data, fuse it in Foundry, and expose it through an API. This simplified data-flow diagram shows the path from ingestion through hazard processing into the map."
+        visual: "api_data_flow_diagram"
+        graphics:
+          - type: "technical_template"
+            diagram: "api_data_flow"
+          - type: "label_component"
+            components: ["Ingestion", "Processing", "Map"]
+            animation: "fade-in"
+        production_notes: "Present with technical_template, display diagram with fade-in"
+      
+      - name: "commander_dashboard"
+        start: 50
+        duration: 20
+        transitions:
+          in: "slide-down"
+          out: "slide-right"
+        narration: "Here's the Commander Dashboard, which summarises our zones, populations and building counts. Zone A is Immediate, Zone B is Warning, and Zone C is Standby. We can quickly see how many buildings have been evacuated, the total population at risk and any special-needs residents."
+        visual: "asset_management_status_view"
+        graphics:
+          - type: "label_component"
+            zones: ["Zone A: Immediate", "Zone B: Warning", "Zone C: Standby"]
+            animation: "sequential-fade"
+          - type: "label_status"
+            text: "Evacuated: 1 of 3 buildings"
+            position: "bottom"
+        production_notes: "Show asset management & status view from dashboard with zone summary"
+      
+      - name: "live_map_hazard"
+        start: 70
+        duration: 20
+        transitions:
+          in: "slide-right"
+          out: "crossfade"
+        narration: "On the Live Map, hazards appear as red clusters over the city. We can toggle layers for hazards, routes, units and evacuation zones to focus on what matters. This view updates in real time as new detections come in."
+        visual: "hazard_detection_map"
+        graphics:
+          - type: "callout_info"
+            text: "Hazards, Routes, Units, Evac Zones"
+            position: "vertical"
+            animation: "scale-in"
+          - type: "label_status"
+            text: "3 hazards active"
+            position: "top"
+        production_notes: "Highlight map layer toggles, use zoom-in effect on hazard clusters"
+      
+      - name: "simplified_flow"
+        start: 90
+        duration: 15
+        transitions:
+          in: "crossfade"
+          out: "fade"
+        narration: "Because the current UI is a work in progress, today's demo focuses on the dashboard and live hazard view. Future versions will include zone drawing, hazard-aware routing, unit assignment and AI recommendations. For now, this prototype proves that we can unify core data sources and present them clearly to the Incident Commander and the team."
+        visual: "operational_overview_diagram"
+        graphics:
+          - type: "callout_info"
+            text: "Coming soon: Zones, Routes, AI & Units"
+            position: "slide-up"
+        production_notes: "Display operational overview with fade-in, then add coming soon callout"
+      
+      - name: "conclusion"
+        start: 105
+        duration: 22
+        transitions:
+          in: "fade"
+          out: "fade"
+        narration: "In summary, this prototype shows that real-time data fusion and a clean interface can accelerate disaster response while keeping the Incident Commander firmly in charge. I'm excited to expand this into a full system—with zones, routing and AI—and would love to explore pilots or collaborations."
+        visual: "sunrise_artwork"
+        graphics:
+          - type: "title_small"
+            text: "Conclusion & Next Steps"
+            animation: "scale-in"
+          - type: "lower_third"
+            text: "Contact information or call-to-action"
+            position: "bottom"
+        production_notes: "Fade into sunrise graphic, display contact info in lower third overlay"
+
+  metadata:
+    source: "VideoPresentation/Video presentation plan.pdf"
+    total_runtime: "2:07"
+    target_features: ["Commander Dashboard", "Live Map", "Basic hazard layers"]
+    production_system: "Graphics and transition system with templates"
+    notes: "Simplified timeline matching current UI capabilities"

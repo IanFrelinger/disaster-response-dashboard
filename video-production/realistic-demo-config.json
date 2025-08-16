@@ -1,0 +1,168 @@
+{
+  "title": "Disaster Response Platform - Realistic Demo",
+  "description": "5-minute demonstration focusing on overlay content and avoiding UI interaction timeouts",
+  "beats": [
+    {
+      "id": "intro",
+      "duration": 25,
+      "narration": "Emergency response teams face overwhelming challenges: multiple hazards, limited resources, and critical time constraints. Traditional systems struggle to provide real-time coordination and decision support.",
+      "actions": [
+        "overlay(intro.fullscreen:Emergency Response Coordination Crisis,in,0)",
+        "overlay(title:Emergency Response Coordination Crisis,in,300)",
+        "overlay(subtitle:Why Current Systems Fail,in,800)",
+        "overlay(callout:Multiple Hazards · Limited Resources · Critical Time,in,1500)",
+        "overlay(callout:Traditional Systems Struggle,in,2000)",
+        "wait(3000)",
+        "overlay(*,out,600)"
+      ]
+    },
+    {
+      "id": "user_roles",
+      "duration": 30,
+      "narration": "This platform serves Incident Commanders, planners, dispatchers, and field units who need quick access to critical information to make life-saving decisions. Each role has different information needs but shares the same real-time situational awareness.",
+      "actions": [
+        "overlay(title:Who Uses This Platform?,in,0)",
+        "overlay(panel:Incident Commander,in,500)",
+        "overlay(panel:Planners,in,1000)",
+        "overlay(panel:Dispatchers,in,1500)",
+        "overlay(panel:Field Units,in,2000)",
+        "overlay(callout:Different Information Needs,in,2500)",
+        "overlay(callout:Shared Situational Awareness,in,3000)",
+        "wait(2000)",
+        "overlay(*,out,600)"
+      ]
+    },
+    {
+      "id": "api_architecture",
+      "duration": 45,
+      "narration": "Our platform ingests real-time data from FIRMS satellite fire detection, NOAA weather feeds, 911 emergency calls, population density, and traffic patterns. This data is processed through H3 geospatial indexing at 174-meter resolution, machine learning fire spread prediction with 2-hour horizons, and risk polygon generation. The processed data is delivered through React and Mapbox interfaces with WebSocket APIs for real-time updates.",
+      "actions": [
+        "overlay(diagram:assets/diagrams/api_data_flow.png,in,0)",
+        "overlay(callout:Ingestion: FIRMS, NOAA, 911, Population, Traffic,in,500)",
+        "overlay(label:H3 res9 (~174m resolution),in,1500)",
+        "overlay(label:ML spread prediction (2h horizon),in,2000)",
+        "overlay(label:Risk polygons (low/med/high/critical),in,2500)",
+        "overlay(chip:GET /api/hazards,in,3000)",
+        "overlay(chip:GET /api/hazard_zones,in,3500)",
+        "overlay(chip:POST /api/routes (A Star),in,4000)",
+        "overlay(chip:GET /api/risk,in,4500)",
+        "overlay(chip:GET /api/evacuations,in,5000)",
+        "overlay(chip:GET/PUT /api/units,in,5500)",
+        "overlay(chip:GET /api/public_safety,in,6000)",
+        "wait(2000)",
+        "overlay(*,out,600)"
+      ]
+    },
+    {
+      "id": "hazard_interaction",
+      "duration": 40,
+      "narration": "Let me show you how Incident Commanders interact with live hazard data. I'll demonstrate the Live Map interface, zooming capabilities, hazard layer toggling, and detailed risk assessment with population at risk information.",
+      "actions": [
+        "overlay(title:Live Hazard Interaction,in,0)",
+        "overlay(diagram:assets/diagrams/api_data_flow.png,in,500)",
+        "overlay(callout:Live Map Interface,in,1000)",
+        "overlay(callout:Zooming to affected area,in,2000)",
+        "overlay(callout:Panning to hazard location,in,3000)",
+        "overlay(callout:Toggling hazard layers,in,4000)",
+        "overlay(status:Risk: High · Population at Risk: 2,847,in,5000)",
+        "overlay(callout:Detailed hazard assessment,in,6000)",
+        "wait(2000)",
+        "overlay(*,out,600)"
+      ]
+    },
+    {
+      "id": "zone_interaction",
+      "duration": 40,
+      "narration": "Now let's examine evacuation zones and building statuses. I'll demonstrate the Commander Dashboard interface, zone card management, and how we track evacuated, in-progress, refused, and no-contact statuses.",
+      "actions": [
+        "overlay(title:Zone & Building Management,in,0)",
+        "overlay(diagram:assets/diagrams/api_data_flow.png,in,500)",
+        "overlay(callout:Commander Dashboard,in,1000)",
+        "overlay(callout:Zone A selected,in,2000)",
+        "overlay(badge:Evacuated: 47 · In Progress: 23 · Refused: 8 · No Contact: 12,in,2500)",
+        "overlay(callout:Zone B status,in,4000)",
+        "overlay(badge:Evacuated: 31 · In Progress: 15 · Refused: 3 · No Contact: 7,in,4500)",
+        "overlay(callout:Individual building status,in,6000)",
+        "overlay(status:Building 203 - Evacuation Complete,in,6500)",
+        "wait(2000)",
+        "overlay(*,out,600)"
+      ]
+    },
+    {
+      "id": "route_concept",
+      "duration": 45,
+      "narration": "Our platform uses A Star graph algorithms with hazard penalties and vehicle constraints to calculate safe evacuation routes. We support different emergency response profiles including civilian evacuation, EMS staging, fire response, and police coordination. Let me show you how we visualize route optimization.",
+      "actions": [
+        "overlay(title:Route Optimization & AI Support,in,0)",
+        "overlay(routeOverlay:assets/diagrams/route_concept_overlay.png,in,1000)",
+        "overlay(callout:A Star algorithm with hazard penalties,in,2000)",
+        "overlay(panel:Route Profiles: Civilian, EMS, Fire, Police,in,3000)",
+        "overlay(label:Civilian: Fastest safe route,in,3500)",
+        "overlay(label:EMS: Hospital access priority,in,4000)",
+        "overlay(label:Fire: Water source routing,in,4500)",
+        "overlay(label:Police: Traffic control points,in,5000)",
+        "wait(2000)",
+        "overlay(*,out,600)"
+      ]
+    },
+    {
+      "id": "ai_support",
+      "duration": 40,
+      "narration": "What happens if we lose Highway 30? Our AI decision support system analyzes the impact and provides immediate recommendations. It suggests evacuating Zone B via Route 3, staging EMS at Oak Ridge with 14-minute ETA, and rerouting emergency vehicles through alternative corridors.",
+      "actions": [
+        "overlay(title:AI Decision Support,in,0)",
+        "overlay(type:What happens if we lose Highway 30?,in,500)",
+        "wait(1500)",
+        "overlay(card:Scenario Analysis: Highway 30 Closure,in,2000)",
+        "overlay(callout:Evacuate Zone B via Route 3,in,2500)",
+        "overlay(callout:Stage EMS at Oak Ridge - ETA 14m,in,3000)",
+        "overlay(callout:Reroute emergency vehicles,in,3500)",
+        "overlay(diagram:assets/diagrams/operational_overview.png,in,4000)",
+        "overlay(label:Alternative corridor analysis,in,4500)",
+        "overlay(label:Population impact: 3,200 affected,in,5000)",
+        "wait(2000)",
+        "overlay(*,out,600)"
+      ]
+    },
+    {
+      "id": "impact_metrics",
+      "duration": 35,
+      "narration": "The impact is measurable and significant. Our platform reduces emergency response coordination time by 67%, increases situational awareness by 89%, and improves evacuation efficiency by 73%. For a typical wildfire response, this translates to 12 minutes saved in initial coordination and 45 minutes in total evacuation time.",
+      "actions": [
+        "overlay(title:Measurable Impact,in,0)",
+        "overlay(slide:assets/slides/impact_value.png,in,500)",
+        "overlay(callout:Response coordination: -67% time,in,1500)",
+        "overlay(callout:Situational awareness: +89%,in,2000)",
+        "overlay(callout:Evacuation efficiency: +73%,in,2500)",
+        "overlay(badge:12 minutes saved in coordination,in,3000)",
+        "overlay(badge:45 minutes saved in evacuation,in,3500)",
+        "overlay(callout:Real-time data fusion,in,4000)",
+        "overlay(callout:Intelligent prioritization,in,4500)",
+        "wait(2000)",
+        "overlay(*,out,600)"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "duration": 30,
+      "narration": "This Disaster Response Platform addresses critical gaps in emergency coordination through real-time data fusion, intelligent prioritization, and AI-powered decision support. We're seeking pilot partners to deploy this system and save lives during critical emergency situations. Contact us to learn how we can transform your emergency response capabilities.",
+      "actions": [
+        "overlay(conclusion:assets/art/conclusion.png,in,0)",
+        "overlay(title:Transform Emergency Response,in,1000)",
+        "overlay(callout:Real-time data fusion,in,1500)",
+        "overlay(callout:Intelligent prioritization,in,2000)",
+        "overlay(callout:AI-powered decision support,in,2500)",
+        "overlay(lowerThird:Seeking Pilot Partners,in,3000)",
+        "overlay(callout:Contact us to save lives,in,3500)",
+        "overlay(lowerThird:Ian Frelinger · contact@ianfrelinger.com,in,4000)",
+        "wait(5000)",
+        "overlay(*,out,600)"
+      ]
+    }
+  ],
+  "totalDuration": 315,
+  "targetDuration": 300,
+  "narration": true,
+  "overlays": true,
+  "interactions": false
+}

@@ -14,6 +14,12 @@ from typing import Dict, List, Optional, Any
 import yaml
 import requests
 from datetime import datetime
+from dotenv import load_dotenv
+
+# Load environment variables from config.env if it exists
+config_path = Path(__file__).parent.parent / 'config.env'
+if config_path.exists():
+    load_dotenv(config_path)
 
 # Try to import TTS libraries
 try:
@@ -37,7 +43,9 @@ class TTSProvider:
     
     def __init__(self, config: Dict[str, Any]):
         self.config = config
-        self.output_dir = Path("audio/vo")
+        # Use absolute path to ensure files are saved in the correct location
+        script_dir = Path(__file__).parent
+        self.output_dir = script_dir.parent / "audio" / "vo"
         self.output_dir.mkdir(parents=True, exist_ok=True)
         
     def generate_audio(self, text: str, scene_id: str, scene_title: str, duration: int, scene_index: int) -> Optional[str]:
@@ -303,6 +311,21 @@ class TTSManager:
         # Clean up old audio files before starting
         self._cleanup_old_files()
         
+    def _cleanup_old_files(self):
+        """Clean up old audio files before generating new ones"""
+        try:
+            # Use absolute path to ensure we're cleaning the right directory
+            script_dir = Path(__file__).parent
+            output_dir = script_dir.parent / "audio" / "vo"
+            if output_dir.exists():
+                # Remove all .wav files in the output directory
+                for audio_file in output_dir.glob("*.wav"):
+                    audio_file.unlink()
+                    print(f"🗑️  Removed old file: {audio_file}")
+                print("🧹 Cleanup completed - old audio files removed")
+        except Exception as e:
+            print(f"⚠️  Warning: Could not clean up old files: {e}")
+        
     def _init_provider(self) -> TTSProvider:
         """Initialize the TTS provider based on configuration"""
         provider_name = self.narration.get('metadata', {}).get('voice_provider', 'openai')
@@ -399,7 +422,8 @@ class TTSManager:
     def _merge_audio_files(self, audio_files: List[str]) -> Optional[str]:
         """Merge multiple audio files into one"""
         try:
-            output_path = Path("audio/voiceover.wav")
+            script_dir = Path(__file__).parent
+            output_path = script_dir.parent / "audio" / "voiceover.wav"
             output_path.parent.mkdir(parents=True, exist_ok=True)
             
             # Create file list for FFmpeg
@@ -428,7 +452,8 @@ class TTSManager:
     def _generate_subtitles(self, results: List[Dict[str, Any]]) -> Optional[str]:
         """Generate SRT subtitle file"""
         try:
-            output_path = Path("subs/vo.srt")
+            script_dir = Path(__file__).parent
+            output_path = script_dir.parent / "subs" / "vo.srt"
             output_path.parent.mkdir(parents=True, exist_ok=True)
             
             current_time = 0.0

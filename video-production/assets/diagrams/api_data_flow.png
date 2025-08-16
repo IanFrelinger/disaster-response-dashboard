@@ -1,0 +1,7 @@
+# Placeholder for api_data_flow.png
+# This should be a diagram showing:
+# - Data Ingestion: FIRMS, NOAA, 911, Population, Traffic
+# - Processing: H3 res9, ML spread (2h), risk polygons
+# - Delivery: React+Mapbox, WebSocket API
+# - API endpoints: hazards, hazard_zones, routes, risk, evacuations, units, public_safety
+# - Clean, professional flowchart style

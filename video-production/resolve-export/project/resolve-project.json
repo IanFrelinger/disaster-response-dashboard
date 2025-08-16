@@ -1,0 +1,21 @@
+{
+  "name": "Disaster Response Dashboard Demo",
+  "version": "18.0",
+  "timeline": {
+    "name": "Demo Timeline",
+    "frameRate": 30,
+    "resolution": "1920x1080",
+    "audioSampleRate": 48000
+  },
+  "media": {
+    "video": "./video/",
+    "audio": "./audio/",
+    "graphics": "./graphics/"
+  },
+  "settings": {
+    "colorSpace": "Rec.709",
+    "gamma": "2.4",
+    "audioFormat": "WAV",
+    "audioChannels": 2
+  }
+}
