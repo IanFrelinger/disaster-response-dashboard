@@ -6,9 +6,28 @@ Test ElevenLabs TTS with cloned voice
 import os
 import sys
 from pathlib import Path
+from dotenv import load_dotenv
 
 # Add the current directory to Python path
 sys.path.append(str(Path(__file__).parent))
+
+# Load environment variables from config.env
+load_dotenv('config.env')
+
+# Load environment variables from config.env
+def load_env_file():
+    """Load environment variables from config.env file"""
+    env_file = Path(__file__).parent.parent / "config.env"
+    if env_file.exists():
+        with open(env_file, 'r') as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith('#') and '=' in line:
+                    key, value = line.split('=', 1)
+                    os.environ[key] = value
+
+# Load environment variables
+load_env_file()
 
 def test_elevenlabs_connection():
     """Test basic ElevenLabs connection and voice access"""

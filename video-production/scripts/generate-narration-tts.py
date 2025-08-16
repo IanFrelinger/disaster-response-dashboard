@@ -12,9 +12,14 @@ from pathlib import Path
 from typing import Dict, List, Optional, Any
 import json
 from datetime import datetime
+from dotenv import load_dotenv
 
 # Add the current directory to Python path to import tts_providers
 sys.path.append(str(Path(__file__).parent))
+
+# Load environment variables from config.env
+load_dotenv('config.env')
+
 from tts_providers import ElevenLabsTTS, OpenAITTS, AzureTTS
 
 class NarrationTTSGenerator:
