@@ -67,6 +67,18 @@ fi
 
 echo ""
 
+# Step 1.5: Generate UI Component Map
+echo "Step 1.5: Generating UI Component Map"
+echo "------------------------------------"
+log "Generating UI component map for humanizer bot..."
+if npx ts-node scripts/generate-ui-component-map.ts; then
+    log_success "UI component map generated successfully"
+else
+    log_warning "UI component map generation failed, continuing with pipeline..."
+fi
+
+echo ""
+
 # Step 2: Generate 7-minute technical video segments
 echo "Step 2: Generating 7-Minute Technical Video Segments"
 echo "---------------------------------------------------"

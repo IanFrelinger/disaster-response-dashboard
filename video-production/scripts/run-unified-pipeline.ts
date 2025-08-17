@@ -103,6 +103,22 @@ class UnifiedVideoPipeline {
     }
   }
 
+  async generateUIComponentMap(): Promise<void> {
+    this.logSection('Generating UI Component Map for Humanizer Bot');
+    
+    try {
+      this.log('Running UI component mapping script...', 'info');
+      execSync('npx ts-node scripts/generate-ui-component-map.ts', {
+        cwd: this.projectRoot,
+        stdio: 'inherit'
+      });
+      this.log('✅ UI component map generated successfully', 'success');
+    } catch (error) {
+      this.log(`Error generating UI component map: ${error}`, 'error');
+      throw error;
+    }
+  }
+
   async generateLiveSegments(): Promise<void> {
     if (!this.config.includeLive) {
       this.log('⏭️  Skipping live segments generation', 'info');
@@ -196,20 +212,23 @@ class UnifiedVideoPipeline {
         return;
       }
       
-      // Step 2: Generate static segments (if enabled)
+      // Step 2: Generate UI component map for humanizer bot
+      await this.generateUIComponentMap();
+      
+      // Step 3: Generate static segments (if enabled)
       if (this.config.includeStatic) {
         await this.generateStaticSegments();
       }
       
-      // Step 3: Generate live segments (if enabled)
+      // Step 4: Generate live segments (if enabled)
       if (this.config.includeLive) {
         await this.generateLiveSegments();
       }
       
-      // Step 4: Assemble final video
+      // Step 5: Assemble final video
       await this.assembleFinalVideo();
       
-      // Step 5: Generate summary
+      // Step 6: Generate summary
       await this.generatePipelineSummary();
       
       this.logSection('Pipeline Complete');
@@ -247,5 +266,3 @@ async function main() {
 
 // Run main function
 main().catch(console.error);
-
-export { UnifiedVideoPipeline, PipelineConfig };
