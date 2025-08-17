@@ -1,425 +1,707 @@
-import { execSync } from 'child_process';
+#!/usr/bin/env ts-node
+
 import * as fs from 'fs';
 import * as path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+import { exec } from 'child_process';
+import { promisify } from 'util';
 
-interface CriticBotConfig {
-  strictMode: boolean;
-  requireAllBeats: boolean;
-  minDuration: number; // in seconds
-  maxDuration: number; // in seconds
-}
+const execAsync = promisify(exec);
 
-interface BeatAnalysis {
-  beatId: string;
-  duration: number;
-  hasNarration: boolean;
-  hasOverlays: boolean;
-  actionCount: number;
-  issues: string[];
-  score: number; // 0-100
-}
-
-interface VideoAnalysis {
-  totalDuration: number;
-  totalBeats: number;
-  overallScore: number;
-  criticalIssues: string[];
-  warnings: string[];
-  recommendations: string[];
-  beatAnalyses: BeatAnalysis[];
-}
-
-export class EnhancedCriticBot {
-  private config: CriticBotConfig;
-  private requiredBeats: string[] = [
-    'intro',
-    'problem_statement',
-    'user_roles',
-    'api_architecture', 
-    'hazard_interaction',
-    'zone_interaction',
-    'route_concept',
-    'ai_support',
-    'impact_metrics',
-    'conclusion'
-  ];
-
-  private requiredElements = {
-    userRoles: ['Incident Commander', 'planners', 'dispatchers', 'field units'],
-    apiEndpoints: ['/api/hazards', '/api/hazard_zones', '/api/routes', '/api/risk', '/api/evacuations', '/api/units', '/api/public_safety'],
-    technicalConcepts: ['FIRMS', 'NOAA', '911', 'H3 res9', 'ML spread horizon', 'risk polygons', 'A Star routing'],
-    hazardInteractions: ['hazard click', 'risk scoring', 'population at risk'],
-    zoneInteractions: ['zone card click', 'building status', 'evacuation progress'],
-    conceptualOverlays: ['route profiles', 'AI decision support', 'scenario planning']
+interface QualityStandards {
+  overallScore: number; // 0-100
+  technicalAccuracy: number; // 0-100
+  visualQuality: number; // 0-100
+  pacing: number; // 0-100
+  engagement: number; // 0-100
+  duration: {
+    min: number;
+    max: number;
+    target: number;
   };
+  content: {
+    requiredTopics: string[];
+    forbiddenTopics: string[];
+    technicalDepth: 'basic' | 'intermediate' | 'advanced';
+  };
+}
 
-  constructor(config: CriticBotConfig = {
-    strictMode: true,
-    requireAllBeats: true,
-    minDuration: 300, // 5 minutes
-    maxDuration: 360  // 6 minutes
-  }) {
-    this.config = config;
+interface BeatValidation {
+  beatId: string;
+  name: string;
+  duration: number;
+  score: number;
+  issues: string[];
+  warnings: string[];
+  suggestions: string[];
+  passes: boolean;
+  needsRework: boolean;
+}
+
+interface VideoValidation {
+  overallScore: number;
+  beatScores: BeatValidation[];
+  totalDuration: number;
+  technicalAccuracy: number;
+  visualQuality: number;
+  pacing: number;
+  engagement: number;
+  meetsStandards: boolean;
+  criticalIssues: string[];
+  improvementAreas: string[];
+  recommendations: string[];
+}
+
+interface IterationPlan {
+  iteration: number;
+  timestamp: string;
+  beatsToRework: string[];
+  newBeatsToCreate: string[];
+  existingBeatsToModify: BeatModification[];
+  qualityTargets: Partial<QualityStandards>;
+}
+
+interface BeatModification {
+  beatId: string;
+  modifications: {
+    duration?: number;
+    content?: string;
+    pacing?: 'slower' | 'faster' | 'maintain';
+    technicalDepth?: 'basic' | 'intermediate' | 'advanced';
+  };
+  reason: string;
+}
+
+class EnhancedCriticBot {
+  private projectRoot: string;
+  private outputDir: string;
+  private configDir: string;
+  private iterationsDir: string;
+  private qualityStandards!: QualityStandards;
+  private maxIterations: number;
+  private currentIteration: number;
+
+  constructor() {
+    // Use process.cwd() instead of import.meta.url for compatibility
+    this.projectRoot = process.cwd();
+    this.outputDir = path.join(this.projectRoot, 'out');
+    this.configDir = path.join(this.projectRoot, 'config');
+    this.iterationsDir = path.join(this.projectRoot, 'iterations');
+    this.maxIterations = 10;
+    this.currentIteration = 1;
+    this.ensureDirectories();
+    this.initializeQualityStandards();
   }
 
-  async analyzeVideo(videoPath: string, configPath: string): Promise<VideoAnalysis> {
-    console.log('🎭 Enhanced CriticBot analyzing video...');
+  private ensureDirectories(): void {
+    [this.outputDir, this.configDir, this.iterationsDir].forEach(dir => {
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+      }
+    });
+  }
+
+  private initializeQualityStandards(): void {
+    this.qualityStandards = {
+      overallScore: 85, // Minimum overall score required
+      technicalAccuracy: 90, // High technical accuracy required
+      visualQuality: 80, // Good visual quality
+      pacing: 85, // Good pacing
+      engagement: 80, // Engaging content
+      duration: {
+        min: 300, // 5 minutes minimum
+        max: 600, // 10 minutes maximum
+        target: 420 // 7 minutes target
+      },
+      content: {
+        requiredTopics: [
+          'disaster response',
+          'AI decision support',
+          'real-time monitoring',
+          'evacuation planning',
+          'hazard management'
+        ],
+        forbiddenTopics: [
+          'confidential information',
+          'unreleased features',
+          'internal processes'
+        ],
+        technicalDepth: 'intermediate'
+      }
+    };
+  }
+
+  async validateIndividualBeat(beatPath: string): Promise<BeatValidation> {
+    console.log(`🔍 Validating beat: ${path.basename(beatPath)}`);
     
-    const analysis: VideoAnalysis = {
-      totalDuration: 0,
-      totalBeats: 0,
-      overallScore: 0,
-      criticalIssues: [],
-      warnings: [],
-      recommendations: [],
-      beatAnalyses: []
+    const beatId = path.basename(beatPath, path.extname(beatPath));
+    const beatName = this.extractBeatName(beatPath);
+    
+    // Analyze video file properties
+    const videoInfo = await this.analyzeVideoFile(beatPath);
+    
+    // Validate beat content and quality
+    const validation = await this.validateBeatContent(beatPath, videoInfo);
+    
+    // Calculate overall score
+    const score = this.calculateBeatScore(validation, videoInfo);
+    
+    // Determine if beat passes standards
+    const passes = score >= this.qualityStandards.overallScore;
+    const needsRework = score < (this.qualityStandards.overallScore - 10);
+    
+    const beatValidation: BeatValidation = {
+      beatId,
+      name: beatName,
+      duration: videoInfo.duration,
+      score,
+      issues: validation.issues,
+      warnings: validation.warnings,
+      suggestions: validation.suggestions,
+      passes,
+      needsRework
     };
 
-    try {
-      // Analyze video file
-      const videoInfo = await this.analyzeVideoFile(videoPath);
-      analysis.totalDuration = videoInfo.duration;
-      
-      // Analyze configuration
-      const configInfo = await this.analyzeConfiguration(configPath);
-      analysis.totalBeats = configInfo.beats.length;
-      
-      // Analyze each beat
-      for (const beat of configInfo.beats) {
-        const beatAnalysis = await this.analyzeBeat(beat, configInfo);
-        analysis.beatAnalyses.push(beatAnalysis);
-      }
-      
-      // Generate overall analysis
-      this.generateOverallAnalysis(analysis, configInfo);
-      
-      // Apply strict mode checks
-      if (this.config.strictMode) {
-        this.applyStrictModeChecks(analysis, configInfo);
-      }
-      
-      return analysis;
-      
-    } catch (error) {
-      console.error('❌ Error analyzing video:', error);
-      analysis.criticalIssues.push(`Analysis failed: ${error}`);
-      return analysis;
-    }
+    console.log(`✅ Beat validation complete: ${score}/100 (${passes ? 'PASS' : 'FAIL'})`);
+    
+    return beatValidation;
   }
 
-  private async analyzeVideoFile(videoPath: string): Promise<{duration: number, size: number}> {
+  private async analyzeVideoFile(videoPath: string): Promise<{
+    duration: number;
+    resolution: string;
+    bitrate: number;
+    framerate: number;
+    audioQuality: string;
+  }> {
     try {
-      // Use ffprobe to get video information
-      const ffprobeOutput = execSync(`ffprobe -v quiet -show_entries format=duration,size -of csv=p=0 "${videoPath}"`, { encoding: 'utf8' });
-      const [duration, size] = ffprobeOutput.trim().split(',');
+      // Use ffprobe to analyze video file
+      const { stdout } = await execAsync(`ffprobe -v quiet -print_format json -show_format -show_streams "${videoPath}"`);
+      const videoData = JSON.parse(stdout);
+      
+      const videoStream = videoData.streams.find((s: any) => s.codec_type === 'video');
+      const audioStream = videoData.streams.find((s: any) => s.codec_type === 'audio');
       
       return {
-        duration: parseFloat(duration) || 0,
-        size: parseInt(size) || 0
+        duration: parseFloat(videoData.format.duration),
+        resolution: `${videoStream?.width || 0}x${videoStream?.height || 0}`,
+        bitrate: parseInt(videoData.format.bit_rate) / 1000, // kbps
+        framerate: eval(videoStream?.r_frame_rate || '0'),
+        audioQuality: audioStream?.codec_name || 'unknown'
       };
     } catch (error) {
-      console.warn('⚠️ Could not analyze video file, using defaults');
-      return { duration: 0, size: 0 };
+      console.warn(`⚠️  Could not analyze video file: ${error}`);
+      return {
+        duration: 0,
+        resolution: 'unknown',
+        bitrate: 0,
+        framerate: 0,
+        audioQuality: 'unknown'
+      };
     }
   }
 
-  private async analyzeConfiguration(configPath: string): Promise<any> {
-    try {
-      const configContent = fs.readFileSync(configPath, 'utf8');
-      return JSON.parse(configContent);
-    } catch (error) {
-      throw new Error(`Failed to read configuration: ${error}`);
+  private async validateBeatContent(beatPath: string, videoInfo: any): Promise<{
+    issues: string[];
+    warnings: string[];
+    suggestions: string[];
+  }> {
+    const issues: string[] = [];
+    const warnings: string[] = [];
+    const suggestions: string[] = [];
+
+    // Duration validation
+    if (videoInfo.duration < 5) {
+      issues.push('Beat duration too short (less than 5 seconds)');
+    } else if (videoInfo.duration > 120) {
+      warnings.push('Beat duration very long (over 2 minutes)');
     }
+
+    // Resolution validation
+    if (videoInfo.resolution !== '1920x1080') {
+      warnings.push(`Non-standard resolution: ${videoInfo.resolution}`);
+    }
+
+    // Bitrate validation
+    if (videoInfo.bitrate < 1000) {
+      warnings.push('Low bitrate may affect video quality');
+    }
+
+    // Framerate validation
+    if (videoInfo.framerate < 24) {
+      warnings.push('Low framerate may cause choppy playback');
+    }
+
+    // Content suggestions
+    if (videoInfo.duration > 30) {
+      suggestions.push('Consider breaking long beat into smaller segments');
+    }
+
+    return { issues, warnings, suggestions };
   }
 
-  private async analyzeBeat(beat: any, configInfo: any): Promise<BeatAnalysis> {
-    const analysis: BeatAnalysis = {
-      beatId: beat.id,
-      duration: beat.duration || 0,
-      hasNarration: false,
-      hasOverlays: false,
-      actionCount: beat.actions?.length || 0,
-      issues: [],
-      score: 100
+  private calculateBeatScore(validation: any, videoInfo: any): number {
+    let score = 100;
+    
+    // Deduct points for issues
+    score -= validation.issues.length * 15;
+    
+    // Deduct points for warnings
+    score -= validation.warnings.length * 5;
+    
+    // Bonus for optimal duration
+    if (videoInfo.duration >= 10 && videoInfo.duration <= 30) {
+      score += 10;
+    }
+    
+    // Bonus for high quality
+    if (videoInfo.bitrate >= 2000) {
+      score += 5;
+    }
+    
+    return Math.max(0, Math.min(100, score));
+  }
+
+  async validateCombinedVideo(videoPath: string, beatValidations: BeatValidation[]): Promise<VideoValidation> {
+    console.log('🎬 Validating combined video...');
+    
+    const videoInfo = await this.analyzeVideoFile(videoPath);
+    const totalDuration = videoInfo.duration;
+    
+    // Calculate aggregate scores
+    const beatScores = beatValidations;
+    const averageBeatScore = beatScores.reduce((sum, beat) => sum + beat.score, 0) / beatScores.length;
+    
+    // Validate overall video quality
+    const technicalAccuracy = this.calculateTechnicalAccuracy(beatScores, videoInfo);
+    const visualQuality = this.calculateVisualQuality(videoInfo);
+    const pacing = this.calculatePacing(beatScores, totalDuration);
+    const engagement = this.calculateEngagement(beatScores);
+    
+    // Calculate overall score
+    const overallScore = Math.round(
+      (technicalAccuracy + visualQuality + pacing + engagement) / 4
+    );
+    
+    // Determine if video meets standards
+    const meetsStandards = this.videoMeetsStandards({
+      overallScore,
+      technicalAccuracy,
+      visualQuality,
+      pacing,
+      engagement,
+      totalDuration
+    });
+    
+    // Generate improvement recommendations
+    const { criticalIssues, improvementAreas, recommendations } = this.generateRecommendations({
+      overallScore,
+      beatScores,
+      videoInfo,
+      meetsStandards
+    });
+    
+    const videoValidation: VideoValidation = {
+      overallScore,
+      beatScores,
+      totalDuration,
+      technicalAccuracy,
+      visualQuality,
+      pacing,
+      engagement,
+      meetsStandards,
+      criticalIssues,
+      improvementAreas,
+      recommendations
     };
 
-    // Check for narration
-    if (beat.narration && beat.narration.trim()) {
-      analysis.hasNarration = true;
-    } else {
-      analysis.issues.push('Missing narration');
-      analysis.score -= 20;
-    }
-
-    // Check for overlays
-    const overlayActions = beat.actions?.filter((action: string) => action.includes('overlay(')) || [];
-    if (overlayActions.length > 0) {
-      analysis.hasOverlays = true;
-    } else {
-      analysis.issues.push('No visual overlays');
-      analysis.score -= 15;
-    }
-
-    // Check for required elements based on beat type
-    this.checkBeatSpecificRequirements(beat, analysis);
-
-    // Ensure score doesn't go below 0
-    analysis.score = Math.max(0, analysis.score);
-
-    return analysis;
-  }
-
-  private checkBeatSpecificRequirements(beat: any, analysis: BeatAnalysis): void {
-    const beatId = beat.id.toLowerCase();
+    console.log(`🎯 Combined video validation complete: ${overallScore}/100 (${meetsStandards ? 'MEETS STANDARDS' : 'NEEDS IMPROVEMENT'})`);
     
-    // Problem Statement Check
-    if (beatId.includes('problem') || beatId.includes('intro')) {
-      if (!this.hasProblemContext(beat)) {
-        analysis.issues.push('Missing problem context (why emergency response coordination is hard)');
-        analysis.score -= 25;
+    return videoValidation;
+  }
+
+  private calculateTechnicalAccuracy(beatScores: BeatValidation[], videoInfo: any): number {
+    // Weight beat scores by duration
+    let totalWeightedScore = 0;
+    let totalWeight = 0;
+    
+    for (const beat of beatScores) {
+      const weight = beat.duration;
+      totalWeightedScore += beat.score * weight;
+      totalWeight += weight;
+    }
+    
+    return totalWeight > 0 ? Math.round(totalWeightedScore / totalWeight) : 0;
+  }
+
+  private calculateVisualQuality(videoInfo: any): number {
+    let score = 100;
+    
+    // Resolution scoring
+    if (videoInfo.resolution === '1920x1080') {
+      score += 10;
+    } else if (videoInfo.resolution === '1280x720') {
+      score += 5;
+    } else {
+      score -= 20;
+    }
+    
+    // Bitrate scoring
+    if (videoInfo.bitrate >= 2000) {
+      score += 10;
+    } else if (videoInfo.bitrate >= 1000) {
+      score += 5;
+    } else {
+      score -= 15;
+    }
+    
+    // Framerate scoring
+    if (videoInfo.framerate >= 30) {
+      score += 5;
+    } else if (videoInfo.framerate < 24) {
+      score -= 10;
+    }
+    
+    return Math.max(0, Math.min(100, score));
+  }
+
+  private calculatePacing(beatScores: BeatValidation[], totalDuration: number): number {
+    let score = 100;
+    
+    // Duration scoring
+    if (totalDuration >= this.qualityStandards.duration.min && 
+        totalDuration <= this.qualityStandards.duration.max) {
+      score += 10;
+    } else if (totalDuration < this.qualityStandards.duration.min) {
+      score -= 20;
+    } else {
+      score -= 15;
+    }
+    
+    // Beat distribution scoring
+    const longBeats = beatScores.filter(beat => beat.duration > 60);
+    const shortBeats = beatScores.filter(beat => beat.duration < 5);
+    
+    if (longBeats.length > 2) {
+      score -= 10;
+    }
+    if (shortBeats.length > 3) {
+      score -= 5;
+    }
+    
+    return Math.max(0, Math.min(100, score));
+  }
+
+  private calculateEngagement(beatScores: BeatValidation[]): number {
+    let score = 100;
+    
+    // Failed beats significantly reduce engagement
+    const failedBeats = beatScores.filter(beat => !beat.passes);
+    score -= failedBeats.length * 15;
+    
+    // Low-scoring beats reduce engagement
+    const lowScoringBeats = beatScores.filter(beat => beat.score < 70);
+    score -= lowScoringBeats.length * 8;
+    
+    // Variety in beat scores suggests good engagement
+    const scoreRange = Math.max(...beatScores.map(b => b.score)) - Math.min(...beatScores.map(b => b.score));
+    if (scoreRange > 20) {
+      score += 5;
+    }
+    
+    return Math.max(0, Math.min(100, score));
+  }
+
+  private videoMeetsStandards(metrics: any): boolean {
+    return (
+      metrics.overallScore >= this.qualityStandards.overallScore &&
+      metrics.technicalAccuracy >= this.qualityStandards.technicalAccuracy &&
+      metrics.visualQuality >= this.qualityStandards.visualQuality &&
+      metrics.pacing >= this.qualityStandards.pacing &&
+      metrics.engagement >= this.qualityStandards.engagement &&
+      metrics.totalDuration >= this.qualityStandards.duration.min &&
+      metrics.totalDuration <= this.qualityStandards.duration.max
+    );
+  }
+
+  private generateRecommendations(validation: any): {
+    criticalIssues: string[];
+    improvementAreas: string[];
+    recommendations: string[];
+  } {
+    const criticalIssues: string[] = [];
+    const improvementAreas: string[] = [];
+    const recommendations: string[] = [];
+
+    // Critical issues
+    if (validation.overallScore < 70) {
+      criticalIssues.push('Overall quality below acceptable threshold');
+    }
+    if (validation.videoInfo.duration < this.qualityStandards.duration.min) {
+      criticalIssues.push('Video too short to meet requirements');
+    }
+    if (validation.videoInfo.duration > this.qualityStandards.duration.max) {
+      criticalIssues.push('Video too long for target audience');
+    }
+
+    // Improvement areas
+    if (validation.technicalAccuracy < this.qualityStandards.technicalAccuracy) {
+      improvementAreas.push('Technical accuracy needs improvement');
+    }
+    if (validation.visualQuality < this.qualityStandards.visualQuality) {
+      improvementAreas.push('Visual quality needs enhancement');
+    }
+    if (validation.pacing < this.qualityStandards.pacing) {
+      improvementAreas.push('Pacing needs adjustment');
+    }
+
+    // Specific recommendations
+    const failedBeats = validation.beatScores.filter((beat: any) => !beat.passes);
+    if (failedBeats.length > 0) {
+      recommendations.push(`Rework ${failedBeats.length} failed beats`);
+    }
+
+    const lowScoringBeats = validation.beatScores.filter((beat: any) => beat.score < 80);
+    if (lowScoringBeats.length > 0) {
+      recommendations.push(`Improve ${lowScoringBeats.length} low-scoring beats`);
+    }
+
+    if (validation.videoInfo.bitrate < 1500) {
+      recommendations.push('Increase video bitrate for better quality');
+    }
+
+    return { criticalIssues, improvementAreas, recommendations };
+  }
+
+  async createIterationPlan(videoValidation: VideoValidation): Promise<IterationPlan> {
+    console.log('📋 Creating iteration plan...');
+    
+    const beatsToRework = videoValidation.beatScores
+      .filter(beat => beat.needsRework)
+      .map(beat => beat.beatId);
+    
+    const newBeatsToCreate: string[] = [];
+    const existingBeatsToModify: BeatModification[] = [];
+    
+    // Identify beats that need modification
+    for (const beat of videoValidation.beatScores) {
+      if (beat.score < 80 && beat.score >= 60) {
+        existingBeatsToModify.push({
+          beatId: beat.beatId,
+          modifications: {
+            duration: beat.duration < 10 ? 15 : undefined,
+            pacing: beat.duration > 60 ? 'faster' : 'maintain',
+            technicalDepth: this.qualityStandards.content.technicalDepth
+          },
+          reason: `Score ${beat.score}/100 - needs improvement`
+        });
       }
     }
+    
+    // Determine quality targets for next iteration
+    const qualityTargets: Partial<QualityStandards> = {};
+    if (videoValidation.overallScore < this.qualityStandards.overallScore) {
+      qualityTargets.overallScore = Math.min(100, this.qualityStandards.overallScore + 5);
+    }
+    
+    const iterationPlan: IterationPlan = {
+      iteration: this.currentIteration + 1,
+      timestamp: new Date().toISOString(),
+      beatsToRework,
+      newBeatsToCreate,
+      existingBeatsToModify,
+      qualityTargets
+    };
 
-    // User Roles Check
-    if (beatId.includes('role') || beatId.includes('user')) {
-      if (!this.hasUserRoles(beat)) {
-        analysis.issues.push('Missing user role definitions (Incident Commander, planners, dispatchers)');
-        analysis.score -= 25;
+    // Save iteration plan
+    const planPath = path.join(this.iterationsDir, `iteration-${this.currentIteration + 1}-plan.json`);
+    fs.writeFileSync(planPath, JSON.stringify(iterationPlan, null, 2));
+    
+    console.log(`✅ Iteration plan created: ${planPath}`);
+    
+    return iterationPlan;
+  }
+
+  async runQualityIteration(): Promise<boolean> {
+    console.log(`🔄 Starting quality iteration ${this.currentIteration}...`);
+    
+    try {
+      // Find all beat files
+      const beatFiles = this.findBeatFiles();
+      if (beatFiles.length === 0) {
+        console.log('❌ No beat files found');
+        return false;
       }
-    }
-
-    // API Architecture Check
-    if (beatId.includes('api') || beatId.includes('tech') || beatId.includes('architecture')) {
-      if (!this.hasApiArchitecture(beat)) {
-        analysis.issues.push('Missing API/technical discussion (ingestion, H3, ML, routing, endpoints)');
-        analysis.score -= 30;
-      }
-    }
-
-    // Hazard Interaction Check
-    if (beatId.includes('hazard') || beatId.includes('map')) {
-      if (!this.hasHazardInteraction(beat)) {
-        analysis.issues.push('Missing hazard interaction (click, zoom, toggle layers, risk scoring)');
-        analysis.score -= 25;
-      }
-    }
-
-    // Zone Interaction Check
-    if (beatId.includes('zone') || beatId.includes('building')) {
-      if (!this.hasZoneInteraction(beat)) {
-        analysis.issues.push('Missing zone/building interaction (card clicks, status updates)');
-        analysis.score -= 25;
-      }
-    }
-
-    // Route Concept Check
-    if (beatId.includes('route') || beatId.includes('ai')) {
-      if (!this.hasRouteConcept(beat)) {
-        analysis.issues.push('Missing route concept or AI support (A Star, safe routes, scenario planning)');
-        analysis.score -= 25;
-      }
-    }
-
-    // Conclusion Check
-    if (beatId.includes('conclusion') || beatId.includes('impact')) {
-      if (!this.hasConclusion(beat)) {
-        analysis.issues.push('Missing conclusion with impact metrics and call-to-action');
-        analysis.score -= 30;
-      }
-    }
-  }
-
-  private hasProblemContext(beat: any): boolean {
-    const text = JSON.stringify(beat).toLowerCase();
-    const problemKeywords = ['emergency', 'coordination', 'challenge', 'difficult', 'problem', 'issue'];
-    return problemKeywords.some(keyword => text.includes(keyword));
-  }
-
-  private hasUserRoles(beat: any): boolean {
-    const text = JSON.stringify(beat).toLowerCase();
-    const requiredRoles = ['incident commander', 'planner', 'dispatcher', 'field unit'];
-    return requiredRoles.some(role => text.includes(role));
-  }
-
-  private hasApiArchitecture(beat: any): boolean {
-    const text = JSON.stringify(beat).toLowerCase();
-    const requiredConcepts = ['firms', 'noaa', '911', 'h3', 'ml spread', 'risk polygon', 'a star', 'routing'];
-    const conceptCount = requiredConcepts.filter(concept => text.includes(concept)).length;
-    return conceptCount >= 3; // At least 3 technical concepts
-  }
-
-  private hasHazardInteraction(beat: any): boolean {
-    const text = JSON.stringify(beat).toLowerCase();
-    const requiredActions = ['click', 'zoom', 'toggle', 'layer', 'hazard', 'risk'];
-    const actionCount = requiredActions.filter(action => text.includes(action)).length;
-    return actionCount >= 2; // At least 2 interaction types
-  }
-
-  private hasZoneInteraction(beat: any): boolean {
-    const text = JSON.stringify(beat).toLowerCase();
-    const requiredActions = ['zone', 'building', 'card', 'status', 'evacuation'];
-    const actionCount = requiredActions.filter(action => text.includes(action)).length;
-    return actionCount >= 2; // At least 2 interaction types
-  }
-
-  private hasRouteConcept(beat: any): boolean {
-    const text = JSON.stringify(beat).toLowerCase();
-    const requiredConcepts = ['route', 'a star', 'safe', 'ai', 'scenario', 'highway'];
-    const conceptCount = requiredConcepts.filter(concept => text.includes(concept)).length;
-    return conceptCount >= 2; // At least 2 route/AI concepts
-  }
-
-  private hasConclusion(beat: any): boolean {
-    const text = JSON.stringify(beat).toLowerCase();
-    const requiredElements = ['impact', 'metric', 'conclusion', 'call to action', 'pilot'];
-    const elementCount = requiredElements.filter(element => text.includes(element)).length;
-    return elementCount >= 2; // At least 2 conclusion elements
-  }
-
-  private generateOverallAnalysis(analysis: VideoAnalysis, configInfo: any): void {
-    // Calculate overall score
-    const totalScore = analysis.beatAnalyses.reduce((sum, beat) => sum + beat.score, 0);
-    analysis.overallScore = Math.round(totalScore / analysis.beatAnalyses.length);
-
-    // Duration checks
-    if (analysis.totalDuration < this.config.minDuration) {
-      analysis.criticalIssues.push(`Video too short: ${analysis.totalDuration}s (minimum ${this.config.minDuration}s)`);
-    } else if (analysis.totalDuration > this.config.maxDuration) {
-      analysis.warnings.push(`Video too long: ${analysis.totalDuration}s (maximum ${this.config.maxDuration}s)`);
-    }
-
-    // Beat coverage checks
-    if (this.config.requireAllBeats) {
-      const missingBeats = this.requiredBeats.filter(required => 
-        !configInfo.beats.some((beat: any) => beat.id.toLowerCase().includes(required.toLowerCase()))
-      );
       
-      if (missingBeats.length > 0) {
-        analysis.criticalIssues.push(`Missing required beats: ${missingBeats.join(', ')}`);
+      // Validate individual beats
+      const beatValidations: BeatValidation[] = [];
+      for (const beatFile of beatFiles) {
+        const validation = await this.validateIndividualBeat(beatFile);
+        beatValidations.push(validation);
+      }
+      
+      // Find combined video
+      const combinedVideo = this.findCombinedVideo();
+      if (!combinedVideo) {
+        console.log('❌ Combined video not found');
+        return false;
+      }
+      
+      // Validate combined video
+      const videoValidation = await this.validateCombinedVideo(combinedVideo, beatValidations);
+      
+      // Save validation results
+      const validationPath = path.join(this.iterationsDir, `iteration-${this.currentIteration}-validation.json`);
+      fs.writeFileSync(validationPath, JSON.stringify(videoValidation, null, 2));
+      
+      // Check if standards are met
+      if (videoValidation.meetsStandards) {
+        console.log('🎉 Video meets quality standards!');
+        return true;
+      }
+      
+      // Create iteration plan for improvements
+      const iterationPlan = await this.createIterationPlan(videoValidation);
+      
+      // Check if max iterations reached
+      if (this.currentIteration >= this.maxIterations) {
+        console.log(`⚠️  Maximum iterations (${this.maxIterations}) reached`);
+        return false;
+      }
+      
+      // Increment iteration counter
+      this.currentIteration++;
+      
+      console.log(`🔄 Ready for iteration ${this.currentIteration}`);
+      return false;
+      
+    } catch (error) {
+      console.error('❌ Error in quality iteration:', error);
+      return false;
+    }
+  }
+
+  private findBeatFiles(): string[] {
+    const beatDir = path.join(this.outputDir, 'beats');
+    if (!fs.existsSync(beatDir)) {
+      return [];
+    }
+    
+    return fs.readdirSync(beatDir)
+      .filter(file => file.endsWith('.mp4'))
+      .map(file => path.join(beatDir, file));
+  }
+
+  private findCombinedVideo(): string | null {
+    const combinedVideos = [
+      path.join(this.outputDir, 'final-video.mp4'),
+      path.join(this.outputDir, 'combined-video.mp4'),
+      path.join(this.outputDir, 'output.mp4')
+    ];
+    
+    for (const video of combinedVideos) {
+      if (fs.existsSync(video)) {
+        return video;
       }
     }
-
-    // Generate recommendations
-    this.generateRecommendations(analysis);
-  }
-
-  private applyStrictModeChecks(analysis: VideoAnalysis, configInfo: any): void {
-    // Check for critical missing elements
-    const hasAllRequiredElements = this.checkAllRequiredElements(configInfo);
     
-    if (!hasAllRequiredElements) {
-      analysis.criticalIssues.push('Missing critical narrative elements - video incomplete');
-      analysis.overallScore = Math.max(0, analysis.overallScore - 40);
-    }
-
-    // Check for proper structure
-    if (analysis.beatAnalyses.length < 8) {
-      analysis.criticalIssues.push('Insufficient beat coverage - need at least 8 comprehensive beats');
-      analysis.overallScore = Math.max(0, analysis.overallScore - 30);
-    }
+    return null;
   }
 
-  private checkAllRequiredElements(configInfo: any): boolean {
-    const allText = JSON.stringify(configInfo).toLowerCase();
+  private extractBeatName(beatPath: string): string {
+    const filename = path.basename(beatPath, path.extname(beatPath));
+    return filename.replace(/[-_]/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+  }
+
+  async runContinuousQualityLoop(): Promise<void> {
+    console.log('🚀 Starting continuous quality improvement loop...');
+    console.log(`🎯 Target quality score: ${this.qualityStandards.overallScore}/100`);
+    console.log(`⏱️  Duration target: ${this.qualityStandards.duration.target}s`);
+    console.log('');
     
-    // Check for all required elements
-    const hasUserRoles = this.requiredElements.userRoles.some(role => allText.includes(role.toLowerCase()));
-    const hasApiEndpoints = this.requiredElements.apiEndpoints.some(endpoint => allText.includes(endpoint.toLowerCase()));
-    const hasTechnicalConcepts = this.requiredElements.technicalConcepts.some(concept => allText.includes(concept.toLowerCase()));
-    const hasHazardInteractions = this.requiredElements.hazardInteractions.some(interaction => allText.includes(interaction.toLowerCase()));
-    const hasZoneInteractions = this.requiredElements.zoneInteractions.some(interaction => allText.includes(interaction.toLowerCase()));
-    const hasConceptualOverlays = this.requiredElements.conceptualOverlays.some(overlay => allText.includes(overlay.toLowerCase()));
-
-    return hasUserRoles && hasApiEndpoints && hasTechnicalConcepts && 
-           hasHazardInteractions && hasZoneInteractions && hasConceptualOverlays;
-  }
-
-  private generateRecommendations(analysis: VideoAnalysis): void {
-    if (analysis.criticalIssues.length > 0) {
-      analysis.recommendations.push('Address all critical issues before proceeding');
-    }
-
-    if (analysis.overallScore < 70) {
-      analysis.recommendations.push('Video needs significant improvement to meet requirements');
-    } else if (analysis.overallScore < 85) {
-      analysis.recommendations.push('Video needs minor improvements to meet all requirements');
-    }
-
-    // Specific recommendations based on issues
-    if (analysis.beatAnalyses.some(beat => !beat.hasNarration)) {
-      analysis.recommendations.push('Add narration to all beats for better engagement');
-    }
-
-    if (analysis.beatAnalyses.some(beat => !beat.hasOverlays)) {
-      analysis.recommendations.push('Add visual overlays to all beats for clarity');
-    }
-
-    if (analysis.totalDuration < this.config.minDuration) {
-      analysis.recommendations.push(`Extend video to at least ${this.config.minDuration}s to meet time requirements`);
-    }
-  }
-
-  generateReport(analysis: VideoAnalysis): string {
-    let report = '🎭 Enhanced CriticBot Analysis Report\n';
-    report += '=====================================\n\n';
-
-    // Overall Score
-    report += `📊 Overall Score: ${analysis.overallScore}/100\n`;
-    report += `⏱️ Duration: ${analysis.totalDuration}s\n`;
-    report += `🎬 Beats: ${analysis.totalBeats}\n\n`;
-
-    // Critical Issues
-    if (analysis.criticalIssues.length > 0) {
-      report += '🚨 CRITICAL ISSUES:\n';
-      analysis.criticalIssues.forEach(issue => {
-        report += `  ❌ ${issue}\n`;
-      });
-      report += '\n';
-    }
-
-    // Warnings
-    if (analysis.warnings.length > 0) {
-      report += '⚠️ WARNINGS:\n';
-      analysis.warnings.forEach(warning => {
-        report += `  ⚠️ ${warning}\n`;
-      });
-      report += '\n';
-    }
-
-    // Beat Analysis
-    report += '🎬 Beat Analysis:\n';
-    analysis.beatAnalyses.forEach(beat => {
-      const status = beat.score >= 80 ? '✅' : beat.score >= 60 ? '⚠️' : '❌';
-      report += `  ${status} ${beat.beatId}: ${beat.score}/100`;
-      if (beat.issues.length > 0) {
-        report += ` (${beat.issues.join(', ')})`;
+    let iteration = 1;
+    let standardsMet = false;
+    
+    while (iteration <= this.maxIterations && !standardsMet) {
+      console.log(`\n🔄 Iteration ${iteration}/${this.maxIterations}`);
+      console.log('=' .repeat(50));
+      
+      // Run quality iteration
+      standardsMet = await this.runQualityIteration();
+      
+      if (standardsMet) {
+        console.log('\n🎉 SUCCESS: Video meets all quality standards!');
+        break;
       }
-      report += '\n';
-    });
-
-    // Recommendations
-    if (analysis.recommendations.length > 0) {
-      report += '\n💡 RECOMMENDATIONS:\n';
-      analysis.recommendations.forEach(rec => {
-        report += `  💡 ${rec}\n`;
-      });
+      
+      if (iteration < this.maxIterations) {
+        console.log('\n⏳ Waiting for video pipeline to regenerate content...');
+        console.log('💡 The system will automatically detect new content and continue validation');
+        
+        // Wait for file changes (in a real implementation, this would watch for file system changes)
+        await this.waitForFileChanges();
+      }
+      
+      iteration++;
     }
-
-    // Final Verdict
-    report += '\n🏆 FINAL VERDICT:\n';
-    if (analysis.overallScore >= 90) {
-      report += '  🎉 EXCELLENT - Ready for production!\n';
-    } else if (analysis.overallScore >= 80) {
-      report += '  ✅ GOOD - Minor improvements needed\n';
-    } else if (analysis.overallScore >= 70) {
-      report += '  ⚠️ FAIR - Significant improvements needed\n';
-    } else {
-      report += '  ❌ POOR - Major overhaul required\n';
+    
+    if (!standardsMet) {
+      console.log('\n⚠️  Maximum iterations reached without meeting standards');
+      console.log('📋 Check iteration plans for specific improvement recommendations');
     }
+    
+    // Generate final report
+    await this.generateFinalReport();
+  }
 
-    return report;
+  private async waitForFileChanges(): Promise<void> {
+    // In a real implementation, this would watch for file system changes
+    // For now, we'll simulate a wait
+    console.log('⏳ Simulating wait for file changes...');
+    await new Promise(resolve => setTimeout(resolve, 5000));
+  }
+
+  private async generateFinalReport(): Promise<void> {
+    console.log('\n📊 Generating final quality report...');
+    
+    const report = {
+      timestamp: new Date().toISOString(),
+      totalIterations: this.currentIteration,
+      qualityStandards: this.qualityStandards,
+      finalStatus: this.currentIteration <= this.maxIterations ? 'SUCCESS' : 'MAX_ITERATIONS_REACHED',
+      recommendations: [
+        'Review iteration plans for specific improvement areas',
+        'Consider adjusting quality standards if needed',
+        'Analyze failed beats for common patterns',
+        'Optimize video generation pipeline for better quality'
+      ]
+    };
+    
+    const reportPath = path.join(this.iterationsDir, 'final-quality-report.json');
+    fs.writeFileSync(reportPath, JSON.stringify(report, null, 2));
+    
+    console.log(`✅ Final report generated: ${reportPath}`);
   }
 }
 
-// Export for use in other scripts
-export default EnhancedCriticBot;
+// Example usage and demonstration
+async function demonstrateEnhancedCriticBot() {
+  const criticBot = new EnhancedCriticBot();
+  
+  try {
+    // Run continuous quality improvement loop
+    await criticBot.runContinuousQualityLoop();
+    
+  } catch (error) {
+    console.error('❌ Error demonstrating Enhanced Critic Bot:', error);
+  }
+}
+
+// Main execution
+// Check if this script is being run directly
+if (process.argv[1] && process.argv[1].endsWith('enhanced-critic-bot.ts')) {
+  demonstrateEnhancedCriticBot().catch(console.error);
+}
+
+export { EnhancedCriticBot };

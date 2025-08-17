@@ -3,9 +3,8 @@ import * as path from 'path';
 import { fileURLToPath } from 'url';
 import { execSync } from 'child_process';
 
-// ES module equivalent of __dirname
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// Use process.cwd() instead of import.meta.url for compatibility
+const projectRoot = process.cwd();
 
 // GraphicsBot interfaces
 interface OverlayDescriptor {
@@ -456,4 +455,4 @@ plt.close()
 }
 
 // Export the GraphicsBot class
-export { GraphicsBot, OverlayDescriptor, BrandPalette, ChartConfig, DalleConfig };
+export { GraphicsBot };
