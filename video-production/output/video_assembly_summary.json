@@ -1,0 +1,36 @@
+{
+  "generatedAt": "2025-08-17T01:41:27.358Z",
+  "totalSegments": 5,
+  "totalDuration": 140,
+  "segments": [
+    {
+      "name": "Personal Introduction",
+      "file": "01_personal_intro.mp4",
+      "duration": 15
+    },
+    {
+      "name": "User Persona",
+      "file": "02_user_persona.mp4",
+      "duration": 20
+    },
+    {
+      "name": "Foundry Architecture",
+      "file": "03_foundry_architecture.mp4",
+      "duration": 30
+    },
+    {
+      "name": "Action Demonstration",
+      "file": "04_action_demonstration.mp4",
+      "duration": 30
+    },
+    {
+      "name": "Strong Call to Action",
+      "file": "05_strong_cta.mp4",
+      "duration": 45
+    }
+  ],
+  "outputFiles": {
+    "finalVideo": "final_enhanced_demo.mp4",
+    "videoList": "video_list.txt"
+  }
+}
