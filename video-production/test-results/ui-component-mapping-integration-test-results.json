@@ -1,0 +1,223 @@
+{
+  "timestamp": "2025-08-17T14:42:34.878Z",
+  "duration": 3103,
+  "summary": {
+    "totalSuites": 6,
+    "totalTests": 24,
+    "passed": 24,
+    "failed": 0,
+    "skipped": 0
+  },
+  "suites": [
+    {
+      "name": "Prerequisites Check",
+      "tests": [
+        {
+          "test": "FFmpeg Available",
+          "status": "PASS",
+          "message": "Test passed",
+          "duration": 61
+        },
+        {
+          "test": "Node.js Available",
+          "status": "PASS",
+          "message": "Test passed",
+          "duration": 20
+        },
+        {
+          "test": "ts-node Available",
+          "status": "PASS",
+          "message": "Test passed",
+          "duration": 211
+        },
+        {
+          "test": "Frontend Source Exists",
+          "status": "PASS",
+          "message": "Test passed",
+          "duration": 0
+        }
+      ],
+      "startTime": "2025-08-17T14:42:31.775Z",
+      "passed": 4,
+      "failed": 0,
+      "skipped": 0,
+      "endTime": "2025-08-17T14:42:32.068Z",
+      "duration": 293
+    },
+    {
+      "name": "UI Component Mapping Generation",
+      "tests": [
+        {
+          "test": "Component Map File Created",
+          "status": "PASS",
+          "message": "Test passed",
+          "duration": 0
+        },
+        {
+          "test": "Humanizer Bot Context Created",
+          "status": "PASS",
+          "message": "Test passed",
+          "duration": 0
+        },
+        {
+          "test": "Component Map File Valid JSON",
+          "status": "PASS",
+          "message": "Test passed",
+          "duration": 0
+        },
+        {
+          "test": "Component Map Has Components",
+          "status": "PASS",
+          "message": "Test passed",
+          "duration": 0
+        },
+        {
+          "test": "Generate Component Map",
+          "status": "PASS",
+          "message": "Test passed",
+          "duration": 460
+        }
+      ],
+      "startTime": "2025-08-17T14:42:32.068Z",
+      "passed": 5,
+      "failed": 0,
+      "skipped": 0,
+      "endTime": "2025-08-17T14:42:32.527Z",
+      "duration": 459
+    },
+    {
+      "name": "Component Map Content Validation",
+      "tests": [
+        {
+          "test": "Load Component Map Data",
+          "status": "PASS",
+          "message": "Test passed",
+          "duration": 0
+        },
+        {
+          "test": "Component Map Has Required Fields",
+          "status": "PASS",
+          "message": "Test passed",
+          "duration": 0
+        },
+        {
+          "test": "Components Have Required Properties",
+          "status": "PASS",
+          "message": "Test passed",
+          "duration": 0
+        },
+        {
+          "test": "Key Components Are Present",
+          "status": "PASS",
+          "message": "Test passed",
+          "duration": 0
+        },
+        {
+          "test": "Navigation Structure Is Valid",
+          "status": "PASS",
+          "message": "Test passed",
+          "duration": 0
+        },
+        {
+          "test": "Data Flow Patterns Are Defined",
+          "status": "PASS",
+          "message": "Test passed",
+          "duration": 0
+        }
+      ],
+      "startTime": "2025-08-17T14:42:32.528Z",
+      "passed": 6,
+      "failed": 0,
+      "skipped": 0,
+      "endTime": "2025-08-17T14:42:32.528Z",
+      "duration": 0
+    },
+    {
+      "name": "Pipeline Integration",
+      "tests": [
+        {
+          "test": "Pipeline Scripts Are Executable",
+          "status": "PASS",
+          "message": "Test passed",
+          "duration": 0
+        },
+        {
+          "test": "7-Minute Pipeline Includes UI Mapping",
+          "status": "PASS",
+          "message": "Test passed",
+          "duration": 0
+        },
+        {
+          "test": "Unified Pipeline Includes UI Mapping",
+          "status": "PASS",
+          "message": "Test passed",
+          "duration": 0
+        }
+      ],
+      "startTime": "2025-08-17T14:42:32.528Z",
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0,
+      "endTime": "2025-08-17T14:42:32.528Z",
+      "duration": 0
+    },
+    {
+      "name": "End-to-End Workflow",
+      "tests": [
+        {
+          "test": "Clean Previous Outputs",
+          "status": "PASS",
+          "message": "Test passed",
+          "duration": 0
+        },
+        {
+          "test": "Verify Output Files Created",
+          "status": "PASS",
+          "message": "Test passed",
+          "duration": 1
+        },
+        {
+          "test": "Verify File Contents Are Valid",
+          "status": "PASS",
+          "message": "Test passed",
+          "duration": 0
+        },
+        {
+          "test": "Run UI Component Mapping",
+          "status": "PASS",
+          "message": "Test passed",
+          "duration": 459
+        }
+      ],
+      "startTime": "2025-08-17T14:42:32.528Z",
+      "passed": 4,
+      "failed": 0,
+      "skipped": 0,
+      "endTime": "2025-08-17T14:42:32.987Z",
+      "duration": 459
+    },
+    {
+      "name": "Performance and Reliability",
+      "tests": [
+        {
+          "test": "Component Mapping Performance",
+          "status": "PASS",
+          "message": "Test passed",
+          "duration": 1891
+        },
+        {
+          "test": "Error Handling for Missing Frontend",
+          "status": "PASS",
+          "message": "Test passed",
+          "duration": 0
+        }
+      ],
+      "startTime": "2025-08-17T14:42:32.987Z",
+      "passed": 2,
+      "failed": 0,
+      "skipped": 0,
+      "endTime": "2025-08-17T14:42:34.878Z",
+      "duration": 1891
+    }
+  ]
+}
