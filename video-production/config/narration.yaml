@@ -20,7 +20,7 @@ scenes:
     emphasis: "disasters, mess, slow, lives, hours"
     capture_method: "screenshot"  # Static slide - use screenshot capture
     
-  - id: "hazards"
+  - id: "map"
     title: "Multi-Hazard Map"
     duration: 10
     narration: "We've built one dashboard that brings everyone together - emergency commanders, first responders, and agencies all working from the same page. You can see every threat as it happens. Our map pulls together wildfire, flood, earthquake, and weather data in real-time."
@@ -28,7 +28,7 @@ scenes:
     emphasis: "one, together, same, threat, pulls"
     capture_method: "video"  # Dynamic interaction - use video capture
     
-  - id: "routes"
+  - id: "route"
     title: "Evacuation Routes"
     duration: 12
     narration: "Get safe evacuation routes with just one click. Our AI looks at the terrain, checks for hazards, and monitors traffic to find the safest way out. The routes keep updating as things change - what was safe ten minutes ago might be dangerous now."
@@ -52,7 +52,7 @@ scenes:
     emphasis: "chaos, keeps, thousands, safe, pulse"
     capture_method: "video"  # Dynamic interaction - use video capture
     
-  - id: "ai-support"
+  - id: "ai"
     title: "AI Decision Support"
     duration: 15
     narration: "AI spots patterns and gives you real-time advice when you need it most. Make smart decisions even under pressure. Our system learns from every incident, constantly getting better at response strategies and figuring out where to put resources."
@@ -66,6 +66,14 @@ scenes:
     narration: "Real-time weather data from NOAA shows you what's coming, so you can stay ahead of the storm. We connect forecasts with evacuation planning and hazard assessment, so you're not just reacting - you're planning ahead."
     voice: "alloy"
     emphasis: "shows, coming, ahead, connecting, planning"
+    capture_method: "screenshot"  # Static slide - use screenshot capture
+    
+  - id: "tech"
+    title: "Technical Deep Dive"
+    duration: 10
+    narration: "Our platform leverages cutting-edge technology including real-time data streaming, machine learning algorithms, and advanced visualization. Built on Palantir Foundry, it provides enterprise-grade security and scalability for mission-critical operations."
+    voice: "alloy"
+    emphasis: "cutting-edge, machine learning, visualization, Foundry, enterprise"
     capture_method: "screenshot"  # Static slide - use screenshot capture
     
   - id: "commander"
@@ -92,7 +100,7 @@ scenes:
     emphasis: "loop, saves, panic, accurate, informed"
     capture_method: "screenshot"  # Static slide - use screenshot capture
     
-  - id: "outro"
+  - id: "conclusion"
     title: "Call to Action"
     duration: 6
     narration: "Our system dramatically increases response throughput and allows for greater effectiveness of emergency responses. Transform your emergency management today. When minutes matter, every second you save could mean the difference between life and death."

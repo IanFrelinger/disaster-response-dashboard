@@ -1,6 +1,6 @@
 #!/usr/bin/env ts-node
 
-import { chromium, Browser, Page, BrowserContext } from 'playwright';
+import { chromium } from 'playwright';
 import * as fs from 'fs';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
@@ -412,5 +412,3 @@ async function main() {
 
 // Run main function
 main().catch(console.error);
-
-export { LiveVideoDemoGenerator, LiveVideoSegment, VideoAction };

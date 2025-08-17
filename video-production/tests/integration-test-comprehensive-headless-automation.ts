@@ -454,6 +454,26 @@ class ComprehensiveHeadlessAutomationTest {
     return 'All integration points validated successfully';
   }
 
+  private async test4MinuteVideoGenerator(): Promise<string> {
+    this.log('🎬 Testing 4-Minute Video Generator...');
+    
+    try {
+      // Import and run the 4-minute video generator test suite
+      const { FourMinuteVideoGeneratorTestSuite } = await import('./test-4min-video-generator.js');
+      const testSuite = new FourMinuteVideoGeneratorTestSuite();
+      
+      // Run the test suite
+      await testSuite.runAllTests();
+      
+      this.log('✅ 4-Minute Video Generator tests completed successfully');
+      return '4-Minute Video Generator validation completed successfully';
+      
+    } catch (error) {
+      this.log(`❌ 4-Minute Video Generator test failed: ${error}`);
+      throw error;
+    }
+  }
+
   private generateTestReport(): void {
     this.testSuite.endTime = new Date();
     this.testSuite.totalDuration = this.testSuite.endTime.getTime() - this.testSuite.startTime.getTime();
@@ -552,17 +572,18 @@ class ComprehensiveHeadlessAutomationTest {
     }, 600000); // 10 minutes
     
     try {
-      const testFunctions = [
-        { name: 'Environment Setup', func: () => this.testEnvironmentSetup() },
-        { name: 'Parameter Injection System', func: () => this.testParameterInjectionSystem() },
-        { name: 'File Regeneration System', func: () => this.testFileRegenerationSystem() },
-        { name: 'Quality Scoring Algorithm', func: () => this.testQualityScoringAlgorithm() },
-        { name: 'Intelligent Optimization Loop', func: () => this.testIntelligentOptimizationLoop() },
-        { name: 'Error Handling and Recovery', func: () => this.testErrorHandlingAndRecovery() },
-        { name: 'Performance and Scalability', func: () => this.testPerformanceAndScalability() },
-        { name: 'End-to-End Workflow', func: () => this.testEndToEndWorkflow() },
-        { name: 'Integration Points', func: () => this.testIntegrationPoints() }
-      ];
+          const testFunctions = [
+      { name: 'Environment Setup', func: () => this.testEnvironmentSetup() },
+      { name: 'Parameter Injection System', func: () => this.testParameterInjectionSystem() },
+      { name: 'File Regeneration System', func: () => this.testFileRegenerationSystem() },
+      { name: 'Quality Scoring Algorithm', func: () => this.testQualityScoringAlgorithm() },
+      { name: 'Intelligent Optimization Loop', func: () => this.testIntelligentOptimizationLoop() },
+      { name: 'Error Handling and Recovery', func: () => this.testErrorHandlingAndRecovery() },
+      { name: 'Performance and Scalability', func: () => this.testPerformanceAndScalability() },
+      { name: 'End-to-End Workflow', func: () => this.testEndToEndWorkflow() },
+      { name: 'Integration Points', func: () => this.testIntegrationPoints() },
+      { name: '4-Minute Video Generator', func: () => this.test4MinuteVideoGenerator() }
+    ];
       
           for (let i = 0; i < testFunctions.length; i++) {
       const test = testFunctions[i];

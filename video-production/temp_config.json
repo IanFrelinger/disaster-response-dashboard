@@ -1,8 +1,0 @@
-{
-  "mode": "hybrid",
-  "includeStatic": true,
-  "includeLive": true,
-  "liveUrl": "http://localhost:3000",
-  "outputFormat": "mp4",
-  "quality": "high"
-}
