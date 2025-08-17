@@ -1,0 +1,84 @@
+{
+  "generatedAt": "2025-08-17T01:28:31.696Z",
+  "videoType": "7-Minute Technical Deep Dive",
+  "totalSegments": 10,
+  "totalDuration": 420,
+  "segments": [
+    {
+      "name": "Personal Introduction",
+      "file": "01_personal_intro_7min.mp4",
+      "duration": 20,
+      "technicalFocus": "Personal context and mission statement"
+    },
+    {
+      "name": "User Persona Definition",
+      "file": "02_user_persona_7min.mp4",
+      "duration": 25,
+      "technicalFocus": "Target users and their technical needs"
+    },
+    {
+      "name": "Foundry Architecture Deep Dive",
+      "file": "03_foundry_architecture_7min.mp4",
+      "duration": 60,
+      "technicalFocus": "Technical architecture and data flow"
+    },
+    {
+      "name": "Platform Capabilities Overview",
+      "file": "04_platform_capabilities_7min.mp4",
+      "duration": 45,
+      "technicalFocus": "Core platform features and capabilities"
+    },
+    {
+      "name": "Hazard Management System",
+      "file": "05_hazard_management_7min.mp4",
+      "duration": 45,
+      "technicalFocus": "Dynamic zone management and risk assessment"
+    },
+    {
+      "name": "Evacuation Routing Engine",
+      "file": "06_evacuation_routing_7min.mp4",
+      "duration": 45,
+      "technicalFocus": "AI-powered route optimization algorithms"
+    },
+    {
+      "name": "AI Decision Support",
+      "file": "07_ai_decision_support_7min.mp4",
+      "duration": 45,
+      "technicalFocus": "Machine learning models and decision algorithms"
+    },
+    {
+      "name": "Technical Implementation",
+      "file": "08_technical_implementation_7min.mp4",
+      "duration": 45,
+      "technicalFocus": "Code architecture, APIs, and deployment"
+    },
+    {
+      "name": "Integration Scenarios",
+      "file": "09_integration_scenarios_7min.mp4",
+      "duration": 45,
+      "technicalFocus": "System integration and deployment options"
+    },
+    {
+      "name": "Strong Technical CTA",
+      "file": "10_strong_cta_7min.mp4",
+      "duration": 45,
+      "technicalFocus": "Implementation discussion and next steps"
+    }
+  ],
+  "outputFiles": {
+    "finalVideo": "final_7min_technical_demo.mp4",
+    "videoList": "video_list_7min_technical.txt"
+  },
+  "technicalHighlights": [
+    "Personal introduction and mission statement",
+    "User persona definition and technical requirements",
+    "Foundry platform architecture deep dive",
+    "Platform capabilities and feature overview",
+    "Hazard management system details",
+    "Evacuation routing algorithms",
+    "AI decision support systems",
+    "Technical implementation details",
+    "Integration scenarios and deployment",
+    "Strong technical call-to-action"
+  ]
+}

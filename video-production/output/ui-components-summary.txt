@@ -1,0 +1,147 @@
+UI Components Summary
+====================
+URL: http://localhost:3000/
+Timestamp: 2025-08-16T19:44:00.391Z
+Total Components: 115
+
+BUTTON (10):
+  - button (button) [CLICKABLE]: "Commander Dashboard"
+  - button (button) [CLICKABLE]: "Live Map"
+  - .ios-button (button) [CLICKABLE]: "Operations"
+  - .ios-button (button) [CLICKABLE]: "Conditions"
+  - .ios-button (button) [CLICKABLE]: "Assets"
+  - .ios-button (button) [CLICKABLE]: "AIP Commander"
+  - .ios-button (button) [CLICKABLE]: "Operations"
+  - .ios-button (button) [CLICKABLE]: "Conditions"
+  - .ios-button (button) [CLICKABLE]: "Assets"
+  - .ios-button (button) [CLICKABLE]: "AIP Commander"
+
+DIV (67):
+  - #root (div) [VISIBLE]: "Command CenterCentralized emergency response command and controlCommander DashboardLive MapCommander DashboardCommand center for emergency response operations with real-time situational awarenessOperationsConditionsAssetsAIP CommanderZone AIMMEDIATETotal Buildings:150Population:1500Evacuated (120)In Progress (20)Refused (5)No Contact (3)Unchecked (2)Est. Completion: 5:35:07 PM2 units assignedZone BWARNINGTotal Buildings:75Population:2200Evacuated (60)In Progress (10)Refused (2)No Contact (2)Unchecked (1)Est. Completion: 7:35:07 PM1 units assignedZone CSTANDBYTotal Buildings:50Population:800Evacuated (40)In Progress (5)Refused (1)No Contact (1)Unchecked (1)Est. Completion: 9:35:07 PM1 units assignedEmergency Response System v1.0.0Powered by Mapbox & React • Real-time disaster monitoring"
+  - .evacuation-dashboard (div) [VISIBLE]: "Commander DashboardCommand center for emergency response operations with real-time situational awarenessOperationsConditionsAssetsAIP CommanderZone AIMMEDIATETotal Buildings:150Population:1500Evacuated (120)In Progress (20)Refused (5)No Contact (3)Unchecked (2)Est. Completion: 5:35:07 PM2 units assignedZone BWARNINGTotal Buildings:75Population:2200Evacuated (60)In Progress (10)Refused (2)No Contact (2)Unchecked (1)Est. Completion: 7:35:07 PM1 units assignedZone CSTANDBYTotal Buildings:50Population:800Evacuated (40)In Progress (5)Refused (1)No Contact (1)Unchecked (1)Est. Completion: 9:35:07 PM1 units assigned"
+  - .ios-card (div) [VISIBLE]: "Commander DashboardCommand center for emergency response operations with real-time situational awareness"
+  - .ios-container (div) [VISIBLE]: "Commander DashboardCommand center for emergency response operations with real-time situational awareness"
+  - .ios-flex-between (div) [VISIBLE]: "Commander DashboardCommand center for emergency response operations with real-time situational awareness"
+  - .ios-card (div) [VISIBLE]: "OperationsConditionsAssetsAIP Commander"
+  - .ios-container (div) [VISIBLE]: "OperationsConditionsAssetsAIP Commander"
+  - .ios-flex (div) [VISIBLE]: "OperationsConditionsAssetsAIP Commander"
+  - .zones-overview (div) [VISIBLE]: "Zone AIMMEDIATETotal Buildings:150Population:1500Evacuated (120)In Progress (20)Refused (5)No Contact (3)Unchecked (2)Est. Completion: 5:35:07 PM2 units assignedZone BWARNINGTotal Buildings:75Population:2200Evacuated (60)In Progress (10)Refused (2)No Contact (2)Unchecked (1)Est. Completion: 7:35:07 PM1 units assignedZone CSTANDBYTotal Buildings:50Population:800Evacuated (40)In Progress (5)Refused (1)No Contact (1)Unchecked (1)Est. Completion: 9:35:07 PM1 units assigned"
+  - .zones-grid (div) [VISIBLE]: "Zone AIMMEDIATETotal Buildings:150Population:1500Evacuated (120)In Progress (20)Refused (5)No Contact (3)Unchecked (2)Est. Completion: 5:35:07 PM2 units assignedZone BWARNINGTotal Buildings:75Population:2200Evacuated (60)In Progress (10)Refused (2)No Contact (2)Unchecked (1)Est. Completion: 7:35:07 PM1 units assignedZone CSTANDBYTotal Buildings:50Population:800Evacuated (40)In Progress (5)Refused (1)No Contact (1)Unchecked (1)Est. Completion: 9:35:07 PM1 units assigned"
+  - .zone-card (div) [VISIBLE]: "Zone AIMMEDIATETotal Buildings:150Population:1500Evacuated (120)In Progress (20)Refused (5)No Contact (3)Unchecked (2)Est. Completion: 5:35:07 PM2 units assigned"
+  - .zone-header (div) [VISIBLE]: "Zone AIMMEDIATE"
+  - .zone-stats (div) [VISIBLE]: "Total Buildings:150Population:1500"
+  - .stat (div) [VISIBLE]: "Total Buildings:150"
+  - .stat (div) [VISIBLE]: "Population:1500"
+  - .progress-section (div) [VISIBLE]: "Evacuated (120)In Progress (20)Refused (5)No Contact (3)Unchecked (2)"
+  - .progress-bar (div) [VISIBLE]
+  - .progress-segment (div) [VISIBLE]
+  - .progress-segment (div) [VISIBLE]
+  - .progress-segment (div) [VISIBLE]
+  - .progress-segment (div) [VISIBLE]
+  - .progress-segment (div) [VISIBLE]
+  - .progress-legend (div) [VISIBLE]: "Evacuated (120)In Progress (20)Refused (5)No Contact (3)Unchecked (2)"
+  - .legend-item (div) [VISIBLE]: "Evacuated (120)"
+  - .legend-item (div) [VISIBLE]: "In Progress (20)"
+  - .legend-item (div) [VISIBLE]: "Refused (5)"
+  - .legend-item (div) [VISIBLE]: "No Contact (3)"
+  - .legend-item (div) [VISIBLE]: "Unchecked (2)"
+  - .zone-footer (div) [VISIBLE]: "Est. Completion: 5:35:07 PM2 units assigned"
+  - .zone-card (div) [VISIBLE]: "Zone BWARNINGTotal Buildings:75Population:2200Evacuated (60)In Progress (10)Refused (2)No Contact (2)Unchecked (1)Est. Completion: 7:35:07 PM1 units assigned"
+  - .zone-header (div) [VISIBLE]: "Zone BWARNING"
+  - .zone-stats (div) [VISIBLE]: "Total Buildings:75Population:2200"
+  - .stat (div) [VISIBLE]: "Total Buildings:75"
+  - .stat (div) [VISIBLE]: "Population:2200"
+  - .progress-section (div) [VISIBLE]: "Evacuated (60)In Progress (10)Refused (2)No Contact (2)Unchecked (1)"
+  - .progress-bar (div) [VISIBLE]
+  - .progress-segment (div) [VISIBLE]
+  - .progress-segment (div) [VISIBLE]
+  - .progress-segment (div) [VISIBLE]
+  - .progress-segment (div) [VISIBLE]
+  - .progress-segment (div) [VISIBLE]
+  - .progress-legend (div) [VISIBLE]: "Evacuated (60)In Progress (10)Refused (2)No Contact (2)Unchecked (1)"
+  - .legend-item (div) [VISIBLE]: "Evacuated (60)"
+  - .legend-item (div) [VISIBLE]: "In Progress (10)"
+  - .legend-item (div) [VISIBLE]: "Refused (2)"
+  - .legend-item (div) [VISIBLE]: "No Contact (2)"
+  - .legend-item (div) [VISIBLE]: "Unchecked (1)"
+  - .zone-footer (div) [VISIBLE]: "Est. Completion: 7:35:07 PM1 units assigned"
+  - .zone-card (div) [VISIBLE]: "Zone CSTANDBYTotal Buildings:50Population:800Evacuated (40)In Progress (5)Refused (1)No Contact (1)Unchecked (1)Est. Completion: 9:35:07 PM1 units assigned"
+  - .zone-header (div) [VISIBLE]: "Zone CSTANDBY"
+  - .zone-stats (div) [VISIBLE]: "Total Buildings:50Population:800"
+  - .stat (div) [VISIBLE]: "Total Buildings:50"
+  - .stat (div) [VISIBLE]: "Population:800"
+  - .progress-section (div) [VISIBLE]: "Evacuated (40)In Progress (5)Refused (1)No Contact (1)Unchecked (1)"
+  - .progress-bar (div) [VISIBLE]
+  - .progress-segment (div) [VISIBLE]
+  - .progress-segment (div) [VISIBLE]
+  - .progress-segment (div) [VISIBLE]
+  - .progress-segment (div) [VISIBLE]
+  - .progress-segment (div) [VISIBLE]
+  - .progress-legend (div) [VISIBLE]: "Evacuated (40)In Progress (5)Refused (1)No Contact (1)Unchecked (1)"
+  - .legend-item (div) [VISIBLE]: "Evacuated (40)"
+  - .legend-item (div) [VISIBLE]: "In Progress (5)"
+  - .legend-item (div) [VISIBLE]: "Refused (1)"
+  - .legend-item (div) [VISIBLE]: "No Contact (1)"
+  - .legend-item (div) [VISIBLE]: "Unchecked (1)"
+  - .zone-footer (div) [VISIBLE]: "Est. Completion: 9:35:07 PM1 units assigned"
+
+H1 (1):
+  - .ios-headline (h1) [VISIBLE]: "Commander Dashboard"
+
+P (1):
+  - .ios-caption (p) [VISIBLE]: "Command center for emergency response operations with real-time situational awareness"
+
+SPAN (36):
+  - .priority-badge (span) [VISIBLE]: "IMMEDIATE"
+  - .label (span) [VISIBLE]: "Total Buildings:"
+  - .value (span) [VISIBLE]: "150"
+  - .label (span) [VISIBLE]: "Population:"
+  - .value (span) [VISIBLE]: "1500"
+  - .legend-color (span) [VISIBLE]
+  - .legend-color (span) [VISIBLE]
+  - .legend-color (span) [VISIBLE]
+  - .legend-color (span) [VISIBLE]
+  - .legend-color (span) [VISIBLE]
+  - .completion-estimate (span) [VISIBLE]: "Est. Completion: 5:35:07 PM"
+  - .assigned-units (span) [VISIBLE]: "2 units assigned"
+  - .priority-badge (span) [VISIBLE]: "WARNING"
+  - .label (span) [VISIBLE]: "Total Buildings:"
+  - .value (span) [VISIBLE]: "75"
+  - .label (span) [VISIBLE]: "Population:"
+  - .value (span) [VISIBLE]: "2200"
+  - .legend-color (span) [VISIBLE]
+  - .legend-color (span) [VISIBLE]
+  - .legend-color (span) [VISIBLE]
+  - .legend-color (span) [VISIBLE]
+  - .legend-color (span) [VISIBLE]
+  - .completion-estimate (span) [VISIBLE]: "Est. Completion: 7:35:07 PM"
+  - .assigned-units (span) [VISIBLE]: "1 units assigned"
+  - .priority-badge (span) [VISIBLE]: "STANDBY"
+  - .label (span) [VISIBLE]: "Total Buildings:"
+  - .value (span) [VISIBLE]: "50"
+  - .label (span) [VISIBLE]: "Population:"
+  - .value (span) [VISIBLE]: "800"
+  - .legend-color (span) [VISIBLE]
+  - .legend-color (span) [VISIBLE]
+  - .legend-color (span) [VISIBLE]
+  - .legend-color (span) [VISIBLE]
+  - .legend-color (span) [VISIBLE]
+  - .completion-estimate (span) [VISIBLE]: "Est. Completion: 9:35:07 PM"
+  - .assigned-units (span) [VISIBLE]: "1 units assigned"
+
+CLICKABLE COMPONENTS (10):
+  - button (button): "Commander Dashboard"
+  - button (button): "Live Map"
+  - .ios-button (button): "Operations"
+  - .ios-button (button): "Conditions"
+  - .ios-button (button): "Assets"
+  - .ios-button (button): "AIP Commander"
+  - .ios-button (button): "Operations"
+  - .ios-button (button): "Conditions"
+  - .ios-button (button): "Assets"
+  - .ios-button (button): "AIP Commander"
+
+VALIDATION RECOMMENDATIONS:
+==========================
+- Consider adding IDs or data-testid attributes to 2 components for better targeting
+- Found 61 pairs of components with overlapping coordinates - may cause targeting issues

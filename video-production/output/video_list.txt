@@ -1,0 +1,5 @@
+file '/Users/ianfrelinger/PycharmProjects/disaster-response-dashboard/video-production/out/01_personal_intro.mp4'
+file '/Users/ianfrelinger/PycharmProjects/disaster-response-dashboard/video-production/out/02_user_persona.mp4'
+file '/Users/ianfrelinger/PycharmProjects/disaster-response-dashboard/video-production/out/03_foundry_architecture.mp4'
+file '/Users/ianfrelinger/PycharmProjects/disaster-response-dashboard/video-production/out/04_action_demonstration.mp4'
+file '/Users/ianfrelinger/PycharmProjects/disaster-response-dashboard/video-production/out/05_strong_cta.mp4'

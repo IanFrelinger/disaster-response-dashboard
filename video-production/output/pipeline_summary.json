@@ -1,0 +1,35 @@
+{
+  "pipeline": {
+    "startTime": "2025-08-17T01:41:04.505Z",
+    "endTime": "2025-08-17T01:41:27.373Z",
+    "duration": "23 seconds"
+  },
+  "outputs": {
+    "videoSegments": "/Users/ianfrelinger/PycharmProjects/disaster-response-dashboard/video-production/out",
+    "finalVideo": "/Users/ianfrelinger/PycharmProjects/disaster-response-dashboard/video-production/output/final_enhanced_demo.mp4",
+    "summary": "/Users/ianfrelinger/PycharmProjects/disaster-response-dashboard/video-production/output/video_assembly_summary.json"
+  },
+  "segments": [
+    {
+      "name": "Personal Introduction",
+      "duration": "15s"
+    },
+    {
+      "name": "User Persona",
+      "duration": "20s"
+    },
+    {
+      "name": "Foundry Architecture",
+      "duration": "30s"
+    },
+    {
+      "name": "Action Demonstration",
+      "duration": "30s"
+    },
+    {
+      "name": "Strong Call to Action",
+      "duration": "45s"
+    }
+  ],
+  "totalDuration": "2 minutes 20 seconds"
+}
