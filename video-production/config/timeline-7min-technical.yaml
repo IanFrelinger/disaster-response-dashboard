@@ -1,0 +1,248 @@
+timeline:
+  duration: 420  # 7 minutes (420 seconds)
+  fps: 30
+  resolution: [1920, 1080]
+  tracks:
+    video:
+      # Personal Introduction & Context
+      - { name: "A01_personal_intro",    source: "captures/personal_intro.webm",    start: 0,   duration: 20, transitions: { in: fade, out: fade } }
+      - { name: "A02_user_persona",      source: "captures/user_persona.webm",      start: 20,  duration: 25, transitions: { in: fade, out: fade } }
+      
+      # Technical Architecture Deep Dive
+      - { name: "B01_foundry_architecture", source: "captures/foundry_architecture.webm", start: 45,  duration: 60, transitions: { in: fade, out: fade } }
+      
+      # Platform Capabilities & Features
+      - { name: "C01_platform_overview", source: "captures/action_demonstration.webm", start: 105, duration: 45, transitions: { in: fade, out: fade } }
+      - { name: "C02_hazard_management", source: "captures/action_demonstration.webm", start: 150, duration: 45, transitions: { in: fade, out: fade } }
+      - { name: "C03_evacuation_routing", source: "captures/action_demonstration.webm", start: 195, duration: 45, transitions: { in: fade, out: fade } }
+      
+      # AI & Decision Support
+      - { name: "D01_ai_decision_support", source: "captures/strong_cta.webm", start: 240, duration: 45, transitions: { in: fade, out: fade } }
+      - { name: "D02_technical_implementation", source: "captures/foundry_architecture.webm", start: 285, duration: 45, transitions: { in: fade, out: fade } }
+      
+      # Integration & Deployment
+      - { name: "E01_integration_scenarios", source: "captures/user_persona.webm", start: 330, duration: 45, transitions: { in: fade, out: fade } }
+      - { name: "E02_strong_cta", source: "captures/strong_cta.webm", start: 375, duration: 45, transitions: { in: fade, out: fade } }
+
+    audio:
+      voiceover:
+        source: "audio/voiceover.wav"
+        start: 0
+        duration: 420
+        volume: 1.0
+        ducking: true
+        
+      music:
+        source: "audio/music.wav"
+        start: 0
+        duration: 420
+        volume: 0.2
+        fade:
+          in: 3
+          out: 5
+        
+      effects:
+        - name: "transition-sound"
+          source: "audio/transition.wav"
+          start: 20
+          duration: 0.5
+          volume: 0.4
+        - name: "tech-highlight"
+          source: "audio/highlight.wav"
+          start: 45
+          duration: 0.3
+          volume: 0.6
+        - name: "ai-highlight"
+          source: "audio/highlight.wav"
+          start: 240
+          duration: 0.3
+          volume: 0.6
+    
+    graphics:
+      lower-thirds:
+        # Personal Introduction
+        - text: "Ian Frelinger - Emergency Response Specialist"
+          start: 0
+          duration: 20
+          position: "center"
+          style: "personal"
+        
+        # User Persona Definition
+        - text: "Target: Incident Commanders, Emergency Planners, First Responders"
+          start: 20
+          duration: 25
+          position: "center"
+          style: "persona"
+        
+        # Technical Architecture
+        - text: "Foundry Platform: Technical Architecture & Data Flow"
+          start: 45
+          duration: 60
+          position: "bottom-center"
+          style: "tech"
+        
+        # Platform Overview
+        - text: "Real-time Hazard Detection & Risk Assessment"
+          start: 105
+          duration: 45
+          position: "bottom-left"
+          style: "hazard"
+        
+        # Hazard Management
+        - text: "Dynamic Zone Management & Building Status Tracking"
+          start: 150
+          duration: 45
+          position: "bottom-center"
+          style: "zones"
+        
+        # Evacuation Routing
+        - text: "AI-Powered Route Optimization & Evacuation Planning"
+          start: 195
+          duration: 45
+          position: "bottom-right"
+          style: "routes"
+        
+        # AI Decision Support
+        - text: "Machine Learning Decision Support & Risk Analysis"
+          start: 240
+          duration: 45
+          position: "center"
+          style: "ai"
+        
+        # Technical Implementation
+        - text: "Technical Deep Dive: APIs, Ontologies, & Workflows"
+          start: 285
+          duration: 45
+          position: "bottom-center"
+          style: "tech"
+        
+        # Integration Scenarios
+        - text: "Integration with Existing Emergency Management Systems"
+          start: 330
+          duration: 45
+          position: "bottom-left"
+          style: "integration"
+        
+        # Strong Call to Action
+        - text: "Let's Discuss Your Emergency Management Implementation"
+          start: 375
+          duration: 45
+          position: "center"
+          style: "contact"
+      
+      overlays:
+        - id: "personal_intro"
+          type: "text_card"
+          start: 0
+          duration: 20
+          position: "center"
+          style: "personal_intro"
+          content: "Hi, I'm Ian Frelinger. I'm building this disaster response platform because emergency managers need better tools when lives are at stake. Let me show you the technical architecture and capabilities."
+        
+        - id: "user_persona"
+          type: "info_card"
+          start: 20
+          duration: 25
+          position: "center"
+          style: "persona_definition"
+          content: "This platform serves Incident Commanders, Emergency Planners, and First Responders who need real-time coordination, risk assessment, and decision support during disasters."
+        
+        - id: "foundry_tech"
+          type: "tech_diagram"
+          start: 45
+          duration: 60
+          position: "right"
+          style: "architecture"
+          content: "Foundry enables real-time data streaming, ontology management, and action workflows. The platform uses microservices architecture with REST APIs and WebSocket connections for live updates."
+        
+        - id: "platform_capabilities"
+          type: "feature_list"
+          start: 105
+          duration: 45
+          position: "overlay"
+          style: "capabilities"
+          content: "Key capabilities: Real-time hazard detection, dynamic risk assessment, population vulnerability analysis, and automated alert generation."
+        
+        - id: "hazard_management"
+          type: "interaction_demo"
+          start: 150
+          duration: 45
+          position: "overlay"
+          style: "hazard_demo"
+          content: "Dynamic zone management with real-time building status updates, occupancy tracking, and risk level calculations based on multiple data sources."
+        
+        - id: "routing_tech"
+          type: "tech_demo"
+          start: 195
+          duration: 45
+          position: "overlay"
+          style: "routing_demo"
+          content: "A-Star algorithm optimization with real-time traffic data, hazard avoidance, and multi-objective optimization for evacuation planning."
+        
+        - id: "ai_decision"
+          type: "ai_demo"
+          start: 240
+          duration: 45
+          position: "overlay"
+          style: "ai_demo"
+          content: "Machine learning models for risk prediction, decision support algorithms, and automated response recommendations based on historical data and current conditions."
+        
+        - id: "tech_implementation"
+          type: "code_demo"
+          start: 285
+          duration: 45
+          position: "overlay"
+          style: "code_demo"
+          content: "Technical implementation: Python backend with FastAPI, React frontend, PostgreSQL database, Redis caching, and Docker containerization."
+        
+        - id: "integration_scenarios"
+          type: "integration_demo"
+          start: 330
+          duration: 45
+          position: "overlay"
+          style: "integration_demo"
+          content: "Integration scenarios: CAD systems, weather services, traffic management, building management systems, and emergency notification platforms."
+        
+        - id: "strong_cta"
+          type: "call_to_action"
+          start: 375
+          duration: 45
+          position: "center"
+          style: "engagement"
+          content: "I'd love to show you a comprehensive technical demonstration and discuss implementation details, customization options, and integration requirements for your emergency management operations."
+      
+      captions:
+        source: "subs/vo.srt"
+        style: "technical"
+        position: "bottom-center"
+        background: "semi-transparent"
+        font: "Monaco"
+        size: 22
+        color: "white"
+        outline: "black"
+    
+    effects:
+      color-grading:
+        lut: "luts/emergency-response.cube"
+        intensity: 0.8
+        
+      stabilization:
+        enabled: true
+        smoothing: 0.2
+        
+      enhancement:
+        sharpness: 1.3
+        contrast: 1.15
+        saturation: 1.1
+        
+  output:
+    rough-cut: "out/roughcut_7min_technical.mp4"
+    final: "out/final_7min_technical.mp4"
+    edl: "out/final_7min_technical.edl"
+    premiere: "out/final_7min_technical.xml"
+    metadata:
+      title: "Disaster Response Platform - 7-Minute Technical Deep Dive"
+      description: "Comprehensive technical demonstration of Foundry-powered emergency coordination platform with detailed architecture, AI capabilities, and implementation details"
+      author: "Ian Frelinger"
+      copyright: "2024 Ian Frelinger"
+      keywords: ["emergency", "disaster", "response", "platform", "AI", "evacuation", "palantir", "foundry", "technical", "architecture", "implementation", "demo"]
