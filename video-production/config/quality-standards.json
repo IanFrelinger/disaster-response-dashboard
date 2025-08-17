@@ -1,0 +1,184 @@
+{
+  "metadata": {
+    "description": "Quality standards configuration for the Enhanced Critic Bot",
+    "version": "1.0.0",
+    "lastUpdated": "2024-01-01T00:00:00.000Z"
+  },
+  "qualityStandards": {
+    "overallScore": 85,
+    "technicalAccuracy": 90,
+    "visualQuality": 80,
+    "pacing": 85,
+    "engagement": 80,
+    "duration": {
+      "min": 300,
+      "max": 600,
+      "target": 420,
+      "description": "Duration in seconds (5-10 minutes, target 7 minutes)"
+    },
+    "content": {
+      "requiredTopics": [
+        "disaster response",
+        "AI decision support",
+        "real-time monitoring",
+        "evacuation planning",
+        "hazard management",
+        "emergency coordination",
+        "risk assessment",
+        "resource allocation"
+      ],
+      "forbiddenTopics": [
+        "confidential information",
+        "unreleased features",
+        "internal processes",
+        "sensitive data",
+        "proprietary algorithms"
+      ],
+      "technicalDepth": "intermediate",
+      "description": "Content requirements and restrictions"
+    }
+  },
+  "beatValidation": {
+    "minimumScore": 70,
+    "optimalDuration": {
+      "min": 10,
+      "max": 60,
+      "target": 30
+    },
+    "qualityThresholds": {
+      "excellent": 90,
+      "good": 80,
+      "acceptable": 70,
+      "poor": 60,
+      "unacceptable": 50
+    },
+    "scoringWeights": {
+      "duration": 0.2,
+      "content": 0.3,
+      "technical": 0.3,
+      "visual": 0.2
+    }
+  },
+  "videoValidation": {
+    "criticalIssues": [
+      "overall score below 70",
+      "duration outside acceptable range",
+      "missing required topics",
+      "technical accuracy below 80"
+    ],
+    "improvementAreas": [
+      "overall score below 85",
+      "pacing issues",
+      "engagement problems",
+      "visual quality concerns"
+    ],
+    "successCriteria": {
+      "meetsStandards": "All quality metrics above thresholds",
+      "partialSuccess": "Most metrics above thresholds with minor issues",
+      "needsImprovement": "Several metrics below thresholds",
+      "criticalFailure": "Multiple critical issues present"
+    }
+  },
+  "iterationSettings": {
+    "maxIterations": 10,
+    "qualityImprovementTarget": 5,
+    "convergenceThreshold": 2,
+    "backoffStrategy": {
+      "enabled": true,
+      "initialDelay": 5000,
+      "maxDelay": 30000,
+      "multiplier": 1.5
+    },
+    "autoRestart": {
+      "enabled": true,
+      "maxRestarts": 3,
+      "restartDelay": 60000
+    }
+  },
+  "technicalRequirements": {
+    "videoFormat": {
+      "container": "mp4",
+      "codec": "h264",
+      "resolution": "1920x1080",
+      "framerate": 30,
+      "bitrate": {
+        "minimum": 1000,
+        "target": 2000,
+        "maximum": 5000
+      }
+    },
+    "audioFormat": {
+      "codec": "aac",
+      "sampleRate": 44100,
+      "channels": 2,
+      "bitrate": {
+        "minimum": 128,
+        "target": 192,
+        "maximum": 320
+      }
+    },
+    "fileSize": {
+      "maximum": "100MB",
+      "target": "50MB"
+    }
+  },
+  "contentStandards": {
+    "narrativeFlow": {
+      "required": true,
+      "structure": [
+        "introduction",
+        "problem statement",
+        "solution overview",
+        "technical details",
+        "demonstration",
+        "benefits",
+        "conclusion"
+      ]
+    },
+    "technicalAccuracy": {
+      "required": true,
+      "verification": [
+        "fact checking",
+        "technical validation",
+        "expert review",
+        "source verification"
+      ]
+    },
+    "accessibility": {
+      "required": true,
+      "standards": [
+        "clear audio",
+        "readable text",
+        "adequate contrast",
+        "logical flow"
+      ]
+    }
+  },
+  "reporting": {
+    "detailedReports": true,
+    "includeScreenshots": true,
+    "includeMetrics": true,
+    "exportFormats": ["json", "html", "pdf"],
+    "autoArchive": {
+      "enabled": true,
+      "retentionDays": 30,
+      "archivePath": "./archived-reports"
+    }
+  },
+  "notifications": {
+    "email": {
+      "enabled": false,
+      "recipients": [],
+      "smtp": {}
+    },
+    "webhook": {
+      "enabled": false,
+      "url": "",
+      "headers": {}
+    },
+    "console": {
+      "enabled": true,
+      "logLevel": "info"
+    }
+  }
+}
