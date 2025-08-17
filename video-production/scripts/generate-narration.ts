@@ -1,27 +1,59 @@
+// Type declaration for elevenlabs-node module
+declare module 'elevenlabs-node' {
+  export function textToSpeech(options: {
+    text: string;
+    voice_id: string;
+    api_key: string;
+    stability?: number;
+    similarity_boost?: number;
+  }): Promise<Buffer>;
+}
+
 import { textToSpeech } from 'elevenlabs-node';
 import * as path from 'path';
 import * as fs from 'fs';
 import { fileURLToPath } from 'url';
+import * as yaml from 'js-yaml';
 
 // ES module equivalent of __dirname
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 interface NarrationSegment {
-  name: string;
+  id: string;
+  title: string;
   duration: number;
-  description: string;
   narration: string;
-  userBehavior: string;
-  fileName: string;
+  voice: string;
+  emphasis: string;
+}
+
+interface VoiceProvider {
+  voice_id?: string;
+  stability?: number;
+  similarity_boost?: number;
+  api_key_env?: string;
+}
+
+interface NarrationConfig {
+  voice_provider: string;
+  voice_providers: {
+    elevenlabs?: VoiceProvider;
+    openai?: any;
+    azure?: any;
+    piper?: any;
+  };
+  segments: NarrationSegment[];
 }
 
 class NarrationGenerator {
   private apiKey: string;
   private outputDir: string;
   private audioDir: string;
+  private config!: NarrationConfig; // Using definite assignment assertion
+  private configPath: string;
 
-  constructor() {
+  constructor(configPath?: string) {
     // Initialize ElevenLabs with API key from environment
     const apiKey = process.env.ELEVEN_API_KEY;
     if (!apiKey) {
@@ -33,8 +65,45 @@ class NarrationGenerator {
     this.outputDir = path.join(__dirname, '..', 'output');
     this.audioDir = path.join(this.outputDir, 'audio');
     
+    // Use provided config path or default to narration-fixed.yaml
+    this.configPath = configPath || path.join(__dirname, '..', 'config', 'narration-fixed.yaml');
+    
     if (!fs.existsSync(this.audioDir)) {
       fs.mkdirSync(this.audioDir, { recursive: true });
+    }
+  }
+
+  private loadConfiguration(): void {
+    try {
+      if (!fs.existsSync(this.configPath)) {
+        throw new Error(`Configuration file not found: ${this.configPath}`);
+      }
+
+      const configContent = fs.readFileSync(this.configPath, 'utf8');
+      const rawConfig = yaml.load(configContent) as any;
+
+      if (!rawConfig) {
+        throw new Error('Failed to parse configuration file');
+      }
+
+      // Transform the YAML structure to match our interface
+      this.config = {
+        voice_provider: rawConfig.metadata?.voice_provider || 'elevenlabs',
+        voice_providers: rawConfig.voice_providers || {},
+        segments: rawConfig.scenes || []
+      };
+
+      console.log(`📁 Configuration loaded from: ${this.configPath}`);
+      console.log(`🎙️ Voice provider: ${this.config.voice_provider}`);
+      
+      if (this.config.voice_providers.elevenlabs?.voice_id) {
+        console.log(`🎭 Voice ID: ${this.config.voice_providers.elevenlabs.voice_id}`);
+      }
+      
+      console.log(`📝 Segments found: ${this.config.segments.length}`);
+      
+    } catch (error) {
+      throw new Error(`Failed to load configuration: ${error instanceof Error ? error.message : String(error)}`);
     }
   }
 
@@ -42,80 +111,26 @@ class NarrationGenerator {
     console.log('🎙️ Starting ElevenLabs Narration Generation...');
     console.log('This will create professional voiceover for each video segment');
     
-    const segments: NarrationSegment[] = [
-      {
-        name: "discovery",
-        duration: 15,
-        description: "User discovers the platform and explores the interface",
-        narration: "Let me show you around this disaster response platform. As you can see, it's designed with a clean, intuitive interface that makes emergency management accessible to all users. The dashboard provides immediate situational awareness with clear visual indicators and intuitive navigation.",
-        userBehavior: "Curious exploration, clicking around, reading labels",
-        fileName: "01-discovery-narration.mp3"
-      },
-      {
-        name: "operations_exploration",
-        duration: 20,
-        description: "User explores the operations view and discovers evacuation zones",
-        narration: "Now let me show you the Operations view. This is where incident commanders monitor evacuation zones and track building status in real-time. Watch how intuitive this interface is. We can see evacuation progress, building occupancy, and special needs requirements all at a glance. The system automatically prioritizes buildings based on risk factors and evacuation complexity.",
-        userBehavior: "Focused exploration, clicking on interesting elements, reading data",
-        fileName: "02-operations-exploration-narration.mp3"
-      },
-      {
-        name: "weather_integration",
-        duration: 18,
-        description: "User discovers weather integration and risk assessment features",
-        narration: "Let me show you something really interesting - our weather integration system. This provides real-time conditions and automatically assesses operational risks. It's like having a meteorologist built into the platform. The system continuously monitors wind patterns, visibility, and temperature to adjust evacuation strategies and route planning in real-time. This proactive approach can save critical minutes during emergency response.",
-        userBehavior: "Excited discovery, focused attention, exploring new features",
-        fileName: "03-weather-integration-narration.mp3"
-      },
-      {
-        name: "asset_management",
-        duration: 16,
-        description: "User explores building and asset management capabilities",
-        narration: "Now let me show you the Assets view. This gives us detailed information about buildings, their evacuation status, and special needs requirements. It's incredibly granular. We can see building schematics, population density, accessibility features, and even historical evacuation data. This level of detail ensures that every building and every person is accounted for during emergency operations.",
-        userBehavior: "Methodical exploration, reading data carefully, understanding structure",
-        fileName: "04-asset-management-narration.mp3"
-      },
-      {
-        name: "ai_experience",
-        duration: 22,
-        description: "User interacts with AI decision support system",
-        narration: "This is where it gets really exciting - our AI-powered decision support system. Let me show you how it works by asking it a real question about evacuation priorities. The AI analyzes real-time data from multiple sources, considers historical patterns, and provides actionable recommendations. It can suggest optimal evacuation routes, identify resource allocation priorities, and even predict potential bottlenecks before they occur. This transforms complex emergency management into clear, actionable insights.",
-        userBehavior: "Excited interaction, typing naturally, waiting for responses, reading results",
-        fileName: "05-ai-experience-narration.mp3"
-      },
-      {
-        name: "live_map_exploration",
-        duration: 14,
-        description: "User explores the live map and real-time features",
-        narration: "Finally, let me show you our Live Map integration. This provides real-time situational awareness and geographic visualization. It's like having Google Maps for emergency response. The map shows evacuation zones, unit locations, route progress, and real-time updates from the field. Commanders can zoom in to see individual building details or zoom out for city-wide situational awareness. This geographic context is crucial for effective emergency coordination.",
-        userBehavior: "Fascinated exploration, zooming, panning, discovering features",
-        fileName: "06-live-map-exploration-narration.mp3"
-      },
-      {
-        name: "comprehensive_overview",
-        duration: 12,
-        description: "User gets a comprehensive overview and understanding",
-        narration: "As you can see, this platform brings together everything needed for modern emergency response: real-time data, AI-powered insights, and intuitive interfaces. It's designed to make complex emergency management simple and effective. Whether you're a seasoned incident commander or new to emergency response, this platform provides the tools, insights, and confidence needed to protect lives and property during critical situations.",
-        userBehavior: "Comprehensive understanding, final exploration, appreciation of features",
-        fileName: "07-comprehensive-overview-narration.mp3"
-      }
-    ];
-
+    // Load configuration from file
+    this.loadConfiguration();
+    
+    const segments = this.config.segments;
+    
     console.log(`🎙️ Generating narration for ${segments.length} segments...`);
     console.log(`Total Duration: ${segments.reduce((sum, seg) => sum + seg.duration, 0)} seconds`);
     
     // Generate narration for each segment
     for (let i = 0; i < segments.length; i++) {
       const segment = segments[i];
-      console.log(`\n🎙️ Segment ${i + 1}/${segments.length}: ${segment.name.toUpperCase()}`);
+      console.log(`\n🎙️ Segment ${i + 1}/${segments.length}: ${segment.title.toUpperCase()}`);
       console.log(`   Duration: ${segment.duration}s`);
-      console.log(`   File: ${segment.fileName}`);
+      console.log(`   ID: ${segment.id}`);
       
       try {
         await this.generateSegmentNarration(segment);
         console.log(`   ✅ Narration generated successfully`);
       } catch (error) {
-        console.error(`   ❌ Error generating narration for ${segment.name}:`, error);
+        console.error(`   ❌ Error generating narration for ${segment.title}:`, error);
       }
     }
     
@@ -129,31 +144,40 @@ class NarrationGenerator {
   }
 
   private async generateSegmentNarration(segment: NarrationSegment) {
-    const outputPath = path.join(this.audioDir, segment.fileName);
+    const fileName = `${segment.id}-narration.mp3`;
+    const outputPath = path.join(this.audioDir, fileName);
     
     try {
-      // Use ElevenLabs to generate speech with simplified parameters
+      // Get voice configuration
+      const voiceConfig = this.config.voice_providers.elevenlabs;
+      if (!voiceConfig?.voice_id) {
+        throw new Error('No voice ID configured for ElevenLabs');
+      }
+
+      // Use ElevenLabs to generate speech with configuration from file
       const audioBuffer = await textToSpeech({
         text: segment.narration,
-        voice_id: 'pNInz6obpgDQGcFmaJgB', // Adam voice - professional and clear
-        api_key: this.apiKey
+        voice_id: voiceConfig.voice_id,
+        api_key: this.apiKey,
+        ...(voiceConfig.stability && { stability: voiceConfig.stability }),
+        ...(voiceConfig.similarity_boost && { similarity_boost: voiceConfig.similarity_boost })
       });
       
       // Save the audio file
       fs.writeFileSync(outputPath, audioBuffer);
       
-      console.log(`   📁 Audio saved to: ${outputPath}`);
+      console.log(`   📁 Audio saved to: ${fileName}`);
       console.log(`   🎯 Narration: "${segment.narration.substring(0, 80)}..."`);
       
     } catch (error) {
-      console.error(`   ❌ Error generating audio for ${segment.name}:`, error.message);
+      console.error(`   ❌ Error generating audio for ${segment.title}:`, error instanceof Error ? error.message : String(error));
       
       // Create a placeholder audio file for now
-      const placeholderText = `Placeholder audio for ${segment.name} segment. Duration: ${segment.duration} seconds.`;
+      const placeholderText = `Placeholder audio for ${segment.title} segment. Duration: ${segment.duration} seconds.`;
       const placeholderBuffer = Buffer.from(placeholderText, 'utf8');
       fs.writeFileSync(outputPath, placeholderBuffer);
       
-      console.log(`   📁 Placeholder file created: ${outputPath}`);
+      console.log(`   📁 Placeholder file created: ${fileName}`);
     }
   }
 
@@ -167,11 +191,12 @@ class NarrationGenerator {
     scriptContent += `## Segment Breakdown\n\n`;
     
     segments.forEach((segment, index) => {
-      scriptContent += `### Segment ${index + 1}: ${segment.name.replace(/_/g, ' ').toUpperCase()}\n\n`;
+      scriptContent += `### Segment ${index + 1}: ${segment.title.toUpperCase()}\n\n`;
+      scriptContent += `**ID:** ${segment.id}\n`;
       scriptContent += `**Duration:** ${segment.duration} seconds\n`;
-      scriptContent += `**Description:** ${segment.description}\n`;
-      scriptContent += `**User Behavior:** ${segment.userBehavior}\n`;
-      scriptContent += `**Audio File:** ${segment.fileName}\n\n`;
+      scriptContent += `**Voice:** ${segment.voice}\n`;
+      scriptContent += `**Emphasis:** ${segment.emphasis}\n`;
+      scriptContent += `**Audio File:** ${segment.id}-narration.mp3\n\n`;
       scriptContent += `**Narration:**\n`;
       scriptContent += `> ${segment.narration}\n\n`;
       scriptContent += `---\n\n`;
@@ -201,6 +226,7 @@ class NarrationGenerator {
     scriptContent += `---\n`;
     scriptContent += `*Generated by ElevenLabs TTS for Disaster Response Demo*\n`;
     scriptContent += `*Professional narration ready for video production*\n`;
+    scriptContent += `*Configuration: ${this.configPath}*\n`;
     
     fs.writeFileSync(scriptPath, scriptContent);
     console.log(`📝 Complete script saved to: ${scriptPath}`);
@@ -210,12 +236,18 @@ class NarrationGenerator {
 // Run the narration generator
 async function main() {
   try {
-    const generator = new NarrationGenerator();
+    // Check for command line argument for config file
+    const configArg = process.argv.find(arg => arg.startsWith('--config='));
+    const configPath = configArg ? configArg.split('=')[1] : undefined;
+    
+    const generator = new NarrationGenerator(configPath);
     await generator.generateAllNarration();
   } catch (error) {
     console.error('❌ Error in narration generation:', error);
     console.log('\n🔑 Make sure to set your ELEVEN_API_KEY environment variable:');
     console.log('   export ELEVEN_API_KEY="your-api-key-here"');
+    console.log('\n📁 You can specify a custom config file with:');
+    console.log('   npx ts-node generate-narration.ts --config=path/to/config.yaml');
   }
 }
 

@@ -1,0 +1,45 @@
+{
+  "voice": "alloy",
+  "beats": [
+    {
+      "id": "B01_intro",
+      "text": "Hi, I'm Ian Frelinger. Emergencies move fast—tools shouldn't slow us down. Here's how we bring clear decisions to the front line."
+    },
+    {
+      "id": "B02_roles",
+      "text": "Incident Commanders, planners, and dispatchers share the same view. Command sets intent; teams act quickly with less guesswork."
+    },
+    {
+      "id": "B03_api",
+      "text": "Feeds are fused on an H3 grid and scored by an ML model. Routing uses A Star. Foundry Functions expose it via REST: hazards, routes, risk, evacuations, units, public safety. Dashboards, mobile, and the AI assistant all read the same source of truth."
+    },
+    {
+      "id": "B04_map",
+      "text": "Hazards update live. A single click shows intensity and population at risk—fuel for triage: monitor, shelter, or evacuate."
+    },
+    {
+      "id": "B05_zones",
+      "text": "Each card is a zone. Progress bars track evacuees, while building lists flag special needs and refusals—so teams focus where it matters."
+    },
+    {
+      "id": "B06_route",
+      "text": "A Star balances safety and time. Profiles match doctrine—civilians avoid hazards, EMS takes calculated risk, fire goes direct, police secures."
+    },
+    {
+      "id": "B07_ai",
+      "text": "Ask in plain language. The assistant synthesizes hazards, units and traffic to recommend the next move—while you stay in command."
+    },
+    {
+      "id": "B08_tech",
+      "text": "Processing converts detections to H3 cells, predicts spread, and scores risk. Routing builds a hazard-aware graph. Foundry Functions expose the fused data through a small, clean API."
+    },
+    {
+      "id": "B09_impact",
+      "text": "Faster decisions, fewer hand-offs, and higher compliance—without drowning users in noise."
+    },
+    {
+      "id": "B10_conclusion",
+      "text": "Thanks for watching. I'd love to discuss piloting this with your team."
+    }
+  ]
+}

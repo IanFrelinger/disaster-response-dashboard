@@ -1,0 +1,151 @@
+# Disaster Response Dashboard - Enhanced Demo Video Narration
+# Palantir Building Challenge Submission - Addressing Recruiter Feedback
+
+metadata:
+  title: "Disaster Response Dashboard - Enhanced Personal Demo"
+  duration: 420  # Extended to 7 minutes as requested
+  language: "en-US"
+  voice_provider: "elevenlabs"
+  voice_settings:
+    speed: 1.0
+    pitch: 0
+    volume: 1.0
+
+scenes:
+  # NEW: Personal Introduction (I001 fix)
+  - id: "personal_intro"
+    title: "Personal Introduction"
+    duration: 15
+    narration: "Hi, I'm Ian Frelinger. I'm building this disaster response platform because I believe emergency managers deserve better tools when lives are at stake. Every minute wasted in a disaster puts more people at risk, and I want to change that."
+    voice: "alloy"
+    emphasis: "Ian Frelinger, building, better tools, lives, change"
+    
+  # NEW: User Persona Definition (I002 fix)
+  - id: "user_persona"
+    title: "Target Users & Their Needs"
+    duration: 20
+    narration: "This platform serves Incident Commanders, Emergency Planners, and Dispatchers who face the daily challenge of coordinating complex emergency responses. These professionals need real-time visibility, rapid decision support, and seamless coordination across multiple agencies and jurisdictions."
+    voice: "alloy"
+    emphasis: "Incident Commanders, Emergency Planners, Dispatchers, real-time, coordination"
+    
+  # Original intro with adjusted timing
+  - id: "intro"
+    title: "Dashboard Overview"
+    duration: 30
+    narration: "When disasters hit, emergency managers are stuck dealing with a mess of disconnected systems and slow responses. Every minute wasted puts lives at risk. The old way takes hours to get organized - but we don't have hours to spare. Our platform brings everything together in one unified dashboard."
+    voice: "alloy"
+    emphasis: "disasters, mess, slow, lives, hours, unified"
+    
+  - id: "hazards"
+    title: "Multi-Hazard Map"
+    duration: 30
+    narration: "We've built one dashboard that brings everyone together - emergency commanders, first responders, and agencies all working from the same page. You can see every threat as it happens. Our map pulls together wildfire, flood, earthquake, and weather data in real-time."
+    voice: "alloy"
+    emphasis: "one, together, same, threat, pulls"
+    
+  # EXTENDED: API Architecture with Foundry emphasis (I003 fix)
+  - id: "api_architecture"
+    title: "Foundry Platform Architecture"
+    duration: 50
+    narration: "The technical architecture is built on Palantir Foundry, which enables real-time data streaming from multiple sources including FIRMS satellite data, NOAA weather feeds, and 911 dispatch systems. Foundry's ontology management allows us to create a unified data model that emergency managers can trust. The platform processes this data through ML models for hazard spread prediction and risk assessment, then presents actionable insights through our API endpoints."
+    voice: "alloy"
+    emphasis: "Palantir Foundry, real-time, ontology, unified, ML models, actionable"
+    
+  # EXTENDED: Map interaction with user actions (I004 fix)
+  - id: "map_interaction"
+    title: "Live Hazard Detection & User Actions"
+    duration: 50
+    narration: "Here's how an Incident Commander would use the platform. Click on any hazard to see detailed risk analysis, population at risk, and recommended actions. The system shows you exactly what decisions you need to make and provides the data to make them confidently. You can edit hazard zones, update evacuation orders, and coordinate response units - all through Foundry's action workflows."
+    voice: "alloy"
+    emphasis: "Incident Commander, risk analysis, decisions, actions, Foundry workflows"
+    
+  - id: "zones"
+    title: "Zone Management & Building Status"
+    duration: 40
+    narration: "Managing evacuation zones becomes straightforward with real-time building status tracking. See which buildings are evacuated, which are still occupied, and track evacuation progress. The system automatically updates risk assessments as conditions change, so you always have current information."
+    voice: "alloy"
+    emphasis: "evacuation zones, building status, real-time, automatic, current"
+    
+  - id: "routes"
+    title: "A-Star Route Optimization"
+    duration: 40
+    narration: "Get safe evacuation routes with just one click. Our AI looks at the terrain, checks for hazards, and monitors traffic to find the safest way out. The routes keep updating as things change - what was safe ten minutes ago might be dangerous now. The A-Star algorithm considers multiple factors to optimize for safety and speed."
+    voice: "alloy"
+    emphasis: "safe, AI, looks, updating, dangerous, A-Star, optimize"
+    
+  - id: "ai_support"
+    title: "AI Decision Support"
+    duration: 30
+    narration: "AI spots patterns and gives you real-time advice when you need it most. Make smart decisions even under pressure. Our system learns from every incident, constantly getting better at response strategies and figuring out where to put resources."
+    voice: "alloy"
+    emphasis: "spots, advice, smart, learns, better"
+    
+  - id: "tech_deep"
+    title: "Technical Deep Dive"
+    duration: 40
+    narration: "The platform integrates multiple data sources through Foundry's data fusion capabilities. We use H3 geospatial indexing for efficient spatial queries, ML models for hazard spread prediction, and real-time risk polygon generation. The system automatically scales to handle multiple concurrent incidents while maintaining performance."
+    voice: "alloy"
+    emphasis: "Foundry, data fusion, H3, ML models, risk polygons, scales"
+    
+  - id: "impact"
+    title: "Impact & Value Proposition"
+    duration: 30
+    narration: "Our system dramatically increases response throughput and allows for greater effectiveness of emergency responses. By reducing coordination time from hours to minutes, we save lives. The platform has been designed to handle the complexity of real-world disasters while remaining intuitive for emergency professionals."
+    voice: "alloy"
+    emphasis: "dramatically, increases, effectiveness, hours to minutes, save lives"
+    
+  # EXTENDED: Stronger conclusion with CTA (I005 fix)
+  - id: "conclusion"
+    title: "Call to Action & Next Steps"
+    duration: 45
+    narration: "This demo shows the core capabilities, but there's so much more to explore. I'd love to show you a longer, more detailed demonstration that covers advanced features like scenario planning, resource optimization, and integration with your existing systems. Let's discuss how this platform can transform your emergency management operations and help you save more lives. I'm excited to share more about the technical implementation and answer any questions you have."
+    voice: "alloy"
+    emphasis: "longer demo, advanced features, transform, save lives, technical implementation, questions"
+
+voice_providers:
+  openai:
+    model: "gpt-4o-mini-tts"
+    voice: "alloy"
+    speed: 1.0
+    api_key_env: "OPENAI_API_KEY"
+    
+  elevenlabs:
+    voice_id: "LIpBYrITLsIquxoXdSkr"
+    stability: 0.5
+    similarity_boost: 0.75
+    api_key_env: "ELEVEN_API_KEY"
+    
+  azure:
+    voice: "en-US-JennyNeural"
+    region: "eastus"
+    api_key_env: "AZURE_SPEECH_KEY"
+    region_env: "AZURE_SPEECH_REGION"
+    
+  piper:
+    voice: "en_US-amy-low.onnx"
+    model_path: "./voices/en_US-amy-low.onnx"
+    config_path: "./voices/en_US-amy-low.onnx.json"
+    speed: 1.0
+    noise_scale: 0.667
+    length_scale: 1.0
+    noise_w: 0.8
+
+audio_settings:
+  sample_rate: 44100
+  bit_depth: 16
+  channels: 1
+  format: "wav"
+  normalization: "loudness"
+  target_lufs: -23.0
+  true_peak: -1.0
+  
+  processing:
+    noise_reduction: true
+    compression: true
+    equalization: true
+    reverb: false
+    
+  output:
+    per_scene: "audio/vo/"
+    merged: "audio/voiceover_fixed.wav"
+    subtitles: "subs/vo_fixed.srt"
