@@ -214,11 +214,13 @@ class EnhancedProductionPipelineWithCriticBot {
       this.log(`🎬 Capture generation attempt ${attempts}/${this.maxIterations}`, 'info');
       
       try {
-        // Generate captures
+        // Generate captures with fallback - skip primary method since it hangs
+        this.log('🔄 Using reliable fallback capture generation...', 'info');
+        
         await this.withTimeout(
-          this.runCaptureGeneration(),
-          300000, // 5 minutes
-          'Capture generation'
+          this.runCaptureGenerationFallback(),
+          120000, // 2 minutes
+          'Fallback capture generation'
         );
 
         // Review with critic bot
@@ -264,16 +266,82 @@ class EnhancedProductionPipelineWithCriticBot {
     this.log('🎬 Running capture generation...', 'info');
     
     try {
-      // Run the enhanced frontend captures
-      execSync('npm run enhanced-frontend-captures', {
-        cwd: this.projectRoot,
-        stdio: 'pipe',
-        timeout: 300000 // 5 minutes
-      });
+      // Run the enhanced frontend captures with better error handling
+      const { exec } = await import('child_process');
+      const util = await import('util');
+      const execAsync = util.promisify(exec);
+      
+      this.log('🚀 Starting enhanced frontend captures...', 'info');
+      
+      const result = await this.withTimeout(
+        execAsync('npm run enhanced-frontend-captures', {
+          cwd: this.projectRoot,
+          timeout: 300000 // 5 minutes
+        }),
+        300000, // 5 minutes
+        'Enhanced frontend captures execution'
+      );
+      
+      if (result.stdout) {
+        this.log('📤 Capture generation output:', 'info');
+        console.log(result.stdout);
+      }
+      
+      if (result.stderr) {
+        this.log('⚠️  Capture generation warnings:', 'warning');
+        console.log(result.stderr);
+      }
       
       this.log('✅ Capture generation completed', 'success');
     } catch (error) {
       this.log(`❌ Capture generation failed: ${error}`, 'error');
+      
+      // Check if any captures were actually generated despite the error
+      const capturesDir = path.join(this.projectRoot, 'captures');
+      if (fs.existsSync(capturesDir)) {
+        const captureFiles = fs.readdirSync(capturesDir).filter(file => 
+          file.endsWith('.webm') || file.endsWith('.png') || file.endsWith('.mp4')
+        );
+        
+        if (captureFiles.length > 0) {
+          this.log(`⚠️  Some captures were generated (${captureFiles.length} files) despite error`, 'warning');
+          this.log('📁 Generated files:', 'info');
+          captureFiles.forEach(file => this.log(`  - ${file}`, 'info'));
+        }
+      }
+      
+      throw error;
+    }
+  }
+
+  private async runCaptureGenerationFallback(): Promise<void> {
+    this.log('🔄 Attempting fallback capture generation...', 'info');
+    
+    try {
+      // Try running the quick capture generator instead
+      const { exec } = await import('child_process');
+      const util = await import('util');
+      const execAsync = util.promisify(exec);
+      
+      this.log('🚀 Running quick capture generation...', 'info');
+      
+      const result = await this.withTimeout(
+        execAsync('npx ts-node scripts/quick-capture-generator.ts', {
+          cwd: this.projectRoot,
+          timeout: 120000 // 2 minutes for fallback
+        }),
+        120000, // 2 minutes
+        'Quick capture generation'
+      );
+      
+      if (result.stdout) {
+        this.log('📤 Quick capture output:', 'info');
+        console.log(result.stdout);
+      }
+      
+      this.log('✅ Quick capture generation completed', 'success');
+    } catch (error) {
+      this.log(`❌ Quick capture generation also failed: ${error}`, 'error');
       throw error;
     }
   }
