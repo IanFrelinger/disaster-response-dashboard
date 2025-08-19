@@ -1,7 +1,7 @@
 timeline:
   duration: 340
   fps: 30
-  resolution: [1920, 1080]
+  resolution: [3840, 2160]
   tracks:
     video:
       - { name: "B01_intro",        source: "captures/intro.webm",        start: 0,   duration: 30, transitions: { in: fade, out: fade } }

@@ -1,5 +1,5 @@
 # Disaster Response Dashboard UI Component Map
-Generated: 2025-08-17T14:43:02.454Z
+Generated: 2025-08-19T13:58:15.598Z
 
 ## Overview
 This map provides comprehensive information about all UI components, interactions, and user flows in the Disaster Response Dashboard frontend. Use this information to create realistic, contextually appropriate interaction descriptions for video production.

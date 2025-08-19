@@ -1,7 +1,7 @@
 timeline:
   duration: 420  # Extended from 340 to accommodate new segments
   fps: 30
-  resolution: [1920, 1080]
+  resolution: [3840, 2160]
   tracks:
     video:
       # NEW: Personal Introduction (I001 fix)

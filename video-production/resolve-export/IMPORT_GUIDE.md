@@ -3,7 +3,7 @@
 ## Project Overview
 - **Project Name**: Disaster Response Demo
 - **Duration**: ~5:40 (340 seconds)
-- **Resolution**: 1920×1080
+- **Resolution**: 3840×2160 (4K Ultra HD)
 - **Frame Rate**: 30 FPS
 
 ## Import Steps
@@ -11,7 +11,7 @@
 ### 1. Create New Project
 - Open DaVinci Resolve
 - Create new project: "Disaster Response Demo"
-- Set timeline resolution to 1920×1080, 30 FPS
+- Set timeline resolution to 3840×2160, 30 FPS
 
 ### 2. Import Media
 - **Video**: Import 'video/final.mp4' to Media Pool
@@ -41,9 +41,9 @@
 
 ### 7. Export Settings
 - Format: H.264
-- Bitrate: 16–24 Mbps
+- Bitrate: 32–48 Mbps (4K requires higher bitrate)
 - Keyframe distance: 60
-- Resolution: 1920×1080
+- Resolution: 3840×2160 (4K Ultra HD)
 
 ## File Structure
 ```

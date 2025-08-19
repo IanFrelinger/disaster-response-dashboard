@@ -1,7 +1,7 @@
 timeline:
   duration: 420  # 7 minutes (420 seconds)
   fps: 30
-  resolution: [1920, 1080]
+  resolution: [3840, 2160]
   tracks:
     video:
       # Personal Introduction & Context

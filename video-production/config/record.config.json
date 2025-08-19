@@ -2,8 +2,8 @@
   "app": {
     "url": "http://localhost:3000",
     "viewport": {
-      "width": 1920,
-      "height": 1080
+      "width": 3840,
+      "height": 2160
     },
     "waitForSelector": "#root",
     "timeout": 30000

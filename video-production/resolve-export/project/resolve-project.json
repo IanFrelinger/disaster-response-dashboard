@@ -4,7 +4,7 @@
   "timeline": {
     "name": "Demo Timeline",
     "frameRate": 30,
-    "resolution": "1920x1080",
+    "resolution": "3840x2160",
     "audioSampleRate": 48000
   },
   "media": {
