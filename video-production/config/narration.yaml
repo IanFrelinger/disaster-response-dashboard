@@ -1,9 +1,9 @@
-# Disaster Response Dashboard - 4-Minute Video Narration
-# Palantir Building Challenge Submission
+# Disaster Response Dashboard - 7-Minute Technical Deep Dive
+# Palantir Building Challenge Submission - Technical Deep Dive
 
 metadata:
-  title: "Disaster Response Dashboard Demo"
-  duration: 117
+  title: "Disaster Response Dashboard - Technical Deep Dive"
+  duration: 420  # 7 minutes (420 seconds)
   language: "en-US"
   voice_provider: "elevenlabs"  # openai, elevenlabs, azure, piper
   voice_settings:
@@ -12,100 +12,121 @@ metadata:
     volume: 1.0
 
 scenes:
-  - id: "intro"
-    title: "Dashboard Overview"
-    duration: 8
-    narration: "When disasters hit, emergency managers are stuck dealing with a mess of disconnected systems and slow responses. Every minute wasted puts lives at risk. The old way takes hours to get organized - but we don't have hours to spare."
+  # Personal Introduction & Persona Setup (0-30s)
+  - id: "personal_intro"
+    title: "Meet Emergency Manager Sarah Chen"
+    duration: 30
+    narration: "Hi, I'm Ian Frelinger. I'll walk you through how an incident commander or operations section chief uses our web tool to size up a live situation, pick the right resource, plan access and monitor progress."
     voice: "alloy"  # OpenAI voice
-    emphasis: "disasters, mess, slow, lives, hours"
+    emphasis: "Incident Commander, Operations Section Chief, web tool, live situation, resource planning"
     capture_method: "screenshot"  # Static slide - use screenshot capture
     
-  - id: "map"
-    title: "Multi-Hazard Map"
-    duration: 10
-    narration: "We've built one dashboard that brings everyone together - emergency commanders, first responders, and agencies all working from the same page. You can see every threat as it happens. Our map pulls together wildfire, flood, earthquake, and weather data in real-time."
+  # Problem & Outcomes (30-75s)
+  - id: "problem_outcomes"
+    title: "The Challenge: Seconds Matter in Live Incidents"
+    duration: 45
+    narration: "In a live incident, seconds matter. The challenge is seeing hazards, exposure and conditions in one place, then turning that into clear assignments. Our goal is faster time-to-decision, safer access to the scene and continuous status you can trust."
     voice: "alloy"
-    emphasis: "one, together, same, threat, pulls"
+    emphasis: "live incident, seconds matter, hazards, exposure, conditions, time-to-decision, safer access"
+    capture_method: "screenshot"  # Static slide - use screenshot capture
+    
+  # Data & Architecture (75-135s)
+  - id: "data_architecture"
+    title: "Data & Architecture: Real-time Integration"
+    duration: 60
+    narration: "Data streams in from F-I-R-M-S, N-O-A-A, nine one one, population and traffic, and is fused in Palantir Foundry. The backend is Python and Flask, with Celery and WebSockets for real-time updates. The front end is React with Mapbox. The system provides APIs for hazards, risk assessment, route planning, unit management, evacuation tracking and public safety functions."
+    voice: "alloy"
+    emphasis: "FIRMS, NOAA, 911, population, traffic, Palantir Foundry, Python, Flask, Celery, WebSockets, React, Mapbox"
     capture_method: "video"  # Dynamic interaction - use video capture
     
-  - id: "route"
-    title: "Evacuation Routes"
-    duration: 12
-    narration: "Get safe evacuation routes with just one click. Our AI looks at the terrain, checks for hazards, and monitors traffic to find the safest way out. The routes keep updating as things change - what was safe ten minutes ago might be dangerous now."
+  # Live Hazard Map (135-195s)
+  - id: "live_hazard_map"
+    title: "Live Hazard Map: Situational Awareness"
+    duration: 60
+    narration: "We operate from the Live Hazard Map. Hazard cells give immediate situational awareness—what's active, where it's clustered and where to focus next."
     voice: "alloy"
-    emphasis: "safe, AI, looks, updating, dangerous"
+    emphasis: "Live Hazard Map, hazard cells, situational awareness, active threats, clustering"
     capture_method: "video"  # Dynamic interaction - use video capture
     
-  - id: "3d-terrain"
-    title: "3D Terrain View"
-    duration: 10
-    narration: "3D terrain view shows you the lay of the land like never before. You can see elevation changes, flood zones, and escape routes that flat maps just can't show. Navigate tricky landscapes with confidence, knowing every hill and obstacle."
+  # Exposure & Conditions (195-255s)
+  - id: "exposure_conditions"
+    title: "Exposure & Conditions: Buildings & Weather"
+    duration: 60
+    narration: "I turn on the buildings and weather layers. Buildings act as a practical proxy for population. Weather shows the conditions that will shape access and operations."
     voice: "alloy"
-    emphasis: "3D, lay, never, tricky, confidence"
+    emphasis: "Buildings layer, Weather layer, population proxy, conditions, access, operations"
     capture_method: "video"  # Dynamic interaction - use video capture
     
-  - id: "evacuation"
-    title: "Evacuation Management"
-    duration: 12
-    narration: "Managing mass evacuations doesn't have to be chaos. Our dashboard keeps track of every vehicle, person, and resource as it moves. Coordinate thousands of people through safe zones while keeping your finger on the pulse of the situation."
+  # Incident Focus (255-315s)
+  - id: "incident_focus"
+    title: "Incident Focus: Anchoring the Workflow"
+    duration: 60
+    narration: "I center the map on a specific hazard. This anchors the workflow to the right location and helps me prioritize the next move."
     voice: "alloy"
-    emphasis: "chaos, keeps, thousands, safe, pulse"
+    emphasis: "center map, specific hazard, anchor workflow, location, prioritize"
     capture_method: "video"  # Dynamic interaction - use video capture
     
-  - id: "ai"
-    title: "AI Decision Support"
-    duration: 15
-    narration: "AI spots patterns and gives you real-time advice when you need it most. Make smart decisions even under pressure. Our system learns from every incident, constantly getting better at response strategies and figuring out where to put resources."
+  # Resource Roster (315-375s)
+  - id: "resource_roster"
+    title: "Resource Roster: Unit Management"
+    duration: 60
+    narration: "Next, I open the units panel and select a fire engine from the roster. The roster keeps status and location at a glance so I can match the assignment to the right capability."
     voice: "alloy"
-    emphasis: "spots, advice, smart, learns, better"
+    emphasis: "Units panel, fire engine, roster, status, location, assignment, capability"
     capture_method: "video"  # Dynamic interaction - use video capture
     
-  - id: "weather"
-    title: "Weather Integration"
-    duration: 10
-    narration: "Real-time weather data from NOAA shows you what's coming, so you can stay ahead of the storm. We connect forecasts with evacuation planning and hazard assessment, so you're not just reacting - you're planning ahead."
+  # Route Planning (375-435s)
+  - id: "route_planning"
+    title: "Route Planning: Tactical Profiles"
+    duration: 60
+    narration: "I open the routing panel and choose a fire tactical profile. The system shows the route that matches this profile, including the staging and access points."
     voice: "alloy"
-    emphasis: "shows, coming, ahead, connecting, planning"
+    emphasis: "Routing panel, Fire Tactical profile, route matching, staging, access points"
+    capture_method: "video"  # Dynamic interaction - use video capture
+    
+  # Route Result (435-495s)
+  - id: "route_result"
+    title: "Route Result: ETA & Distance Review"
+    duration: 60
+    narration: "I review the route details—an estimated time of arrival and distance. This tells me how long it will take and which path the unit will follow."
+    voice: "alloy"
+    emphasis: "route details, estimated time of arrival, distance, path, unit"
+    capture_method: "video"  # Dynamic interaction - use video capture
+    
+  # Tasking (495-555s)
+  - id: "tasking"
+    title: "Tasking: Plan to Execution"
+    duration: 60
+    narration: "With the route validated, I confirm the unit will follow it. The plan moves from planning to execution."
+    voice: "alloy"
+    emphasis: "route validated, confirm, unit, plan, execution"
+    capture_method: "video"  # Dynamic interaction - use video capture
+    
+  # AIP Guidance (555-615s)
+  - id: "aip_guidance"
+    title: "AIP Decision Support: AI Recommendations"
+    duration: 60
+    narration: "In A-I-P decision support, I review recommendations and their confidence levels. It's a quick cross-check that our plan aligns with the current risk picture."
+    voice: "alloy"
+    emphasis: "AIP Decision Support, recommendations, confidence levels, cross-check, plan alignment, risk picture"
+    capture_method: "video"  # Dynamic interaction - use video capture
+    
+  # Ops Status & CTA (615-675s)
+  - id: "ops_status_cta"
+    title: "Operations Status & Call to Action"
+    duration: 60
+    narration: "I open the building evacuation tracker to monitor status and progress. From map to assignment to tracking, everything stays connected. If this matches your mission profile, I'd be happy to walk through a personalized scenario next."
+    voice: "alloy"
+    emphasis: "Building Evacuation Tracker, monitor status, progress, connected workflow, mission profile, personalized scenario"
     capture_method: "screenshot"  # Static slide - use screenshot capture
     
-  - id: "tech"
-    title: "Technical Deep Dive"
-    duration: 10
-    narration: "Our platform leverages cutting-edge technology including real-time data streaming, machine learning algorithms, and advanced visualization. Built on Palantir Foundry, it provides enterprise-grade security and scalability for mission-critical operations."
+  # Outro & Conclusion (675-720s)
+  - id: "outro_conclusion"
+    title: "Outro & Conclusion"
+    duration: 45
+    narration: "Thank you for joining me on this technical deep dive into our disaster response platform. We've demonstrated how real-time data integration, intelligent routing, and AI-powered decision support can transform emergency response operations. This system represents the future of emergency management—where every second counts and every decision matters. For more information or to schedule a personalized demo, please visit our website or contact our team. Together, we can build a safer, more resilient future."
     voice: "alloy"
-    emphasis: "cutting-edge, machine learning, visualization, Foundry, enterprise"
-    capture_method: "screenshot"  # Static slide - use screenshot capture
-    
-  - id: "commander"
-    title: "Commander View"
-    duration: 8
-    narration: "Commanders get the big picture with key metrics and resource allocation at a glance. Monitor multiple incidents at once while keeping control of the whole operation. It's like having eyes everywhere without getting overwhelmed."
-    voice: "alloy"
-    emphasis: "big, key, once, control, everywhere"
-    capture_method: "screenshot"  # Static slide - use screenshot capture
-    
-  - id: "responder"
-    title: "First Responder View"
-    duration: 8
-    narration: "First responders get the details they need for immediate action - turn-by-turn directions, hazard alerts, and team status. Get what you need when every second counts, without drowning in unnecessary information."
-    voice: "alloy"
-    emphasis: "details, immediate, second, drowning, unnecessary"
-    capture_method: "screenshot"  # Static slide - use screenshot capture
-    
-  - id: "public"
-    title: "Public Information"
-    duration: 8
-    narration: "Keep people in the loop with real-time updates. Clear communication saves lives and keeps panic at bay. Give folks accurate, timely information through multiple channels so everyone stays safe and informed."
-    voice: "alloy"
-    emphasis: "loop, saves, panic, accurate, informed"
-    capture_method: "screenshot"  # Static slide - use screenshot capture
-    
-  - id: "conclusion"
-    title: "Call to Action"
-    duration: 6
-    narration: "Our system dramatically increases response throughput and allows for greater effectiveness of emergency responses. Transform your emergency management today. When minutes matter, every second you save could mean the difference between life and death."
-    voice: "alloy"
-    emphasis: "dramatically, increases, effectiveness, transform, difference"
+    emphasis: "technical deep dive, disaster response platform, real-time data integration, intelligent routing, AI-powered decision support, emergency response operations, emergency management, personalized demo, safer future"
     capture_method: "screenshot"  # Static slide - use screenshot capture
 
 # Capture method configurations
@@ -113,7 +134,7 @@ capture_settings:
   screenshot:
     method: "static_slide"
     format: "png"
-    resolution: "1920x1080"
+    resolution: "3840x2160"
     quality: "high"
     delay: 2.0  # seconds to wait before capture
     include_cursor: false
@@ -122,7 +143,7 @@ capture_settings:
   video:
     method: "dynamic_interaction"
     format: "webm"
-    resolution: "1920x1080"
+    resolution: "3840x2160"
     framerate: 30
     duration: "auto"  # auto-detect based on scene duration
     include_audio: false
@@ -131,7 +152,7 @@ capture_settings:
     compression:
       codec: "vp9"
       quality: "good"
-      bitrate: "2000k"
+      bitrate: "4000k"
 
 voice_providers:
   openai:
@@ -180,3 +201,25 @@ audio_settings:
     per_scene: "audio/vo/"
     merged: "audio/voiceover.wav"
     subtitles: "subs/vo.srt"
+
+# Timeline alignment notes
+timeline_alignment:
+  total_duration: 420  # 7 minutes
+  scenes_count: 10
+  technical_focus: true
+  foundry_integration: true
+  ai_capabilities: true
+  implementation_details: true
+  
+  # Scene timing alignment with timeline-7min-technical.yaml
+  scene_timing:
+    personal_intro: "0-20s (A01_personal_intro)"
+    user_persona: "20-45s (A02_user_persona)"
+    foundry_architecture: "45-105s (B01_foundry_architecture)"
+    platform_overview: "105-150s (C01_platform_overview)"
+    hazard_management: "150-195s (C02_hazard_management)"
+    evacuation_routing: "195-240s (C03_evacuation_routing)"
+    ai_decision_support: "240-285s (D01_ai_decision_support)"
+    technical_implementation: "285-330s (D02_technical_implementation)"
+    integration_scenarios: "330-375s (E01_integration_scenarios)"
+    strong_cta: "375-420s (E02_strong_cta)"

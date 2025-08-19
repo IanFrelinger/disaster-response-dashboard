@@ -1,0 +1,185 @@
+# Disaster Response Dashboard - 5-Minute Condensed Technical Deep Dive
+# Palantir Building Challenge Submission - Condensed Technical Demo
+
+metadata:
+  title: "Disaster Response Dashboard - 5-Minute Technical Deep Dive"
+  duration: 300  # 5 minutes (300 seconds)
+  language: "en-US"
+  voice_provider: "elevenlabs"
+  voice_settings:
+    speed: 1.0
+    pitch: 0
+    volume: 1.0
+
+scenes:
+  # Beat 1: Personal introduction and mission (0-15s)
+  - id: "intro_candidate"
+    title: "Personal Introduction"
+    duration: 15
+    narration: "Hi, I'm Ian Frelinger. I'm building a disaster response platform to empower emergency managers with real-time situational awareness and AI-powered decision support when lives are at stake."
+    voice: "alloy"
+    emphasis: "Ian Frelinger, disaster response platform, empower emergency managers, real-time, AI-powered, lives at stake"
+    capture_method: "screenshot"
+    
+  # Beat 2: User persona definition (15-35s)
+  - id: "user_persona"
+    title: "User Persona Definition"
+    duration: 20
+    narration: "This platform serves Incident Commanders, Emergency Planners, and First Responders who face complex challenges: coordinating multiple agencies, managing limited resources, and making life-or-death decisions under extreme pressure."
+    voice: "alloy"
+    emphasis: "Incident Commanders, Emergency Planners, First Responders, complex challenges, multiple agencies, limited resources, life-or-death decisions"
+    capture_method: "screenshot"
+    
+  # Beat 3: Technical architecture & Foundry integration (35-75s)
+  - id: "tech_architecture"
+    title: "Technical Architecture & Foundry Integration"
+    duration: 40
+    narration: "Our platform leverages Palantir Foundry to ingest real-time data from FIRMS for wildfire detection, NOAA for weather data, 911 call centers, population databases, and traffic feeds. We process hazards using H3 geospatial indexing at resolution 9, giving us approximately 174 meters per cell for precise tracking. The system exposes data through REST endpoints including /api/hazards, /api/hazard_zones, /api/routes, /api/risk, /api/evacuations, /api/units, and /api/public_safety. Our Python/Flask backend uses Celery/Redis for background tasks and WebSockets for real-time streaming."
+    voice: "alloy"
+    emphasis: "Palantir Foundry, real-time data, FIRMS, NOAA, 911, H3 geospatial indexing, 174 meters per cell, REST endpoints, Python/Flask, Celery/Redis, WebSockets"
+    capture_method: "video"
+    
+  # Beat 4: Platform capabilities & hazard interaction (75-115s)
+  - id: "platform_capabilities"
+    title: "Platform Capabilities & Hazard Interaction"
+    duration: 40
+    narration: "The platform provides real-time hazard detection, risk scoring, and population vulnerability analysis. Users can click on hazards in the Live Hazard Map to explore threats and toggle population density layers to assess risk. Our system continuously processes incoming data streams to identify emerging threats and calculate risk levels based on proximity to population centers, weather conditions, and historical incident data."
+    voice: "alloy"
+    emphasis: "real-time hazard detection, risk scoring, population vulnerability analysis, Live Hazard Map, emerging threats, risk levels, population centers, weather conditions, historical data"
+    capture_method: "video"
+    
+  # Beat 5: Dynamic zone management & building status (115-145s)
+  - id: "zone_management"
+    title: "Dynamic Zone Management & Building Status"
+    duration: 30
+    narration: "Commanders can create and monitor evacuation zones in real-time, track building occupancy levels, and monitor special needs populations within each zone. The system provides real-time updates on evacuation progress, resource allocation status, and zone-specific risk assessments through endpoints like /api/zones, /api/buildings, and /api/public_safety."
+    voice: "alloy"
+    emphasis: "evacuation zones, real-time, building occupancy, special needs populations, evacuation progress, resource allocation, zone-specific risk, /api/zones, /api/buildings, /api/public_safety"
+    capture_method: "video"
+    
+  # Beat 6: AI-powered routing (145-175s)
+  - id: "routing"
+    title: "AI-Powered Routing"
+    duration: 30
+    narration: "Our evacuation routing system uses the A-Star algorithm with real-time constraints including road closures, smoke conditions, terrain slope, and unit capabilities. Routes continuously update with live hazard and traffic data through /api/routes and /api/evacuations, ensuring optimal evacuation paths that adapt to changing conditions."
+    voice: "alloy"
+    emphasis: "A-Star algorithm, real-time constraints, road closures, smoke conditions, terrain slope, unit capabilities, live updates, /api/routes, /api/evacuations, optimal paths"
+    capture_method: "video"
+    
+  # Beat 7: AI decision support (175-205s)
+  - id: "ai_decision_support"
+    title: "AI Decision Support"
+    duration: 30
+    narration: "Our machine learning models predict hazard spread patterns, compute risk scores with confidence levels, and provide actionable recommendations. The system continuously learns from historical incidents, improving decision support over time and enabling proactive response planning."
+    voice: "alloy"
+    emphasis: "machine learning models, hazard spread patterns, risk scores, confidence levels, actionable recommendations, continuous learning, historical incidents, proactive response planning"
+    capture_method: "video"
+    
+  # Beat 8: Service layer, reliability & security (205-245s)
+  - id: "service_layer_reliability"
+    title: "Service Layer, Reliability & Security"
+    duration: 40
+    narration: "Our frontend API modules and WebSockets interface seamlessly with the backend and Foundry. We achieve latency targets of under 200 milliseconds for API responses and under 100 milliseconds for real-time updates. The system includes comprehensive authentication, authorization, and audit logging. Background tasks are handled by Celery/Redis, ensuring high availability and system reliability."
+    voice: "alloy"
+    emphasis: "frontend API modules, WebSockets, backend, Foundry, latency targets, 200ms API responses, 100ms updates, authentication, authorization, audit logging, Celery/Redis, high availability, reliability"
+    capture_method: "video"
+    
+  # Beat 9: Integration & performance (245-275s)
+  - id: "integration_performance"
+    title: "Integration & Performance"
+    duration: 30
+    narration: "The platform integrates with CAD systems, weather services, traffic management platforms, and emergency notification systems. We provide standardized APIs and deployment options for both on-premises and cloud environments. Our real-time data pipelines and resource monitoring ensure consistent performance across all integration scenarios."
+    voice: "alloy"
+    emphasis: "CAD systems, weather services, traffic management, emergency notification, standardized APIs, on-premises, cloud, real-time data pipelines, resource monitoring, consistent performance"
+    capture_method: "video"
+    
+  # Beat 10: Impact & call to action (275-300s)
+  - id: "impact_cta"
+    title: "Impact & Call to Action"
+    duration: 25
+    narration: "Our platform dramatically improves situational awareness and enables faster, safer decisions through real-time data and AI. With robust reliability and security measures, we're transforming emergency management capabilities. I'd love to show you a customized demo and discuss how this can be implemented in your operations to save more lives."
+    voice: "alloy"
+    emphasis: "dramatically improves, situational awareness, faster decisions, real-time data, AI, reliability, security, transform, customized demo, implementation, save lives"
+    capture_method: "screenshot"
+
+# Capture method configurations
+capture_settings:
+  screenshot:
+    method: "static_slide"
+    format: "png"
+    resolution: "3840x2160"
+    quality: "high"
+    delay: 2.0
+    include_cursor: false
+    output_path: "captures/screenshots/"
+    
+  video:
+    method: "dynamic_interaction"
+    format: "webm"
+    resolution: "3840x2160"
+    framerate: 30
+    duration: "auto"
+    include_audio: false
+    include_cursor: true
+    output_path: "captures/videos/"
+    compression:
+      codec: "vp9"
+      quality: "good"
+      bitrate: "4000k"
+
+# Voice provider settings
+voice_providers:
+  elevenlabs:
+    voice_id: "LIpBYrITLsIquxoXdSkr"
+    stability: 0.5
+    similarity_boost: 0.75
+    api_key_env: "ELEVEN_API_KEY"
+    
+  openai:
+    model: "gpt-4o-mini-tts"
+    voice: "alloy"
+    speed: 1.0
+    api_key_env: "OPENAI_API_KEY"
+
+# Audio settings
+audio_settings:
+  sample_rate: 44100
+  bit_depth: 16
+  channels: 1
+  format: "wav"
+  normalization: "loudness"
+  target_lufs: -23.0
+  true_peak: -1.0
+  
+  processing:
+    noise_reduction: true
+    compression: true
+    equalization: true
+    reverb: false
+    
+  output:
+    per_scene: "audio/vo/"
+    merged: "audio/voiceover_5min.wav"
+    subtitles: "subs/vo_5min.srt"
+
+# Timeline alignment notes
+timeline_alignment:
+  total_duration: 300  # 5 minutes
+  scenes_count: 10
+  technical_focus: true
+  foundry_integration: true
+  ai_capabilities: true
+  implementation_details: true
+  
+  # Scene timing alignment with timeline-5min-condensed.yaml
+  scene_timing:
+    intro_candidate: "0-15s"
+    user_persona: "15-35s"
+    tech_architecture: "35-75s"
+    platform_capabilities: "75-115s"
+    zone_management: "115-145s"
+    routing: "145-175s"
+    ai_decision_support: "175-205s"
+    service_layer_reliability: "205-245s"
+    integration_performance: "245-275s"
+    impact_cta: "275-300s"

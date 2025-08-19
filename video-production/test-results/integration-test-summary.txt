@@ -3,50 +3,54 @@ COMPREHENSIVE HEADLESS AUTOMATION INTEGRATION TEST SUMMARY
 
 Test Suite: Comprehensive Headless Automation Integration Test
 Description: End-to-end validation of the complete headless automation system
-Timestamp: 2025-08-17T20:42:57.356Z
+Timestamp: 2025-08-17T23:38:27.749Z
 
 RESULTS SUMMARY:
-  Total Tests: 9
-  Passed: 9
+  Total Tests: 10
+  Passed: 10
   Failed: 0
   Skipped: 0
   Success Rate: 100.0%
-  Total Duration: 119.7s
+  Total Duration: 120.8s
 
 DETAILED RESULTS:
   PASS: Environment Setup
-    Duration: 306ms
+    Duration: 300ms
     Details: Environment setup validated successfully
 
   PASS: Parameter Injection System
-    Duration: 21467ms
+    Duration: 21650ms
     Details: Parameter injection system validated with multiple parameter combinations
 
   PASS: File Regeneration System
-    Duration: 20824ms
+    Duration: 20815ms
     Details: File regeneration system validated with multiple iterations
 
   PASS: Quality Scoring Algorithm
-    Duration: 21408ms
+    Duration: 21345ms
     Details: Quality scoring algorithm validated with multiple quality scenarios
 
   PASS: Intelligent Optimization Loop
-    Duration: 5004ms
+    Duration: 5002ms
     Details: Intelligent optimization loop validated (simulation mode)
 
   PASS: Error Handling and Recovery
-    Duration: 13859ms
+    Duration: 13838ms
     Details: Error handling and recovery validated successfully
 
   PASS: Performance and Scalability
-    Duration: 20783ms
-    Details: Performance validated: Average iteration time 6927.666666666667ms over 3 iterations
+    Duration: 20769ms
+    Details: Performance validated: Average iteration time 6922.666666666667ms over 3 iterations
 
   PASS: End-to-End Workflow
     Duration: 5006ms
     Details: End-to-end workflow validated successfully
 
   PASS: Integration Points
-    Duration: 2005ms
+    Duration: 2006ms
     Details: All integration points validated successfully
+
+  PASS: 4-Minute Video Generator
+    Duration: 24ms
+    Details: 4-Minute Video Generator validation completed successfully
 

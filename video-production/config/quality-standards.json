@@ -99,12 +99,12 @@
     "videoFormat": {
       "container": "mp4",
       "codec": "h264",
-      "resolution": "1920x1080",
+      "resolution": "3840x2160",
       "framerate": 30,
       "bitrate": {
-        "minimum": 1000,
-        "target": 2000,
-        "maximum": 5000
+        "minimum": 2000,
+        "target": 4000,
+        "maximum": 10000
       }
     },
     "audioFormat": {

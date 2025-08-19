@@ -9,7 +9,7 @@
    - Graphics: ./graphics/ (PNG/SVG assets)
 
 ## Step 2: Timeline Setup
-1. Create new timeline: 1920x1080, 30fps
+1. Create new timeline: 3840x2160, 30fps
 2. Import rough cut video to timeline
 3. Add audio tracks for TTS narration
 4. Add graphics tracks for overlays
@@ -32,9 +32,9 @@
 
 ## Step 6: Export Settings
 - Format: H.264
-- Bitrate: 16-24 Mbps
+- Bitrate: 32-48 Mbps (4K requires higher bitrate)
 - Keyframe distance: 60
-- Resolution: 1920x1080
+- Resolution: 3840x2160 (4K Ultra HD)
 - Frame rate: 30fps
 
 ## File Structure

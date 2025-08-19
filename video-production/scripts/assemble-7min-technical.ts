@@ -4,188 +4,141 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-import { execSync } from 'child_process';
-
-interface VideoSegment {
-  name: string;
-  file: string;
-  duration: number;
-  technicalFocus: string;
-}
+import { spawn } from 'child_process';
 
 class TechnicalVideoAssembler {
   private projectRoot: string;
-  private inputDir: string;
   private outputDir: string;
+  private finalOutputDir: string;
 
   constructor() {
     const __filename = fileURLToPath(import.meta.url);
     const __dirname = dirname(__filename);
     this.projectRoot = path.join(__dirname, '..');
-    this.inputDir = path.join(this.projectRoot, 'out');
-    this.outputDir = path.join(this.projectRoot, 'output');
-    this.ensureOutputDirectory();
+    this.outputDir = path.join(this.projectRoot, 'out');
+    this.finalOutputDir = path.join(this.projectRoot, 'output');
+    this.ensureDirectories();
   }
 
-  private ensureOutputDirectory(): void {
-    if (!fs.existsSync(this.outputDir)) {
-      fs.mkdirSync(this.outputDir, { recursive: true });
+  private ensureDirectories(): void {
+    if (!fs.existsSync(this.finalOutputDir)) {
+      fs.mkdirSync(this.finalOutputDir, { recursive: true });
     }
   }
 
-  private log(message: string, type: 'info' | 'success' | 'warning' | 'error' = 'info'): void {
-    const timestamp = new Date().toISOString();
-    const emoji = {
-      info: 'ℹ️',
-      success: '✅',
-      warning: '⚠️',
-      error: '❌'
-    };
-    console.log(`${emoji[type]} [${timestamp}] ${message}`);
-  }
-
-  async checkVideoFiles(): Promise<VideoSegment[]> {
-    const segments: VideoSegment[] = [
-      { name: 'Personal Introduction', file: '01_personal_intro_7min.mp4', duration: 20, technicalFocus: 'Personal context and mission statement' },
-      { name: 'User Persona Definition', file: '02_user_persona_7min.mp4', duration: 25, technicalFocus: 'Target users and their technical needs' },
-      { name: 'Foundry Architecture Deep Dive', file: '03_foundry_architecture_7min.mp4', duration: 60, technicalFocus: 'Technical architecture and data flow' },
-      { name: 'Platform Capabilities Overview', file: '04_platform_capabilities_7min.mp4', duration: 45, technicalFocus: 'Core platform features and capabilities' },
-      { name: 'Hazard Management System', file: '05_hazard_management_7min.mp4', duration: 45, technicalFocus: 'Dynamic zone management and risk assessment' },
-      { name: 'Evacuation Routing Engine', file: '06_evacuation_routing_7min.mp4', duration: 45, technicalFocus: 'AI-powered route optimization algorithms' },
-      { name: 'AI Decision Support', file: '07_ai_decision_support_7min.mp4', duration: 45, technicalFocus: 'Machine learning models and decision algorithms' },
-      { name: 'Technical Implementation', file: '08_technical_implementation_7min.mp4', duration: 45, technicalFocus: 'Code architecture, APIs, and deployment' },
-      { name: 'Integration Scenarios', file: '09_integration_scenarios_7min.mp4', duration: 45, technicalFocus: 'System integration and deployment options' },
-      { name: 'Strong Technical CTA', file: '10_strong_cta_7min.mp4', duration: 45, technicalFocus: 'Implementation discussion and next steps' }
+  async createVideoList(): Promise<string> {
+    const videoListPath = path.join(this.finalOutputDir, 'video_list_7min_technical.txt');
+    const segments = [
+      '01_personal_intro_7min.mp4',
+      '02_problem_outcomes_7min.mp4',
+      '03_data_architecture_7min.mp4',
+      '04_live_hazard_map_7min.mp4',
+      '05_exposure_conditions_7min.mp4',
+      '06_incident_focus_7min.mp4',
+      '07_resource_roster_7min.mp4',
+      '08_route_planning_7min.mp4',
+      '09_route_result_7min.mp4',
+      '10_tasking_7min.mp4',
+      '11_aip_guidance_7min.mp4',
+      '12_ops_status_cta_7min.mp4'
     ];
 
-    const availableSegments: VideoSegment[] = [];
-    
-    for (const segment of segments) {
-      const filePath = path.join(this.inputDir, segment.file);
-      if (fs.existsSync(filePath)) {
-        availableSegments.push(segment);
-        this.log(`Found video segment: ${segment.name} (${segment.duration}s)`, 'success');
-      } else {
-        this.log(`Missing video segment: ${segment.name} (${segment.file})`, 'warning');
-      }
-    }
+    const videoListContent = segments
+      .map(segment => `file '${path.join(this.outputDir, segment)}'`)
+      .join('\n');
 
-    return availableSegments;
+    fs.writeFileSync(videoListPath, videoListContent);
+    console.log(`✅ Video list created: ${videoListPath}`);
+    return videoListPath;
   }
 
-  async createVideoListFile(segments: VideoSegment[]): Promise<string> {
-    const listFilePath = path.join(this.outputDir, 'video_list_7min_technical.txt');
-    const lines = segments.map(segment => `file '${path.join(this.inputDir, segment.file)}'`);
+  async assembleVideo(videoListPath: string): Promise<void> {
+    const outputPath = path.join(this.finalOutputDir, 'final_7min_technical_demo.mp4');
     
-    fs.writeFileSync(listFilePath, lines.join('\n'));
-    this.log(`Created video list file: ${listFilePath}`, 'info');
-    
-    return listFilePath;
-  }
-
-  async assembleTechnicalVideo(segments: VideoSegment[], listFilePath: string): Promise<void> {
-    if (segments.length === 0) {
-      this.log('No video segments available for assembly', 'error');
-      return;
-    }
-
-    const totalDuration = segments.reduce((sum, segment) => sum + segment.duration, 0);
-    this.log(`Assembling ${segments.length} technical video segments (total duration: ${totalDuration}s)`, 'info');
-
-    const outputPath = path.join(this.outputDir, 'final_7min_technical_demo.mp4');
-    
-    try {
-      // Use ffmpeg to concatenate videos
-      const ffmpegCommand = [
-        'ffmpeg',
+    return new Promise((resolve, reject) => {
+      const ffmpegArgs = [
         '-f', 'concat',
         '-safe', '0',
-        '-i', listFilePath,
+        '-i', videoListPath,
         '-c', 'copy',
-        '-y', // Overwrite output file
+        '-y',
         outputPath
-      ].join(' ');
+      ];
 
-      this.log(`Running ffmpeg command: ${ffmpegCommand}`, 'info');
-      
-      execSync(ffmpegCommand, {
-        cwd: this.projectRoot,
-        stdio: 'inherit'
+      console.log('🎬 Assembling 7-minute technical video...');
+      const ffmpeg = spawn('ffmpeg', ffmpegArgs, { stdio: 'pipe' });
+
+      ffmpeg.on('close', (code) => {
+        if (code === 0) {
+          console.log(`✅ 7-minute technical video assembled: ${outputPath}`);
+          resolve();
+        } else {
+          reject(new Error(`FFmpeg process exited with code ${code}`));
+        }
       });
 
-      this.log(`✅ 7-minute technical video assembled successfully: ${outputPath}`, 'success');
-      this.log(`📊 Video details:`, 'info');
-      this.log(`   - Total segments: ${segments.length}`, 'info');
-      this.log(`   - Total duration: ${totalDuration} seconds (${Math.round(totalDuration/60*10)/10} minutes)`, 'info');
-      this.log(`   - Output file: ${outputPath}`, 'info');
-
-    } catch (error) {
-      this.log(`Error assembling technical video: ${error}`, 'error');
-      throw error;
-    }
+      ffmpeg.on('error', (error) => {
+        reject(error);
+      });
+    });
   }
 
-  async generateTechnicalSummary(segments: VideoSegment[]): Promise<void> {
+  async generateAssemblySummary(): Promise<void> {
+    const summaryPath = path.join(this.finalOutputDir, '7min_technical_assembly_summary.json');
+    
+    const segments = [
+      { id: 'personal_intro', title: 'Meet Emergency Manager Sarah Chen', duration: 30 },
+      { id: 'problem_outcomes', title: 'The Challenge: Seconds Matter in Live Incidents', duration: 45 },
+      { id: 'data_architecture', title: 'Data & Architecture: Real-time Integration', duration: 60 },
+      { id: 'live_hazard_map', title: 'Live Hazard Map: Situational Awareness', duration: 60 },
+      { id: 'exposure_conditions', title: 'Exposure & Conditions: Buildings & Weather', duration: 60 },
+      { id: 'incident_focus', title: 'Incident Focus: Anchoring the Workflow', duration: 60 },
+      { id: 'resource_roster', title: 'Resource Roster: Unit Management', duration: 60 },
+      { id: 'route_planning', title: 'Route Planning: Tactical Profiles', duration: 60 },
+      { id: 'route_result', title: 'Route Result: ETA & Distance Review', duration: 60 },
+      { id: 'tasking', title: 'Tasking: Plan to Execution', duration: 60 },
+      { id: 'aip_guidance', title: 'AIP Decision Support: AI Recommendations', duration: 60 },
+      { id: 'ops_status_cta', title: 'Operations Status & Call to Action', duration: 60 }
+    ];
+
+    const totalDuration = segments.reduce((sum, s) => sum + s.duration, 0);
     const summary = {
-      generatedAt: new Date().toISOString(),
-      videoType: '7-Minute Technical Deep Dive',
-      totalSegments: segments.length,
-      totalDuration: segments.reduce((sum, segment) => sum + segment.duration, 0),
-      segments: segments.map(segment => ({
-        name: segment.name,
-        file: segment.file,
-        duration: segment.duration,
-        technicalFocus: segment.technicalFocus
-      })),
-      outputFiles: {
-        finalVideo: 'final_7min_technical_demo.mp4',
-        videoList: 'video_list_7min_technical.txt'
-      },
-      technicalHighlights: [
-        'Personal introduction and mission statement',
-        'User persona definition and technical requirements',
-        'Foundry platform architecture deep dive',
-        'Platform capabilities and feature overview',
-        'Hazard management system details',
-        'Evacuation routing algorithms',
-        'AI decision support systems',
-        'Technical implementation details',
-        'Integration scenarios and deployment',
-        'Strong technical call-to-action'
-      ]
+      title: '7-Minute Technical Video Assembly Summary',
+      totalDuration,
+      totalDurationMinutes: (totalDuration / 60).toFixed(1),
+      segmentCount: segments.length,
+      segments,
+      outputFile: 'final_7min_technical_demo.mp4',
+      videoListFile: 'video_list_7min_technical.txt',
+      assemblyDate: new Date().toISOString(),
+      description: 'Comprehensive technical deep dive video demonstrating emergency management platform capabilities through a realistic workflow scenario.'
     };
 
-    const summaryPath = path.join(this.outputDir, '7min_technical_assembly_summary.json');
     fs.writeFileSync(summaryPath, JSON.stringify(summary, null, 2));
-    
-    this.log(`Generated technical assembly summary: ${summaryPath}`, 'success');
+    console.log(`✅ Assembly summary created: ${summaryPath}`);
   }
 
-  async run(): Promise<void> {
+  async assembleAll(): Promise<void> {
     try {
-      this.log('🎬 Starting 7-minute technical video assembly process...', 'info');
+      console.log('🎬 Starting 7-minute technical video assembly...');
       
-      // Check available video files
-      const segments = await this.checkVideoFiles();
+      // Create video list
+      const videoListPath = await this.createVideoList();
       
-      if (segments.length === 0) {
-        this.log('No video segments found. Please run the 7-minute technical video generator first.', 'error');
-        return;
-      }
-
-      // Create video list file for ffmpeg
-      const listFilePath = await this.createVideoListFile(segments);
+      // Assemble video
+      await this.assembleVideo(videoListPath);
       
-      // Assemble the final technical video
-      await this.assembleTechnicalVideo(segments, listFilePath);
+      // Generate summary
+      await this.generateAssemblySummary();
       
-      // Generate technical summary
-      await this.generateTechnicalSummary(segments);
-      
-      this.log('🎉 7-minute technical video assembly process completed successfully!', 'success');
+      console.log('');
+      console.log('🎉 7-minute technical video assembly completed successfully!');
+      console.log(`📁 Final video: ${path.join(this.finalOutputDir, 'final_7min_technical_demo.mp4')}`);
+      console.log(`📊 Total duration: ${(675 / 60).toFixed(1)} minutes`);
+      console.log(`🎬 Total segments: 12`);
       
     } catch (error) {
-      this.log(`Error in technical video assembly process: ${error}`, 'error');
+      console.error('❌ Error assembling video:', error);
       throw error;
     }
   }
@@ -194,10 +147,7 @@ class TechnicalVideoAssembler {
 // Main execution
 async function main() {
   const assembler = new TechnicalVideoAssembler();
-  await assembler.run();
+  await assembler.assembleAll();
 }
 
-// Run main function
 main().catch(console.error);
-
-export { TechnicalVideoAssembler };

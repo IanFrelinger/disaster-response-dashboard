@@ -459,7 +459,7 @@ class ComprehensiveHeadlessAutomationTest {
     
     try {
       // Import and run the 4-minute video generator test suite
-      const { FourMinuteVideoGeneratorTestSuite } = await import('./test-4min-video-generator.js');
+      const { FourMinuteVideoGeneratorTestSuite } = await import('./test-4min-video-generator.ts');
       const testSuite = new FourMinuteVideoGeneratorTestSuite();
       
       // Run the test suite

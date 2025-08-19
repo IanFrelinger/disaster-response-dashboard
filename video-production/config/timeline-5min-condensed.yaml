@@ -1,0 +1,107 @@
+version: 1
+cut_type: full
+duration_target_sec: 300  # 5-minute condensed technical deep dive
+source_video: ./roughcut.mp4  # replace with your rough cut video path if different
+
+global:
+  cursor_behavior:
+    path: natural
+    speed_px_s: 600-900
+    dwell_ms_before_click: 250-400
+  transitions:
+    default_fade_ms: 900
+  safe_margin_px: 60
+
+beats:
+  # Beat 1: Personal introduction and mission (15 s)
+  - id: intro_candidate
+    at: 00:00.000
+    vo_ref: VO_001
+    overlays: [intro_candidate_card]
+    notes: "Introduce yourself and state the mission: building a disaster response platform to empower emergency managers."
+
+  # Beat 2: User persona definition (20 s)
+  - id: user_persona
+    at: 00:15.000
+    vo_ref: VO_002
+    overlays: [user_persona_card]
+    notes: "Define the primary users—Incident Commanders, emergency planners and first responders—and summarise their pain points and responsibilities."
+
+  # Beat 3: Technical architecture & Foundry integration (40 s)
+  - id: tech_architecture
+    at: 00:35.000
+    vo_ref: VO_003
+    overlays: [tech_arch_card, arch_foundry_callout, chip_endpoints]
+    notes: |
+      Concisely describe the architecture: ingest data from FIRMS, NOAA, 911, population and traffic feeds via Palantir Foundry; process hazards using H3 at res9 (~174 m) and ML spread models; expose data through REST endpoints (/api/hazards, /api/hazard_zones, /api/routes, /api/risk, /api/evacuations, /api/units, /api/public_safety). Mention Python/Flask backend with Celery/Redis tasks and WebSockets for streaming.
+
+  # Beat 4: Platform capabilities & hazard interaction (40 s)
+  - id: platform_capabilities
+    at: 01:15.000
+    vo_ref: VO_004
+    overlays: [capabilities_card]
+    actions:
+      - type: click
+        target: css=[data-testid="hazard-point-closest"]
+      - type: toggle
+        target: xpath=//button[@aria-label="Population"]
+        state: on
+    notes: |
+      Demonstrate core capabilities: real‑time hazard detection, risk scoring and population vulnerability analysis. Click on a hazard in the Live Hazard Map and toggle population density to illustrate how users explore threats and assess risk.
+
+  # Beat 5: Dynamic zone management & building status (30 s)
+  - id: zone_management
+    at: 01:55.000
+    vo_ref: VO_005
+    overlays: [zone_management_card]
+    actions:
+      - type: scroll
+        target: css=#evacuation-dashboard
+        delta_px: 600
+      - type: hover
+        target: css=[data-testid="building-status"]
+    notes: |
+      Show how commanders create and monitor evacuation zones, track building occupancy and special populations, and receive real‑time updates via endpoints like /api/zones, /api/buildings and /api/public_safety.
+
+  # Beat 6: AI‑powered routing (30 s)
+  - id: routing
+    at: 02:25.000
+    vo_ref: VO_006
+    overlays: [concept_route_astar]
+    actions:
+      - type: click
+        target: css=[data-testid="route-button"]
+    notes: |
+      Demonstrate the routing engine: compute optimal evacuation routes using the A* algorithm with constraints (road closures, smoke, terrain, unit capabilities). Explain how routes update with live hazard and traffic data through /api/routes and /api/evacuations.
+
+  # Beat 7: AI decision support (30 s)
+  - id: ai_decision_support
+    at: 02:55.000
+    vo_ref: VO_007
+    overlays: [concept_ai_spread, ai_decision_card]
+    notes: |
+      Highlight machine‑learning decision support: predict hazard spread, compute risk scores and confidence levels, and provide actionable recommendations. Emphasise continuous learning from historical incidents.
+
+  # Beat 8: Service layer, reliability & security (40 s)
+  - id: service_layer_reliability
+    at: 03:25.000
+    vo_ref: VO_008
+    overlays: [service_layer_card, reliability_security_card]
+    notes: |
+      Outline the service layer: how the frontend API modules and WebSockets interface with the backend and Foundry; discuss latency targets (<200 ms API responses, <100 ms updates), authentication/authorization and audit logging; mention background tasks (Celery/Redis) and high availability.
+
+  # Beat 9: Integration & performance (30 s)
+  - id: integration_performance
+    at: 04:05.000
+    vo_ref: VO_009
+    overlays: [integration_card, performance_card]
+    notes: |
+      Briefly describe integration with CAD systems, weather services, traffic management and notification platforms. Highlight standardized APIs, deployment options (on‑prem or cloud) and performance benchmarks. Include a mention of real‑time data pipelines and resource monitoring.
+
+  # Beat 10: Impact & call to action (25 s)
+  - id: impact_cta
+    at: 04:35.000
+    vo_ref: VO_010
+    overlays: [title_impact, chip_reliability_security, cta_apply]
+    notes: |
+      Summarize the impact: improved situational awareness and faster, safer decisions thanks to real‑time data and AI. Recap reliability/security assurances. End with a strong call‑to‑action inviting the recruiter to explore a customised demo and discuss implementation.

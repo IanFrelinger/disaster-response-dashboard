@@ -1,6 +1,6 @@
 {
-  "timestamp": "2025-08-17T14:42:34.878Z",
-  "duration": 3103,
+  "timestamp": "2025-08-17T23:40:13.554Z",
+  "duration": 3146,
   "summary": {
     "totalSuites": 6,
     "totalTests": 24,
@@ -16,19 +16,19 @@
           "test": "FFmpeg Available",
           "status": "PASS",
           "message": "Test passed",
-          "duration": 61
+          "duration": 67
         },
         {
           "test": "Node.js Available",
           "status": "PASS",
           "message": "Test passed",
-          "duration": 20
+          "duration": 19
         },
         {
           "test": "ts-node Available",
           "status": "PASS",
           "message": "Test passed",
-          "duration": 211
+          "duration": 207
         },
         {
           "test": "Frontend Source Exists",
@@ -37,12 +37,12 @@
           "duration": 0
         }
       ],
-      "startTime": "2025-08-17T14:42:31.775Z",
+      "startTime": "2025-08-17T23:40:10.408Z",
       "passed": 4,
       "failed": 0,
       "skipped": 0,
-      "endTime": "2025-08-17T14:42:32.068Z",
-      "duration": 293
+      "endTime": "2025-08-17T23:40:10.702Z",
+      "duration": 294
     },
     {
       "name": "UI Component Mapping Generation",
@@ -75,15 +75,15 @@
           "test": "Generate Component Map",
           "status": "PASS",
           "message": "Test passed",
-          "duration": 460
+          "duration": 483
         }
       ],
-      "startTime": "2025-08-17T14:42:32.068Z",
+      "startTime": "2025-08-17T23:40:10.703Z",
       "passed": 5,
       "failed": 0,
       "skipped": 0,
-      "endTime": "2025-08-17T14:42:32.527Z",
-      "duration": 459
+      "endTime": "2025-08-17T23:40:11.185Z",
+      "duration": 482
     },
     {
       "name": "Component Map Content Validation",
@@ -125,11 +125,11 @@
           "duration": 0
         }
       ],
-      "startTime": "2025-08-17T14:42:32.528Z",
+      "startTime": "2025-08-17T23:40:11.186Z",
       "passed": 6,
       "failed": 0,
       "skipped": 0,
-      "endTime": "2025-08-17T14:42:32.528Z",
+      "endTime": "2025-08-17T23:40:11.186Z",
       "duration": 0
     },
     {
@@ -145,21 +145,21 @@
           "test": "7-Minute Pipeline Includes UI Mapping",
           "status": "PASS",
           "message": "Test passed",
-          "duration": 0
+          "duration": 1
         },
         {
           "test": "Unified Pipeline Includes UI Mapping",
           "status": "PASS",
           "message": "Test passed",
-          "duration": 0
+          "duration": 1
         }
       ],
-      "startTime": "2025-08-17T14:42:32.528Z",
+      "startTime": "2025-08-17T23:40:11.186Z",
       "passed": 3,
       "failed": 0,
       "skipped": 0,
-      "endTime": "2025-08-17T14:42:32.528Z",
-      "duration": 0
+      "endTime": "2025-08-17T23:40:11.187Z",
+      "duration": 1
     },
     {
       "name": "End-to-End Workflow",
@@ -174,7 +174,7 @@
           "test": "Verify Output Files Created",
           "status": "PASS",
           "message": "Test passed",
-          "duration": 1
+          "duration": 0
         },
         {
           "test": "Verify File Contents Are Valid",
@@ -186,15 +186,15 @@
           "test": "Run UI Component Mapping",
           "status": "PASS",
           "message": "Test passed",
-          "duration": 459
+          "duration": 472
         }
       ],
-      "startTime": "2025-08-17T14:42:32.528Z",
+      "startTime": "2025-08-17T23:40:11.187Z",
       "passed": 4,
       "failed": 0,
       "skipped": 0,
-      "endTime": "2025-08-17T14:42:32.987Z",
-      "duration": 459
+      "endTime": "2025-08-17T23:40:11.659Z",
+      "duration": 472
     },
     {
       "name": "Performance and Reliability",
@@ -203,7 +203,7 @@
           "test": "Component Mapping Performance",
           "status": "PASS",
           "message": "Test passed",
-          "duration": 1891
+          "duration": 1895
         },
         {
           "test": "Error Handling for Missing Frontend",
@@ -212,12 +212,12 @@
           "duration": 0
         }
       ],
-      "startTime": "2025-08-17T14:42:32.987Z",
+      "startTime": "2025-08-17T23:40:11.659Z",
       "passed": 2,
       "failed": 0,
       "skipped": 0,
-      "endTime": "2025-08-17T14:42:34.878Z",
-      "duration": 1891
+      "endTime": "2025-08-17T23:40:13.554Z",
+      "duration": 1895
     }
   ]
 }

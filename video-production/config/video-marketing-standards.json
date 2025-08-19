@@ -140,7 +140,7 @@
     "standards": {
       "visualQuality": {
         "required": true,
-        "resolution": "1920x1080 minimum",
+        "resolution": "3840x2160 minimum (4K Ultra HD)",
         "framerate": "30fps minimum",
         "bitrate": "2000kbps minimum",
         "transitions": "Smooth, professional transitions"

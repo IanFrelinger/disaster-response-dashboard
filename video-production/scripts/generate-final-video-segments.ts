@@ -47,7 +47,7 @@ class FinalVideoSegmentGenerator {
     });
     
     this.page = await this.browser.newPage();
-    await this.page.setViewportSize({ width: 1920, height: 1080 });
+          await this.page.setViewportSize({ width: 3840, height: 2160 });
     
     console.log('✅ Browser initialized successfully');
   }
@@ -86,7 +86,7 @@ class FinalVideoSegmentGenerator {
       const ffmpegArgs = [
         '-loop', '1',
         '-i', imagePath,
-        '-vf', 'scale=1920:1080:force_original_aspect_ratio=decrease,pad=1920:1080:(ow-iw)/2:(oh-ih)/2',
+        '-vf', 'scale=3840:2160:force_original_aspect_ratio=decrease,pad=3840:2160:(ow-iw)/2:(oh-ih)/2',
         '-c:v', 'libx264',
         '-t', duration.toString(),
         '-pix_fmt', 'yuv420p',

@@ -1,11 +1,11 @@
 #!/usr/bin/env ts-node
 
-import { chromium, Browser, Page, BrowserContext } from 'playwright';
+import { chromium, type Browser, type Page, type BrowserContext } from 'playwright';
 import * as fs from 'fs';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-import { UIElementDiscovery, UIElement } from './ui-element-discovery';
+import { UIElementDiscovery, type UIElement } from './ui-element-discovery.ts';
 
 interface EnhancedHumanizedInteraction {
   name: string;
@@ -19,7 +19,7 @@ interface EnhancedHumanizedInteraction {
 }
 
 interface EnhancedHumanizedAction {
-  type: 'click' | 'hover' | 'type' | 'scroll' | 'wait' | 'navigate' | 'custom' | 'keyboard';
+  type: 'click' | 'hover' | 'type' | 'scroll' | 'wait' | 'navigate' | 'custom' | 'keyboard' | 'mouse_movement';
   selector?: string;
   text?: string;
   x?: number;
@@ -33,6 +33,35 @@ interface EnhancedHumanizedAction {
   validation: EnhancedActionValidation;
   realUIElements: UIElement[];
   confidence: number; // 0-100
+  // Enhanced human-like behavior
+  mouseMovement?: MouseMovementPattern;
+  humanMistakes?: HumanMistake[];
+  visibilityDelay?: number; // Extra delay for demo visibility
+  cursorBehavior?: CursorBehavior;
+}
+
+interface MouseMovementPattern {
+  type: 'natural' | 'hesitant' | 'confident' | 'exploratory';
+  speed: 'slow' | 'medium' | 'fast';
+  path: 'direct' | 'curved' | 'zigzag' | 'hesitant';
+  overshoot?: boolean; // Sometimes overshoot the target
+  correction?: boolean; // Correct course if overshooting
+  pausePoints?: number[]; // Points to pause during movement
+}
+
+interface HumanMistake {
+  type: 'overshoot' | 'double_click' | 'wrong_element' | 'hesitation' | 'correction';
+  probability: number; // 0-1 chance of making this mistake
+  description: string;
+  recoveryAction?: string;
+}
+
+interface CursorBehavior {
+  showCursor: boolean;
+  cursorStyle: 'default' | 'pointer' | 'text' | 'wait';
+  highlightTarget: boolean;
+  targetGlow: boolean;
+  movementTrail: boolean;
 }
 
 interface EnhancedActionValidation {
@@ -98,49 +127,180 @@ class EnhancedHumanizerBot {
   }
 
   async initialize(url: string): Promise<void> {
-    console.log('🤖 Initializing Enhanced Humanizer Bot...');
+    if (this.isInitialized) return;
+
+    console.log('🚀 Initializing Enhanced Humanizer Bot...');
     
-    // Initialize UI Element Discovery
-    this.uiDiscovery = new UIElementDiscovery();
-    await this.uiDiscovery.initialize(url);
-    
-    // Initialize browser for validation
     this.browser = await chromium.launch({
       headless: false,
-      args: ['--no-sandbox', '--disable-setuid-sandbox', '--start-maximized']
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
     });
-    
-    this.context = await this.browser.newContext();
+
+    this.context = await this.browser.newContext({
+      viewport: { width: 1920, height: 1080 }
+    });
+
     this.page = await this.context.newPage();
-    await this.page.setViewportSize({ width: 1920, height: 1080 });
-    
-    // Navigate to the target URL
     await this.page.goto(url, { waitUntil: 'networkidle' });
-    await this.page.waitForTimeout(2000);
-    
+
+    this.uiDiscovery = new UIElementDiscovery();
+    await this.uiDiscovery.initialize(url);
+
     this.isInitialized = true;
-    console.log('✅ Enhanced Humanizer Bot initialized successfully');
+    console.log('✅ Enhanced Humanizer Bot initialized');
   }
 
-  async validateWithRealUIElements(description: string): Promise<{
-    validation: EnhancedActionValidation;
-    realElements: UIElement[];
-    confidence: number;
-  }> {
-    if (!this.uiDiscovery) throw new Error('UI Discovery not initialized');
+  private generateMouseMovementPattern(actionType: string): MouseMovementPattern {
+    const patterns: MouseMovementPattern[] = [
+      {
+        type: 'natural',
+        speed: 'medium',
+        path: 'curved',
+        overshoot: Math.random() < 0.3, // 30% chance of overshooting
+        correction: true,
+        pausePoints: [0.3, 0.7] // Pause at 30% and 70% of movement
+      },
+      {
+        type: 'hesitant',
+        speed: 'slow',
+        path: 'zigzag',
+        overshoot: Math.random() < 0.5, // 50% chance of overshooting
+        correction: true,
+        pausePoints: [0.2, 0.5, 0.8] // Multiple pause points
+      },
+      {
+        type: 'confident',
+        speed: 'medium',
+        path: 'direct',
+        overshoot: Math.random() < 0.1, // 10% chance of overshooting
+        correction: false,
+        pausePoints: [0.5] // Single pause point
+      },
+      {
+        type: 'exploratory',
+        speed: 'slow',
+        path: 'curved',
+        overshoot: Math.random() < 0.4, // 40% chance of overshooting
+        correction: true,
+        pausePoints: [0.25, 0.6, 0.9] // Multiple pause points
+      }
+    ];
 
-    console.log(`🔍 Validating: "${description}"`);
+    // Choose pattern based on action type
+    if (actionType === 'click') {
+      return patterns[Math.floor(Math.random() * 2)]; // natural or hesitant
+    } else if (actionType === 'hover') {
+      return patterns[2]; // confident
+    } else {
+      return patterns[Math.floor(Math.random() * patterns.length)];
+    }
+  }
+
+  private generateHumanMistakes(actionType: string): HumanMistake[] {
+    const mistakes: HumanMistake[] = [];
+
+    // Overshoot mistake (common)
+    if (Math.random() < 0.4) {
+      mistakes.push({
+        type: 'overshoot',
+        probability: 0.4,
+        description: 'Mouse overshoots target and needs correction',
+        recoveryAction: 'Correct course and move to target'
+      });
+    }
+
+    // Double-click mistake (occasional)
+    if (actionType === 'click' && Math.random() < 0.15) {
+      mistakes.push({
+        type: 'double_click',
+        probability: 0.15,
+        description: 'Accidentally double-clicks instead of single click',
+        recoveryAction: 'Wait and continue with next action'
+      });
+    }
+
+    // Hesitation mistake (common)
+    if (Math.random() < 0.6) {
+      mistakes.push({
+        type: 'hesitation',
+        probability: 0.6,
+        description: 'Pauses briefly before completing action',
+        recoveryAction: 'Continue after brief pause'
+      });
+    }
+
+    // Wrong element mistake (rare)
+    if (Math.random() < 0.1) {
+      mistakes.push({
+        type: 'wrong_element',
+        probability: 0.1,
+        description: 'Clicks on wrong element initially',
+        recoveryAction: 'Correct and click on intended element'
+      });
+    }
+
+    return mistakes;
+  }
+
+  private calculateVisibilityDelay(description: string): number {
+    const lowerDesc = description.toLowerCase();
     
-    // Find real UI elements that match the description
-    const realElements = await this.uiDiscovery.findElementsByDescription(description);
+    // Base delay for demo visibility (much longer than before)
+    let baseDelay = 3000; // 3 seconds base delay
     
-    // Generate validation result
+    if (lowerDesc.includes('wait') || lowerDesc.includes('pause')) {
+      baseDelay = 5000; // 5 seconds for wait actions
+    } else if (lowerDesc.includes('load') || lowerDesc.includes('appear')) {
+      baseDelay = 4000; // 4 seconds for loading actions
+    } else if (lowerDesc.includes('click') || lowerDesc.includes('select')) {
+      baseDelay = 3500; // 3.5 seconds for click actions
+    } else if (lowerDesc.includes('hover') || lowerDesc.includes('mouse over')) {
+      baseDelay = 3000; // 3 seconds for hover actions
+    } else if (lowerDesc.includes('scroll') || lowerDesc.includes('move')) {
+      baseDelay = 4000; // 4 seconds for scroll actions
+    }
+    
+    // Add random human-like variation (±1000ms for visibility)
+    const variation = Math.random() * 2000 - 1000;
+    return Math.max(2000, baseDelay + variation); // Minimum 2 seconds
+  }
+
+  private calculateNaturalDelay(description: string): number {
+    const lowerDesc = description.toLowerCase();
+    
+    // Longer descriptions usually need more time
+    let baseDelay = 2000; // Increased from 1000ms
+    
+    if (lowerDesc.includes('wait') || lowerDesc.includes('pause')) {
+      baseDelay = 4000; // Increased from 2000ms
+    } else if (lowerDesc.includes('load') || lowerDesc.includes('appear')) {
+      baseDelay = 3000; // Increased from 1500ms
+    } else if (lowerDesc.includes('quick') || lowerDesc.includes('fast')) {
+      baseDelay = 1500; // Increased from 500ms
+    }
+    
+    // Add random human-like variation (±500ms for visibility)
+    const variation = Math.random() * 1000 - 500;
+    return Math.max(1000, baseDelay + variation); // Minimum 1 second
+  }
+
+  private generateCursorBehavior(): CursorBehavior {
+    return {
+      showCursor: true,
+      cursorStyle: 'pointer',
+      highlightTarget: true,
+      targetGlow: true,
+      movementTrail: true
+    };
+  }
+
+  private async validateAction(parsed: any, realElements: any[]): Promise<EnhancedActionValidation> {
     const validation: EnhancedActionValidation = {
       elementExists: realElements.length > 0,
       elementVisible: realElements.some(el => el.isVisible),
       elementInteractable: realElements.some(el => el.isEnabled && el.isVisible),
       realElementMatch: realElements.length > 0,
-      suggestedElements: realElements.slice(0, 3), // Top 3 matches
+      suggestedElements: realElements.slice(0, 3),
       validationScore: 0
     };
 
@@ -169,35 +329,25 @@ class EnhancedHumanizerBot {
       }
     }
 
-    // Calculate confidence based on element match quality
-    let confidence = 0;
-    if (realElements.length > 0) {
-      // Higher confidence for elements with better text matches
-      const bestElement = realElements[0];
-      if (bestElement.text && description.toLowerCase().includes(bestElement.text.toLowerCase())) {
-        confidence = 90;
-      } else if (bestElement.ariaLabel && description.toLowerCase().includes(bestElement.ariaLabel.toLowerCase())) {
-        confidence = 85;
-      } else if (bestElement.dataTestId && description.toLowerCase().includes(bestElement.dataTestId.toLowerCase())) {
-        confidence = 80;
-      } else {
-        confidence = 70;
-      }
-    }
-
-    return { validation, realElements, confidence };
+    return validation;
   }
 
   async parseNaturalLanguageWithRealValidation(description: string): Promise<EnhancedHumanizedAction> {
-    console.log(`🔍 Parsing with real UI validation: "${description}"`);
-    
+    if (!this.uiDiscovery) throw new Error('UI Discovery not initialized');
+
     // Parse the natural language description
     const parsed = this.parseNaturalLanguageDescription(description);
     
-    // Validate against real UI elements
-    const { validation, realElements, confidence } = await this.validateWithRealUIElements(description);
+    // Find real UI elements that match the description
+    const realElements = await this.uiDiscovery.findElementsByDescription(description);
     
-    // Generate the action configuration
+    // Validate the action
+    const validation = await this.validateAction(parsed, realElements);
+    
+    // Calculate confidence based on real element matches
+    const confidence = Math.min(100, realElements.length * 25);
+    
+    // Generate the action configuration with enhanced human-like behavior
     const action: EnhancedHumanizedAction = {
       type: parsed.action as any,
       selector: validation.fallbackSelectors?.[0] || undefined,
@@ -207,7 +357,12 @@ class EnhancedHumanizerBot {
       naturalLanguage: description,
       validation: validation,
       realUIElements: realElements,
-      confidence: confidence
+      confidence: confidence,
+      // Enhanced human-like behavior
+      mouseMovement: this.generateMouseMovementPattern(parsed.action),
+      humanMistakes: this.generateHumanMistakes(parsed.action),
+      visibilityDelay: this.calculateVisibilityDelay(description),
+      cursorBehavior: this.generateCursorBehavior()
     };
 
     // Add coordinates if selector failed but coordinates are available
@@ -258,25 +413,6 @@ class EnhancedHumanizerBot {
     }
 
     return { action, target, text };
-  }
-
-  private calculateNaturalDelay(description: string): number {
-    const lowerDesc = description.toLowerCase();
-    
-    // Longer descriptions usually need more time
-    let baseDelay = 1000;
-    
-    if (lowerDesc.includes('wait') || lowerDesc.includes('pause')) {
-      baseDelay = 2000;
-    } else if (lowerDesc.includes('load') || lowerDesc.includes('appear')) {
-      baseDelay = 1500;
-    } else if (lowerDesc.includes('quick') || lowerDesc.includes('fast')) {
-      baseDelay = 500;
-    }
-    
-    // Add random human-like variation (±200ms)
-    const variation = Math.random() * 400 - 200;
-    return Math.max(200, baseDelay + variation);
   }
 
   async generateEnhancedInteractionConfig(
@@ -348,67 +484,42 @@ class EnhancedHumanizerBot {
       
       if (!action.validation.realElementMatch) {
         issues.push(`No real UI elements found for: "${action.naturalLanguage}"`);
-      } else if (action.validation.validationScore < 70) {
-        warnings.push(`Low validation score (${action.validation.validationScore}) for: "${action.naturalLanguage}"`);
       }
-
-      if (action.validation.suggestedElements.length > 0) {
-        const bestMatch = action.validation.suggestedElements[0];
-        if (bestMatch.text) {
-          suggestions.push(`Consider using "${bestMatch.text}" for: "${action.naturalLanguage}"`);
-        }
+      
+      if (action.validation.validationScore < 70) {
+        warnings.push(`Low validation score for: "${action.naturalLanguage}"`);
+      }
+      
+      if (action.humanMistakes && action.humanMistakes.length > 0) {
+        suggestions.push(`Human mistakes added for realism: ${action.humanMistakes.map(m => m.type).join(', ')}`);
       }
     }
 
-    const averageScore = totalScore / actions.length;
-    const averageConfidence = totalConfidence / actions.length;
+    const avgScore = totalScore / actions.length;
+    const avgConfidence = totalConfidence / actions.length;
     const realElementCoverage = (actions.filter(a => a.validation.realElementMatch).length / actions.length) * 100;
-    
+
     let overall: 'valid' | 'partial' | 'invalid';
-    if (averageScore >= 80 && realElementCoverage >= 80) overall = 'valid';
-    else if (averageScore >= 50 && realElementCoverage >= 50) overall = 'partial';
-    else overall = 'invalid';
+    if (avgScore >= 80 && realElementCoverage >= 80) {
+      overall = 'valid';
+    } else if (avgScore >= 60 && realElementCoverage >= 60) {
+      overall = 'partial';
+    } else {
+      overall = 'invalid';
+    }
 
     return {
       overall,
-      score: Math.round(averageScore),
-      confidence: Math.round(averageConfidence),
-      realElementCoverage: Math.round(realElementCoverage),
+      score: avgScore,
       issues,
       warnings,
-      suggestions
+      suggestions,
+      realElementCoverage,
+      confidence: avgConfidence
     };
-  }
-
-  async generateEnhancedJSONConfig(interactions: EnhancedHumanizedInteraction[]): Promise<string> {
-    const config = {
-      metadata: {
-        generatedAt: new Date().toISOString(),
-        generator: 'Enhanced Humanizer Bot',
-        version: '2.0.0',
-        description: 'Enhanced humanized interaction configurations with real UI element validation'
-      },
-      interactions: interactions,
-      summary: {
-        totalInteractions: interactions.length,
-        totalActions: interactions.reduce((sum, i) => sum + i.actions.length, 0),
-        averageValidationScore: Math.round(interactions.reduce((sum, i) => sum + i.validation.score, 0) / interactions.length),
-        averageConfidence: Math.round(interactions.reduce((sum, i) => sum + i.validation.confidence, 0) / interactions.length),
-        averageRealElementCoverage: Math.round(interactions.reduce((sum, i) => sum + i.validation.realElementCoverage, 0) / interactions.length)
-      }
-    };
-
-    const configPath = path.join(this.configDir, 'enhanced-humanized-interactions.json');
-    fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
-    
-    console.log(`✅ Enhanced JSON config generated: ${configPath}`);
-    return configPath;
   }
 
   async cleanup(): Promise<void> {
-    if (this.uiDiscovery) {
-      await this.uiDiscovery.cleanup();
-    }
     if (this.context) {
       await this.context.close();
     }
@@ -419,49 +530,38 @@ class EnhancedHumanizerBot {
   }
 }
 
-// Example usage and demonstration
-async function demonstrateEnhancedHumanizerBot() {
+// Main execution
+async function main() {
   const bot = new EnhancedHumanizerBot();
   
   try {
-    // Initialize with your demo website
-    await bot.initialize('http://localhost:3000');
+    await bot.initialize('http://localhost:3001');
     
-    // Example natural language descriptions
-    const descriptions = [
-      "Click on the map button to switch to map view",
-      "Hover over the hazard layer to see details",
-      "Wait for the evacuation routes to load",
-      "Click on the zone boundary to select it",
-      "Type 'emergency' in the search field",
-      "Scroll down to see more information"
+    // Example usage
+    const naturalLanguageDescriptions = [
+      "Click on the hazard layer toggle to show threats",
+      "Wait for the hazard data to load",
+      "Hover over a hazard point to see details",
+      "Click on the risk indicator to expand information"
     ];
     
-    // Generate enhanced interaction config
     const interaction = await bot.generateEnhancedInteractionConfig(
-      descriptions,
-      'Enhanced Natural Map Interaction',
+      naturalLanguageDescriptions,
+      "Hazard Management Demo",
       45,
-      'Real-time UI validation with human-like map navigation and hazard exploration'
+      "Real-time hazard interaction and risk assessment"
     );
     
-    console.log('🎯 Generated Enhanced Interaction:');
-    console.log(JSON.stringify(interaction, null, 2));
-    
-    // Generate enhanced JSON config file
-    const configPath = await bot.generateEnhancedJSONConfig([interaction]);
-    console.log(`📁 Enhanced config saved to: ${configPath}`);
+    console.log('✅ Enhanced interaction config generated:', JSON.stringify(interaction, null, 2));
     
   } catch (error) {
-    console.error('❌ Error demonstrating Enhanced Humanizer Bot:', error);
+    console.error('❌ Enhanced Humanizer Bot failed:', error);
   } finally {
     await bot.cleanup();
   }
 }
 
-// Main execution
-if (require.main === module) {
-  demonstrateEnhancedHumanizerBot().catch(console.error);
-}
+// ES module execution
+main();
 
-export { EnhancedHumanizerBot, EnhancedHumanizedInteraction, EnhancedHumanizedAction, EnhancedValidationResult, UIElementReport };
+export { EnhancedHumanizerBot };

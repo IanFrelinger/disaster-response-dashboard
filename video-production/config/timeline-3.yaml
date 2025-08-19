@@ -1,7 +1,7 @@
 timeline:
   duration: 127  # Total duration in seconds (2:07)
   fps: 30
-  resolution: [1920, 1080]
+  resolution: [3840, 2160]
   
   tracks:
     video:
