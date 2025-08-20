@@ -9,31 +9,31 @@ import * as dotenv from 'dotenv';
 // Updated narration scripts for 12 condensed beats with regular spelling (phonetic only for special cases)
 const TECHNICAL_NARRATION_SCRIPTS = {
   'Persona & Problem': {
-    script: "Hi, I'm Ian Frelinger, Disaster Response Platform Architect. In live incidents, seconds matter. Emergency managers face disconnected systems that slow response times. Our platform provides hazards, exposure and conditions in one unified view. This turns insight into clear assignments for faster decisions.",
+        script: "Hi, I'm Ian Frel-in-jer, Disaster Response Platform Architect. When incidents happen, every second counts. Emergency managers struggle with disconnected systems that delay response times. Our platform brings together hazards, exposure and conditions in one unified view. This transforms insight into clear assignments for faster decisions.",
     duration: 30
   },
-  'Architecture Overview': {
-    script: "Data streams in from F-I-R-M-S, N-O-A-A, nine-one-one, population and traffic. Thanks to Palantir Foundry, this fusion happens in real time, keeping all stakeholders in sync. Our Python/Flask backend with Celery and WebSockets delivers real-time updates. The React/Mapbox front-end consumes APIs for hazards, risk, routes, units, evacuations and public safety. Now let's look at how we visualize hazards and conditions on the map.",
+  'High-Level Architecture': {
+        script: "Data flows in from Fire Information Resource Management System, National Oceanic and Atmospheric Administration, nine-one-one, population and traffic. Thanks to Pal-an-TEER Found-ree, this fusion happens in real time, keeping all stakeholders connected. Our Python/Flask backend with Sell-uh-ree and Web-Sockets delivers real-time updates. The Ree-act/Map-box front end consumes APIs for hazards, risk, routes, units, evacuations and public safety. Now let's see how we visualize hazards and conditions on the map.",
     duration: 45
   },
   'Live Hazard Map': {
-    script: "We operate from the Live Hazard Map. Hazard cells show what's active, where it's clustered and where to focus next. This gives immediate situational awareness.",
+        script: "We work from the Live Hazard Map. Hazard cells show what's active, where it's clustered and where to focus next. This gives us immediate situational awareness.",
     duration: 30
   },
   'Exposure & Conditions': {
-    script: "I turn on the Buildings and Weather layers. Buildings act as a practical proxy for population exposure. Weather shows conditions that shape access and operations.",
+        script: "I turn on the Buildings and Weather layers. Buildings serve as a practical proxy for population exposure. Weather shows conditions that affect access and operations.",
     duration: 30
   },
   'Incident Focus': {
-    script: "I center the map on a specific hazard. This anchors the workflow to the right location. Now let's select resources and plan our response.",
+        script: "I center the map on a specific hazard. This anchors the workflow to the right location. Now let's pick resources and plan our response.",
     duration: 30
   },
   'Resource Selection': {
-    script: "I open the Units panel and select a fire engine from the roster. The roster shows status and location at a glance. This helps me ensure the right capability reaches the right place, faster.",
+        script: "I open the Units panel and pick a fire engine from the roster. The roster shows status and location at a glance. This helps me make sure the right capability reaches the right place, faster.",
     duration: 30
   },
   'Route Planning': {
-    script: "I open the Routing panel and choose a Fire Tactical profile. The system shows the route that matches this profile. This includes staging and access points.",
+        script: "I open the Routing panel and pick a Fire Tac-ti-cal profile. The system shows the route that matches this profile. This includes staging and access points.",
     duration: 30
   },
   'Route Review': {
@@ -41,11 +41,11 @@ const TECHNICAL_NARRATION_SCRIPTS = {
     duration: 30
   },
   'Task Assignment': {
-    script: "With the route validated, I confirm the unit will follow it. Now I know the plan is actionable and can be executed confidently. Let's check our AI-powered decision support.",
+    script: "With the route validated, I confirm the unit will follow it. Now I know the plan is actionable and can be executed confidently. Let's check our Artificial Intelligence-powered decision support.",
     duration: 30
   },
   'AIP Guidance': {
-    script: "In A-I-P decision support, I review recommendations and confidence levels. This provides a quick cross-check against operational experience. Now let's monitor our progress.",
+        script: "In Artificial Intelligence Platform decision support, I review recommendations and confidence levels. This gives me a quick cross-check against operational experience. Now let's monitor our progress.",
     duration: 30
   },
   'Progress Tracking': {
@@ -53,7 +53,7 @@ const TECHNICAL_NARRATION_SCRIPTS = {
     duration: 30
   },
   'Conclusion & CTA': {
-    script: "Thank you for joining me on this technical deep dive. We've seen how real-time data fusion, intelligent routing and AI-powered decision support transform emergency response. Together, we can reduce response times and save lives. For a personalized demo, please contact our team.",
+        script: "Thanks for joining me on this technical deep dive. We've seen how real-time data fusion, intelligent routing and Artificial Intelligence-powered decision support transform emergency response. Together, we can reduce response times and save lives. For a personalized demo, please contact our team.",
     duration: 30
   }
 };
@@ -122,8 +122,9 @@ class VoiceOverGenerator {
           text: script,
           model_id: 'eleven_monolingual_v1',
           voice_settings: {
-            stability: 0.5,
-            similarity_boost: 0.75
+            stability: 0.9,
+            similarity_boost: 0.95,
+            speaking_rate: 0.3
           }
         })
       });
@@ -134,10 +135,13 @@ class VoiceOverGenerator {
 
       const audioBuffer = await response.arrayBuffer();
       const paddedBeatNumber = beatNumber.toString().padStart(2, '0');
-      const filename = `${paddedBeatNumber}_${slideName.toLowerCase().replace(/\s+/g, '_')}_vo.wav`;
+      const filename = `${paddedBeatNumber}_${slideName.toLowerCase().replace(/\s+/g, '_').replace(/-/g, '_')}_vo.wav`;
       const audioPath = path.join(this.audioDir, filename);
       
       fs.writeFileSync(audioPath, Buffer.from(audioBuffer));
+      
+      // Post-process with FFmpeg to slow down the audio
+      await this.slowDownAudio(audioPath);
       
       this.log(`✅ Voice-over generated: ${filename}`, 'success');
       return audioPath;
@@ -145,6 +149,30 @@ class VoiceOverGenerator {
     } catch (error) {
       this.log(`❌ Voice-over generation failed for ${slideName}: ${error}`, 'error');
       throw error;
+    }
+  }
+
+  private async slowDownAudio(audioPath: string): Promise<void> {
+    const { exec } = await import('child_process');
+    const { promisify } = await import('util');
+    const execAsync = promisify(exec);
+    
+    const tempPath = audioPath.replace('.wav', '_temp.wav');
+    
+    try {
+      // Use FFmpeg to slow down the audio to 85% of original speed
+      await execAsync(`ffmpeg -i "${audioPath}" -filter:a "atempo=0.85" "${tempPath}" -y`);
+      
+      // Replace original with slowed version
+      fs.renameSync(tempPath, audioPath);
+      
+      this.log(`🎵 Audio slowed down to match natural cadence`, 'success');
+    } catch (error) {
+      this.log(`⚠️  Audio slowdown failed, using original: ${error}`, 'warning');
+      // If FFmpeg fails, keep the original
+      if (fs.existsSync(tempPath)) {
+        fs.unlinkSync(tempPath);
+      }
     }
   }
 

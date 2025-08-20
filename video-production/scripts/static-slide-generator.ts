@@ -8,55 +8,55 @@ import { dirname } from 'path';
 import * as dotenv from 'dotenv';
 import * as yaml from 'js-yaml';
 
-// Updated narration scripts from narration.yaml
+// Updated narration scripts for 12 condensed beats with regular spelling (phonetic only for special cases)
 const TECHNICAL_NARRATION_SCRIPTS = {
-  'Meet Emergency Manager Sarah Chen': {
-    script: "Hi, I'm EYE-uhn FREN-ling-er. I'll walk you through how an IN-sih-dent kuh-MAN-der or op-er-AY-shun SEK-shun chief uses our web tool to size up a live situation, pick the right resource, plan access and MON-ih-ter PROH-gres.",
+  'Persona & Problem': {
+    script: "Hi, I'm Ian Frelinger, Disaster Response Platform Architect. In live incidents, seconds matter. Emergency managers face disconnected systems that slow response times. Our platform provides hazards, exposure and conditions in one unified view. This turns insight into clear assignments for faster decisions.",
     duration: 30
   },
-  'The Challenge: Seconds Matter in Live Incidents': {
-    script: "In a live incident, SEK-undz MAT-er. The CHAL-enj is SEE-ing HAZ-erdz, ek-SPOH-zher and kuhn-DIH-shunz in one place, then TURN-ing that into KLEER uh-SYNE-mentz. Our goal is FAST-er TYME-to-deh-SIZH-uhn, SAY-fer AK-ses to the scene and kuhn-TIN-yoo-us STA-tus you can TRUST.",
+  'Architecture Overview': {
+    script: "Data streams in from F-I-R-M-S, N-O-A-A, nine-one-one, population and traffic. Thanks to Palantir Foundry, this fusion happens in real time, keeping all stakeholders in sync. Our Python/Flask backend with Celery and WebSockets delivers real-time updates. The React/Mapbox front-end consumes APIs for hazards, risk, routes, units, evacuations and public safety. Now let's look at how we visualize hazards and conditions on the map.",
     duration: 45
   },
-  'Data & Architecture: Real-time Integration': {
-    script: "Data STREEMZ in from F-I-R-M-S, N-O-A-A, nine one one, pop-yuh-LAY-shun and TRA-fik, and is FYOOZD in PAL-uhn-teer FOWN-dree. The BAK-end is PY-thon and FLASK, with SEL-er-ee and WEB-sok-its for REEL-taym up-DAYTZ. The FRONT end is REE-akt with MAP-boks. The system provides APIs for HAZ-erdz, risk assessment, ROWT planning, YOO-nit management, ih-vak-yoo-AY-shun tracking and PUB-lik SAYF-tee functions.",
-    duration: 60
+  'Live Hazard Map': {
+    script: "We operate from the Live Hazard Map. Hazard cells show what's active, where it's clustered and where to focus next. This gives immediate situational awareness.",
+    duration: 30
   },
-  'Live Hazard Map: Situational Awareness': {
-    script: "We op-er-AYT from the Live Hazard Map. HAZ-erd selz give ih-MEE-dee-it sit-yoo-AY-shun-ul uh-WARE-ness—what's AK-tiv, where it's KLUS-terd and where to FOH-kus next.",
-    duration: 60
+  'Exposure & Conditions': {
+    script: "I turn on the Buildings and Weather layers. Buildings act as a practical proxy for population exposure. Weather shows conditions that shape access and operations.",
+    duration: 30
   },
-  'Exposure & Conditions: Buildings & Weather': {
-    script: "I turn on the BIL-dingz and WEH-ther LAY-erz. BIL-dingz act as a PRAK-ti-kuhl PROK-see for pop-yuh-LAY-shun. WEH-ther shows the kuhn-DIH-shunz that will SHAPE AK-ses and op-er-AY-shunz.",
-    duration: 60
+  'Incident Focus': {
+    script: "I center the map on a specific hazard. This anchors the workflow to the right location. Now let's select resources and plan our response.",
+    duration: 30
   },
-  'Incident Focus: Anchoring the Workflow': {
-    script: "I SEN-ter the map on a speh-SIF-ik HAZ-erd. This ANG-kerz the WORK-flow to the right loh-KAY-shun and helps me pry-OR-ih-tyz the next move.",
-    duration: 60
+  'Resource Selection': {
+    script: "I open the Units panel and select a fire engine from the roster. The roster shows status and location at a glance. This helps me ensure the right capability reaches the right place, faster.",
+    duration: 30
   },
-  'Resource Roster: Unit Management': {
-    script: "Next, I open the YOO-nits PAN-ul and seh-LEKT a FY-er EN-jin from the ROS-ter. The ROS-ter keeps STA-tus and loh-KAY-shun at a GLANS so I can MATCH the uh-SYNE-ment to the right KAY-puh-BIL-ih-tee.",
-    duration: 60
+  'Route Planning': {
+    script: "I open the Routing panel and choose a Fire Tactical profile. The system shows the route that matches this profile. This includes staging and access points.",
+    duration: 30
   },
-  'Route Planning: Tactical Profiles': {
-    script: "I open the ROW-ting PAN-ul and choose a FY-er TAK-ti-kuhl PROH-fyle. The SIS-tem shows the ROWT that MATCH-ez this PROH-fyle, in-KLOO-ding the STAY-jing and AK-ses points.",
-    duration: 60
+  'Route Review': {
+    script: "I review the route details—estimated time of arrival and distance. This tells me how long it will take and which path the unit will follow. Now let's confirm the assignment.",
+    duration: 30
   },
-  'Route Result: ETA & Distance Review': {
-    script: "I rih-VYOO the ROWT DEE-taylz—an ES-tih-may-ted TYME of uh-RY-vul and DIS-tens. This TELLZ me how long it will take and which PATH the YOO-nit will FOL-oh.",
-    duration: 60
+  'Task Assignment': {
+    script: "With the route validated, I confirm the unit will follow it. Now I know the plan is actionable and can be executed confidently. Let's check our AI-powered decision support.",
+    duration: 30
   },
-  'Tasking: Plan to Execution': {
-    script: "With the ROWT VAL-ih-day-ted, I kuhn-FERM the YOO-nit will FOL-oh it. The plan moves from PLAN-ing to ek-sek-YOO-shun.",
-    duration: 60
+  'AIP Guidance': {
+    script: "In A-I-P decision support, I review recommendations and confidence levels. This provides a quick cross-check against operational experience. Now let's monitor our progress.",
+    duration: 30
   },
-  'AIP Decision Support: AI Recommendations': {
-    script: "In A-I-P dih-SIZH-uhn suh-PORT, I rih-VYOO rek-uh-men-DAY-shunz and their kuhn-FIH-dens LEV-elz. It's a KWIK KROS-chek that our plan uh-LYNEZ with the KUR-ent risk PIK-cher.",
-    duration: 60
+  'Progress Tracking': {
+    script: "I open the Building Evacuation Tracker to monitor status and progress. From map to assignment to tracking, everything stays connected. This completes our operational workflow.",
+    duration: 30
   },
-  'Operations Status & Call to Action': {
-    script: "I open the BIL-ding ih-vak-yoo-AY-shun TRAK-er to MON-ih-ter STA-tus and PROH-gres. From map to uh-SYNE-ment to TRAK-ing, EV-ree-thing stays kuh-NEK-ted. If this MATCH-ez your MIH-shun PROH-fyle, I'd be HAP-ee to walk through a per-suh-nuh-LYZD see-NAR-ee-oh next.",
-    duration: 60
+  'Conclusion & CTA': {
+    script: "Thank you for joining me on this technical deep dive. We've seen how real-time data fusion, intelligent routing and AI-powered decision support transform emergency response. Together, we can reduce response times and save lives. For a personalized demo, please contact our team.",
+    duration: 30
   }
 };
 
@@ -551,24 +551,23 @@ class StaticSlideGenerator {
     try {
       await this.initializeBrowser();
       
-      this.log('🎬 Generating static slides for Recruiter-Friendly Demo...');
+      this.log('🎬 Generating static slides for 12-Beat Condensed Demo...');
       
-      // Generate each slide following the new operational workflow
-      await this.generateTitleAndPersonaSlide();
-      await this.generateProblemAndOutcomesSlide();
-      await this.generateDataAndArchitectureSlide();
+      // Generate each slide following the new 12-beat condensed structure
+      await this.generatePersonaAndProblemSlide();
+      await this.generateArchitectureOverviewSlide();
       await this.generateLiveHazardMapSlide();
       await this.generateExposureAndConditionsSlide();
-      await this.generateIncidentTriageSlide();
-      await this.generateResourceRosterSlide();
+      await this.generateIncidentFocusSlide();
+      await this.generateResourceSelectionSlide();
       await this.generateRoutePlanningSlide();
-      await this.generateRouteResultSlide();
-      await this.generateTaskingSlide();
+      await this.generateRouteReviewSlide();
+      await this.generateTaskAssignmentSlide();
       await this.generateAIPGuidanceSlide();
-      await this.generateOpsStatusAndCTASlide();
-      await this.generateOutroAndConclusionSlide();
+      await this.generateProgressTrackingSlide();
+      await this.generateConclusionAndCTASlide();
       
-      this.log('✅ All recruiter-friendly demo slides generated successfully!');
+      this.log('✅ All 12-beat condensed demo slides generated successfully!');
       
     } catch (error) {
       this.log(`❌ Error generating slides: ${error}`, 'error');
@@ -579,152 +578,145 @@ class StaticSlideGenerator {
     }
   }
 
-  private async generateTitleAndPersonaSlide(): Promise<void> {
+  private async generatePersonaAndProblemSlide(): Promise<void> {
     const content = `
       <p>Hi, I'm <span class="highlight">Ian Frelinger</span>, Disaster Response Platform Architect.</p>
       <br>
-      <p>I'm building this system through the lens of an <span class="tech-term">Incident Commander</span> and <span class="tech-term">Operations Manager</span>.</p>
+      <p>In live incidents, <span class="tech-term">seconds matter</span>.</p>
       <br>
-      <p>This briefing covers how we transform disconnected data into coordinated emergency response.</p>
+      <p>Emergency managers face <span class="api-endpoint">disconnected systems</span> that slow response times.</p>
+      <br>
+      <p>Our platform provides <span class="highlight">hazards + exposure + conditions</span> in one unified view.</p>
     `;
-    await this.generateStaticSlide('01_title_and_persona', 'Title & Persona', content, 35);
+    await this.generateStaticSlide('01_persona_and_problem', 'Persona & Problem', content, 30);
   }
 
-  private async generateProblemAndOutcomesSlide(): Promise<void> {
+  private async generateArchitectureOverviewSlide(): Promise<void> {
     const content = `
-      <p>Emergency managers face <span class="highlight">disconnected systems</span> that slow response times.</p>
+      <p>Data streams in from <span class="highlight">F-I-R-M-S</span>, <span class="highlight">N-O-A-A</span>, <span class="highlight">nine-one-one</span>, population and traffic.</p>
       <br>
-      <p>Our platform provides <span class="tech-term">hazards + exposure + conditions</span> in one unified view.</p>
-      <br>
-      <p>This turns insight into <span class="api-endpoint">clear assignments</span> for faster decisions, safer access, and reliable status tracking.</p>
-    `;
-    await this.generateStaticSlide('02_problem_and_outcomes', 'Problem & Outcomes', content, 40);
-  }
-
-  private async generateDataAndArchitectureSlide(): Promise<void> {
-    const content = `
-      <p><span class="highlight">Foundry</span> ingests data from <span class="tech-term">FIRMS</span>, <span class="tech-term">NOAA</span>, <span class="tech-term">911</span>, population, and traffic feeds.</p>
+      <p>Thanks to <span class="tech-term">Palantir Foundry</span>, this fusion happens in real time, keeping all stakeholders in sync.</p>
       <br>
       <p><span class="api-endpoint">Backend</span>: Python/Flask + Celery + WebSockets</p>
       <p><span class="api-endpoint">Frontend</span>: React + Mapbox</p>
       <br>
-      <p><span class="metric">APIs</span>: /api/hazards /api/risk /api/routes /api/units /api/evacuations /api/public_safety</p>
+      <p>APIs: hazards, risk, routes, units, evacuations, public safety</p>
     `;
-    await this.generateStaticSlide('03_data_and_architecture', 'Data & Architecture', content, 45);
+    await this.generateStaticSlide('02_architecture_overview', 'Architecture Overview', content, 45);
   }
+
+
 
   private async generateLiveHazardMapSlide(): Promise<void> {
     const content = `
-      <p>The <span class="highlight">Live Hazard Map</span> serves as our operational canvas.</p>
+      <p>We operate from the <span class="highlight">Live Hazard Map</span>.</p>
       <br>
-      <p><span class="tech-term">Hazard cells</span> are visible with real-time updates from satellite and ground sensors.</p>
+      <p><span class="tech-term">Hazard cells</span> show what's active, where it's clustered and where to focus next.</p>
       <br>
-      <p>Commanders can focus on specific areas and track changes as conditions evolve.</p>
+      <p>This gives immediate <span class="api-endpoint">situational awareness</span>.</p>
     `;
-    await this.generateStaticSlide('04_live_hazard_map', 'Live Hazard Map', content, 35);
+    await this.generateStaticSlide('03_live_hazard_map', 'Live Hazard Map', content, 30);
   }
 
   private async generateExposureAndConditionsSlide(): Promise<void> {
     const content = `
-      <p><span class="highlight">Buildings ON</span> shows population exposure as a proxy for risk assessment.</p>
+      <p>I turn on the <span class="highlight">Buildings</span> and <span class="highlight">Weather</span> layers.</p>
       <br>
-      <p><span class="tech-term">Weather ON</span> displays current conditions that shape access and operations.</p>
+      <p><span class="tech-term">Buildings</span> act as a practical proxy for population exposure.</p>
       <br>
-      <p>This reveals <span class="api-endpoint">who's affected</span> and <span class="api-endpoint">what shapes access</span> in real-time.</p>
+      <p><span class="tech-term">Weather</span> shows conditions that shape access and operations.</p>
     `;
-    await this.generateStaticSlide('05_exposure_and_conditions', 'Exposure & Conditions', content, 35);
+    await this.generateStaticSlide('04_exposure_and_conditions', 'Exposure & Conditions', content, 30);
   }
 
-  private async generateIncidentTriageSlide(): Promise<void> {
+  private async generateIncidentFocusSlide(): Promise<void> {
     const content = `
-      <p>Select an <span class="highlight">incident cell</span> to begin the operational workflow.</p>
+      <p>I center the map on a <span class="highlight">specific hazard</span>.</p>
       <br>
-      <p>Confirm <span class="tech-term">quick details</span>: confidence, start time, and nearby population.</p>
+      <p>This <span class="tech-term">anchors the workflow</span> to the right location.</p>
       <br>
-      <p>This <span class="api-endpoint">anchors the workflow</span> and sets the context for all subsequent decisions.</p>
+      <p>Now let's select resources and plan our response.</p>
     `;
-    await this.generateStaticSlide('06_incident_triage', 'Incident Triage', content, 30);
+    await this.generateStaticSlide('05_incident_focus', 'Incident Focus', content, 30);
   }
 
-  private async generateResourceRosterSlide(): Promise<void> {
+  private async generateResourceSelectionSlide(): Promise<void> {
     const content = `
-      <p>Open <span class="highlight">Units</span> to access the resource roster.</p>
+      <p>I open the <span class="highlight">Units</span> panel and select a fire engine from the roster.</p>
       <br>
-      <p>Select <span class="tech-term">Engine-21</span> from available units.</p>
+      <p>The roster shows <span class="tech-term">status and location</span> at a glance.</p>
       <br>
-      <p>Match <span class="api-endpoint">capability to assignment</span> based on incident requirements and unit status.</p>
+      <p>This helps me ensure the <span class="api-endpoint">right capability reaches the right place, faster</span>.</p>
     `;
-    await this.generateStaticSlide('07_resource_roster', 'Resource Roster', content, 35);
+    await this.generateStaticSlide('06_resource_selection', 'Resource Selection', content, 30);
   }
 
   private async generateRoutePlanningSlide(): Promise<void> {
     const content = `
-      <p>Switch to <span class="highlight">routing view</span> for path planning.</p>
+      <p>I open the <span class="highlight">Routing</span> panel and choose a <span class="tech-term">Fire Tactical</span> profile.</p>
       <br>
-      <p>Set <span class="tech-term">Start: Staging Area</span> and <span class="tech-term">End near incident</span>.</p>
+      <p>The system shows the route that matches this profile.</p>
       <br>
-      <p>Configure <span class="api-endpoint">Profile: FIRE_TACTICAL</span> for emergency response routing.</p>
+      <p>This includes <span class="api-endpoint">staging and access points</span>.</p>
     `;
-    await this.generateStaticSlide('08_route_planning', 'Route Planning', content, 35);
+    await this.generateStaticSlide('07_route_planning', 'Route Planning', content, 30);
   }
 
-  private async generateRouteResultSlide(): Promise<void> {
+  private async generateRouteReviewSlide(): Promise<void> {
     const content = `
-      <p><span class="highlight">Generate Route</span> using the A* algorithm with real-time constraints.</p>
+      <p>I review the route details—<span class="highlight">estimated time of arrival</span> and <span class="highlight">distance</span>.</p>
       <br>
-      <p>View <span class="tech-term">polyline, ETA, and distance</span> for the optimal path.</p>
+      <p>This tells me how long it will take and which path the unit will follow.</p>
       <br>
-      <p>Ensure <span class="api-endpoint">safe, predictable access</span> that respects current conditions.</p>
+      <p>Now let's <span class="api-endpoint">confirm the assignment</span>.</p>
     `;
-    await this.generateStaticSlide('09_route_result', 'Route Result', content, 30);
+    await this.generateStaticSlide('08_route_review', 'Route Review', content, 30);
   }
 
-  private async generateTaskingSlide(): Promise<void> {
+  private async generateTaskAssignmentSlide(): Promise<void> {
     const content = `
-      <p><span class="highlight">Assign to Route</span> to create the operational tasking.</p>
+      <p>With the route validated, I <span class="highlight">confirm the unit will follow it</span>.</p>
       <br>
-      <p>This provides a <span class="tech-term">defined task + access plan</span> for the unit.</p>
+      <p>Now I know the plan is <span class="tech-term">actionable and can be executed confidently</span>.</p>
       <br>
-      <p>Now shift to the <span class="api-endpoint">broader picture</span> to monitor overall operations.</p>
+      <p>Let's check our <span class="api-endpoint">AI-powered decision support</span>.</p>
     `;
-    await this.generateStaticSlide('10_tasking', 'Tasking', content, 30);
+    await this.generateStaticSlide('09_task_assignment', 'Task Assignment', content, 30);
   }
 
   private async generateAIPGuidanceSlide(): Promise<void> {
     const content = `
-      <p>Access <span class="highlight">AIP Decision Support</span> for AI-powered recommendations.</p>
+      <p>In <span class="highlight">A-I-P decision support</span>, I review recommendations and confidence levels.</p>
       <br>
-      <p>Review <span class="tech-term">recommendations + confidence</span> levels for each decision point.</p>
+      <p>This provides a <span class="tech-term">quick cross-check</span> against operational experience.</p>
       <br>
-      <p>Use this as a <span class="api-endpoint">quick cross-check</span> against operational experience.</p>
+      <p>Now let's <span class="api-endpoint">monitor our progress</span>.</p>
     `;
-    await this.generateStaticSlide('11_aip_guidance', 'AIP Guidance', content, 35);
+    await this.generateStaticSlide('10_aip_guidance', 'AIP Guidance', content, 30);
   }
 
-  private async generateOpsStatusAndCTASlide(): Promise<void> {
+  private async generateProgressTrackingSlide(): Promise<void> {
     const content = `
-      <p>Monitor <span class="highlight">Building Evacuation Tracker</span> for real-time progress.</p>
+      <p>I open the <span class="highlight">Building Evacuation Tracker</span> to monitor status and progress.</p>
       <br>
-      <p>Track evacuation status, unit positions, and emerging risks.</p>
+      <p>From map to assignment to tracking, <span class="tech-term">everything stays connected</span>.</p>
       <br>
-      <p>Ready to <span class="api-endpoint">invite personalized scenario</span> for your specific use case.</p>
+      <p>This completes our <span class="api-endpoint">operational workflow</span>.</p>
     `;
-    await this.generateStaticSlide('12_ops_status_and_cta', 'Ops Status & CTA', content, 40);
+    await this.generateStaticSlide('11_progress_tracking', 'Progress Tracking', content, 30);
   }
 
-  private async generateOutroAndConclusionSlide(): Promise<void> {
+  private async generateConclusionAndCTASlide(): Promise<void> {
     const content = `
-      <p>Thank you for joining me on this <span class="highlight">technical deep dive</span> into our disaster response platform.</p>
+      <p>Thank you for joining me on this <span class="highlight">technical deep dive</span>.</p>
       <br>
-      <p>We've demonstrated how <span class="tech-term">real-time data integration</span>, <span class="tech-term">intelligent routing</span>, and <span class="tech-term">AI-powered decision support</span> can transform emergency response operations.</p>
+      <p>We've seen how <span class="tech-term">real-time data fusion</span>, <span class="tech-term">intelligent routing</span> and <span class="tech-term">AI-powered decision support</span> transform emergency response.</p>
       <br>
-      <p>This system represents the future of <span class="api-endpoint">emergency management</span>—where every second counts and every decision matters.</p>
+      <p><span class="api-endpoint">Together, we can reduce response times and save lives</span>.</p>
       <br>
-      <p>For more information or to schedule a <span class="highlight">personalized demo</span>, please visit our website or contact our team.</p>
-      <br>
-      <p><span class="metric">Together, we can build a safer, more resilient future.</span></p>
+      <p>For a <span class="highlight">personalized demo</span>, please contact our team.</p>
     `;
-    await this.generateStaticSlide('21_outro_and_conclusion', 'Outro & Conclusion', content, 45);
+    await this.generateStaticSlide('12_conclusion_and_cta', 'Conclusion & CTA', content, 30);
   }
 
   private async createStaticVideoFromSlide(segmentName: string, outputPath: string, audioPath: string): Promise<void> {

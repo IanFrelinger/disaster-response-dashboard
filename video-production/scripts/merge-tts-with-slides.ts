@@ -89,9 +89,9 @@ class TTSVideoMerger {
       },
       {
         slideNumber: 2,
-        slideTitle: "Architecture Overview",
-        audioFile: "02_architecture_overview_vo.wav",
-        videoFile: "02_architecture_overview.png",
+        slideTitle: "High-Level Architecture",
+        audioFile: "02_high_level_architecture_vo.wav",
+        videoFile: "02_high_level_architecture.png",
         duration: 45
       },
       {
