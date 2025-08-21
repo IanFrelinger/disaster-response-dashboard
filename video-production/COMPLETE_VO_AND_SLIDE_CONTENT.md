@@ -29,7 +29,7 @@ Our platform provides hazards + exposure + conditions in one unified view.
 
 ### **Slide Content:**
 ```
-Data streams in from F-I-R-M-S, N-O-A-A, nine-one-one, population and traffic.
+Data streams in from FIRMS, N-O-A-A, nine-one-one, population and traffic.
 
 Thanks to Palantir Foundry, this fusion happens in real time, keeping all stakeholders in sync.
 

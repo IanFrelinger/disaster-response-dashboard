@@ -95,129 +95,207 @@ class UnifiedDemoMerger {
     // Define the unified slide mappings for the complete demo flow
     const mappings: SlideMapping[] = [
       // Main Demo Slides (12)
+      // RECRUITER CUT (10 slides, 6:15-6:45 minutes)
       {
         slideNumber: 1,
-        slideTitle: "Disaster Response Dashboard",
+        slideTitle: "Command Center",
         slideFile: "01_main_dashboard_overview.png",
-        voScript: "Welcome to the Disaster Response Dashboard - a unified platform that transforms emergency management through real-time data fusion and intelligent decision support. This system integrates multiple data sources, provides ML-powered hazard analysis, and delivers optimized evacuation routes for emergency responders. Built on Palantir Foundry architecture with real-time processing and spatial intelligence.",
-        duration: 35,
+        voScript: "For Incident Commanders and emergency planners who need a single operational picture. Welcome to the Command Center — a unified platform for real-time data fusion and intelligent decision support. It brings together multiple data sources, adds ML-powered hazard analysis, and delivers optimized evacuation routes. Built on Pal-an-TEER Foundry with real-time processing and spatial intelligence. Here's the plan: a quick user path, a short look at how it works, and the outcomes. If you want more depth, we can open the appendix on engines, APIs, and resilience.",
+        duration: 25,
         isTechnicalInsert: false
       },
       {
         slideNumber: 2,
         slideTitle: "Live Hazard Map",
         slideFile: "02_live_hazard_map.png",
-        voScript: "The Live Hazard Map displays real-time emergency incidents with spatial intelligence and risk assessment. Active hazards are shown with color-coded risk levels, spread predictions, and affected areas. Data sources include NASA F-I-R-M-S satellite feeds, N-O-A-A weather data, and nine-one-one emergency calls.",
-        duration: 45,
+        voScript: "The Live Hazard Map shows real-time incidents with spatial intelligence and risk assessment. Active hazards show risk scores, proximity, and affected areas. Data sources include NASA Firms satellite feeds, Noah weather data, and nine-one-one calls. Focusing early prevents dispatching units into deteriorating areas. Now that we see exposure and conditions, let's pick the right unit.",
+        duration: 35,
         isTechnicalInsert: false
       },
-      // Technical Insert 1: Slice A
       {
         slideNumber: 3,
         slideTitle: "Data Sources → Foundry → Backend",
         slideFile: "insert1_slice_a_sources_to_backend.png",
-        voScript: "F-I-R-M-S, N-O-A-A, nine-one-one, traffic and G-P-S flow into Pal-an-TEER Found-ree. Functions fuse the streams. Our Flask gateway and Celery workers pull the processed outputs in real time.",
-        duration: 35,
-        isTechnicalInsert: true
-      },
-      // Technical Insert 1: Slice B
-      {
-        slideNumber: 4,
-        slideTitle: "Processing Engines",
-        slideFile: "insert1_slice_b_processing_engines.png",
-        voScript: "Three engines power decisions: hazard forecasting, risk on H-three hexes, and A-star routing that balances safety and speed.",
-        duration: 40,
-        isTechnicalInsert: true
-      },
-      // Technical Insert 1: Slice C
-      {
-        slideNumber: 5,
-        slideTitle: "API Surface → Frontend",
-        slideFile: "insert1_slice_c_api_surface.png",
-        voScript: "REST exposes hazards, routes, units and evacuations; Web-Sockets push live events to the dashboard.",
+        voScript: "Firms, Noah, nine-one-one, traffic, and G-P-S feed into Pal-an-TEER Foundry. Foundry Functions fuse the inputs into a single, queryable source. Our Flask gateway and Celery workers pull processed outputs in real time. Demo uses synthetic/aggregated data; no PII.",
         duration: 30,
         isTechnicalInsert: true
       },
-      // Continue with main demo slides
       {
-        slideNumber: 6,
+        slideNumber: 4,
         slideTitle: "Emergency Units Panel",
         slideFile: "03_emergency_units_panel.png",
-        voScript: "The Emergency Units Panel provides real-time visibility into resource deployment and unit status. Track fire engines, ambulances, and police units with G-P-S positioning and operational status. Units are categorized by response type, availability, and current assignments.",
-        duration: 35,
+        voScript: "The Emergency Units Panel gives real-time visibility into resource deployment and unit status. Track fire engines, ambulances, and police units with G-P-S positioning and operational status. Units are organized by type, availability, and current assignment. Selecting the right unit reduces time-to-arrival and risk.",
+        duration: 25,
+        isTechnicalInsert: false
+      },
+      {
+        slideNumber: 5,
+        slideTitle: "Route Optimization",
+        slideFile: "04_route_optimization.png",
+        voScript: "Route Optimization computes safe evacuation paths using the A-star algorithm with hazard avoidance. Routes account for traffic, road closures, hazard zones, and vehicle constraints. As conditions change, real-time updates keep the path optimal. Profile-based routing keeps crews out of smoke and closures. I confirm the unit assignment to this route. The plan is locked; next, a quick A-I cross-check.",
+        duration: 30,
+        isTechnicalInsert: false
+      },
+      {
+        slideNumber: 6,
+        slideTitle: "AIP Decision Support",
+        slideFile: "05_aip_decision_support.png",
+        voScript: "The A-I-P Decision Support system provides intelligent recommendations for coordinated response. It analyzes resource availability, hazard progression, and priorities to suggest optimal actions. Powered by models trained on historical data and real-time analytics. These models also use synthetic scenarios, and we validate them continuously against recent events.",
+        duration: 25,
         isTechnicalInsert: false
       },
       {
         slideNumber: 7,
-        slideTitle: "Route Optimization",
-        slideFile: "04_route_optimization.png",
-        voScript: "Route Optimization calculates safe evacuation paths using A-star algorithm with hazard avoidance. Routes consider traffic conditions, road closures, hazard zones, and vehicle constraints. Real-time updates ensure optimal pathfinding as conditions change during emergency response.",
-        duration: 40,
+        slideTitle: "Building Evacuation Tracker",
+        slideFile: "06_building_evacuation_tracker.png",
+        voScript: "Here's the Building Evacuation Tracker. At a glance I see building-level progress—what's cleared, what's pending, and current occupant counts. Updates stream in over WebSockets, so there's no refreshing. It's designed to integrate with building systems; today it shows building-level status and progress.",
+        duration: 25,
         isTechnicalInsert: false
       },
       {
         slideNumber: 8,
-        slideTitle: "AIP Decision Support",
-        slideFile: "05_aip_decision_support.png",
-        voScript: "The A-I-P Decision Support system provides intelligent recommendations for emergency response coordination. Analyzes resource availability, hazard progression, and response priorities to suggest optimal actions. Powered by machine learning models trained on historical emergency data and real-time analytics. Models are trained on historical and synthetic scenarios; we validate continuously against recent events.",
-        duration: 35,
-        isTechnicalInsert: false
-      },
-      {
-        slideNumber: 9,
-        slideTitle: "Building Evacuation Tracker",
-        slideFile: "06_building_evacuation_tracker.png",
-        voScript: "The Building Evacuation Tracker monitors evacuation progress and occupant safety in affected areas. Tracks evacuation status, occupant counts, and shelter assignments for real-time coordination. Designed to integrate with building systems; today shows building-level status and progress.",
-        duration: 35,
-        isTechnicalInsert: false
-      },
-      // Technical Insert 2: Request Lifecycle (Optional)
-      {
-        slideNumber: 10,
         slideTitle: "Request Lifecycle",
         slideFile: "insert2_request_lifecycle.png",
-        voScript: "Planning a route returns 202 with a job I-D. Celery computes; a route_ready event triggers the UI to fetch geometry, E-T-A and distance.",
-        duration: 35,
+        voScript: "Planning a route returns 202 with a job I-D. Celery computes; a route_ready event then triggers the UI to fetch geometry, E-T-A, and distance. That's why the UI stays responsive — the compute is asynchronous.",
+        duration: 25,
         isTechnicalInsert: true
       },
       {
-        slideNumber: 11,
+        slideNumber: 9,
         slideTitle: "Analytics & Performance",
         slideFile: "07_analytics_and_performance.png",
-        voScript: "The Analytics & Performance dashboard provides comprehensive insights into emergency response operations and system health. Displays response times, resource utilization, evacuation progress, and system reliability. Includes health checks, structured logging, and caching with hazard-based invalidation. Continuous status cuts uncertainty for command.",
-        duration: 40,
-        isTechnicalInsert: false
-      },
-      {
-        slideNumber: 12,
-        slideTitle: "Public Safety Communications",
-        slideFile: "08_public_safety_communications.png",
-        voScript: "Public Safety panel surfaces status for public communications during crisis events. Coordinates emergency broadcasts, social media updates, and mass notification systems. Pluggable to existing mass-notification systems for seamless integration.",
-        duration: 22,
-        isTechnicalInsert: false
-      },
-      {
-        slideNumber: 13,
-        slideTitle: "Incident Management",
-        slideFile: "09_incident_management.png",
-        voScript: "Incident oversight via map focus, unit assignments and progress panels. Manages incident lifecycle, resource allocation, communication protocols, and response coordination. Enables unified command structure and coordinated response across multiple agencies and jurisdictions.",
-        duration: 27,
-        isTechnicalInsert: false
-      },
-      {
-        slideNumber: 14,
-        slideTitle: "System Integration",
-        slideFile: "10_system_integration.png",
-        voScript: "System Integration connects multiple data sources and emergency management systems into a unified platform. Integrates with nine-one-one systems, traffic management, weather services, and public safety networks. Provides real-time data fusion and seamless interoperability across emergency response infrastructure.",
+        voScript: "The Analytics & Performance view summarizes operations and system health. Response times, resource utilization, evacuation progress — plus health checks, structured logging, and caching with hazard-based invalidation. Continuous status reduces uncertainty at command.",
         duration: 30,
         isTechnicalInsert: false
       },
       {
-        slideNumber: 15,
+        slideNumber: 10,
         slideTitle: "Conclusion and Next Steps",
-        slideFile: "11_conclusion_and_next_steps.png",
-        voScript: "The Disaster Response Dashboard demonstrates the power of integrated emergency management through real-time data fusion. Key benefits include faster response times, improved resource utilization, enhanced public safety, and coordinated operations. Schedule a private working session to walk through your scenarios. Book a 30-minute scenario run-through with your data and SOPs.",
+        slideFile: "08_conclusion_and_next_steps.png",
+        voScript: "Command Center shows the power of integrated emergency management through real-time fusion. Key benefits: faster response, better resource utilization, enhanced public safety, and coordinated operations. We can stop here at outcomes, or take two minutes in the appendix for engines and APIs. Book a 30-minute scenario run-through with your data and S-O-P-s.",
+        duration: 25,
+        isTechnicalInsert: false
+      },
+      // ENGINEER APPENDIX SLIDES (Optional 3-4 minutes)
+      {
+        slideNumber: 11,
+        slideTitle: "Processing Engines (Appendix)",
+        slideFile: "appendix_01_processing_engines.png",
+        voScript: "Three Processing Engines drive decision-making. HazardProcessor uses ML forecasting with RandomForest to predict fire spread patterns. RiskProcessor uses H-3 Spatial at resolution-9 hexagons for precise spatial analysis. RouteOptimizer uses the A-star algorithm for advanced pathfinding with hazard avoidance. Each engine runs via Foundry Functions with real-time updates.",
+        duration: 45,
+        isTechnicalInsert: false
+      },
+      {
+        slideNumber: 12,
+        slideTitle: "API Surface → Frontend (Appendix)",
+        slideFile: "appendix_02_api_surface.png",
+        voScript: "We expose seven core endpoints—hazards for active incidents, hazard-zones for spatial risk, routes for evacuation paths, risk for location analysis, evacuations for progress, units for resources, and public-safety for community status. REST serves the data; WebSockets push live events to the dashboard.",
         duration: 35,
+        isTechnicalInsert: false
+      },
+      {
+        slideNumber: 13,
+        slideTitle: "Public Safety Status (Appendix)",
+        slideFile: "appendix_03_public_safety_status.png",
+        voScript: "The Public Safety panel surfaces status for crisis communications. It provides status-only outputs — not outbound sends — making it pluggable to existing mass-notification systems. That preserves your current channels while improving accuracy.",
+        duration: 25,
+        isTechnicalInsert: false
+      },
+      {
+        slideNumber: 14,
+        slideTitle: "Exception Flows & Resilience (Appendix)",
+        slideFile: "appendix_04_exception_flows.png",
+        voScript: "Here's how we handle exceptions. If route compute is delayed, the UI shows a non-blocking notice and a retry path. If a unit isn't available, filter by availability and select an alternate. On backend errors, the UI stays responsive with readable messages. This architecture keeps operations smooth even during complex calculations.",
+        duration: 35,
+        isTechnicalInsert: false
+      },
+      // IC User Story Slides - End-to-End Workflow
+      {
+        slideNumber: 16,
+        slideTitle: "Earthquake Scenario: San Francisco",
+        slideFile: "12_earthquake_scenario_san_francisco.png",
+        voScript: "Let's set the scene for our Incident Commander. At 2:47 p.m., a seven-point-two magnitude earthquake strikes the San Francisco Bay Area. The epicenter is on the Hayward Fault, about three miles east of downtown Oakland. The impact is immediate: building collapses, fires from gas leaks, critical bridge damage, and compromised BART stations. Major highways are blocked, affecting 2.3 million people across seven counties. The first 60 minutes are critical for search and rescue. This is where the Command Center proves its value — when every second counts and coordination saves lives.",
+        duration: 50,
+        isTechnicalInsert: false
+      },
+      {
+        slideNumber: 17,
+        slideTitle: "IC User Journey Overview",
+        slideFile: "13_ic_user_journey_overview.png",
+        voScript: "Now a quick look at the Incident Commander workflow — the golden path from situational awareness to execution. We have four personas: the Incident Commander, the Planner, the Unit Lead, and the Public Info Officer. Each beat shows the user action, the system response, the outcome, and the APIs that power it. Together, they demonstrate the operational value of the Command Center.",
+        duration: 45,
+        isTechnicalInsert: false
+      },
+      {
+        slideNumber: 18,
+        slideTitle: "Situational Picture",
+        slideFile: "14_situational_picture_beat.png",
+        voScript: "We start with the situational picture. The Incident Commander opens the dashboard and sees active hazards from the quake. They toggle the Buildings and Weather layers to view exposure and conditions, then center on a specific hazard. The system loads hazards and risk summaries and renders overlays. This uses our hazards and risk endpoints, plus the public-safety feed. The takeaway: focusing early prevents sending units into deteriorating areas.",
+        duration: 40,
+        isTechnicalInsert: false
+      },
+      {
+        slideNumber: 19,
+        slideTitle: "Resource Posture",
+        slideFile: "15_resource_posture_beat.png",
+        voScript: "Next, resource posture. The IC opens the Units panel and selects a fire engine from the roster. The system shows status, location, and capabilities, and the selection persists. That's powered by our units endpoint. Selecting the right unit reduces time-to-arrival and risk.",
+        duration: 40,
+        isTechnicalInsert: false
+      },
+      {
+        slideNumber: 20,
+        slideTitle: "Access Planning",
+        slideFile: "16_access_planning_beat.png",
+        voScript: "Access planning. The IC opens Routing and chooses the Fire Tactical profile. The system shows route options for that profile with E-T-A, distance, and safety considerations. We call the routes endpoint for the profile view, then fetch route details for geometry and E-T-A. Profile-based routing keeps crews out of smoke and closures.",
+        duration: 40,
+        isTechnicalInsert: false
+      },
+      {
+        slideNumber: 21,
+        slideTitle: "Assignment & Execution",
+        slideFile: "17_assignment_execution_beat.png",
+        voScript: "Assignment and execution. The IC reviews the route and confirms the unit assignment. The system persists the assignment, updates unit and route status, and moves the plan to execution. We persist the assignment through the units-assignment endpoint, and status updates immediately. Assignment tracking enables coordinated response across agencies.",
+        duration: 40,
+        isTechnicalInsert: false
+      },
+      {
+        slideNumber: 22,
+        slideTitle: "Decision Support Cross-Check",
+        slideFile: "18_decision_support_beat.png",
+        voScript: "Decision support cross-check. The IC opens the A-I-P Decision Support panel to review recommendations and confidence. The system returns risk guidance for the area, helping confirm or adjust the plan quickly. We query the risk endpoint for the affected area to validate or adjust the plan. A-I insights reduce decision uncertainty when seconds matter.",
+        duration: 40,
+        isTechnicalInsert: false
+      },
+      {
+        slideNumber: 23,
+        slideTitle: "Progress Monitoring",
+        slideFile: "19_progress_monitoring_beat.png",
+        voScript: "Progress monitoring. The IC opens the Building Evacuation Tracker and drills into a building. The system shows building-level progress, occupant counts, and shelter assignments, then pushes updates via WebSocket events. The tracker pulls from evacuations and public-safety, with WebSocket status updates streaming in. Real-time monitoring enables proactive adjustments.",
+        duration: 40,
+        isTechnicalInsert: false
+      },
+      {
+        slideNumber: 24,
+        slideTitle: "Public Safety Status Surfacing",
+        slideFile: "20_public_safety_status_beat.png",
+        voScript: "Public safety status surfacing. The Public Information Officer views the Public Safety panel for current public-facing information. The system presents accurate status data without sending outbound notifications, making it pluggable to existing tools. It's backed by our public-safety endpoint and plugs into your existing comms tools. Unified status ensures consistent, accurate messaging.",
+        duration: 40,
+        isTechnicalInsert: false
+      },
+      {
+        slideNumber: 25,
+        slideTitle: "Async Lifecycle & Exception Handling",
+        slideFile: "21_async_lifecycle_beat.png",
+        voScript: "Under the hood, we post to the routes endpoint, get a 202 with a job I-D, Celery computes, a route_ready event lands, and we fetch route details for geometry and E-T-A. If compute lags, the UI shows a non-blocking notice with a retry—stays responsive the whole time.",
+        duration: 45,
+        isTechnicalInsert: false
+      },
+      {
+        slideNumber: 26,
+        slideTitle: "Acceptance Criteria & Demo Readiness",
+        slideFile: "22_acceptance_criteria_summary.png",
+        voScript: "To validate the IC workflow, we define clear acceptance criteria. For the map and layers: Buildings and Weather must visibly change the map, and hazard focus should recenter within one second. For units: the list shows type and status, and selection persists. For routing: profile selection updates route details within one to two seconds or shows pending. For assignment: an assigned indicator appears and is reflected in oversight. For monitoring: building updates arrive via WebSocket with no refresh. This validates the full workflow from situational awareness to execution.",
+        duration: 45,
         isTechnicalInsert: false
       }
     ];
