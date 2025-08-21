@@ -9,10 +9,10 @@
 
 ## BEAT 1: Introduction (30 seconds)
 
-**Slide**: Disaster Response Dashboard
+**Slide**: Command Center
 
 **VO Script**:
-"Welcome to the Disaster Response Dashboard - a unified platform that transforms emergency management through real-time data fusion and intelligent decision support."
+"Welcome to the Command Center - a unified platform that transforms emergency management through real-time data fusion and intelligent decision support."
 
 "This system integrates multiple data sources, provides ML-powered hazard analysis, and delivers optimized evacuation routes for emergency responders."
 
@@ -27,9 +27,9 @@
 **VO Script**:
 "The Live Hazard Map displays real-time emergency incidents with spatial intelligence and risk assessment."
 
-"Active hazards are shown with color-coded risk levels, spread predictions, and affected areas."
+"Active hazards are shown with color-coded risk levels, risk scoring and proximity context, and affected areas."
 
-"Data sources include NASA F-I-R-M-S satellite feeds, N-O-A-A weather data, and nine-one-one emergency calls."
+"Data sources include NASA firms satellite feeds, Noah weather data, and nine-one-one emergency calls."
 
 ---
 
@@ -40,7 +40,7 @@
 **Slide**: Data Sources → Foundry → Backend
 
 **VO Script**:
-"F-I-R-M-S, N-O-A-A, nine-one-one, traffic and G-P-S flow into Pal-an-TEER Found-ree. Functions fuse the streams. Our Flask gateway and Celery workers pull the processed outputs in real time."
+"Firms, Noah, nine-one-one, traffic and G-P-S flow into Pal-an-TEER Found-ree. Functions fuse the streams. Our Flask gateway and Celery workers pull the processed outputs in real time."
 
 ### **Slice B: Processing Engines (35 seconds)**
 
@@ -106,7 +106,7 @@
 
 "Tracks evacuation status, occupant counts, and shelter assignments for real-time coordination."
 
-"Integrates with building management systems and emergency communications networks."
+"Designed to integrate with building systems; today shows building-level status and progress."
 
 ---
 
@@ -128,7 +128,7 @@
 **Slide**: Public Safety Communications
 
 **VO Script**:
-"Public Safety Communications manages emergency alerts and public notifications during crisis events."
+"Public Safety Communications surfaces public-safety status; pluggable to existing mass-notification systems."
 
 "Coordinates emergency broadcasts, social media updates, and mass notification systems."
 
@@ -178,6 +178,8 @@
 **VO Script**:
 "Performance Metrics track system performance and response effectiveness across all emergency operations."
 
+"Health checks • Structured logging • Caching (hazards 5 min), route invalidation on hazard change."
+
 "Monitors response times, resource efficiency, evacuation success rates, and system reliability."
 
 "Enables continuous optimization and evidence-based improvements to emergency response capabilities."
@@ -189,7 +191,7 @@
 **Slide**: Conclusion and Next Steps
 
 **VO Script**:
-"The Disaster Response Dashboard demonstrates the power of integrated emergency management through real-time data fusion."
+        "The Command Center demonstrates the power of integrated emergency management through real-time data fusion."
 
 "Key benefits include faster response times, improved resource utilization, enhanced public safety, and coordinated operations."
 
@@ -215,12 +217,12 @@
 ## Delivery Notes
 
 ### **Technical Terms (Phonetic Spellings for TTS)**
-- **FIRMS**: "F-I-R-M-S"
-- **NOAA**: "N-O-A-A"
+- **FIRMS**: "firms" (like law firms)
+- **NOAA**: "Noah" (like the name)
 - **911**: "nine-one-one"
 - **GPS**: "G-P-S"
 - **Palantir**: "Pal-an-TEER"
-- **Foundry**: "Found-ree"
+- **Foundry**: "Foundry"
 - **H3**: "H-three"
 - **A***: "A-star"
 - **AIP**: "A-I-P"
