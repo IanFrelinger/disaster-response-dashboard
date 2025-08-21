@@ -100,7 +100,7 @@ class UnifiedDemoMerger {
         slideNumber: 1,
         slideTitle: "Command Center",
         slideFile: "01_main_dashboard_overview.png",
-        voScript: "For Incident Commanders and emergency planners who need a single operational picture. Welcome to the Command Center — a unified platform for real-time data fusion and intelligent decision support. It brings together multiple data sources, adds ML-powered hazard analysis, and delivers optimized evacuation routes. Built on Pal-an-TEER Foundry with real-time processing and spatial intelligence. Here's the plan: a quick user path, a short look at how it works, and the outcomes. If you want more depth, we can open the appendix on engines, APIs, and resilience.",
+        voScript: "For Incident Commanders and emergency planners who need a single operational picture. Welcome to the Command Center—real-time data fusion and intelligent decision support in one place. It brings together multiple data sources, adds ML-powered hazard analysis, and delivers optimized evacuation routes. Built on Pal-an-TEER Foundry with real-time processing and spatial intelligence. Here's the plan: a quick user path, a short look at how it works, and the outcomes. If you want more depth, we can open the appendix on engines, APIs, and resilience.",
         duration: 25,
         isTechnicalInsert: false
       },
@@ -108,7 +108,7 @@ class UnifiedDemoMerger {
         slideNumber: 2,
         slideTitle: "Live Hazard Map",
         slideFile: "02_live_hazard_map.png",
-        voScript: "The Live Hazard Map shows real-time incidents with spatial intelligence and risk assessment. Active hazards show risk scores, proximity, and affected areas. Data sources include NASA Firms satellite feeds, Noah weather data, and nine-one-one calls. Focusing early prevents dispatching units into deteriorating areas. Now that we see exposure and conditions, let's pick the right unit.",
+        voScript: "The Live Hazard Map shows real-time incidents with spatial intelligence and risk assessment. Active hazards display risk scores, proximity, and affected areas. Data sources include NASA Firms, Noah weather, and nine-one-one. Focusing early prevents sending units into deteriorating areas. Now that we see exposure and conditions, let's pick the right unit.",
         duration: 35,
         isTechnicalInsert: false
       },
@@ -116,7 +116,7 @@ class UnifiedDemoMerger {
         slideNumber: 3,
         slideTitle: "Data Sources → Foundry → Backend",
         slideFile: "insert1_slice_a_sources_to_backend.png",
-        voScript: "Firms, Noah, nine-one-one, traffic, and G-P-S feed into Pal-an-TEER Foundry. Foundry Functions fuse the inputs into a single, queryable source. Our Flask gateway and Celery workers pull processed outputs in real time. Demo uses synthetic/aggregated data; no PII.",
+        voScript: "Firms, Noah, nine-one-one, traffic, and G-P-S flow into Pal-an-TEER Foundry. Foundry Functions fuse the inputs into a single, queryable source. Our Flask gateway and Celery workers pull processed outputs in real time. Demo uses synthetic and aggregated data—no PII.",
         duration: 30,
         isTechnicalInsert: true
       },
@@ -124,7 +124,7 @@ class UnifiedDemoMerger {
         slideNumber: 4,
         slideTitle: "Emergency Units Panel",
         slideFile: "03_emergency_units_panel.png",
-        voScript: "The Emergency Units Panel gives real-time visibility into resource deployment and unit status. Track fire engines, ambulances, and police units with G-P-S positioning and operational status. Units are organized by type, availability, and current assignment. Selecting the right unit reduces time-to-arrival and risk.",
+        voScript: "The Emergency Units Panel gives real-time visibility into resources and status. We track fire engines, ambulances, and police units with G-P-S and current state. Units are organized by type, availability, and current assignment. Selecting the right unit reduces time-to-arrival and risk.",
         duration: 25,
         isTechnicalInsert: false
       },
@@ -132,7 +132,7 @@ class UnifiedDemoMerger {
         slideNumber: 5,
         slideTitle: "Route Optimization",
         slideFile: "04_route_optimization.png",
-        voScript: "Route Optimization computes safe evacuation paths using the A-star algorithm with hazard avoidance. Routes account for traffic, road closures, hazard zones, and vehicle constraints. As conditions change, real-time updates keep the path optimal. Profile-based routing keeps crews out of smoke and closures. I confirm the unit assignment to this route. The plan is locked; next, a quick A-I cross-check.",
+        voScript: "Route Optimization computes safe paths with the A-star algorithm and hazard avoidance. Routes account for traffic, road closures, hazard zones, and vehicle constraints. As conditions change, real-time updates keep the path optimal. Profile-based routing keeps crews out of smoke and closures. I confirm the unit assignment to this route—the plan is locked. Next, a quick A-I cross-check.",
         duration: 30,
         isTechnicalInsert: false
       },
@@ -140,7 +140,7 @@ class UnifiedDemoMerger {
         slideNumber: 6,
         slideTitle: "AIP Decision Support",
         slideFile: "05_aip_decision_support.png",
-        voScript: "The A-I-P Decision Support system provides intelligent recommendations for coordinated response. It analyzes resource availability, hazard progression, and priorities to suggest optimal actions. Powered by models trained on historical data and real-time analytics. These models also use synthetic scenarios, and we validate them continuously against recent events.",
+        voScript: "The A-I-P Decision Support panel provides recommendations with confidence levels. It analyzes resource availability, hazard progression, and response priorities to suggest the next best action. Models are trained on historical data and real-time analytics, with synthetic scenarios as needed—and we validate continuously against recent events.",
         duration: 25,
         isTechnicalInsert: false
       },
@@ -156,7 +156,7 @@ class UnifiedDemoMerger {
         slideNumber: 8,
         slideTitle: "Request Lifecycle",
         slideFile: "insert2_request_lifecycle.png",
-        voScript: "Planning a route returns 202 with a job I-D. Celery computes; a route_ready event then triggers the UI to fetch geometry, E-T-A, and distance. That's why the UI stays responsive — the compute is asynchronous.",
+        voScript: "Planning a route returns a 202 with a job I-D. Celery computes; a route_ready event triggers the UI to fetch geometry, E-T-A, and distance. That's why the UI stays responsive—the compute is asynchronous.",
         duration: 25,
         isTechnicalInsert: true
       },
@@ -164,7 +164,7 @@ class UnifiedDemoMerger {
         slideNumber: 9,
         slideTitle: "Analytics & Performance",
         slideFile: "07_analytics_and_performance.png",
-        voScript: "The Analytics & Performance view summarizes operations and system health. Response times, resource utilization, evacuation progress — plus health checks, structured logging, and caching with hazard-based invalidation. Continuous status reduces uncertainty at command.",
+        voScript: "The Analytics & Performance view summarizes operations and system health. Response times, resource utilization, evacuation progress—plus health checks, structured logging, and caching with hazard-based invalidation. Continuous status reduces uncertainty at command.",
         duration: 30,
         isTechnicalInsert: false
       },
@@ -172,7 +172,7 @@ class UnifiedDemoMerger {
         slideNumber: 10,
         slideTitle: "Conclusion and Next Steps",
         slideFile: "08_conclusion_and_next_steps.png",
-        voScript: "Command Center shows the power of integrated emergency management through real-time fusion. Key benefits: faster response, better resource utilization, enhanced public safety, and coordinated operations. We can stop here at outcomes, or take two minutes in the appendix for engines and APIs. Book a 30-minute scenario run-through with your data and S-O-P-s.",
+        voScript: "Command Center shows the power of integrated emergency management through real-time fusion. The benefits: faster response, better resource use, enhanced public safety, and coordinated operations. We can stop here at outcomes, or take two minutes in the appendix for engines and APIs. Book a 30-minute scenario run-through with your data and S-O-P-s.",
         duration: 25,
         isTechnicalInsert: false
       },
