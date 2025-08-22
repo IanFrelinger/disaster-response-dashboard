@@ -53,7 +53,14 @@ echo ""
 
 # Create ECS cluster
 echo "🏗️ Creating ECS cluster..."
-aws ecs create-cluster --cluster-name $CLUSTER_NAME --region $REGION --capacity-providers FARGATE --default-capacity-provider-strategy capacityProvider=FARGATE,weight=1 2>/dev/null || true
+CLUSTER_STATUS=$(aws ecs describe-clusters --clusters $CLUSTER_NAME --region $REGION --query 'clusters[0].status' --output text 2>/dev/null || echo "INACTIVE")
+
+if [[ "$CLUSTER_STATUS" != "ACTIVE" ]]; then
+  echo "🆕 Creating new cluster..."
+  aws ecs create-cluster --cluster-name $CLUSTER_NAME --region $REGION --capacity-providers FARGATE --default-capacity-provider-strategy capacityProvider=FARGATE,weight=1 >/dev/null
+else
+  echo "✅ Using existing cluster..."
+fi
 echo "Cluster: $CLUSTER_NAME"
 echo ""
 
@@ -128,24 +135,33 @@ aws logs create-log-group --log-group-name "/ecs/$TASK_DEFINITION_NAME" --region
 
 # Create service
 echo "🚀 Creating ECS service..."
-SERVICE_ARN=$(aws ecs create-service \
-  --cluster $CLUSTER_NAME \
-  --service-name $SERVICE_NAME \
-  --task-definition $TASK_DEF_ARN \
-  --desired-count 1 \
-  --launch-type FARGATE \
-  --network-configuration "awsvpcConfiguration={subnets=[${SUBNET_IDS_ARRAY[0]},${SUBNET_IDS_ARRAY[1]}],securityGroups=[$SG_ID],assignPublicIp=ENABLED}" \
-  --region $REGION \
-  --query 'service.serviceArn' \
-  --output text 2>/dev/null || \
-  aws ecs update-service \
-  --cluster $CLUSTER_NAME \
-  --service $SERVICE_NAME \
-  --task-definition $TASK_DEF_ARN \
-  --network-configuration "awsvpcConfiguration={subnets=[${SUBNET_IDS_ARRAY[0]},${SUBNET_IDS_ARRAY[1]}],securityGroups=[$SG_ID],assignPublicIp=ENABLED}" \
-  --region $REGION \
-  --query 'service.serviceArn' \
-  --output text)
+
+# Check if service exists
+SERVICE_EXISTS=$(aws ecs describe-services --cluster $CLUSTER_NAME --services $SERVICE_NAME --region $REGION --query 'length(services) > `0`' --output text 2>/dev/null || echo "False")
+
+if [[ "$SERVICE_EXISTS" == "True" ]]; then
+  echo "📝 Updating existing service..."
+  SERVICE_ARN=$(aws ecs update-service \
+    --cluster $CLUSTER_NAME \
+    --service $SERVICE_NAME \
+    --task-definition $TASK_DEF_ARN \
+    --network-configuration "awsvpcConfiguration={subnets=[${SUBNET_IDS_ARRAY[0]},${SUBNET_IDS_ARRAY[1]}],securityGroups=[$SG_ID],assignPublicIp=ENABLED}" \
+    --region $REGION \
+    --query 'service.serviceArn' \
+    --output text)
+else
+  echo "🆕 Creating new service..."
+  SERVICE_ARN=$(aws ecs create-service \
+    --cluster $CLUSTER_NAME \
+    --service-name $SERVICE_NAME \
+    --task-definition $TASK_DEF_ARN \
+    --desired-count 1 \
+    --launch-type FARGATE \
+    --network-configuration "awsvpcConfiguration={subnets=[${SUBNET_IDS_ARRAY[0]},${SUBNET_IDS_ARRAY[1]}],securityGroups=[$SG_ID],assignPublicIp=ENABLED}" \
+    --region $REGION \
+    --query 'service.serviceArn' \
+    --output text)
+fi
 
 echo "Service: $SERVICE_ARN"
 echo ""
