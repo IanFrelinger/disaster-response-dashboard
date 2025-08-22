@@ -225,15 +225,15 @@ create_app_runner_service() {
                     \"Type\": \"BRANCH\",
                     \"Value\": \"master\"
                 },
-                \"CodeConfiguration\": {
-                    \"ConfigurationSource\": \"API\",
-                    \"CodeConfigurationValues\": {
-                        \"Runtime\": \"PYTHON_3\",
-                        \"BuildCommand\": \"pip install -r backend/requirements.txt\",
-                        \"StartCommand\": \"cd backend && python run_synthetic_api.py\",
-                        \"Port\": \"8000\"
-                    }
-                }
+                                  \"CodeConfiguration\": {
+                      \"ConfigurationSource\": \"API\",
+                      \"CodeConfigurationValues\": {
+                          \"Runtime\": \"PYTHON_3\",
+                          \"BuildCommand\": \"pip install -r backend/requirements-apprunner.txt\",
+                          \"StartCommand\": \"cd backend && python run_synthetic_api.py\",
+                          \"Port\": \"8000\"
+                      }
+                  }
             }$(if [ ! -z "$connections" ]; then echo ", \"AuthenticationConfiguration\": { \"ConnectionArn\": \"$connections\" }"; fi)
         }" \
             --instance-configuration '{
