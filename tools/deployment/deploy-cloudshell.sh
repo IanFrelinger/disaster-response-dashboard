@@ -161,7 +161,7 @@ create_app_runner_service() {
             \"RepositoryUrl\": \"$repo_url\",
             \"SourceCodeVersion\": {
                 \"Type\": \"BRANCH\",
-                \"Value\": \"main\"
+                \"Value\": \"master\"
             },
             \"CodeConfiguration\": {
                 \"ConfigurationSource\": \"API\",
