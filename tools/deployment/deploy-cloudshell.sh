@@ -155,47 +155,9 @@ create_app_runner_service() {
     
     print_status "Repository URL: $repo_url"
     
-    # Check if we need to create a GitHub connection
-    print_status "Checking for existing GitHub connections..."
-    local connections=$(aws apprunner list-connections --region "$AWS_REGION" --output json 2>/dev/null | grep -o '"ConnectionArn":"[^"]*"' | head -1 | cut -d'"' -f4)
-    
-    if [ -z "$connections" ]; then
-        print_status "No existing GitHub connections found. Creating one..."
-        local connection_output=$(aws apprunner create-connection \
-            --connection-name "github-connection-$(date +%s)" \
-            --provider-type "GITHUB" \
-            --region "$AWS_REGION" \
-            --output json 2>&1)
-        
-        if [ $? -eq 0 ]; then
-            # Try multiple ways to extract the ConnectionArn
-            connections=$(echo "$connection_output" | grep -o '"ConnectionArn":"[^"]*"' | head -1 | cut -d'"' -f4)
-            if [ -z "$connections" ]; then
-                # Fallback: try jq if available
-                if command -v jq >/dev/null 2>&1; then
-                    connections=$(echo "$connection_output" | jq -r '.Connection.ConnectionArn' 2>/dev/null)
-                fi
-            fi
-            if [ -z "$connections" ]; then
-                # Last resort: try different grep pattern
-                connections=$(echo "$connection_output" | grep -o 'arn:aws:apprunner:[^"]*' | head -1)
-            fi
-            print_status "GitHub connection created: $connections"
-            print_status "Connection output: $connection_output"
-        else
-            print_warning "Failed to create GitHub connection: $connection_output"
-            print_status "Proceeding without connection (may fail for private repos)"
-        fi
-    else
-        print_status "Using existing GitHub connection: $connections"
-    fi
-    
-    # Verify we have a valid connection before proceeding
-    if [ -z "$connections" ]; then
-        print_error "Failed to create or extract GitHub connection ARN"
-        print_error "Cannot proceed without valid authentication"
-        exit 1
-    fi
+    # For public repositories, we don't need authentication
+    print_status "Repository is public - proceeding without authentication..."
+    local connections=""
     
     # Check if service already exists
     print_status "Checking if service '$APP_NAME' already exists..."
@@ -269,8 +231,8 @@ create_app_runner_service() {
                             \"Port\": \"8000\"
                         }
                     }
-                }$(if [ ! -z "$connections" ]; then echo ", \"AuthenticationConfiguration\": { \"ConnectionArn\": \"$connections\" }"; fi)
-            }" \
+                            }
+        }" \
             --instance-configuration '{
                 "Cpu": "1 vCPU",
                 "Memory": "2 GB"
