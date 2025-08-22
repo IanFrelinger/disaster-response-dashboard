@@ -165,7 +165,7 @@ run_syntax_checks() {
     fi
     
     # Check requirements.txt syntax
-    if pip check -r backend/requirements.txt >/dev/null 2>&1; then
+    if pip install -r backend/requirements.txt --dry-run >/dev/null 2>&1; then
         print_success "✓ backend/requirements.txt syntax is valid"
     else
         print_error "✗ backend/requirements.txt has syntax errors"

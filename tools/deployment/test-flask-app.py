@@ -97,10 +97,10 @@ def test_requirements():
     
     print("✅ No private packages in requirements.txt")
     
-    # Test pip check
+    # Test pip install dry-run
     try:
         result = subprocess.run(
-            ['pip', 'check', '-r', str(requirements_file)],
+            ['pip', 'install', '-r', str(requirements_file), '--dry-run'],
             capture_output=True,
             text=True,
             timeout=30

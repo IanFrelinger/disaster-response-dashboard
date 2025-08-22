@@ -104,7 +104,7 @@ validate_deployment() {
     run_test "Backend requirements.txt exists" "[ -f 'backend/requirements.txt' ]"
     
     # Test 5: Validate Python requirements syntax
-    run_test "Python requirements syntax is valid" "pip check -r backend/requirements.txt"
+    run_test "Python requirements syntax is valid" "pip install -r backend/requirements.txt --dry-run"
     
     # Test 6: Check if backend directory exists
     run_test "Backend directory exists" "[ -d 'backend' ]"
