@@ -155,6 +155,29 @@ create_app_runner_service() {
     
     print_status "Repository URL: $repo_url"
     
+    # Check if we need to create a GitHub connection
+    print_status "Checking for existing GitHub connections..."
+    local connections=$(aws apprunner list-connections --region "$AWS_REGION" --output json 2>/dev/null | grep -o '"ConnectionArn":"[^"]*"' | head -1 | cut -d'"' -f4)
+    
+    if [ -z "$connections" ]; then
+        print_status "No existing GitHub connections found. Creating one..."
+        local connection_output=$(aws apprunner create-connection \
+            --connection-name "github-connection-$(date +%s)" \
+            --provider-type "GITHUB" \
+            --region "$AWS_REGION" \
+            --output json 2>&1)
+        
+        if [ $? -eq 0 ]; then
+            connections=$(echo "$connection_output" | grep -o '"ConnectionArn":"[^"]*"' | head -1 | cut -d'"' -f4)
+            print_status "GitHub connection created: $connections"
+        else
+            print_warning "Failed to create GitHub connection: $connection_output"
+            print_status "Proceeding without connection (may fail for private repos)"
+        fi
+    else
+        print_status "Using existing GitHub connection: $connections"
+    fi
+    
     # Create App Runner service with CloudShell-optimized configuration
     print_status "Executing AWS App Runner create-service command..."
     
@@ -177,7 +200,7 @@ create_app_runner_service() {
                         \"Port\": \"8000\"
                     }
                 }
-            }
+            }$(if [ ! -z "$connections" ]; then echo ", \"AuthenticationConfiguration\": { \"ConnectionArn\": \"$connections\" }"; fi)
         }" \
         --instance-configuration '{
             "Cpu": "1 vCPU",
