@@ -156,7 +156,10 @@ create_app_runner_service() {
     print_status "Repository URL: $repo_url"
     
     # Create App Runner service with CloudShell-optimized configuration
-    local service_arn=$(aws apprunner create-service \
+    print_status "Executing AWS App Runner create-service command..."
+    
+    # First, try to create the service and capture any errors
+    local create_output=$(aws apprunner create-service \
         --service-name "$APP_NAME" \
         --source-configuration "{
             \"CodeRepository\": {
@@ -181,8 +184,23 @@ create_app_runner_service() {
             "Memory": "2 GB"
         }' \
         --region "$AWS_REGION" \
-        --query 'Service.ServiceArn' \
-        --output text 2>/dev/null)
+        --output json 2>&1)
+    
+    local create_exit_code=$?
+    
+    if [ $create_exit_code -ne 0 ]; then
+        print_error "AWS App Runner create-service failed with exit code: $create_exit_code"
+        print_error "Error output: $create_output"
+        exit 1
+    fi
+    
+    # Extract the service ARN from the successful response
+    if command -v jq >/dev/null 2>&1; then
+        local service_arn=$(echo "$create_output" | jq -r '.Service.ServiceArn' 2>/dev/null)
+    else
+        # Fallback: extract ARN using grep if jq is not available
+        local service_arn=$(echo "$create_output" | grep -o 'arn:aws:apprunner:[^"]*')
+    fi
     
     if [ $? -eq 0 ] && [ ! -z "$service_arn" ]; then
         print_success "App Runner service created successfully"
