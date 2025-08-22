@@ -261,8 +261,8 @@ create_app_runner_service() {
                         \"ConfigurationSource\": \"API\",
                         \"CodeConfigurationValues\": {
                             \"Runtime\": \"PYTHON_3\",
-                            \"BuildCommand\": \"pip install -r requirements.txt && cd frontend && npm install && npm run build\",
-                            \"StartCommand\": \"cd backend && python run_synthetic_api.py\",
+                                                    \"BuildCommand\": \"pip install -r requirements.txt && cd frontend && npm install && npm run build && cp -r dist ../backend/static && cd ../backend\",
+                        \"StartCommand\": \"python run_synthetic_api.py\",
                             \"Port\": \"8000\"
                         }
                     }

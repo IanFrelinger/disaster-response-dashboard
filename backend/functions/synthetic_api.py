@@ -3,13 +3,14 @@ API endpoints for serving synthetic data to the frontend.
 This replaces frontend data generation with backend API calls.
 """
 
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
 import time
+import os
 from typing import Dict, Optional
 from utils.synthetic_data import SyntheticDataGenerator
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='../static', static_url_path='')
 CORS(app)  # Enable CORS for frontend integration
 
 # Global cache for generated data (in production, this would be a database)
@@ -34,6 +35,16 @@ def get_cached_data() -> Dict:
     
     return _data_cache
 
+
+@app.route('/')
+def serve_frontend():
+    """Serve the frontend application."""
+    return send_from_directory(app.static_folder, 'index.html')
+
+@app.route('/<path:path>')
+def serve_static(path):
+    """Serve static files from the frontend build."""
+    return send_from_directory(app.static_folder, path)
 
 @app.route('/api/dashboard', methods=['GET'])
 def get_dashboard_data():
