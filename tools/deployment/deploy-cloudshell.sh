@@ -197,38 +197,72 @@ create_app_runner_service() {
         exit 1
     fi
     
-    # Create App Runner service with CloudShell-optimized configuration
-    print_status "Executing AWS App Runner create-service command..."
+    # Check if service already exists
+    print_status "Checking if service '$APP_NAME' already exists..."
+    local existing_service=$(aws apprunner list-services --region "$AWS_REGION" --output json 2>/dev/null | grep -o "\"ServiceName\":\"$APP_NAME\"" | head -1)
     
-    # First, try to create the service and capture any errors
-    local create_output=$(aws apprunner create-service \
-        --service-name "$APP_NAME" \
-        --source-configuration "{
-            \"CodeRepository\": {
-                \"RepositoryUrl\": \"$repo_url\",
-                \"SourceCodeVersion\": {
-                    \"Type\": \"BRANCH\",
-                    \"Value\": \"master\"
-                },
-                \"CodeConfiguration\": {
-                    \"ConfigurationSource\": \"API\",
-                    \"CodeConfigurationValues\": {
-                        \"Runtime\": \"PYTHON_3\",
-                        \"BuildCommand\": \"pip install -r requirements.txt && cd frontend && npm install && npm run build\",
-                        \"StartCommand\": \"cd backend && python run_synthetic_api.py\",
-                        \"Port\": \"8000\"
+    if [ ! -z "$existing_service" ]; then
+        print_warning "Service '$APP_NAME' already exists. Checking current status..."
+        
+        # Get the existing service ARN
+        local existing_arn=$(aws apprunner list-services --region "$AWS_REGION" --output json 2>/dev/null | jq -r --arg name "$APP_NAME" '.ServiceSummaryList[] | select(.ServiceName == $name) | .ServiceArn' 2>/dev/null)
+        
+        if [ ! -z "$existing_arn" ] && [ "$existing_arn" != "null" ]; then
+            print_status "Found existing service: $existing_arn"
+            
+            # Check if it's in a failed state and needs cleanup
+            local service_status=$(aws apprunner describe-service --service-arn "$existing_arn" --region "$AWS_REGION" --query 'Service.Status' --output text 2>/dev/null)
+            
+            if [ "$service_status" = "FAILED" ] || [ "$service_status" = "ROLLBACK_FAILED" ]; then
+                print_status "Service is in failed state ($service_status). Deleting and recreating..."
+                aws apprunner delete-service --service-arn "$existing_arn" --region "$AWS_REGION" >/dev/null 2>&1
+                
+                # Wait for deletion to complete
+                print_status "Waiting for service deletion to complete..."
+                sleep 30
+            else
+                print_status "Service is in state: $service_status. Using existing service."
+                local service_arn="$existing_arn"
+                local create_exit_code=0
+                local create_output="{\"Service\":{\"ServiceArn\":\"$existing_arn\"}}"
+            fi
+        fi
+    fi
+    
+    # Create App Runner service if we don't have one
+    if [ -z "$service_arn" ]; then
+        print_status "Creating new App Runner service..."
+        
+        # First, try to create the service and capture any errors
+        local create_output=$(aws apprunner create-service \
+            --service-name "$APP_NAME" \
+            --source-configuration "{
+                \"CodeRepository\": {
+                    \"RepositoryUrl\": \"$repo_url\",
+                    \"SourceCodeVersion\": {
+                        \"Type\": \"BRANCH\",
+                        \"Value\": \"master\"
+                    },
+                    \"CodeConfiguration\": {
+                        \"ConfigurationSource\": \"API\",
+                        \"CodeConfigurationValues\": {
+                            \"Runtime\": \"PYTHON_3\",
+                            \"BuildCommand\": \"pip install -r requirements.txt && cd frontend && npm install && npm run build\",
+                            \"StartCommand\": \"cd backend && python run_synthetic_api.py\",
+                            \"Port\": \"8000\"
+                        }
                     }
-                }
-            }$(if [ ! -z "$connections" ]; then echo ", \"AuthenticationConfiguration\": { \"ConnectionArn\": \"$connections\" }"; fi)
-        }" \
-        --instance-configuration '{
-            "Cpu": "1 vCPU",
-            "Memory": "2 GB"
-        }' \
-        --region "$AWS_REGION" \
-        --output json 2>&1)
-    
-    local create_exit_code=$?
+                }$(if [ ! -z "$connections" ]; then echo ", \"AuthenticationConfiguration\": { \"ConnectionArn\": \"$connections\" }"; fi)
+            }" \
+            --instance-configuration '{
+                "Cpu": "1 vCPU",
+                "Memory": "2 GB"
+            }' \
+            --region "$AWS_REGION" \
+            --output json 2>&1)
+        
+        local create_exit_code=$?
+    fi
     
     if [ $create_exit_code -ne 0 ]; then
         print_error "AWS App Runner create-service failed with exit code: $create_exit_code"
