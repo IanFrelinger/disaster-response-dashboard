@@ -256,9 +256,40 @@ create_app_runner_service() {
         
         # Wait for service to be ready
         print_status "Waiting for service to be ready (this may take 5-10 minutes)..."
-        aws apprunner wait service-running \
-            --service-arn "$service_arn" \
-            --region "$AWS_REGION"
+        print_status "Polling service status every 30 seconds..."
+        
+        local max_attempts=20  # 10 minutes max
+        local attempt=1
+        
+        while [ $attempt -le $max_attempts ]; do
+            local service_status=$(aws apprunner describe-service \
+                --service-arn "$service_arn" \
+                --region "$AWS_REGION" \
+                --query 'Service.Status' \
+                --output text 2>/dev/null)
+            
+            print_status "Attempt $attempt/$max_attempts - Service status: $service_status"
+            
+            if [ "$service_status" = "RUNNING" ]; then
+                print_success "Service is now RUNNING!"
+                break
+            elif [ "$service_status" = "FAILED" ] || [ "$service_status" = "ROLLBACK_FAILED" ]; then
+                print_error "Service deployment failed with status: $service_status"
+                exit 1
+            fi
+            
+            if [ $attempt -eq $max_attempts ]; then
+                print_warning "Service did not reach RUNNING status within 10 minutes"
+                print_warning "Current status: $service_status"
+                print_warning "You can check the service manually:"
+                print_status "aws apprunner describe-service --service-arn $service_arn --region $AWS_REGION"
+                break
+            fi
+            
+            print_status "Waiting 30 seconds before next check..."
+            sleep 30
+            attempt=$((attempt + 1))
+        done
         
         # Get service URL
         local service_url=$(aws apprunner describe-service \
