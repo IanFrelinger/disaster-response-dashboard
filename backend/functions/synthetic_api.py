@@ -216,6 +216,17 @@ def health_check():
         'service': 'synthetic-data-api'
     })
 
+@app.route('/', methods=['GET'])
+def root_health_check():
+    """Root health check endpoint for App Runner."""
+    return jsonify({
+        'success': True,
+        'status': 'healthy',
+        'message': 'Disaster Response Dashboard API is running',
+        'timestamp': time.time(),
+        'service': 'synthetic-data-api'
+    })
+
 
 @app.route('/api/info', methods=['GET'])
 def api_info():
@@ -246,4 +257,4 @@ def api_info():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000) 
+    app.run(debug=True, host='0.0.0.0', port=8000) 
