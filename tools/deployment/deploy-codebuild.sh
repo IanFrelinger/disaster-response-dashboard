@@ -87,14 +87,8 @@ artifacts:
     - imagedefinitions.json
 EOF
     
-    # Create CodeBuild project
-    aws codebuild create-project \
-        --name "${PROJECT_NAME}" \
-        --region "${REGION}" \
-        --source type=GITHUB,location=https://github.com/IanFrelinger/disaster-response-dashboard.git,buildspec=buildspec.yml \
-        --artifacts type=NO_ARTIFACTS \
-        --environment type=LINUX_CONTAINER,image=aws/codebuild/amazonlinux2-x86_64-standard:4.0,computeType=BUILD_GENERAL1_SMALL,privilegedMode=true \
-        --service-role "AWSCodeBuildServiceRole" 2>/dev/null || {
+    # Check if CodeBuild project exists
+    if aws codebuild batch-get-projects --names "${PROJECT_NAME}" --region "${REGION}" --query 'projects[0].name' --output text 2>/dev/null | grep -q "${PROJECT_NAME}"; then
         print_info "CodeBuild project already exists, updating..."
         aws codebuild update-project \
             --name "${PROJECT_NAME}" \
@@ -103,7 +97,16 @@ EOF
             --artifacts type=NO_ARTIFACTS \
             --environment type=LINUX_CONTAINER,image=aws/codebuild/amazonlinux2-x86_64-standard:4.0,computeType=BUILD_GENERAL1_SMALL,privilegedMode=true \
             --service-role "AWSCodeBuildServiceRole"
-    }
+    else
+        print_info "Creating new CodeBuild project..."
+        aws codebuild create-project \
+            --name "${PROJECT_NAME}" \
+            --region "${REGION}" \
+            --source type=GITHUB,location=https://github.com/IanFrelinger/disaster-response-dashboard.git,buildspec=buildspec.yml \
+            --artifacts type=NO_ARTIFACTS \
+            --environment type=LINUX_CONTAINER,image=aws/codebuild/amazonlinux2-x86_64-standard:4.0,computeType=BUILD_GENERAL1_SMALL,privilegedMode=true \
+            --service-role "AWSCodeBuildServiceRole"
+    fi
     
     print_success "CodeBuild project created"
     
