@@ -1,411 +1,274 @@
-# 🚀 Disaster Response Dashboard - Full Deployment Guide
+# Disaster Response Dashboard - Deployment Guide
 
-Complete deployment solution for backend, frontend, and video production services with monitoring and production-ready configuration.
+This guide covers deploying the Disaster Response Dashboard to various environments, from local development to production.
 
-## 🎯 Overview
+## Table of Contents
 
-This deployment system provides a complete containerized solution that includes:
+- [Quick Start](#quick-start)
+- [Prerequisites](#prerequisites)
+- [Local Development](#local-development)
+- [Production Deployment](#production-deployment)
+- [Monitoring & Observability](#monitoring--observability)
+- [Troubleshooting](#troubleshooting)
+- [Security Considerations](#security-considerations)
 
-- **Backend API** (Flask/Python) - Disaster response data processing
-- **Frontend** (React/TypeScript) - 3D visualization dashboard
-- **Video Production** (Node.js) - Automated video generation
-- **Database** (PostgreSQL) - Data persistence
-- **Cache** (Redis) - Performance optimization
-- **Reverse Proxy** (Nginx) - Load balancing and SSL
-- **Monitoring** (Prometheus + Grafana) - System observability
-
-## 🚀 Quick Start
-
-### **One-Command Deployment**
+## Quick Start
 
 ```bash
-# Deploy all services
+# Clone the repository
+git clone <repository-url>
+cd disaster-response-dashboard
+
+# Start all services
+./deployment/deploy.sh
+
+# Access the application
+open http://localhost
+```
+
+## Prerequisites
+
+- Docker 20.10+
+- Docker Compose 2.0+
+- 4GB RAM minimum
+- 10GB disk space
+
+## Local Development
+
+### Directory Structure
+
+```
+disaster-response-dashboard/
+├── backend/                    # Python Flask API
+├── frontend/                   # React application
+├── data/                       # Geographic data files
+├── tiles/                      # Map tile files
+├── deployment/                 # Deployment configurations
+│   ├── docker-compose.yml      # Local development
+│   ├── docker-compose.full.yml # Full production stack
+│   ├── nginx.conf             # Reverse proxy configuration
+│   ├── prometheus.yml         # Monitoring configuration
+│   └── grafana/               # Dashboard configurations
+├── config/                     # Environment configurations
+└── tools/                      # Utility scripts
+```
+
+### Starting Services
+
+```bash
+# Start core services (backend, frontend, database)
+docker-compose up -d
+
+# Start full stack with monitoring
+docker-compose -f deployment/docker-compose.full.yml up -d
+
+# View logs
+docker-compose logs -f
+```
+
+### Service URLs
+
+- **Frontend**: http://localhost
+- **Backend API**: http://localhost:5000
+- **Database**: localhost:5432
+- **Redis**: localhost:6379
+- **Monitoring**: http://localhost:9090 (Prometheus)
+- **Grafana**: http://localhost:3002 (admin/admin)
+
+## Production Deployment
+
+### Environment Variables
+
+Create a `.env` file in the deployment directory:
+
+```bash
+# Database
+POSTGRES_DB=disaster_response
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=secure_password_here
+
+# Backend
+FLASK_ENV=production
+SECRET_KEY=your_secret_key_here
+
+# Frontend
+REACT_APP_API_URL=https://your-domain.com/api
+NODE_ENV=production
+```
+
+### SSL Configuration
+
+1. Place your SSL certificates in `deployment/ssl/`
+2. Update nginx configuration if needed
+3. Ensure ports 80 and 443 are open
+
+### Deployment Commands
+
+```bash
+# Full deployment
 ./deployment/deploy.sh deploy
+
+# Start services only
+./deployment/deploy.sh start
 
 # Check status
 ./deployment/deploy.sh status
 
-# View logs
-./deployment/deploy.sh logs
-```
-
-### **Manual Deployment**
-
-```bash
-# Build and start all services
-docker-compose -f deployment/docker-compose.full.yml up -d
-
-# Check service status
-docker-compose -f deployment/docker-compose.full.yml ps
-```
-
-## 📊 Service Architecture
-
-```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   Frontend      │    │    Backend      │    │ Video Production│
-│   (React)       │    │   (Flask)       │    │   (Node.js)     │
-│   Port: 3000    │    │   Port: 5001    │    │   Port: 3001    │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-         │                       │                       │
-         └───────────────────────┼───────────────────────┘
-                                 │
-                    ┌─────────────────┐
-                    │     Nginx       │
-                    │  Reverse Proxy  │
-                    │   Port: 80/443  │
-                    └─────────────────┘
-                                 │
-         ┌───────────────────────┼───────────────────────┐
-         │                       │                       │
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   PostgreSQL    │    │     Redis       │    │   Monitoring    │
-│   Port: 5432    │    │   Port: 6379    │    │  Port: 9090     │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-```
-
-## 🔧 Service Details
-
-### **Backend API Service**
-- **Technology**: Flask/Python
-- **Port**: 5001
-- **Features**: 
-  - Disaster data processing
-  - Real-time hazard monitoring
-  - Route optimization
-  - Foundry integration
-- **Health Check**: `http://localhost/api/health`
-
-### **Frontend Application**
-- **Technology**: React/TypeScript
-- **Port**: 3000
-- **Features**:
-  - 3D terrain visualization
-  - Real-time data display
-  - Interactive maps
-  - Responsive design
-- **Health Check**: `http://localhost`
-
-### **Video Production Service**
-- **Technology**: Node.js
-- **Port**: 3001
-- **Features**:
-  - Automated video generation
-  - Text-to-speech
-  - Video processing
-  - Professional output
-- **Health Check**: `http://localhost/video/`
-
-### **Database (PostgreSQL)**
-- **Port**: 5432
-- **Features**:
-  - Data persistence
-  - Geospatial support
-  - Backup and recovery
-- **Credentials**: postgres/password
-
-### **Cache (Redis)**
-- **Port**: 6379
-- **Features**:
-  - Session storage
-  - Performance caching
-  - Real-time data
-
-### **Reverse Proxy (Nginx)**
-- **Ports**: 80 (HTTP), 443 (HTTPS)
-- **Features**:
-  - Load balancing
-  - SSL termination
-  - Rate limiting
-  - Security headers
-
-### **Monitoring Stack**
-- **Prometheus**: Port 9090
-- **Grafana**: Port 3002 (admin/admin)
-- **Features**:
-  - Metrics collection
-  - Performance monitoring
-  - Alerting
-  - Dashboards
-
-## 📁 Directory Structure
-
-```
-disaster-response-dashboard/
-├── deployment/
-│   ├── docker-compose.full.yml    # Main deployment configuration
-│   ├── nginx.conf                 # Nginx reverse proxy config
-│   ├── prometheus.yml             # Monitoring configuration
-│   ├── deploy.sh                  # Deployment script
-│   ├── ssl/                       # SSL certificates
-│   └── grafana/                   # Grafana provisioning
-├── backend/                       # Flask API
-├── frontend/                      # React application
-├── video-production/              # Video generation service
-├── data/                          # Persistent data
-└── tiles/                         # Map tiles
-```
-
-## 🚀 Deployment Commands
-
-### **Full Deployment**
-```bash
-# Deploy everything
-./deployment/deploy.sh deploy
-
-# Update existing deployment
-./deployment/deploy.sh update
-
-# Stop all services
+# Stop services
 ./deployment/deploy.sh stop
-
-# Restart services
-./deployment/deploy.sh restart
 ```
 
-### **Service Management**
-```bash
-# View service status
-./deployment/deploy.sh status
+## Monitoring & Observability
 
-# View logs
-./deployment/deploy.sh logs
+### Prometheus Metrics
 
-# Clean up resources
-./deployment/deploy.sh cleanup
-```
+The application exposes metrics at `/metrics` endpoints:
 
-### **Docker Compose Commands**
-```bash
-# Start all services
-docker-compose -f deployment/docker-compose.full.yml up -d
+- **Backend**: http://localhost:5000/metrics
+- **Frontend**: http://localhost:3000/metrics
 
-# Stop all services
-docker-compose -f deployment/docker-compose.full.yml down
+### Grafana Dashboards
 
-# View logs
-docker-compose -f deployment/docker-compose.full.yml logs -f
+Pre-configured dashboards are available in `deployment/grafana/dashboards/`:
 
-# Scale services
-docker-compose -f deployment/docker-compose.full.yml up -d --scale backend=3
-```
-
-## 🌐 Access URLs
-
-### **Main Application**
-- **Frontend**: http://localhost
-- **API**: http://localhost/api
-- **Video Production**: http://localhost/video/
-
-### **Monitoring**
-- **Prometheus**: http://localhost:9090
-- **Grafana**: http://localhost:3002 (admin/admin)
-
-### **Direct Service Access**
-- **Backend**: http://localhost:5001
-- **Frontend**: http://localhost:3000
-- **Video Production**: http://localhost:3001
-- **PostgreSQL**: localhost:5432
-- **Redis**: localhost:6379
-
-## 🔒 Security Features
-
-### **SSL/TLS**
-- Automatic SSL certificate generation
-- HTTPS enforcement
-- Secure headers
-
-### **Rate Limiting**
-- API rate limiting (10 req/s)
-- Video production rate limiting (5 req/s)
-- DDoS protection
-
-### **Security Headers**
-- X-Frame-Options
-- X-XSS-Protection
-- X-Content-Type-Options
-- Content-Security-Policy
-- Strict-Transport-Security
-
-### **Network Security**
-- Isolated Docker networks
-- Non-root containers
-- Minimal attack surface
-
-## 📊 Monitoring & Observability
-
-### **Metrics Collection**
-- Service health metrics
-- Performance indicators
-- Resource utilization
-- Error rates
-
-### **Grafana Dashboards**
 - System overview
-- Service performance
-- Error tracking
-- Custom metrics
+- API performance
+- Database metrics
+- Application health
 
-### **Alerting**
-- Service down alerts
-- Performance degradation
-- Resource exhaustion
-- Security events
+### Health Checks
 
-## 🔧 Configuration
-
-### **Environment Variables**
 ```bash
-# Backend
-FLASK_ENV=production
-DATABASE_URL=postgresql://postgres:password@postgres:5432/disaster_response
-REDIS_URL=redis://redis:6379
+# Application health
+curl http://localhost/health
 
-# Frontend
-REACT_APP_API_URL=http://localhost:5001
-REACT_APP_ENVIRONMENT=production
+# API health
+curl http://localhost:5000/api/health
 
-# Video Production
-NODE_ENV=production
-FFMPEG_BINARY=/usr/bin/ffmpeg
+# Database connectivity
+docker-compose exec postgres pg_isready -U postgres
 ```
 
-### **Custom Configuration**
-1. **Nginx**: Edit `deployment/nginx.conf`
-2. **Prometheus**: Edit `deployment/prometheus.yml`
-3. **Grafana**: Add dashboards to `deployment/grafana/`
+## Troubleshooting
 
-## 🚨 Troubleshooting
+### Common Issues
 
-### **Common Issues**
+#### Services Won't Start
 
-#### **Services Not Starting**
 ```bash
 # Check Docker status
 docker info
 
-# Check service logs
-./deployment/deploy.sh logs
+# View detailed logs
+docker-compose logs
 
-# Check service status
-./deployment/deploy.sh status
+# Check resource usage
+docker stats
 ```
 
-#### **Port Conflicts**
+#### Database Connection Issues
+
 ```bash
-# Check port usage
-lsof -i :80
-lsof -i :3000
-lsof -i :5001
+# Check PostgreSQL status
+docker-compose exec postgres psql -U postgres -d disaster_response
 
-# Stop conflicting services
-sudo lsof -ti:80 | xargs kill -9
+# Reset database
+docker-compose down -v
+docker-compose up -d postgres
 ```
 
-#### **Database Connection Issues**
+#### Frontend Build Issues
+
 ```bash
-# Check PostgreSQL logs
-docker-compose -f deployment/docker-compose.full.yml logs postgres
+# Clear node modules
+cd frontend
+rm -rf node_modules package-lock.json
+npm install
 
-# Test database connection
-docker exec -it disaster-response-postgres psql -U postgres -d disaster_response
+# Rebuild container
+docker-compose build frontend
 ```
 
-#### **SSL Certificate Issues**
+### Log Analysis
+
 ```bash
-# Regenerate SSL certificates
-rm -rf deployment/ssl/*
-./deployment/deploy.sh deploy
+# View all logs
+docker-compose logs -f
+
+# Filter by service
+docker-compose logs -f backend
+docker-compose logs -f frontend
+
+# Search for errors
+docker-compose logs | grep -i error
 ```
 
-### **Performance Optimization**
+## Security Considerations
 
-#### **Resource Limits**
+### Production Hardening
+
+1. **Change default passwords** for all services
+2. **Use strong secrets** for Flask and database
+3. **Enable SSL/TLS** for all external communication
+4. **Restrict network access** using Docker networks
+5. **Regular security updates** for base images
+
+### Network Security
+
+```bash
+# Check exposed ports
+docker-compose ps
+
+# Verify network isolation
+docker network ls
+docker network inspect disaster-response-network
+```
+
+### Data Protection
+
+- Database backups are stored in Docker volumes
+- Sensitive data should be encrypted at rest
+- Regular backup testing is recommended
+
+## Performance Tuning
+
+### Resource Limits
+
 ```yaml
-# In docker-compose.full.yml
+# In docker-compose.yml
 services:
   backend:
     deploy:
       resources:
         limits:
-          memory: 2G
-          cpus: '1.0'
+          memory: 1G
+          cpus: '0.5'
 ```
 
-#### **Scaling Services**
+### Scaling
+
 ```bash
-# Scale backend
-docker-compose -f deployment/docker-compose.full.yml up -d --scale backend=3
+# Scale backend services
+docker-compose up -d --scale backend=3
 
-# Scale frontend
-docker-compose -f deployment/docker-compose.full.yml up -d --scale frontend=2
+# Load balancer configuration
+# Update nginx.conf for multiple backend instances
 ```
 
-## 🔄 CI/CD Integration
+## Backup & Recovery
 
-### **GitHub Actions Example**
-```yaml
-name: Deploy Disaster Response Dashboard
+### Database Backups
 
-on:
-  push:
-    branches: [main]
-
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    
-    - name: Deploy to production
-      run: |
-        ./deployment/deploy.sh deploy
-```
-
-### **Production Deployment**
-```bash
-# Set production environment
-export ENVIRONMENT=production
-
-# Deploy with production config
-./deployment/deploy.sh deploy
-
-# Verify deployment
-./deployment/deploy.sh status
-```
-
-## 📈 Scaling & Performance
-
-### **Horizontal Scaling**
-- Multiple backend instances
-- Load balancer configuration
-- Database connection pooling
-- Redis clustering
-
-### **Performance Monitoring**
-- Response time tracking
-- Throughput monitoring
-- Resource utilization
-- Error rate tracking
-
-### **Optimization Tips**
-- Enable gzip compression
-- Use CDN for static assets
-- Implement caching strategies
-- Monitor database performance
-
-## 🔄 Backup & Recovery
-
-### **Database Backup**
 ```bash
 # Create backup
-docker exec disaster-response-postgres pg_dump -U postgres disaster_response > backup.sql
+docker-compose exec postgres pg_dump -U postgres disaster_response > backup.sql
 
 # Restore backup
-docker exec -i disaster-response-postgres psql -U postgres disaster_response < backup.sql
+docker-compose exec -T postgres psql -U postgres disaster_response < backup.sql
 ```
 
-### **Volume Backup**
+### Volume Backups
+
 ```bash
 # Backup volumes
 docker run --rm -v disaster-response_postgres_data:/data -v $(pwd):/backup alpine tar czf /backup/postgres_backup.tar.gz -C /data .
@@ -414,20 +277,22 @@ docker run --rm -v disaster-response_postgres_data:/data -v $(pwd):/backup alpin
 docker run --rm -v disaster-response_postgres_data:/data -v $(pwd):/backup alpine tar xzf /backup/postgres_backup.tar.gz -C /data
 ```
 
-## 📚 Additional Resources
+## Support
 
-### **Documentation**
-- [Backend API Documentation](backend/README.md)
-- [Frontend Development Guide](frontend/README.md)
-- [Video Production Guide](video-production/README.md)
+For deployment issues:
 
-### **Support**
-- Check service logs: `./deployment/deploy.sh logs`
-- Monitor system: http://localhost:3002
-- View metrics: http://localhost:9090
+1. Check the troubleshooting section above
+2. Review Docker and service logs
+3. Verify system requirements
+4. Check network connectivity
+5. Review configuration files
 
----
+## Contributing
 
-**Ready to deploy your Disaster Response Dashboard!** 🚀
+When adding new services:
 
-The deployment system provides a complete, production-ready solution with monitoring, security, and scalability features.
+1. Update `docker-compose.yml`
+2. Add health checks
+3. Configure monitoring
+4. Update documentation
+5. Test deployment process

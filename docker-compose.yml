@@ -1,74 +1,59 @@
 version: '3.8'
 
 services:
-  video-production:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      target: development
-    container_name: disaster-response-video
-    volumes:
-      # Mount source code for development
-      - .:/app
-      - /app/node_modules
-      - /app/output
-      - /app/temp
-      # Mount host audio devices for TTS (macOS)
-      - /System/Library/Speech/Voices:/System/Library/Speech/Voices:ro
-      # Mount host fonts
-      - /System/Library/Fonts:/System/Library/Fonts:ro
-      - /Library/Fonts:/Library/Fonts:ro
-    environment:
-      - NODE_ENV=development
-      - DISPLAY=${DISPLAY}
-      - FFMPEG_BINARY=/usr/bin/ffmpeg
-      - PYTHONPATH=/app
+  backend:
+    build: ./backend
     ports:
-      - "3000:3000"  # Web interface (if needed)
-      - "8080:8080"  # Development server
-    working_dir: /app
-    command: npm run dev
-    stdin_open: true
-    tty: true
-    restart: unless-stopped
-
-  # Alternative production service
-  video-production-prod:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      target: production
-    container_name: disaster-response-video-prod
-    volumes:
-      - ./output:/app/output
-      - ./assets:/app/assets
-      - ./narration.yaml:/app/narration.yaml
+      - "5000:5000"
     environment:
-      - NODE_ENV=production
-      - FFMPEG_BINARY=/usr/bin/ffmpeg
-    working_dir: /app
-    command: npm run build
-    profiles:
-      - production
-
-  # Testing service
-  video-testing:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      target: development
-    container_name: disaster-response-video-test
+      - FLASK_ENV=development
     volumes:
-      - .:/app
+      - ./backend:/app
+      - ./data:/app/data
+    depends_on:
+      - postgres
+      - redis
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
       - /app/node_modules
     environment:
-      - NODE_ENV=test
-      - FFMPEG_BINARY=/usr/bin/ffmpeg
-    working_dir: /app
-    command: npm run test
-    profiles:
-      - testing
+      - REACT_APP_API_URL=http://localhost:5000
+
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: disaster_response
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:6-alpine
+    ports:
+      - "6379:6379"
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - backend
+      - frontend
+
+volumes:
+  postgres_data:
 
 networks:
   default:
-    name: video-production-network
+    name: disaster-response-network
