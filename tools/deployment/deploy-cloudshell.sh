@@ -168,14 +168,33 @@ create_app_runner_service() {
             --output json 2>&1)
         
         if [ $? -eq 0 ]; then
+            # Try multiple ways to extract the ConnectionArn
             connections=$(echo "$connection_output" | grep -o '"ConnectionArn":"[^"]*"' | head -1 | cut -d'"' -f4)
+            if [ -z "$connections" ]; then
+                # Fallback: try jq if available
+                if command -v jq >/dev/null 2>&1; then
+                    connections=$(echo "$connection_output" | jq -r '.Connection.ConnectionArn' 2>/dev/null)
+                fi
+            fi
+            if [ -z "$connections" ]; then
+                # Last resort: try different grep pattern
+                connections=$(echo "$connection_output" | grep -o 'arn:aws:apprunner:[^"]*' | head -1)
+            fi
             print_status "GitHub connection created: $connections"
+            print_status "Connection output: $connection_output"
         else
             print_warning "Failed to create GitHub connection: $connection_output"
             print_status "Proceeding without connection (may fail for private repos)"
         fi
     else
         print_status "Using existing GitHub connection: $connections"
+    fi
+    
+    # Verify we have a valid connection before proceeding
+    if [ -z "$connections" ]; then
+        print_error "Failed to create or extract GitHub connection ARN"
+        print_error "Cannot proceed without valid authentication"
+        exit 1
     fi
     
     # Create App Runner service with CloudShell-optimized configuration
