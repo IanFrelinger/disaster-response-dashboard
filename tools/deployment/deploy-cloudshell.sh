@@ -229,7 +229,7 @@ create_app_runner_service() {
                     \"ConfigurationSource\": \"API\",
                     \"CodeConfigurationValues\": {
                         \"Runtime\": \"PYTHON_3\",
-                        \"BuildCommand\": \"pip install -r requirements.txt\",
+                        \"BuildCommand\": \"pip install -r backend/requirements.txt\",
                         \"StartCommand\": \"cd backend && python run_synthetic_api.py\",
                         \"Port\": \"8000\"
                     }
