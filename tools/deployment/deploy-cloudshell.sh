@@ -199,9 +199,23 @@ create_app_runner_service() {
     
     # Check if service already exists
     print_status "Checking if service '$APP_NAME' already exists..."
-    local existing_service=$(aws apprunner list-services --region "$AWS_REGION" --output json 2>/dev/null | grep -o "\"ServiceName\":\"$APP_NAME\"" | head -1)
     
-    if [ ! -z "$existing_service" ]; then
+    # Get list of all services and check for our service name
+    local services_list=$(aws apprunner list-services --region "$AWS_REGION" --output json 2>/dev/null)
+    
+    # Try to find existing service using jq if available, otherwise use grep
+    local existing_service=""
+    if command -v jq >/dev/null 2>&1; then
+        existing_service=$(echo "$services_list" | jq -r --arg name "$APP_NAME" '.ServiceSummaryList[] | select(.ServiceName == $name) | .ServiceName' 2>/dev/null)
+    else
+        existing_service=$(echo "$services_list" | grep -o "\"ServiceName\":\"$APP_NAME\"" | head -1)
+    fi
+    
+    print_status "Available services: $services_list"
+    print_status "Looking for service: $APP_NAME"
+    print_status "Found existing service: $existing_service"
+    
+    if [ ! -z "$existing_service" ] && [ "$existing_service" != "null" ]; then
         print_warning "Service '$APP_NAME' already exists. Checking current status..."
         
         # Get the existing service ARN
