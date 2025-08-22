@@ -159,18 +159,20 @@ create_app_runner_service() {
     local service_arn=$(aws apprunner create-service \
         --service-name "$APP_NAME" \
         --source-configuration "{
-            \"RepositoryUrl\": \"$repo_url\",
-            \"SourceCodeVersion\": {
-                \"Type\": \"BRANCH\",
-                \"Value\": \"master\"
-            },
-            \"CodeConfiguration\": {
-                \"ConfigurationSource\": \"API\",
-                \"CodeConfigurationValues\": {
-                    \"Runtime\": \"PYTHON_3\",
-                    \"BuildCommand\": \"pip install -r requirements.txt && cd frontend && npm install && npm run build\",
-                    \"StartCommand\": \"cd backend && python run_synthetic_api.py\",
-                    \"Port\": \"8000\"
+            \"CodeRepository\": {
+                \"RepositoryUrl\": \"$repo_url\",
+                \"SourceCodeVersion\": {
+                    \"Type\": \"BRANCH\",
+                    \"Value\": \"master\"
+                },
+                \"CodeConfiguration\": {
+                    \"ConfigurationSource\": \"API\",
+                    \"CodeConfigurationValues\": {
+                        \"Runtime\": \"PYTHON_3\",
+                        \"BuildCommand\": \"pip install -r requirements.txt && cd frontend && npm install && npm run build\",
+                        \"StartCommand\": \"cd backend && python run_synthetic_api.py\",
+                        \"Port\": \"8000\"
+                    }
                 }
             }
         }" \
