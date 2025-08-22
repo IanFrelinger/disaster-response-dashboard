@@ -195,14 +195,20 @@ create_app_runner_service() {
     fi
     
     # Extract the service ARN from the successful response
+    print_status "Extracting service ARN from AWS response..."
+    print_status "AWS response: $create_output"
+    
     if command -v jq >/dev/null 2>&1; then
         local service_arn=$(echo "$create_output" | jq -r '.Service.ServiceArn' 2>/dev/null)
+        print_status "Using jq to extract ARN: $service_arn"
     else
         # Fallback: extract ARN using grep if jq is not available
         local service_arn=$(echo "$create_output" | grep -o 'arn:aws:apprunner:[^"]*')
+        print_status "Using grep to extract ARN: $service_arn"
     fi
     
-    if [ $? -eq 0 ] && [ ! -z "$service_arn" ]; then
+    # Check if we successfully extracted the service ARN
+    if [ ! -z "$service_arn" ]; then
         print_success "App Runner service created successfully"
         print_status "Service ARN: $service_arn"
         
