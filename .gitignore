@@ -184,13 +184,4 @@ dmypy.json
 
 # Local development
 *.local 
-# Video Production Media Files
-video-production/audio/
-video-production/captures/
-video-production/output/
-video-production/subs/
-video-production/.pnpm-store/
-video-production/out/
-video-production/*.mp4
-video-production/*.webm
-video-production/*.wav
+

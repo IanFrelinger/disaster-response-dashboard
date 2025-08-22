@@ -1,95 +1,83 @@
-# Video Production Environment for Disaster Response Dashboard
-# Multi-stage build for optimal size and functionality
+# Disaster Response Dashboard - Friends Demo
+# Simple Dockerfile for AWS App Runner deployment
 
-FROM node:18-alpine AS base
+# Use multi-stage build for efficiency
+FROM node:18-alpine AS frontend-builder
 
-# Install system dependencies
-RUN apk add --no-cache \
-    ffmpeg \
-    python3 \
-    py3-pip \
-    git \
-    bash \
-    curl \
-    wget \
-    unzip \
-    && rm -rf /var/cache/apk/*
+WORKDIR /app/frontend
 
-# Install additional Python packages for video processing
-RUN pip3 install --no-cache-dir \
-    opencv-python \
-    numpy \
-    pillow \
-    matplotlib \
-    scipy \
-    moviepy \
-    imageio \
-    imageio-ffmpeg
-
-# Set working directory
-WORKDIR /app
-
-# Copy package files
-COPY package*.json ./
-
-# Install Node.js dependencies
+# Copy frontend files
+COPY frontend/package*.json ./
 RUN npm ci --only=production
 
-# Copy application files
-COPY . .
+COPY frontend/ ./
+RUN npm run build
 
-# Create necessary directories
-RUN mkdir -p output temp assets
+# Backend stage
+FROM python:3.11-slim AS backend-builder
 
-# Set permissions
-RUN chmod +x scripts/*.js
+WORKDIR /app/backend
 
-# Development stage with additional tools
-FROM base AS development
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    gdal-bin \
+    libgdal-dev \
+    curl \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
-# Install development dependencies
-RUN npm ci
+# Copy backend requirements and install
+COPY backend/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Install additional development tools
-RUN apk add --no-cache \
-    vim \
-    nano \
-    htop \
-    && rm -rf /var/cache/apk/*
+# Copy backend code
+COPY backend/ ./
 
-# Install additional Python packages for development
-RUN pip3 install --no-cache-dir \
-    pytest \
-    pytest-cov \
-    black \
-    flake8 \
-    jupyter \
-    ipython
+# Final stage
+FROM python:3.11-slim
 
-# Production stage (minimal)
-FROM base AS production
+WORKDIR /app
 
-# Remove development files
-RUN rm -rf node_modules/.cache \
-    && rm -rf temp/* \
-    && rm -rf .git
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    gdal-bin \
+    libgdal-dev \
+    curl \
+    nginx \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy backend
+COPY --from=backend-builder /app/backend ./backend
+COPY --from=backend-builder /usr/local/lib/python3.11/site-packages /usr/local/lib/python3.11/site-packages
+
+# Copy frontend build
+COPY --from=frontend-builder /app/frontend/dist ./frontend/dist
+
+# Copy tiles
+COPY tiles/ ./tiles/
 
 # Create non-root user
-RUN addgroup -g 1001 -S nodejs \
-    && adduser -S nodejs -u 1001
+RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app
+USER appuser
 
-# Change ownership of app directory
-RUN chown -R nodejs:nodejs /app
+# Set environment variables
+ENV PYTHONPATH=/app/backend
+ENV FLASK_APP=run_synthetic_api.py
+ENV FLASK_ENV=production
+ENV ENVIRONMENT_MODE=demo
+ENV USE_SYNTHETIC_DATA=true
 
-# Switch to non-root user
-USER nodejs
+# Copy startup script
+COPY --chown=appuser:appuser tools/deployment/start-friends-demo.sh ./start.sh
+RUN chmod +x ./start.sh
 
-# Expose port for web interface (if needed)
-EXPOSE 3000
+# Expose port
+EXPOSE 8080
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD node -e "console.log('Video production environment is healthy')" || exit 1
+    CMD curl -f http://localhost:8080/api/health || exit 1
 
-# Default command
-CMD ["npm", "run", "dev"]
+# Start the application
+CMD ["./start.sh"]
