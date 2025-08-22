@@ -227,13 +227,16 @@ create_app_runner_service() {
             # Check if it's in a failed state and needs cleanup
             local service_status=$(aws apprunner describe-service --service-arn "$existing_arn" --region "$AWS_REGION" --query 'Service.Status' --output text 2>/dev/null)
             
-            if [ "$service_status" = "FAILED" ] || [ "$service_status" = "ROLLBACK_FAILED" ]; then
+            if [ "$service_status" = "FAILED" ] || [ "$service_status" = "ROLLBACK_FAILED" ] || [ "$service_status" = "CREATE_FAILED" ]; then
                 print_status "Service is in failed state ($service_status). Deleting and recreating..."
                 aws apprunner delete-service --service-arn "$existing_arn" --region "$AWS_REGION" >/dev/null 2>&1
                 
                 # Wait for deletion to complete
                 print_status "Waiting for service deletion to complete..."
                 sleep 30
+                
+                # Clear the service_arn so we create a new one
+                local service_arn=""
             else
                 print_status "Service is in state: $service_status. Using existing service."
                 local service_arn="$existing_arn"
