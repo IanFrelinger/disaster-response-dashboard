@@ -9,8 +9,8 @@ set -e
 # Configuration
 SCRIPT_NAME="deploy-cloudshell.sh"
 PROJECT_NAME="disaster-response-dashboard"
-# Force region to us-east-1 for App Runner compatibility
-export AWS_REGION="us-east-1"
+# Force region to us-east-2 for App Runner compatibility (matches existing connection)
+export AWS_REGION="us-east-2"
 APP_NAME="disaster-response-cloudshell-demo"
 
 # Colors for output
@@ -156,24 +156,11 @@ create_app_runner_service() {
     print_status "Repository URL: $repo_url"
     
     # App Runner now requires authentication even for public repositories
-    print_status "App Runner requires GitHub authentication. Checking for working connections..."
+    print_status "App Runner requires GitHub authentication. Using existing connection..."
     
-    # Look for any AVAILABLE connections
-    local available_connection=$(aws apprunner list-connections --region "$AWS_REGION" --output json 2>/dev/null | jq -r '.ConnectionSummaryList[] | select(.Status == "AVAILABLE") | .ConnectionArn' | head -1)
-    
-    if [ ! -z "$available_connection" ] && [ "$available_connection" != "null" ]; then
-        print_status "Found available GitHub connection: $available_connection"
-        local connections="$available_connection"
-    else
-        print_error "No available GitHub connections found. App Runner requires authentication."
-        print_error "Please complete GitHub authorization in AWS Console:"
-        print_error "1. Go to AWS Console → App Runner → Connections"
-        print_error "2. Find a connection with 'Pending' status"
-        print_error "3. Click 'Complete pending connection'"
-        print_error "4. Authorize with GitHub"
-        print_error "5. Wait for status to change to 'AVAILABLE'"
-        exit 1
-    fi
+    # Use the existing connection ARN from us-east-2
+    local connections="arn:aws:apprunner:us-east-2:910230629863:connection/IanConnection/0c265379926542e9a79ff0182ed48323"
+    print_status "Using existing GitHub connection: $connections"
     
     # Check if service already exists
     print_status "Checking if service '$APP_NAME' already exists..."
