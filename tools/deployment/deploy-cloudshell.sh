@@ -9,7 +9,8 @@ set -e
 # Configuration
 SCRIPT_NAME="deploy-cloudshell.sh"
 PROJECT_NAME="disaster-response-dashboard"
-AWS_REGION=${AWS_REGION:-"us-east-1"}
+# Force region to us-east-1 for App Runner compatibility
+export AWS_REGION="us-east-1"
 APP_NAME="disaster-response-cloudshell-demo"
 
 # Colors for output
@@ -418,6 +419,7 @@ main() {
     echo "This script deploys your app directly from AWS CloudShell!"
     echo "Script: $SCRIPT_NAME"
     echo "Region: $AWS_REGION"
+    echo "AWS_REGION env var: ${AWS_REGION:-'not set'}"
     echo "Timestamp: $(date)"
     echo ""
     
