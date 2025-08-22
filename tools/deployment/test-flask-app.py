@@ -7,10 +7,16 @@ Tests that the Flask application can start and respond to basic requests
 import os
 import sys
 import time
-import requests
 import subprocess
 import signal
 from pathlib import Path
+
+# Try to import requests, but don't fail if it's not available
+try:
+    import requests
+    REQUESTS_AVAILABLE = True
+except ImportError:
+    REQUESTS_AVAILABLE = False
 
 # Add backend to path
 backend_path = Path(__file__).parent.parent.parent / "backend"
@@ -72,6 +78,12 @@ def test_flask_app():
     except ImportError as e:
         print(f"❌ Missing dependency: {e}")
         return False
+    
+    # Test optional dependencies
+    if REQUESTS_AVAILABLE:
+        print("✅ Optional dependency 'requests' available")
+    else:
+        print("⚠️  Optional dependency 'requests' not available (not required for deployment)")
     
     print("\n🎉 Flask app test completed successfully!")
     return True
