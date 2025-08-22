@@ -155,9 +155,25 @@ create_app_runner_service() {
     
     print_status "Repository URL: $repo_url"
     
-    # For public repositories, we don't need authentication
-    print_status "Repository is public - proceeding without authentication..."
-    local connections=""
+    # App Runner now requires authentication even for public repositories
+    print_status "App Runner requires GitHub authentication. Checking for working connections..."
+    
+    # Look for any AVAILABLE connections
+    local available_connection=$(aws apprunner list-connections --region "$AWS_REGION" --output json 2>/dev/null | jq -r '.ConnectionSummaryList[] | select(.Status == "AVAILABLE") | .ConnectionArn' | head -1)
+    
+    if [ ! -z "$available_connection" ] && [ "$available_connection" != "null" ]; then
+        print_status "Found available GitHub connection: $available_connection"
+        local connections="$available_connection"
+    else
+        print_error "No available GitHub connections found. App Runner requires authentication."
+        print_error "Please complete GitHub authorization in AWS Console:"
+        print_error "1. Go to AWS Console → App Runner → Connections"
+        print_error "2. Find a connection with 'Pending' status"
+        print_error "3. Click 'Complete pending connection'"
+        print_error "4. Authorize with GitHub"
+        print_error "5. Wait for status to change to 'AVAILABLE'"
+        exit 1
+    fi
     
     # Check if service already exists
     print_status "Checking if service '$APP_NAME' already exists..."
@@ -215,23 +231,23 @@ create_app_runner_service() {
         # First, try to create the service and capture any errors
         local create_output=$(aws apprunner create-service \
             --service-name "$APP_NAME" \
-            --source-configuration "{
-                \"CodeRepository\": {
-                    \"RepositoryUrl\": \"$repo_url\",
-                    \"SourceCodeVersion\": {
-                        \"Type\": \"BRANCH\",
-                        \"Value\": \"master\"
-                    },
-                    \"CodeConfiguration\": {
-                        \"ConfigurationSource\": \"API\",
-                        \"CodeConfigurationValues\": {
-                            \"Runtime\": \"PYTHON_3\",
-                                                    \"BuildCommand\": \"pip install -r requirements.txt\",
+                    --source-configuration "{
+            \"CodeRepository\": {
+                \"RepositoryUrl\": \"$repo_url\",
+                \"SourceCodeVersion\": {
+                    \"Type\": \"BRANCH\",
+                    \"Value\": \"master\"
+                },
+                \"CodeConfiguration\": {
+                    \"ConfigurationSource\": \"API\",
+                    \"CodeConfigurationValues\": {
+                        \"Runtime\": \"PYTHON_3\",
+                        \"BuildCommand\": \"pip install -r requirements.txt\",
                         \"StartCommand\": \"cd backend && python run_synthetic_api.py\",
-                            \"Port\": \"8000\"
-                        }
+                        \"Port\": \"8000\"
                     }
-                            }
+                }
+            }$(if [ ! -z "$connections" ]; then echo ", \"AuthenticationConfiguration\": { \"ConnectionArn\": \"$connections\" }"; fi)
         }" \
             --instance-configuration '{
                 "Cpu": "1 vCPU",
