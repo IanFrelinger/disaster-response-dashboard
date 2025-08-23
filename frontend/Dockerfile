@@ -41,6 +41,11 @@ RUN mkdir -p /var/cache/nginx /var/cache/nginx/client_temp /var/cache/nginx/prox
     chown -R nextjs:nodejs /var/cache/nginx && \
     chmod -R 755 /var/cache/nginx
 
+# Create nginx runtime directories with proper permissions
+RUN mkdir -p /run /var/log/nginx && \
+    chown -R nextjs:nodejs /run /var/log/nginx && \
+    chmod -R 755 /run /var/log/nginx
+
 # Set proper permissions
 RUN chown -R nextjs:nodejs /usr/share/nginx/html && \
     chmod -R 755 /usr/share/nginx/html
