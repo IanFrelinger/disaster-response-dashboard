@@ -4,8 +4,8 @@
   "requiresCompatibilities": ["FARGATE"],
   "cpu": "256",
   "memory": "512",
-  "executionRoleArn": "arn:aws:iam::ACCOUNT_ID:role/ecsTaskExecutionRole",
-  "taskRoleArn": "arn:aws:iam::ACCOUNT_ID:role/ecsTaskRole",
+  "executionRoleArn": "arn:aws:iam::910230629863:role/ecsTaskExecutionRole",
+  "taskRoleArn": "arn:aws:iam::910230629863:role/ecsTaskRole",
   "containerDefinitions": [
     {
       "name": "disaster-response-frontend",
@@ -27,25 +27,11 @@
           "value": "production"
         }
       ],
-      "secrets": [
-        {
-          "name": "MAPBOX_ACCESS_TOKEN",
-          "valueFrom": "arn:aws:secretsmanager:REGION:ACCOUNT_ID:secret:mapbox-access-token"
-        },
-        {
-          "name": "NASA_FIRMS_API_KEY",
-          "valueFrom": "arn:aws:secretsmanager:REGION:ACCOUNT_ID:secret:nasa-firms-api-key"
-        },
-        {
-          "name": "NOAA_API_KEY",
-          "valueFrom": "arn:aws:secretsmanager:REGION:ACCOUNT_ID:secret:noaa-api-key"
-        }
-      ],
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
           "awslogs-group": "/ecs/disaster-response-frontend",
-          "awslogs-region": "REGION",
+          "awslogs-region": "us-east-2",
           "awslogs-stream-prefix": "ecs"
         }
       },
