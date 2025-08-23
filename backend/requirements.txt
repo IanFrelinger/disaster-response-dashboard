@@ -2,6 +2,7 @@
 flask==3.0.0
 flask-cors==4.0.0
 flask-socketio==5.3.6
+gunicorn==21.2.0
 
 # Data Processing - using specific versions for stability
 pandas==2.1.4
