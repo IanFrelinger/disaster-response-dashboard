@@ -36,6 +36,11 @@ COPY nginx.conf /etc/nginx/nginx.conf
 RUN mkdir -p /usr/share/nginx/html/health && \
     echo "healthy" > /usr/share/nginx/html/health/index.html
 
+# Create nginx cache directories with proper permissions
+RUN mkdir -p /var/cache/nginx /var/cache/nginx/client_temp /var/cache/nginx/proxy_temp /var/cache/nginx/fastcgi_temp /var/cache/nginx/uwsgi_temp /var/cache/nginx/scgi_temp && \
+    chown -R nextjs:nodejs /var/cache/nginx && \
+    chmod -R 755 /var/cache/nginx
+
 # Set proper permissions
 RUN chown -R nextjs:nodejs /usr/share/nginx/html && \
     chmod -R 755 /usr/share/nginx/html
