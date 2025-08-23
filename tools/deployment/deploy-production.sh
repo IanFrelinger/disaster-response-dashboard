@@ -21,16 +21,22 @@ echo ""
 
 # 1) Get the latest image with Gunicorn
 echo "📦 Getting latest ECR image..."
+
+# Standardize on disaster-response repository
+REPO_NAME="disaster-response"
 REPO_URI=$(aws ecr describe-repositories --region "$REGION" \
-  --repository-names disaster-response \
+  --repository-names "$REPO_NAME" \
   --query 'repositories[0].repositoryUri' --output text)
 [ -z "$REPO_URI" ] || [ "$REPO_URI" = "None" ] && \
-  REPO_URI=910230629863.dkr.ecr.us-east-2.amazonaws.com/disaster-response
+  REPO_URI=910230629863.dkr.ecr.us-east-2.amazonaws.com/$REPO_NAME
 
 # Get the latest digest (should be the one with Gunicorn)
 DIGEST=$(aws ecr describe-images --region "$REGION" \
-  --repository-name disaster-response --image-ids imageTag=latest \
+  --repository-name "$REPO_NAME" --image-ids imageTag=latest \
   --query 'imageDetails[0].imageDigest' --output text)
+
+echo "✅ Repository: $REPO_NAME"
+echo "✅ URI: $REPO_URI"
 
 echo "✅ REPO_URI=$REPO_URI"
 echo "✅ DIGEST=$DIGEST"
@@ -44,10 +50,19 @@ echo "📋 Exporting current task definition..."
 aws ecs describe-task-definition --task-definition "$FAMILY" --region "$REGION" \
   --query 'taskDefinition' > td.json
 
-# 4) Production start command with Gunicorn
+# 4) Production start command with Gunicorn (or Flask fallback)
 echo "🔧 Building production start command..."
-CMD="gunicorn -w 2 -k gthread -t 120 --bind 0.0.0.0:${PORT} backend.app:app"
-echo "✅ Production command: $CMD"
+
+# Check if the image has Gunicorn by looking at the requirements in the image
+echo "🔍 Checking if image has Gunicorn..."
+if docker run --rm "$REPO_URI@$DIGEST" python -c "import gunicorn; print('Gunicorn available')" 2>/dev/null; then
+  CMD="gunicorn -w 2 -k gthread -t 120 --bind 0.0.0.0:${PORT} backend.app:app"
+  echo "✅ Using Gunicorn: $CMD"
+else
+  CMD="python -m flask --app backend.app:app run --host 0.0.0.0 --port ${PORT} || python -m flask --app app:app run --host 0.0.0.0 --port ${PORT}"
+  echo "⚠️  Gunicorn not available, using Flask: $CMD"
+  echo "💡 Rebuild image with 'gunicorn==21.2.0' in requirements.txt for production server"
+fi
 
 # 5) Patch the task definition for production
 echo "🔧 Patching task definition for production..."
