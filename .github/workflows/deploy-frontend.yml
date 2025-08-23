@@ -178,6 +178,17 @@ jobs:
           echo "Task definition artifact contents:"
           find . -name "*.json" -type f
 
+      - name: Find and use task definition file
+        run: |
+          TASK_DEF_FILE=$(find . -name "task-definition--*.json" -type f | head -1)
+          if [ -n "$TASK_DEF_FILE" ]; then
+            echo "Found task definition file: $TASK_DEF_FILE"
+            echo "TASK_DEF_FILE_PATH=$TASK_DEF_FILE" >> $GITHUB_ENV
+          else
+            echo "No task definition file found!"
+            exit 1
+          fi
+
       - name: Create ECS service if it doesn't exist
         run: |
           # Check if service exists
@@ -205,7 +216,7 @@ jobs:
       - name: Deploy to ECS
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
-          task-definition: ./task-definition.json
+          task-definition: ${{ env.TASK_DEF_FILE_PATH }}
           service: ${{ env.ECS_SERVICE }}
           cluster: ${{ env.ECS_CLUSTER }}
           wait-for-service-stability: true
