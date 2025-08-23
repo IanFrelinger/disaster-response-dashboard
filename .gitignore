@@ -209,3 +209,4 @@ logs/
 # Security audit files
 security-audit-*.json
 vulnerability-scan-*.json
+frontend/.env*
