@@ -12,6 +12,9 @@ export FAMILY=disaster-response-task
 export CONTAINER_NAME=disaster-response
 export PORT=8000
 
+# Allow custom start command via environment variable
+export START_CMD="${START_CMD:-}"
+
 echo "Region: $REGION"
 echo "Cluster: $CLUSTER"
 echo "Service: $SERVICE"
@@ -40,31 +43,44 @@ echo "📊 Creating CloudWatch log group..."
 aws logs create-log-group --log-group-name "/ecs/${CONTAINER_NAME}" --region $REGION 2>/dev/null || true
 echo "✅ Log group ready: /ecs/${CONTAINER_NAME}"
 
-# 4) Export current task def and patch: image, command, port, logs
+# 4) Export current task definition
 echo "📋 Exporting current task definition..."
 aws ecs describe-task-definition \
-  --task-definition $FAMILY --region $REGION \
+  --task-definition "$FAMILY" \
+  --region "$REGION" \
   --query 'taskDefinition' > td.json
 
+# 5) Build a single start command string (no ugly jq concatenation)
+echo "🔧 Building start command..."
+if [[ -n "$START_CMD" ]]; then
+  CMD="$START_CMD"
+  echo "✅ Using custom start command: $CMD"
+else
+  CMD="gunicorn -w 2 -k gthread -t 120 --bind 0.0.0.0:${PORT} app:app \
+ || gunicorn -w 2 -k gthread -t 120 --bind 0.0.0.0:${PORT} backend.app:app \
+ || FLASK_APP=app flask run --host 0.0.0.0 --port ${PORT}"
+  echo "✅ Using default start command: $CMD"
+fi
+
+# 6) Patch the container image, command, port, and log config (jq-friendly)
 echo "🔧 Patching task definition..."
-jq --arg img "$REPO_URI@$DIGEST" \
+jq --arg img  "$REPO_URI@$DIGEST" \
    --arg name "$CONTAINER_NAME" \
-   --arg region "$REGION" \
-   --argjson port $PORT '
-  (.containerDefinitions[] | select(.name==$name) | .image) = $img
-  | (.containerDefinitions[] | select(.name==$name) | .command)
-      = ["sh","-c",
-         "gunicorn -w 2 -k gthread -t 120 --bind 0.0.0.0:" + ($port|tostring) + " app:app \
-          || gunicorn -w 2 -k gthread -t 120 --bind 0.0.0.0:" + ($port|tostring) + " backend.app:app \
-          || FLASK_APP=app flask run --host 0.0.0.0 --port " + ($port|tostring)]
-  | (.containerDefinitions[] | select(.name==$name) | .portMappings)
-      = [ { "containerPort": $port, "protocol": "tcp" } ]
-  | (.containerDefinitions[] | select(.name==$name) | .logConfiguration)
-      = { "logDriver": "awslogs",
-          "options": { "awslogs-group": "/ecs/" + $name,
-                       "awslogs-region": $region,
-                       "awslogs-stream-prefix": "ecs" } }
-  | del(.taskDefinitionArn,.revision,.requiresAttributes,.compatibilities,.registeredAt,.registeredBy,.status)
+   --arg cmd  "$CMD" \
+   --arg reg  "$REGION" \
+   --argjson port "$PORT" '
+  (.containerDefinitions[] | select(.name==$name) | .image)          = $img
+| (.containerDefinitions[] | select(.name==$name) | .command)        = ["sh","-c",$cmd]
+| (.containerDefinitions[] | select(.name==$name) | .portMappings)   = [ { "containerPort": $port, "protocol":"tcp" } ]
+| (.containerDefinitions[] | select(.name==$name) | .logConfiguration)= {
+    "logDriver":"awslogs",
+    "options":{
+      "awslogs-group":("/ecs/"+$name),
+      "awslogs-region":$reg,
+      "awslogs-stream-prefix":"ecs"
+    }
+  }
+| del(.taskDefinitionArn,.revision,.requiresAttributes,.compatibilities,.registeredAt,.registeredBy,.status)
 ' td.json > td-new.json
 
 echo "✅ Task definition patched"
