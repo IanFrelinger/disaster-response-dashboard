@@ -169,6 +169,14 @@ jobs:
         with:
           name: task-definition
           path: ./
+          merge-multiple: false
+
+      - name: List downloaded files
+        run: |
+          echo "Current directory contents:"
+          ls -la
+          echo "Task definition artifact contents:"
+          find . -name "*.json" -type f
 
       - name: Create ECS service if it doesn't exist
         run: |
