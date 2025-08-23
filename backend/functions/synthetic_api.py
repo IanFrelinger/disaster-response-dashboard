@@ -6,11 +6,33 @@ This replaces frontend data generation with backend API calls.
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 import time
+import os
+import sys
 from typing import Dict, Optional
+
+# Add the backend directory to the Python path
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from utils.synthetic_data import SyntheticDataGenerator
+from security_headers import add_security_headers
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for frontend integration
+
+# Apply security headers to all responses
+@app.after_request
+def apply_security_headers(response):
+    return add_security_headers(response)
+
+@app.route('/health')
+def health():
+    """Health check endpoint for load balancers and monitoring."""
+    return jsonify(status="ok", timestamp=time.time()), 200
+
+@app.route('/')
+def root():
+    """Root endpoint for basic connectivity check."""
+    return jsonify(message="Disaster Response API", status="running", timestamp=time.time()), 200
 
 # Global cache for generated data (in production, this would be a database)
 _data_cache: Dict = {}
@@ -257,4 +279,4 @@ def api_info():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=8000) 
+    app.run(debug=False, host='0.0.0.0', port=8000) 
