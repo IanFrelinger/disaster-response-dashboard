@@ -27,6 +27,22 @@
         {
           "name": "VITE_APP_ENV",
           "value": "production"
+        },
+        {
+          "name": "VITE_MAPBOX_ACCESS_TOKEN",
+          "value": "pk.eyJ1IjoiaWNmZnJlbGluZ2VyIiwiYSI6ImNsdGZ0Z2Z0ZyJ9.12y7S2B9pkn4PzRPjvaGxw"
+        },
+        {
+          "name": "VITE_MAPBOX_STYLE_URL",
+          "value": "mapbox://styles/mapbox/dark-v11"
+        },
+        {
+          "name": "VITE_DEBUG_MODE",
+          "value": "false"
+        },
+        {
+          "name": "VITE_BUILD_ENV",
+          "value": "production"
         }
       ],
       "logConfiguration": {
