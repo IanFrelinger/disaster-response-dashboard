@@ -67,7 +67,7 @@ jq --arg img  "$REPO_URI@$DIGEST" \
       "awslogs-stream-prefix":"ecs"
     }
   }
-| del(.taskDefinitionArn,.revision,.requiresAttributes,.compatibilities,.registeredAt,.registeredBy,.status)
+| del(.taskDefinitionArn,.revision,.requiresAttributes,.compatibilities,.registeredAt,.registeredBy,.status,.taskRoleArn)
 ' td.json > td-new.json
 
 echo "✅ Task definition patched for production"
