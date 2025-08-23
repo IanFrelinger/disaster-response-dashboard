@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    ports:
+      - "8080:8080"
+    environment:
+      - NODE_ENV=production
+      - VITE_APP_ENV=production
+    volumes:
+      - ./logs:/var/log/nginx
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+    networks:
+      - frontend-network
+
+  # Mock backend for testing
+  mock-backend:
+    image: nginx:alpine
+    ports:
+      - "8000:80"
+    volumes:
+      - ./mock-backend:/usr/share/nginx/html
+    networks:
+      - frontend-network
+
+networks:
+  frontend-network:
+    driver: bridge
+
+volumes:
+  logs:
