@@ -140,14 +140,12 @@ jobs:
           container-name: disaster-response-frontend
           image: ${{ steps.build-and-push.outputs.image }}
 
-      - name: Deploy to Amazon ECS
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      - name: Upload task definition
+        uses: actions/upload-artifact@v4
         with:
-          task-definition: ${{ steps.task-def.outputs.task-definition }}
-          service: ${{ env.ECS_SERVICE }}
-          cluster: ${{ env.ECS_CLUSTER }}
-          wait-for-service-stability: true
-          wait-for-minutes: 10
+          name: task-definition
+          path: ${{ steps.task-def.outputs.task-definition }}
+          retention-days: 1
 
   deploy-production:
     name: Deploy to Production
@@ -165,6 +163,12 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
+
+      - name: Download task definition
+        uses: actions/download-artifact@v4
+        with:
+          name: task-definition
+          path: ./
 
       - name: Create ECS service if it doesn't exist
         run: |
@@ -193,7 +197,7 @@ jobs:
       - name: Deploy to ECS
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
-          task-definition: ${{ needs.build-and-push.outputs.task-definition }}
+          task-definition: task-definition.json
           service: ${{ env.ECS_SERVICE }}
           cluster: ${{ env.ECS_CLUSTER }}
           wait-for-service-stability: true
