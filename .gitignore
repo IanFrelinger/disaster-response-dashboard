@@ -185,3 +185,27 @@ dmypy.json
 # Local development
 *.local 
 
+
+# Security files
+*.key
+*.pem
+*.crt
+*.p12
+*.pfx
+.env.production
+.env.staging
+.env.local
+.env.*.local
+
+# Backup files
+*.bak
+*.backup
+*.tmp
+
+# Logs
+*.log
+logs/
+
+# Security audit files
+security-audit-*.json
+vulnerability-scan-*.json

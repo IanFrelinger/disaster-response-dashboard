@@ -255,6 +255,7 @@ class FireSpreadModel:
         
         return {
             "time_to_reach": predicted_time,
+            # Note: Using random.uniform for mock data only - not for security/cryptographic purposes
             "confidence": random.uniform(0.7, 0.95),
             "wind_factor": "high" if wind_speed > 25 else "medium" if wind_speed > 15 else "low",
             "temperature_factor": "high" if temperature > 30 else "medium" if temperature > 20 else "low"

@@ -17,7 +17,11 @@ from utils.synthetic_data import SyntheticDataGenerator
 from security_headers import add_security_headers
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for frontend integration
+CORS(app, resources={r"/*": {"origins": [
+    "https://*.cloudfront.net",
+    "http://localhost:3000",
+    "http://localhost:3001"
+]}})  # Enable CORS for frontend integration (CloudFront + local dev)
 
 # Apply security headers to all responses
 @app.after_request

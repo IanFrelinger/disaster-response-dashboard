@@ -11,7 +11,7 @@ phases:
       docker: 20
     commands:
       - set -Eeuo pipefail
-      - echo "Checking internet egress..."
+      - echo "Egress checks..."
       - time curl -IsSf https://deb.debian.org >/dev/null && echo "APT OK"
       - time curl -IsSf https://pypi.org >/dev/null && echo "PYPI OK"
       - echo "Logging in to ECR (us-east-2)..."
