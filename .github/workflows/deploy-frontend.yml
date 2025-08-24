@@ -120,8 +120,18 @@ jobs:
           IMAGE_TAG: ${{ github.sha }}
         working-directory: ./frontend
         run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
+          docker build \
+            --build-arg VITE_MAPBOX_ACCESS_TOKEN="pk.eyJ1IjoiaWNmcmVsaW5nZXIiLCJhIjoiY21lbXRqYXI5MHdjdjJpcHRnYXpmOHZlbyJ9.89NobWdR1h0QuukKth0RBA" \
+            --build-arg VITE_MAPBOX_STYLE_URL="mapbox://styles/mapbox/dark-v11" \
+            --build-arg VITE_DEBUG_MODE="false" \
+            --build-arg VITE_BUILD_ENV="production" \
+            -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker build \
+            --build-arg VITE_MAPBOX_ACCESS_TOKEN="pk.eyJ1IjoiaWNmcmVsaW5nZXIiLCJhIjoiY21lbXRqYXI5MHdjdjJpcHRnYXpmOHZlbyJ9.89NobWdR1h0QuukKth0RBA" \
+            --build-arg VITE_MAPBOX_STYLE_URL="mapbox://styles/mapbox/dark-v11" \
+            --build-arg VITE_DEBUG_MODE="false" \
+            --build-arg VITE_BUILD_ENV="production" \
+            -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT

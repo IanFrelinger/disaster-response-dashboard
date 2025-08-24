@@ -4,6 +4,18 @@ FROM node:18-alpine AS base
 # Set working directory
 WORKDIR /app
 
+# Accept build arguments for environment variables
+ARG VITE_MAPBOX_ACCESS_TOKEN
+ARG VITE_MAPBOX_STYLE_URL
+ARG VITE_DEBUG_MODE
+ARG VITE_BUILD_ENV
+
+# Set environment variables for the build stage
+ENV VITE_MAPBOX_ACCESS_TOKEN=$VITE_MAPBOX_ACCESS_TOKEN
+ENV VITE_MAPBOX_STYLE_URL=$VITE_MAPBOX_STYLE_URL
+ENV VITE_DEBUG_MODE=$VITE_DEBUG_MODE
+ENV VITE_BUILD_ENV=$VITE_BUILD_ENV
+
 # Install ALL dependencies (including dev dependencies) for building
 COPY package*.json ./
 RUN npm ci && npm cache clean --force
