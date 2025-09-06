@@ -70,6 +70,9 @@ test('buildings layer toggle has proper ARIA attributes', async ({ page }) => {
   
   const buildingsToggle = page.getByTestId('toggle-buildings');
   
+  // Wait for the component to be fully rendered
+  await page.waitForTimeout(100);
+  
   // Check ARIA attributes
   await expect(buildingsToggle).toHaveAttribute('role', 'switch');
   await expect(buildingsToggle).toHaveAttribute('aria-checked');
@@ -80,5 +83,6 @@ test('buildings layer toggle has proper ARIA attributes', async ({ page }) => {
   
   // Check that clicking the label toggles the switch
   await label.click();
+  await page.waitForTimeout(100); // Wait for state update
   await expect(buildingsToggle).not.toBeChecked();
 });

@@ -98,9 +98,6 @@ export const LayerTogglePanel: React.FC<{
   const handleKeyDown = useCallback((event: React.KeyboardEvent, currentIndex: number) => {
     const totalLayers = finalToggleDescriptors.length;
     
-    // Debug logging
-    console.log('🔍 LayerTogglePanel: Key pressed', event.key, 'on index', currentIndex);
-    
     switch (event.key) {
       case 'ArrowRight':
         event.preventDefault();
@@ -128,17 +125,21 @@ export const LayerTogglePanel: React.FC<{
       case 'Enter':
         event.preventDefault();
         if (finalToggleDescriptors && finalToggleDescriptors[currentIndex]) {
-          const newChecked = !finalToggleDescriptors[currentIndex].checked;
-          handleToggle(finalToggleDescriptors[currentIndex].key, newChecked);
+          const toggle = finalToggleDescriptors[currentIndex];
+          const currentState = toggle.checked;
+          const newState = !currentState;
           
-          // Force update the checkbox ref immediately
+          // Update the state immediately
+          setToggle(toggle.key as any, newState);
+          
+          // Update the checkbox ref to match
           if (checkboxRefs.current[currentIndex]) {
-            checkboxRefs.current[currentIndex]!.checked = newChecked;
+            checkboxRefs.current[currentIndex]!.checked = newState;
           }
         }
         break;
     }
-  }, [finalToggleDescriptors, handleToggle]);
+  }, [finalToggleDescriptors, setToggle]);
 
   const handleLabelClick = useCallback((key: string, currentChecked: boolean, event: React.MouseEvent) => {
     // Only handle label clicks, not input clicks (to avoid double-triggering)

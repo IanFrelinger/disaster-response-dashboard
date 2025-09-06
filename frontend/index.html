@@ -13,7 +13,22 @@
       .mapboxgl-map {
         font-family: 'Open Sans', 'Helvetica Neue', Arial, Helvetica, sans-serif;
       }
+      
+      /* Suppress Mapbox resource loading warnings */
+      .mapboxgl-map .mapboxgl-canvas-container {
+        font-family: 'Open Sans', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+      }
     </style>
+    
+    <script>
+      // Suppress Mapbox resource loading warnings
+      window.addEventListener('error', function(e) {
+        if (e.message && e.message.includes('Mapbox')) {
+          e.preventDefault();
+          return false;
+        }
+      });
+    </script>
   </head>
   <body>
     <div id="root"></div>
