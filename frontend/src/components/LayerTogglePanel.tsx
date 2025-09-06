@@ -126,15 +126,15 @@ export const LayerTogglePanel: React.FC<{
         event.preventDefault();
         if (finalToggleDescriptors && finalToggleDescriptors[currentIndex]) {
           const toggle = finalToggleDescriptors[currentIndex];
-          const currentState = toggle.checked;
-          const newState = !currentState;
+          const checkbox = checkboxRefs.current[currentIndex];
           
-          // Update the state immediately
-          setToggle(toggle.key as any, newState);
-          
-          // Update the checkbox ref to match
-          if (checkboxRefs.current[currentIndex]) {
-            checkboxRefs.current[currentIndex]!.checked = newState;
+          if (checkbox) {
+            // Toggle the checkbox directly
+            checkbox.checked = !checkbox.checked;
+            
+            // Trigger the change event to update React state
+            const changeEvent = new Event('change', { bubbles: true });
+            checkbox.dispatchEvent(changeEvent);
           }
         }
         break;

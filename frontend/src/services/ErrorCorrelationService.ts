@@ -134,7 +134,8 @@ class ErrorCorrelationService {
         headers: {
           'Content-Type': 'application/json',
           'X-Error-Correlation': 'true'
-        }
+        },
+        signal: AbortSignal.timeout(5000) // 5 second timeout
       });
 
       if (response.ok) {
@@ -152,7 +153,11 @@ class ErrorCorrelationService {
         this.lastBackendCheck = Date.now();
       }
     } catch (error) {
-      // Silently fail - backend might not have error endpoint yet
+      // Silently fail - backend might not have error endpoint yet or connection issues
+      // Don't log connection errors to avoid console spam
+      if (error instanceof Error && !error.message.includes('ECONNREFUSED')) {
+        console.debug('Error correlation service:', error.message);
+      }
     }
   }
 

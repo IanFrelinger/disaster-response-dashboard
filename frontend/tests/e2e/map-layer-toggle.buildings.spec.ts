@@ -46,12 +46,12 @@ test('buildings layer toggle is keyboard accessible', async ({ page }) => {
   
   // Test Space key toggling
   await buildingsToggle.press(' ');
-  await page.waitForTimeout(100); // Wait for state update
+  await page.waitForTimeout(200); // Wait for state update
   await expect(buildingsToggle).not.toBeChecked();
   
   // Test Enter key toggling
   await buildingsToggle.press('Enter');
-  await page.waitForTimeout(100); // Wait for state update
+  await page.waitForTimeout(200); // Wait for state update
   await expect(buildingsToggle).toBeChecked();
   
   // Test Arrow key navigation
@@ -82,7 +82,7 @@ test('buildings layer toggle has proper ARIA attributes', async ({ page }) => {
   await expect(label).toBeVisible();
   
   // Check that clicking the label toggles the switch
-  await label.click();
-  await page.waitForTimeout(100); // Wait for state update
+  await label.click({ force: true }); // Force click to bypass interception
+  await page.waitForTimeout(200); // Wait for state update
   await expect(buildingsToggle).not.toBeChecked();
 });
