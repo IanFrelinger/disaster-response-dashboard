@@ -11,13 +11,11 @@ export interface PageLoadInput extends CommandInput {
   checkConsoleErrors?: boolean;
 }
 
-export class PageLoadCommand extends BaseCommand {
+export class PageLoadCommand extends BaseCommand<PageLoadInput> {
   name = 'PageLoad';
-  private input: PageLoadInput;
 
   constructor(input: PageLoadInput) {
     super(input);
-    this.input = input;
   }
 
   async run(ctx: TestContext): Promise<TestResult> {
@@ -49,9 +47,10 @@ export class PageLoadCommand extends BaseCommand {
           () => ctx.page.title(),
           GLOBAL_TIMEOUTS.elementWait,
           'Page title check timeout'
-        ).then(title => {
-          if (!title.includes(this.input.expectedTitle!)) {
-            errors.push(`Expected title to contain "${this.input.expectedTitle}", got "${title}"`);
+        ).then((title: unknown) => {
+          const titleStr = String(title);
+          if (!titleStr.includes(this.input.expectedTitle!)) {
+            errors.push(`Expected title to contain "${this.input.expectedTitle}", got "${titleStr}"`);
           }
         });
       }
@@ -74,7 +73,7 @@ export class PageLoadCommand extends BaseCommand {
       // Check for console errors
       if (this.input.checkConsoleErrors) {
         const consoleErrors: string[] = [];
-        ctx.page.on('console', msg => {
+        ctx.page.on('console', (msg: any) => {
           if (msg.type() === 'error') {
             consoleErrors.push(msg.text());
           }

@@ -16,11 +16,17 @@ export interface ProductionHealthInput extends CommandInput {
 }
 
 export class ProductionHealthCommand extends BaseCommand<ProductionHealthInput> {
+  name = 'ProductionHealth';
+  
   private readonly HEALTH_TIMEOUTS = {
     pageLoad: 30000, // 30 seconds
     apiCall: 10000, // 10 seconds
     healthCheck: 5000, // 5 seconds
   };
+
+  async run(context: TestContext): Promise<TestResult> {
+    return this.execute(context);
+  }
 
   async execute(context: TestContext): Promise<TestResult> {
     const startTime = Date.now();
@@ -67,18 +73,18 @@ export class ProductionHealthCommand extends BaseCommand<ProductionHealthInput> 
       if (results.overallHealth) {
         console.log('✅ Production health check passed');
         return {
-          commandName: this.input.name,
-          status: 'passed',
-          duration,
+          name: this.name,
+          success: true,
+          duration: duration,
           message: 'Production health check completed successfully',
           details: results
         };
       } else {
         console.log('❌ Production health check failed');
         return {
-          commandName: this.input.name,
-          status: 'failed',
-          duration,
+          name: this.name,
+          success: false,
+          duration: duration,
           message: 'Production health check failed',
           error: 'One or more health checks failed',
           details: results
@@ -90,9 +96,9 @@ export class ProductionHealthCommand extends BaseCommand<ProductionHealthInput> 
       console.log(`❌ Production health check failed: ${error}`);
       
       return {
-        commandName: this.input.name,
-        status: 'failed',
-        duration,
+        name: this.name,
+        success: false,
+        durationMs: duration,
         message: 'Production health check failed',
         error: error instanceof Error ? error.message : String(error)
       };

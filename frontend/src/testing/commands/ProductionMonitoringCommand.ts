@@ -17,11 +17,17 @@ export interface ProductionMonitoringInput extends CommandInput {
 }
 
 export class ProductionMonitoringCommand extends BaseCommand<ProductionMonitoringInput> {
+  name = 'ProductionMonitoring';
+  
   private readonly MONITORING_TIMEOUTS = {
     pageLoad: 30000, // 30 seconds
     monitoring: 60000, // 60 seconds
     dataCollection: 10000, // 10 seconds
   };
+
+  async run(context: TestContext): Promise<TestResult> {
+    return this.execute(context);
+  }
 
   async execute(context: TestContext): Promise<TestResult> {
     const startTime = Date.now();
@@ -65,9 +71,9 @@ export class ProductionMonitoringCommand extends BaseCommand<ProductionMonitorin
       if (analysis.healthy) {
         console.log('✅ Production monitoring completed - All metrics healthy');
         return {
-          commandName: this.input.name,
-          status: 'passed',
-          duration,
+          name: this.name,
+          success: true,
+          duration: duration,
           message: 'Production monitoring completed successfully',
           details: {
             analysis,
@@ -77,9 +83,9 @@ export class ProductionMonitoringCommand extends BaseCommand<ProductionMonitorin
       } else {
         console.log('❌ Production monitoring detected issues');
         return {
-          commandName: this.input.name,
-          status: 'failed',
-          duration,
+          name: this.name,
+          success: false,
+          duration: duration,
           message: 'Production monitoring detected issues',
           error: 'One or more monitoring thresholds exceeded',
           details: {
@@ -94,9 +100,9 @@ export class ProductionMonitoringCommand extends BaseCommand<ProductionMonitorin
       console.log(`❌ Production monitoring failed: ${error}`);
       
       return {
-        commandName: this.input.name,
-        status: 'failed',
-        duration,
+        name: this.name,
+        success: false,
+        durationMs: duration,
         message: 'Production monitoring failed',
         error: error instanceof Error ? error.message : String(error)
       };

@@ -20,6 +20,8 @@ export interface ProductionValidationInput extends CommandInput {
 }
 
 export class ProductionValidationCommand extends BaseCommand<ProductionValidationInput> {
+  name = 'ProductionValidation';
+  
   private readonly PRODUCTION_TIMEOUTS = {
     pageLoad: 30000, // 30 seconds
     performanceCheck: 15000, // 15 seconds
@@ -28,6 +30,10 @@ export class ProductionValidationCommand extends BaseCommand<ProductionValidatio
     networkCheck: 10000, // 10 seconds
     consoleCheck: 5000, // 5 seconds
   };
+
+  async run(context: TestContext): Promise<TestResult> {
+    return this.execute(context);
+  }
 
   async execute(context: TestContext): Promise<TestResult> {
     const startTime = Date.now();
@@ -141,18 +147,18 @@ export class ProductionValidationCommand extends BaseCommand<ProductionValidatio
       if (allValid) {
         console.log('✅ Production validation passed');
         return {
-          commandName: this.input.name,
-          status: 'passed',
-          duration,
+          name: this.name,
+          success: true,
+          duration: duration,
           message: 'Production validation completed successfully',
           details: results
         };
       } else {
         console.log('❌ Production validation failed');
         return {
-          commandName: this.input.name,
-          status: 'failed',
-          duration,
+          name: this.name,
+          success: false,
+          duration: duration,
           message: 'Production validation failed',
           error: 'One or more validation checks failed',
           details: results
@@ -164,9 +170,9 @@ export class ProductionValidationCommand extends BaseCommand<ProductionValidatio
       console.log(`❌ Production validation failed: ${error}`);
       
       return {
-        commandName: this.input.name,
-        status: 'failed',
-        duration,
+        name: this.name,
+        success: false,
+        duration: duration,
         message: 'Production validation failed',
         error: error instanceof Error ? error.message : String(error)
       };

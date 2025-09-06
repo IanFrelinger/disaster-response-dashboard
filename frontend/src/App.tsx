@@ -361,6 +361,15 @@ function App() {
   // Use test data when in test mode
   const testData = isTestMode ? getTestData('standard') : null;
   
+  console.log('🔍 App: Test mode and data loading', {
+    isTestMode,
+    testData: testData ? {
+      hazardsCount: testData.hazards?.length || 0,
+      unitsCount: testData.units?.length || 0,
+      routesCount: testData.routes?.length || 0
+    } : null
+  });
+  
   // Convert test data to match expected interfaces
   const hazards = testData?.hazards ? testData.hazards.map((hazard: any, index: number) => ({
     h3CellId: `test-hazard-${index}`,
@@ -391,7 +400,7 @@ function App() {
     unitType: unit.type,
     status: unit.status === 'available' ? 'available' : 
             unit.status === 'busy' ? 'busy' : 'offline',
-    location: unit.location,
+    currentLocation: `test-unit-location-${index}`, // Convert location to H3 cell ID
     capacity: unit.capacity,
     equipment: unit.equipment,
     lastUpdate: unit.lastUpdate
@@ -401,11 +410,15 @@ function App() {
     h3CellId: `test-route-${index}`,
     routeId: route.id,
     name: route.name,
-    waypoints: route.waypoints,
+    routeGeometry: JSON.stringify({
+      type: 'LineString',
+      coordinates: route.waypoints
+    }),
+    distanceKm: route.estimatedTime * 0.5, // Rough estimate
+    estimatedTimeMinutes: route.estimatedTime,
     status: route.status === 'active' ? 'active' : 
             route.status === 'blocked' ? 'blocked' : 'maintenance',
     capacity: route.capacity,
-    estimatedTime: route.estimatedTime,
     safetyScore: route.safetyScore,
     lastUpdate: route.lastUpdate
   })) : mockOperationalRoutes;
@@ -441,7 +454,10 @@ function App() {
           activeView,
           hazardsCount: hazards.length,
           unitsCount: units.length,
-          routesCount: routes.length
+          routesCount: routes.length,
+          hazards: hazards.slice(0, 2), // Show first 2 hazards for debugging
+          units: units.slice(0, 2), // Show first 2 units for debugging
+          routes: routes.slice(0, 2) // Show first 2 routes for debugging
         });
         return (
           <div className="map-view">

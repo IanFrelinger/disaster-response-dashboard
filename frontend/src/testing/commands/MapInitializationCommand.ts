@@ -11,13 +11,11 @@ export interface MapInitializationInput extends CommandInput {
   checkInteractions?: boolean;
 }
 
-export class MapInitializationCommand extends BaseCommand {
+export class MapInitializationCommand extends BaseCommand<MapInitializationInput> {
   name = 'MapInitialization';
-  private input: MapInitializationInput;
 
   constructor(input: MapInitializationInput) {
     super(input);
-    this.input = input;
   }
 
   async run(ctx: TestContext): Promise<TestResult> {

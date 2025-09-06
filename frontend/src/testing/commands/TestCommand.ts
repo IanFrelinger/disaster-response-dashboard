@@ -13,11 +13,13 @@ export interface TestContext {
 
 export interface TestResult {
   name: string;
-  ok: boolean;
+  ok?: boolean; // Make ok optional for backward compatibility
+  success?: boolean; // Add success property for backward compatibility
   details?: string;
   artifacts?: string[];
   durationMs: number;
   error?: Error;
+  commandName?: string; // Add commandName property
 }
 
 export interface TestCommand {

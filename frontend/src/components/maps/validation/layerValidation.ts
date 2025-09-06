@@ -143,7 +143,7 @@ export async function validateTerrainLayer(map: mapboxgl.Map): Promise<LayerVali
     try {
       if (map.queryTerrainElevation) {
         const elevationTest = withTimeout(
-          map.queryTerrainElevation([-122.4194, 37.7749], { exaggerated: false }),
+          Promise.resolve(map.queryTerrainElevation([-122.4194, 37.7749], { exaggerated: false })),
           VALIDATION_TIMEOUTS.interactionWait,
           'Terrain elevation query timeout'
         );

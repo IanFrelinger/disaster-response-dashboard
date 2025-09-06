@@ -9,6 +9,8 @@ export interface TestContext {
   timeout: number;
   retries: number;
   failFast: boolean;
+  artifactsDir: string; // Add missing artifactsDir property
+  env?: Record<string, any>; // Add optional env property
 }
 
 export interface TestResult {
@@ -106,18 +108,18 @@ export async function withRetry<T>(
 }
 
 // Base command class that all commands should extend
-export abstract class BaseCommand {
+export abstract class BaseCommand<T extends CommandInput = CommandInput> {
   abstract name: string;
-  protected input: CommandInput;
+  public input: T; // Make input public for subclasses
   protected startTime: number = 0;
 
-  constructor(input: CommandInput = {}) {
+  constructor(input: T = {} as T) {
     this.input = {
       timeout: GLOBAL_TIMEOUTS.validation,
       retries: 1,
       failFast: true,
       ...input
-    };
+    } as T;
   }
 
   abstract run(ctx: TestContext): Promise<TestResult>;
@@ -151,7 +153,7 @@ export abstract class BaseCommand {
   protected generateRemediation(errors: string[]): string {
     if (errors.length === 0) return '';
     
-    const error = errors[0].toLowerCase();
+    const error = errors[0]?.toLowerCase() || '';
     
     if (error.includes('timeout')) {
       return 'Increase timeout or check network connectivity';
