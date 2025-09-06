@@ -1,0 +1,230 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "12345",
+        "name": "Main Street",
+        "highway": "primary",
+        "maxspeed": 50,
+        "lanes": 2,
+        "oneway": false,
+        "surface": "paved",
+        "width": 3.5,
+        "maxweight": 3500,
+        "maxheight": 4.0,
+        "maxwidth": 2.5,
+        "bridge": false,
+        "tunnel": false,
+        "access": "yes",
+        "emergency_access": true,
+        "evacuation_route": false,
+        "traffic_signals": true,
+        "stop_signs": false,
+        "yield_signs": false,
+        "roundabout": false,
+        "traffic_calming": false,
+        "lit": true,
+        "sidewalk": true,
+        "bicycle": false,
+        "bus_lane": false,
+        "hov_lane": false,
+        "toll": false,
+        "seasonal": false,
+        "condition": "good"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-122.4300, 37.7700],
+          [-122.4250, 37.7725],
+          [-122.4200, 37.7750],
+          [-122.4150, 37.7775],
+          [-122.4100, 37.7800]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "12346",
+        "name": "Oak Avenue",
+        "highway": "secondary",
+        "maxspeed": 60,
+        "lanes": 4,
+        "oneway": false,
+        "surface": "paved",
+        "width": 4.0,
+        "maxweight": 5000,
+        "maxheight": 4.5,
+        "maxwidth": 3.0,
+        "bridge": false,
+        "tunnel": false,
+        "access": "yes",
+        "emergency_access": true,
+        "evacuation_route": true,
+        "traffic_signals": true,
+        "stop_signs": true,
+        "yield_signs": false,
+        "roundabout": false,
+        "traffic_calming": false,
+        "lit": true,
+        "sidewalk": true,
+        "bicycle": true,
+        "bus_lane": false,
+        "hov_lane": false,
+        "toll": false,
+        "seasonal": false,
+        "condition": "excellent"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-122.4350, 37.7850],
+          [-122.4300, 37.7825],
+          [-122.4250, 37.7800],
+          [-122.4200, 37.7775],
+          [-122.4150, 37.7750],
+          [-122.4100, 37.7725],
+          [-122.4050, 37.7700]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "12347",
+        "name": "Pine Street",
+        "highway": "tertiary",
+        "maxspeed": 45,
+        "lanes": 2,
+        "oneway": false,
+        "surface": "paved",
+        "width": 3.5,
+        "maxweight": 4000,
+        "maxheight": 4.0,
+        "maxwidth": 2.8,
+        "bridge": false,
+        "tunnel": false,
+        "access": "yes",
+        "emergency_access": true,
+        "evacuation_route": false,
+        "traffic_signals": false,
+        "stop_signs": true,
+        "yield_signs": false,
+        "roundabout": false,
+        "traffic_calming": false,
+        "lit": true,
+        "sidewalk": true,
+        "bicycle": false,
+        "bus_lane": false,
+        "hov_lane": false,
+        "toll": false,
+        "seasonal": false,
+        "condition": "good"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-122.4200, 37.7850],
+          [-122.4180, 37.7830],
+          [-122.4160, 37.7810],
+          [-122.4140, 37.7790],
+          [-122.4120, 37.7770],
+          [-122.4100, 37.7750]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "12348",
+        "name": "Elm Boulevard",
+        "highway": "residential",
+        "maxspeed": 40,
+        "lanes": 2,
+        "oneway": false,
+        "surface": "paved",
+        "width": 3.2,
+        "maxweight": 3500,
+        "maxheight": 4.0,
+        "maxwidth": 2.5,
+        "bridge": false,
+        "tunnel": false,
+        "access": "yes",
+        "emergency_access": true,
+        "evacuation_route": false,
+        "traffic_signals": false,
+        "stop_signals": true,
+        "yield_signs": false,
+        "roundabout": false,
+        "traffic_calming": false,
+        "lit": true,
+        "sidewalk": true,
+        "bicycle": false,
+        "bus_lane": false,
+        "hov_lane": false,
+        "toll": false,
+        "seasonal": false,
+        "condition": "good"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-122.4250, 37.7700],
+          [-122.4230, 37.7710],
+          [-122.4210, 37.7720],
+          [-122.4190, 37.7730],
+          [-122.4170, 37.7740],
+          [-122.4150, 37.7750]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "osm_id": "12349",
+        "name": "Maple Drive",
+        "highway": "residential",
+        "maxspeed": 35,
+        "lanes": 2,
+        "oneway": false,
+        "surface": "paved",
+        "width": 3.0,
+        "maxweight": 3500,
+        "maxheight": 4.0,
+        "maxwidth": 2.5,
+        "bridge": false,
+        "tunnel": false,
+        "access": "yes",
+        "emergency_access": true,
+        "evacuation_route": false,
+        "traffic_signals": false,
+        "stop_signs": true,
+        "yield_signs": false,
+        "roundabout": false,
+        "traffic_calming": false,
+        "lit": true,
+        "sidewalk": true,
+        "bicycle": false,
+        "bus_lane": false,
+        "hov_lane": false,
+        "toll": false,
+        "seasonal": false,
+        "condition": "good"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-122.4100, 37.7850],
+          [-122.4080, 37.7830],
+          [-122.4060, 37.7810],
+          [-122.4040, 37.7790],
+          [-122.4020, 37.7770],
+          [-122.4000, 37.7750]
+        ]
+      }
+    }
+  ]
+}

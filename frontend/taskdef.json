@@ -30,7 +30,7 @@
         },
         {
           "name": "VITE_MAPBOX_ACCESS_TOKEN",
-          "value": "pk.eyJ1IjoiaWNmcmVsaW5nZXIiLCJhIjoiY21lbXRqYXI5MHdjdjJpcHRnYXpmOHZlbyJ9.89NobWdR1h0QuukKth0RBA"
+          "value": "pk.eyJ1IjoiaWNmcmVsaW5nZXIiLCJhIjoiY21ldW5zZjJuMDh0eDJpcHgwNHhtOTE4aSJ9.2k1N7W2zZovOnRuqlVB9NQ"
         },
         {
           "name": "VITE_MAPBOX_STYLE_URL",

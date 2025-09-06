@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { HazardLayer } from '../types/emergency-response';
+import React, { useState } from 'react';
+import type { HazardLayer } from '../types/emergency-response';
 import './MultiHazardMap.css';
 
 interface MultiHazardMapProps {
@@ -12,18 +12,23 @@ interface MultiHazardMapProps {
 export const MultiHazardMap: React.FC<MultiHazardMapProps> = ({
   hazards,
   onHazardSelect,
-  onHazardUpdate,
   className = ''
 }) => {
   const [selectedHazard, setSelectedHazard] = useState<HazardLayer | null>(null);
   const [activeLayers, setActiveLayers] = useState<Set<string>>(new Set(['fire', 'flood']));
   const [viewMode, setViewMode] = useState<'overview' | 'detailed' | 'predictive'>('overview');
 
-  // Hazard type configuration
-  const hazardConfig = {
+  // Hazard type configuration with consistent structure
+  const hazardConfig: Record<string, {
+    color: string;
+    icon: string;
+    label: string;
+    priority: number;
+    styles: Record<string, { color: string; opacity: number; pattern: string }>;
+  }> = {
     fire: {
       color: '#FF4444',
-              icon: 'Fire',
+      icon: '🔥',
       label: 'Fire',
       priority: 1,
       styles: {
@@ -38,6 +43,7 @@ export const MultiHazardMap: React.FC<MultiHazardMapProps> = ({
       label: 'Flood',
       priority: 2,
       styles: {
+        active: { color: '#0066CC', opacity: 0.7, pattern: 'solid' },
         current: { color: '#0066CC', opacity: 0.7, pattern: 'solid' },
         projected: { color: '#3399FF', opacity: 0.5, pattern: 'striped' }
       }
@@ -48,18 +54,30 @@ export const MultiHazardMap: React.FC<MultiHazardMapProps> = ({
       label: 'Earthquake',
       priority: 3,
       styles: {
+        active: { color: '#8B4513', opacity: 0.9, pattern: 'circle' },
         epicenter: { color: '#8B4513', opacity: 0.9, pattern: 'circle' },
         aftershocks: { color: '#CD853F', opacity: 0.6, pattern: 'rings' }
       }
     },
     chemical: {
       color: '#9932CC',
-              icon: 'Chemical',
+      icon: '🧪',
       label: 'Chemical',
       priority: 4,
       styles: {
+        active: { color: '#9932CC', opacity: 0.7, pattern: 'cloud' },
         dispersion: { color: '#9932CC', opacity: 0.7, pattern: 'cloud' },
         evacuation: { color: '#CC66FF', opacity: 0.5, pattern: 'dashed' }
+      }
+    },
+    landslide: {
+      color: '#8B4513',
+      icon: '🏔️',
+      label: 'Landslide',
+      priority: 5,
+      styles: {
+        active: { color: '#8B4513', opacity: 0.8, pattern: 'solid' },
+        predicted: { color: '#CD853F', opacity: 0.6, pattern: 'dashed' }
       }
     }
   };
@@ -114,26 +132,26 @@ export const MultiHazardMap: React.FC<MultiHazardMapProps> = ({
           <div className="hazard-geometry fire-hazard">
             {hazard.fire?.active && (
               <div className="fire-active" style={{
-                backgroundColor: config.styles.active.color,
-                opacity: config.styles.active.opacity
+                backgroundColor: config.styles['active']?.color || '#FF0000',
+                opacity: config.styles['active']?.opacity || 0.8
               }}>
                 Active Fire
               </div>
             )}
             {hazard.fire?.predicted_1hr && (
               <div className="fire-predicted-1hr" style={{
-                backgroundColor: config.styles.predicted_1hr.color,
-                opacity: config.styles.predicted_1hr.opacity,
-                borderStyle: config.styles.predicted_1hr.pattern
+                backgroundColor: config.styles['predicted_1hr']?.color || '#FF6600',
+                opacity: config.styles['predicted_1hr']?.opacity || 0.6,
+                borderStyle: config.styles['predicted_1hr']?.pattern || 'dashed'
               }}>
                 1hr Prediction
               </div>
             )}
             {hazard.fire?.predicted_3hr && (
               <div className="fire-predicted-3hr" style={{
-                backgroundColor: config.styles.predicted_3hr.color,
-                opacity: config.styles.predicted_3hr.opacity,
-                borderStyle: config.styles.predicted_3hr.pattern
+                backgroundColor: config.styles['predicted_3hr']?.color || '#FF8800',
+                opacity: config.styles['predicted_3hr']?.opacity || 0.4,
+                borderStyle: config.styles['predicted_3hr']?.pattern || 'dotted'
               }}>
                 3hr Prediction
               </div>
@@ -146,8 +164,8 @@ export const MultiHazardMap: React.FC<MultiHazardMapProps> = ({
           <div className="hazard-geometry flood-hazard">
             {hazard.flood?.current && (
               <div className="flood-current" style={{
-                backgroundColor: config.styles.current.color,
-                opacity: config.styles.current.opacity
+                backgroundColor: config.styles['current']?.color || '#0066CC',
+                opacity: config.styles['current']?.opacity || 0.7
               }}>
                 🌊 Current Flood
                 <div className="flood-details">
@@ -158,8 +176,8 @@ export const MultiHazardMap: React.FC<MultiHazardMapProps> = ({
             )}
             {hazard.flood?.projected && (
               <div className="flood-projected" style={{
-                backgroundColor: config.styles.projected.color,
-                opacity: config.styles.projected.opacity,
+                backgroundColor: config.styles['projected']?.color || '#3399FF',
+                opacity: config.styles['projected']?.opacity || 0.5,
                 backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.3) 10px, rgba(255,255,255,0.3) 20px)'
               }}>
                 🌊 {hazard.flood.projected.timeframe} Projection
@@ -174,32 +192,32 @@ export const MultiHazardMap: React.FC<MultiHazardMapProps> = ({
       case 'earthquake':
         return (
           <div className="hazard-geometry earthquake-hazard">
-            <div className="earthquake-epicenter" style={{
-              backgroundColor: config.styles.epicenter.color,
-              opacity: config.styles.epicenter.opacity
-            }}>
-              🌋 M{hazard.earthquake?.magnitude} Earthquake
-              <div className="earthquake-details">
-                Depth: {hazard.earthquake?.depth}km
-                Aftershocks: {hazard.earthquake?.aftershocks}
-              </div>
-            </div>
+                    <div className="earthquake-epicenter" style={{
+          backgroundColor: config.styles['epicenter']?.color || '#8B4513',
+          opacity: config.styles['epicenter']?.opacity || 0.9
+        }}>
+          🌋 M{hazard.earthquake?.magnitude} Earthquake
+          <div className="earthquake-details">
+            Depth: {hazard.earthquake?.depth}km
+            Aftershocks: {hazard.earthquake?.aftershocks}
+          </div>
+        </div>
           </div>
         );
 
       case 'chemical':
         return (
           <div className="hazard-geometry chemical-hazard">
-            <div className="chemical-dispersion" style={{
-              backgroundColor: config.styles.dispersion.color,
-              opacity: config.styles.dispersion.opacity
-            }}>
-                              {hazard.chemical?.substance}
-              <div className="chemical-details">
-                Concentration: {hazard.chemical?.concentration} ppm
-                Evacuation Radius: {hazard.chemical?.evacuationRadius}m
-              </div>
-            </div>
+                    <div className="chemical-dispersion" style={{
+          backgroundColor: config.styles['dispersion']?.color || '#9932CC',
+          opacity: config.styles['dispersion']?.opacity || 0.7
+        }}>
+          {hazard.chemical?.substance}
+          <div className="chemical-details">
+            Concentration: {hazard.chemical?.concentration} ppm
+            Evacuation Radius: {hazard.chemical?.evacuationRadius}m
+          </div>
+        </div>
           </div>
         );
 
@@ -525,4 +543,3 @@ export const MultiHazardMap: React.FC<MultiHazardMapProps> = ({
   );
 };
 
-export default MultiHazardMap;

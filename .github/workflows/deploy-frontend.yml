@@ -92,142 +92,143 @@ jobs:
         with:
           sarif_file: 'trivy-results.sarif'
 
-  build-and-push:
-    name: Build and Push to ECR
-    needs: [test, security-scan]
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+  # DEPLOYMENT DISABLED - Using local development workflow
+  # build-and-push:
+  #   name: Build and Push to ECR
+  #   needs: [test, security-scan]
+  #   runs-on: ubuntu-latest
+  #   
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
+  #     - name: Configure AWS credentials
+  #       uses: aws-actions/configure-aws-credentials@v4
+  #       with:
+  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         aws-region: ${{ env.AWS_REGION }}
 
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v2
+  #     - name: Login to Amazon ECR
+  #       id: login-ecr
+  #       uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Build, tag, and push image to Amazon ECR
-        id: build-and-push
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: ${{ env.ECR_REPOSITORY }}
-          IMAGE_TAG: ${{ github.sha }}
-        working-directory: ./frontend
-        run: |
-          docker build \
-            --build-arg VITE_MAPBOX_ACCESS_TOKEN="pk.eyJ1IjoiaWNmcmVsaW5nZXIiLCJhIjoiY21lbXRqYXI5MHdjdjJpcHRnYXpmOHZlbyJ9.89NobWdR1h0QuukKth0RBA" \
-            --build-arg VITE_MAPBOX_STYLE_URL="mapbox://styles/mapbox/dark-v11" \
-            --build-arg VITE_DEBUG_MODE="false" \
-            --build-arg VITE_BUILD_ENV="production" \
-            -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          docker build \
-            --build-arg VITE_MAPBOX_ACCESS_TOKEN="pk.eyJ1IjoiaWNmcmVsaW5nZXIiLCJhIjoiY21lbXRqYXI5MHdjdjJpcHRnYXpmOHZlbyJ9.89NobWdR1h0QuukKth0RBA" \
-            --build-arg VITE_MAPBOX_STYLE_URL="mapbox://styles/mapbox/dark-v11" \
-            --build-arg VITE_DEBUG_MODE="false" \
-            --build-arg VITE_BUILD_ENV="production" \
-            -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
-          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+  #     - name: Build, tag, and push image to Amazon ECR
+  #       id: build-and-push
+  #       env:
+  #         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+  #         ECR_REPOSITORY: ${{ env.ECR_REPOSITORY }}
+  #         IMAGE_TAG: ${{ github.sha }}
+  #       working-directory: ./frontend
+  #       run: |
+  #         docker build \
+  #           --build-arg VITE_MAPBOX_ACCESS_TOKEN="pk.eyJ1IjoiaWNmcmVsaW5nZXIiLCJhIjoiY21ldW5zZjJuMDh0eDJpcHgwNHhtOTE4aSJ9.2k1N7W2zZovOnRuqlVB9NQ" \
+  #           --build-arg VITE_MAPBOX_STYLE_URL="mapbox://styles/mapbox/dark-v11" \
+  #           --build-arg VITE_DEBUG_MODE="false" \
+  #           --build-arg VITE_BUILD_ENV="production" \
+  #           -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+  #         docker build \
+  #           --build-arg VITE_MAPBOX_ACCESS_TOKEN="pk.eyJ1IjoiaWNmcmVsaW5nZXIiLCJhIjoiY21ldW5zZjJuMDh0eDJpcHgwNHhtOTE4aSJ9.2k1N7W2zZovOnRuqlVB9NQ" \
+  #           --build-arg VITE_MAPBOX_STYLE_URL="mapbox://styles/mapbox/dark-v11" \
+  #           --build-arg VITE_DEBUG_MODE="false" \
+  #           --build-arg VITE_BUILD_ENV="production" \
+  #           -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
+  #         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+  #         docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+  #         echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: frontend-build
-          path: frontend/dist
+  #     - name: Download build artifacts
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         name: frontend-build
+  #         path: frontend/dist
 
-      - name: Update ECS task definition
-        id: task-def
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
-        with:
-          task-definition: frontend/taskdef.json
-          container-name: disaster-response-frontend
-          image: ${{ steps.build-and-push.outputs.image }}
+  #     - name: Update ECS task definition
+  #       id: task-def
+  #       uses: aws-actions/amazon-ecs-render-task-definition@v1
+  #       with:
+  #         task-definition: frontend/taskdef.json
+  #         container-name: disaster-response-frontend
+  #         image: ${{ steps.build-and-push.outputs.image }}
 
-      - name: Upload task definition
-        uses: actions/upload-artifact@v4
-        with:
-          name: task-definition
-          path: ${{ steps.task-def.outputs.task-definition }}
-          retention-days: 1
+  #     - name: Upload task definition
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: task-definition
+  #         path: ${{ steps.task-def.outputs.task-definition }}
+  #         retention-days: 1
 
-  deploy-production:
-    name: Deploy to Production
-    needs: [build-and-push]
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
-    
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+  # deploy-production:
+  #   name: Deploy to Production
+  #   needs: [build-and-push]
+  #   runs-on: ubuntu-latest
+  #   if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+  #   
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
+  #     - name: Configure AWS credentials
+  #       uses: aws-actions/configure-aws-credentials@v4
+  #       with:
+  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         aws-region: ${{ env.AWS_REGION }}
 
-      - name: Download task definition
-        uses: actions/download-artifact@v4
-        with:
-          name: task-definition
-          path: ./
-          merge-multiple: false
+  #     - name: Download task definition
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         name: task-definition
+  #         path: ./
+  #         merge-multiple: false
 
-      - name: List downloaded files
-        run: |
-          echo "Current directory contents:"
-          ls -la
-          echo "Task definition artifact contents:"
-          find . -name "*.json" -type f
+  #     - name: List downloaded files
+  #       run: |
+  #         echo "Current directory contents:"
+  #         ls -la
+  #         echo "Task definition artifact contents:"
+  #         find . -name "*.json" -type f
 
-      - name: Find and use task definition file
-        run: |
-          TASK_DEF_FILE=$(find . -name "task-definition--*.json" -type f | head -1)
-          if [ -n "$TASK_DEF_FILE" ]; then
-            echo "Found task definition file: $TASK_DEF_FILE"
-            echo "TASK_DEF_FILE_PATH=$TASK_DEF_FILE" >> $GITHUB_ENV
-          else
-            echo "No task definition file found!"
-            exit 1
-          fi
+  #     - name: Find and use task definition file
+  #       run: |
+  #         TASK_DEF_FILE=$(find . -name "task-definition--*.json" -type f | head -1)
+  #         if [ -n "$TASK_DEF_FILE" ]; then
+  #           echo "Found task definition file: $TASK_DEF_FILE"
+  #           echo "TASK_DEF_FILE_PATH=$TASK_DEF_FILE" >> $GITHUB_ENV
+  #         else
+  #           echo "No task definition file found!"
+  #           exit 1
+  #         fi
 
-      - name: Create ECS service if it doesn't exist
-        run: |
-          # Check if service exists
-          if ! aws ecs describe-services --cluster ${{ env.ECS_CLUSTER }} --services ${{ env.ECS_SERVICE }} --region ${{ env.AWS_REGION }} --query 'services[0].status' --output text 2>/dev/null | grep -q "ACTIVE"; then
-            echo "Creating ECS service ${{ env.ECS_SERVICE }}..."
-            
-            # Get the latest task definition
-            TASK_DEF_ARN=$(aws ecs describe-task-definition --task-definition ${{ env.ECS_TASK_DEFINITION }} --region ${{ env.AWS_REGION }} --query 'taskDefinition.taskDefinitionArn' --output text)
-            
-            # Create the service
-            aws ecs create-service \
-              --cluster ${{ env.ECS_CLUSTER }} \
-              --service-name ${{ env.ECS_SERVICE }} \
-              --task-definition $TASK_DEF_ARN \
-              --desired-count 1 \
-              --launch-type FARGATE \
-              --network-configuration "awsvpcConfiguration={subnets=[subnet-0c7394a0ebc87ae08],securityGroups=[sg-0efb01fd7d30b062f],assignPublicIp=ENABLED}" \
-              --region ${{ env.AWS_REGION }}
-            
-            echo "ECS service created successfully"
-          else
-            echo "ECS service ${{ env.ECS_SERVICE }} already exists"
-          fi
+  #     - name: Create ECS service if it doesn't exist
+  #       run: |
+  #         # Check if service exists
+  #         if ! aws ecs describe-services --cluster ${{ env.ECS_CLUSTER }} --services ${{ env.ECS_SERVICE }} --region ${{ env.AWS_REGION }} --query 'services[0].status' --output text 2>/dev/null | grep -q "ACTIVE"; then
+  #           echo "Creating ECS service ${{ env.ECS_SERVICE }}..."
+  #           
+  #           # Get the latest task definition
+  #           TASK_DEF_ARN=$(aws ecs describe-task-definition --task-definition ${{ env.ECS_TASK_DEFINITION }} --region ${{ env.AWS_REGION }} --query 'taskDefinition.taskDefinitionArn' --output text)
+  #           
+  #           # Create the service
+  #           aws ecs create-service \
+  #             --cluster ${{ env.ECS_CLUSTER }} \
+  #             --service-name ${{ env.ECS_SERVICE }} \
+  #             --task-definition $TASK_DEF_ARN \
+  #             --desired-count 1 \
+  #             --launch-type FARGATE \
+  #             --network-configuration "awsvpcConfiguration={subnets=[subnet-0c7394a0ebc87ae08],securityGroups=[sg-0efb01fd7d30b062f],assignPublicIp=ENABLED}" \
+  #             --region ${{ env.AWS_REGION }}
+  #           
+  #           echo "ECS service created successfully"
+  #         else
+  #           echo "ECS service ${{ env.ECS_SERVICE }} already exists"
+  #         fi
 
-      - name: Deploy to ECS
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-        with:
-          task-definition: ${{ env.TASK_DEF_FILE_PATH }}
-          service: ${{ env.ECS_SERVICE }}
-          cluster: ${{ env.ECS_CLUSTER }}
-          wait-for-service-stability: true
-          wait-for-minutes: 10
+  #     - name: Deploy to ECS
+  #       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+  #       with:
+  #         task-definition: ${{ env.TASK_DEF_FILE_PATH }}
+  #         service: ${{ env.ECS_SERVICE }}
+  #         cluster: ${{ env.ECS_CLUSTER }}
+  #         wait-for-service-stability: true
+  #         wait-for-minutes: 10

@@ -1,0 +1,532 @@
+# Backend Development Standards
+
+## API Architecture
+
+### FastAPI Preference
+- **Favor FastAPI** for typed request/response contracts
+- **Use Pydantic models** for data validation and serialization
+- **Implement proper HTTP status codes** and error handling
+- **Generate OpenAPI documentation** automatically
+
+### FastAPI Endpoint Pattern
+```python
+from fastapi import FastAPI, HTTPException, Depends
+from pydantic import BaseModel
+from typing import List, Optional
+
+app = FastAPI(title="Disaster Response API", version="1.0.0")
+
+class HazardZoneResponse(BaseModel):
+    id: str
+    type: str
+    severity: str
+    coordinates: List[List[float]]
+    confidence: float
+    timestamp: str
+
+class HazardZoneRequest(BaseModel):
+    center_lat: float
+    center_lon: float
+    radius_km: float
+    hazard_type: Optional[str] = None
+
+@app.get("/api/hazards", response_model=List[HazardZoneResponse])
+async def get_hazard_zones(request: HazardZoneRequest):
+    try:
+        hazards = await hazard_processor.get_hazards_in_radius(
+            request.center_lat, 
+            request.center_lon, 
+            request.radius_km,
+            request.hazard_type
+        )
+        return hazards
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+```
+
+## Pydantic Models
+
+### Data Model Standards
+- **Define Pydantic models** for all request/response data
+- **Use strict type hints** for all fields
+- **Implement validation** for data integrity
+- **Use enums** for constrained string values
+
+### Model Definition Pattern
+```python
+from pydantic import BaseModel, Field, validator
+from typing import List, Optional, Literal
+from enum import Enum
+from datetime import datetime
+
+class HazardType(str, Enum):
+    FIRE = "fire"
+    FLOOD = "flood"
+    EARTHQUAKE = "earthquake"
+    CHEMICAL = "chemical"
+
+class SeverityLevel(str, Enum):
+    LOW = "low"
+    MEDIUM = "medium"
+    HIGH = "high"
+    CRITICAL = "critical"
+
+class HazardZone(BaseModel):
+    id: str = Field(..., description="Unique hazard zone identifier")
+    type: HazardType = Field(..., description="Type of hazard")
+    severity: SeverityLevel = Field(..., description="Severity level")
+    coordinates: List[List[float]] = Field(..., description="Polygon coordinates")
+    confidence: float = Field(..., ge=0.0, le=1.0, description="Confidence score")
+    timestamp: datetime = Field(..., description="Detection timestamp")
+    
+    @validator('coordinates')
+    def validate_coordinates(cls, v):
+        if len(v) < 3:
+            raise ValueError('Polygon must have at least 3 points')
+        return v
+
+class EmergencyUnit(BaseModel):
+    id: str
+    type: Literal["fire_truck", "ambulance", "police", "rescue"]
+    status: Literal["available", "dispatched", "on_scene", "returning"]
+    location: List[float] = Field(..., min_items=2, max_items=2)
+    capacity: int = Field(..., ge=0)
+    equipment: List[str]
+```
+
+## API Endpoint Structure
+
+### Endpoint Organization
+- **Place all endpoints** under `/api/...` prefix
+- **Use RESTful conventions** for resource endpoints
+- **Implement proper HTTP methods** (GET, POST, PUT, DELETE)
+- **Group related endpoints** logically
+
+### Required API Endpoints
+```python
+# Health and monitoring
+@app.get("/api/health")
+async def health_check():
+    return {"status": "healthy", "timestamp": datetime.utcnow()}
+
+# Core disaster response data
+@app.get("/api/dashboard")
+async def get_dashboard_data():
+    return await dashboard_service.get_comprehensive_data()
+
+# Validation endpoints
+@app.get("/api/validation/health")
+async def validation_health():
+    return await validation_service.check_backend_health()
+
+@app.get("/api/validation/data-sources")
+async def validate_data_sources():
+    return await validation_service.validate_all_data_sources()
+
+@app.get("/api/validation/api-endpoints")
+async def validate_api_endpoints():
+    return await validation_service.validate_all_endpoints()
+
+@app.get("/api/validation/comprehensive")
+async def comprehensive_validation():
+    return await validation_service.run_full_validation()
+
+@app.get("/api/validation/compare")
+async def compare_frontend_backend():
+    return await validation_service.compare_systems()
+
+# Core data endpoints
+@app.get("/api/buildings")
+async def get_buildings():
+    return await building_service.get_all_buildings()
+
+@app.get("/api/hazards")
+async def get_hazards():
+    return await hazard_service.get_all_hazards()
+
+@app.get("/api/routes")
+async def get_routes():
+    return await route_service.get_all_routes()
+
+@app.get("/api/units")
+async def get_units():
+    return await unit_service.get_all_units()
+```
+
+## Testing Standards
+
+### Integration Testing with pytest
+- **Write integration tests** in `backend/tests/` directory
+- **Test API endpoints** with real HTTP requests
+- **Mock external dependencies** (Foundry, external APIs)
+- **Test error handling** and edge cases
+
+### Test Structure
+```python
+import pytest
+from fastapi.testclient import TestClient
+from unittest.mock import Mock, patch
+from app.main import app
+
+client = TestClient(app)
+
+class TestHazardAPI:
+    @pytest.fixture
+    def mock_hazard_data(self):
+        return [
+            {
+                "id": "hazard_1",
+                "type": "fire",
+                "severity": "high",
+                "coordinates": [[-122.4, 37.7], [-122.3, 37.7], [-122.3, 37.8], [-122.4, 37.8]],
+                "confidence": 0.85,
+                "timestamp": "2024-01-01T00:00:00Z"
+            }
+        ]
+    
+    @patch('app.services.hazard_service.get_hazards_in_radius')
+    async def test_get_hazards_success(self, mock_get_hazards, mock_hazard_data):
+        mock_get_hazards.return_value = mock_hazard_data
+        
+        response = client.get("/api/hazards?center_lat=37.7&center_lon=-122.4&radius_km=10")
+        
+        assert response.status_code == 200
+        assert len(response.json()) == 1
+        assert response.json()[0]["id"] == "hazard_1"
+    
+    async def test_get_hazards_invalid_params(self):
+        response = client.get("/api/hazards?center_lat=invalid&center_lon=-122.4&radius_km=10")
+        
+        assert response.status_code == 422  # Validation error
+    
+    @patch('app.services.hazard_service.get_hazards_in_radius')
+    async def test_get_hazards_server_error(self, mock_get_hazards):
+        mock_get_hazards.side_effect = Exception("Database connection failed")
+        
+        response = client.get("/api/hazards?center_lat=37.7&center_lon=-122.4&radius_km=10")
+        
+        assert response.status_code == 500
+        assert "Database connection failed" in response.json()["detail"]
+```
+
+### Test Configuration
+```python
+# pytest.ini
+[tool:pytest]
+testpaths = backend/tests
+python_files = test_*.py
+python_classes = Test*
+python_functions = test_*
+addopts = 
+    -v
+    --tb=short
+    --strict-markers
+    --disable-warnings
+    --cov=backend
+    --cov-report=html
+    --cov-report=term-missing
+```
+
+## Performance Standards
+
+### Redis Caching
+- **Use Redis caching** for frequently accessed data
+- **Implement cache invalidation** strategies
+- **Monitor cache hit rates** and performance
+- **Keep average latency under 100ms**
+
+### Caching Implementation
+```python
+import redis
+import json
+from typing import Optional, Any
+from functools import wraps
+
+redis_client = redis.Redis(host='localhost', port=6379, db=0)
+
+def cache_result(expiry_seconds: int = 300):
+    def decorator(func):
+        @wraps(func)
+        async def wrapper(*args, **kwargs):
+            # Generate cache key
+            cache_key = f"{func.__name__}:{hash(str(args) + str(kwargs))}"
+            
+            # Try to get from cache
+            cached_result = redis_client.get(cache_key)
+            if cached_result:
+                return json.loads(cached_result)
+            
+            # Execute function and cache result
+            result = await func(*args, **kwargs)
+            redis_client.setex(
+                cache_key, 
+                expiry_seconds, 
+                json.dumps(result, default=str)
+            )
+            
+            return result
+        return wrapper
+    return decorator
+
+@cache_result(expiry_seconds=300)  # 5 minutes
+async def get_hazards_in_radius(lat: float, lon: float, radius_km: float):
+    # Expensive operation
+    return await hazard_processor.process_hazards(lat, lon, radius_km)
+```
+
+### Performance Monitoring
+```python
+import time
+from functools import wraps
+
+def monitor_performance(func):
+    @wraps(func)
+    async def wrapper(*args, **kwargs):
+        start_time = time.time()
+        try:
+            result = await func(*args, **kwargs)
+            execution_time = time.time() - start_time
+            
+            # Log performance metrics
+            if execution_time > 0.1:  # 100ms threshold
+                logger.warning(f"Slow endpoint: {func.__name__} took {execution_time:.3f}s")
+            
+            return result
+        except Exception as e:
+            execution_time = time.time() - start_time
+            logger.error(f"Error in {func.__name__} after {execution_time:.3f}s: {e}")
+            raise
+    return wrapper
+```
+
+## Foundry Integration
+
+### Foundry Function Standards
+- **Use @function decorators** for Foundry integration
+- **Implement proper error handling** for Foundry operations
+- **Handle data transformation** between Foundry and API formats
+- **Maintain data consistency** across systems
+
+### Foundry Function Pattern
+```python
+from foundry import function
+from typing import List, Dict, Any
+
+@function
+def get_hazard_summary() -> Dict[str, Any]:
+    """Get comprehensive hazard zone overview"""
+    try:
+        # Read from Foundry inputs
+        hazard_data = read_foundry_input("/data/raw/hazards")
+        
+        # Process with HazardProcessor
+        processed_hazards = hazard_processor.process_hazards(hazard_data)
+        
+        # Write to Foundry outputs
+        write_foundry_output("/data/processed/hazard_summary", processed_hazards)
+        
+        return {
+            "total_hazards": len(processed_hazards),
+            "critical_count": sum(1 for h in processed_hazards if h.severity == "critical"),
+            "last_updated": datetime.utcnow().isoformat()
+        }
+    except Exception as e:
+        logger.error(f"Error in get_hazard_summary: {e}")
+        raise
+
+@function
+def get_evacuation_routes(start_lat: float, start_lon: float, end_lat: float, end_lon: float) -> List[Dict[str, Any]]:
+    """Calculate safe evacuation routes avoiding hazards"""
+    try:
+        # Get hazard data
+        hazards = hazard_processor.get_hazards_in_radius(
+            (start_lat + end_lat) / 2,
+            (start_lon + end_lon) / 2,
+            50.0  # 50km radius
+        )
+        
+        # Calculate routes with RouteOptimizer
+        routes = route_optimizer.calculate_safe_routes(
+            start_lat, start_lon, end_lat, end_lon, hazards
+        )
+        
+        return routes
+    except Exception as e:
+        logger.error(f"Error calculating evacuation routes: {e}")
+        raise
+```
+
+## Data Processing
+
+### Geospatial Processing
+- **Use GeoPandas** for geospatial operations
+- **Implement H3 spatial indexing** for performance
+- **Handle coordinate transformations** properly
+- **Validate geometry data** before processing
+
+### Spatial Processing Pattern
+```python
+import geopandas as gpd
+import h3
+from shapely.geometry import Point, Polygon
+from typing import List, Tuple
+
+class SpatialProcessor:
+    def __init__(self, h3_resolution: int = 9):
+        self.h3_resolution = h3_resolution  # ~174m hexagons
+    
+    def process_hazard_data(self, hazard_points: List[Tuple[float, float]]) -> gpd.GeoDataFrame:
+        """Process hazard points with H3 spatial indexing"""
+        # Convert to GeoDataFrame
+        gdf = gpd.GeoDataFrame(
+            hazard_points,
+            columns=['longitude', 'latitude'],
+            geometry=[Point(lon, lat) for lon, lat in hazard_points]
+        )
+        
+        # Add H3 indices
+        gdf['h3_index'] = gdf.apply(
+            lambda row: h3.latlng_to_cell(row['latitude'], row['longitude'], self.h3_resolution),
+            axis=1
+        )
+        
+        return gdf
+    
+    def find_hazards_in_radius(self, center_lat: float, center_lon: float, radius_km: float) -> gpd.GeoDataFrame:
+        """Find hazards within specified radius"""
+        center_point = Point(center_lon, center_lat)
+        buffer_wgs84 = center_point.buffer(radius_km * 1000)  # Convert km to meters
+        
+        # Load hazard data
+        hazard_gdf = self.load_hazard_data()
+        
+        # Spatial intersection
+        nearby_hazards = hazard_gdf[hazard_gdf.geometry.intersects(buffer_wgs84)]
+        
+        return nearby_hazards
+```
+
+## Error Handling
+
+### Exception Handling Standards
+- **Use specific exception types** for different error conditions
+- **Implement proper HTTP status codes** for API errors
+- **Log errors** with appropriate detail levels
+- **Provide meaningful error messages** to clients
+
+### Error Handling Pattern
+```python
+from fastapi import HTTPException
+from typing import Union
+import logging
+
+logger = logging.getLogger(__name__)
+
+class DisasterResponseError(Exception):
+    """Base exception for disaster response system"""
+    pass
+
+class DataSourceError(DisasterResponseError):
+    """Error accessing external data sources"""
+    pass
+
+class ValidationError(DisasterResponseError):
+    """Data validation error"""
+    pass
+
+class ProcessingError(DisasterResponseError):
+    """Data processing error"""
+    pass
+
+async def safe_api_call(func, *args, **kwargs):
+    """Wrapper for safe API calls with proper error handling"""
+    try:
+        return await func(*args, **kwargs)
+    except DataSourceError as e:
+        logger.error(f"Data source error: {e}")
+        raise HTTPException(status_code=503, detail="External data source unavailable")
+    except ValidationError as e:
+        logger.warning(f"Validation error: {e}")
+        raise HTTPException(status_code=400, detail=f"Invalid data: {e}")
+    except ProcessingError as e:
+        logger.error(f"Processing error: {e}")
+        raise HTTPException(status_code=500, detail="Data processing failed")
+    except Exception as e:
+        logger.error(f"Unexpected error: {e}")
+        raise HTTPException(status_code=500, detail="Internal server error")
+```
+
+## Security Standards
+
+### Input Validation
+- **Validate all input data** using Pydantic models
+- **Sanitize user inputs** to prevent injection attacks
+- **Implement rate limiting** for API endpoints
+- **Use secure headers** and CORS configuration
+
+### Security Implementation
+```python
+from fastapi import FastAPI, Request
+from fastapi.middleware.cors import CORSMiddleware
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
+
+# Rate limiting
+limiter = Limiter(key_func=get_remote_address)
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+
+# CORS configuration
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["https://yourdomain.com"],  # Configure for production
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "PUT", "DELETE"],
+    allow_headers=["*"],
+)
+
+@app.middleware("http")
+async def security_headers(request: Request, call_next):
+    response = await call_next(request)
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-Frame-Options"] = "DENY"
+    response.headers["X-XSS-Protection"] = "1; mode=block"
+    return response
+
+@app.get("/api/hazards")
+@limiter.limit("100/minute")
+async def get_hazards(request: Request, hazard_request: HazardZoneRequest):
+    # Rate limited endpoint
+    return await hazard_service.get_hazards(hazard_request)
+```
+
+## Development Workflow
+
+### Code Quality
+- **Use ruff** for Python linting and formatting
+- **Use mypy** for type checking
+- **Write comprehensive tests** for all endpoints
+- **Maintain high test coverage** (>90%)
+
+### Development Commands
+```bash
+# Backend development
+python -m pip install -r requirements.txt
+python -m pip install -r requirements-test.txt
+
+# Testing
+pytest -v                    # Run all tests
+pytest --cov=backend         # Run with coverage
+pytest -k "test_hazards"     # Run specific tests
+
+# Code quality
+ruff check .                 # Lint code
+ruff format .                # Format code
+mypy backend                 # Type checking
+
+# API development
+uvicorn app.main:app --reload  # Start development server
+```
+
+This backend development standard ensures robust, performant, and secure API endpoints that integrate seamlessly with the Foundry platform and maintain the disaster response system's performance requirements.

@@ -1,0 +1,31 @@
+{
+  "name": "disaster-response-dashboard",
+  "version": "1.0.0",
+  "description": "3D Disaster Response Dashboard with comprehensive validation",
+  "scripts": {
+    "deploy:production": "./scripts/deploy-production.sh",
+    "validate:production": "./scripts/run-production-validation.sh",
+    "validate:frontend-backend": "cd frontend && npm run test:frontend-backend-validation",
+    "validate:comprehensive": "cd frontend && npm run test:comprehensive-frontend",
+    "validate:automated": "cd frontend && npm run test:automated-validation",
+    "start:production": "docker-compose -f docker-compose.production.yml up --build -d",
+    "stop:production": "docker-compose -f docker-compose.production.yml down",
+    "restart:production": "docker-compose -f docker-compose.production.yml restart",
+    "logs:production": "docker-compose -f docker-compose.production.yml logs -f",
+    "status:production": "docker-compose -f docker-compose.production.yml ps",
+    "health:check": "curl -f http://localhost:8000/api/health && curl -f http://localhost:8080/health"
+  },
+  "keywords": [
+    "disaster-response",
+    "3d-mapping",
+    "validation",
+    "frontend-backend",
+    "production"
+  ],
+  "author": "Ian Frelinger",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0",
+    "docker": ">=20.0.0"
+  }
+}

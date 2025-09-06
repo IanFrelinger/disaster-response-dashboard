@@ -1,0 +1,4465 @@
+{
+  "timestamp": "2025-09-06T04:55:20.490Z",
+  "analysis": {
+    "frontend": {
+      "errors": [
+        {
+          "type": "lint",
+          "count": 802,
+          "severity": "warning",
+          "message": "Linting issues found: 802 problems"
+        }
+      ],
+      "patterns": []
+    },
+    "backend": {
+      "errors": [
+        {
+          "type": "type",
+          "file": "transforms/routing/safe_routes.py",
+          "line": 6,
+          "severity": "error",
+          "message": "Cannot find implementation or library stub for module named \".api\"  [import-not-found]",
+          "category": "import"
+        },
+        {
+          "type": "type",
+          "file": "transforms/routing/safe_routes.py",
+          "line": 7,
+          "severity": "error",
+          "message": "Cannot find implementation or library stub for module named \"osmnx\"  [import-not-found]",
+          "category": "import"
+        },
+        {
+          "type": "type",
+          "file": "transforms/routing/safe_routes.py",
+          "line": 10,
+          "severity": "error",
+          "message": "Cannot find implementation or library stub for module named \"shapely.geometry\"  [import-not-found]",
+          "category": "import"
+        },
+        {
+          "type": "type",
+          "file": "transforms/routing/safe_routes.py",
+          "line": 19,
+          "severity": "error",
+          "message": "Function is missing a type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "transforms/routing/safe_routes.py",
+          "line": 23,
+          "severity": "error",
+          "message": "Function is missing a type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "transforms/routing/safe_routes.py",
+          "line": 32,
+          "severity": "error",
+          "message": "Function is missing a type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "transforms/routing/safe_routes.py",
+          "line": 41,
+          "severity": "error",
+          "message": "Module has no attribute \"astar_path\"  [attr-defined]",
+          "category": "import"
+        },
+        {
+          "type": "type",
+          "file": "transforms/routing/safe_routes.py",
+          "line": 44,
+          "severity": "error",
+          "message": "Module has no attribute \"NetworkXNoPath\"  [attr-defined]",
+          "category": "import"
+        },
+        {
+          "type": "type",
+          "file": "transforms/routing/safe_routes.py",
+          "line": 48,
+          "severity": "error",
+          "message": "Function is missing a type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "transforms/routing/safe_routes.py",
+          "line": 78,
+          "severity": "error",
+          "message": "Function is missing a type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "test_api.py",
+          "line": 10,
+          "severity": "error",
+          "message": "Function is missing a return type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "mock_ontology.py",
+          "line": 161,
+          "severity": "error",
+          "message": "No return value expected  [return-value]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "mock_ontology.py",
+          "line": 358,
+          "severity": "error",
+          "message": "Incompatible types in assignment (expression has type \"dict[Never, Never]\", target has type \"OntologyObject\")  [assignment]",
+          "category": "ontology"
+        },
+        {
+          "type": "type",
+          "file": "mock_ontology.py",
+          "line": 374,
+          "severity": "error",
+          "message": "Unsupported target for indexed assignment (\"OntologyObject\")  [index]",
+          "category": "ontology"
+        },
+        {
+          "type": "type",
+          "file": "mock_ontology.py",
+          "line": 379,
+          "severity": "error",
+          "message": "Returning Any from function declared to return \"OntologyObject | None\"  [no-any-return]",
+          "category": "ontology"
+        },
+        {
+          "type": "type",
+          "file": "mock_ontology.py",
+          "line": 379,
+          "severity": "error",
+          "message": "Item \"OntologyObject\" of \"OntologyObject | dict[Never, Never]\" has no attribute \"get\"  [union-attr]",
+          "category": "ontology"
+        },
+        {
+          "type": "type",
+          "file": "mock_ontology.py",
+          "line": 379,
+          "severity": "error",
+          "message": "No overload variant of \"get\" of \"dict\" matches argument type \"str\"  [call-overload]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "mock_ontology.py",
+          "line": 383,
+          "severity": "error",
+          "message": "Item \"OntologyObject\" of \"OntologyObject | dict[Never, Never]\" has no attribute \"values\"  [union-attr]",
+          "category": "ontology"
+        },
+        {
+          "type": "type",
+          "file": "mock_ontology.py",
+          "line": 385,
+          "severity": "error",
+          "message": "Function is missing a type annotation for one or more arguments  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "transforms/foundry_hazard_pipeline.py",
+          "line": 22,
+          "severity": "error",
+          "message": "Function is missing a type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "transforms/foundry_hazard_pipeline.py",
+          "line": 36,
+          "severity": "error",
+          "message": "\"str\" has no attribute \"alias\"  [attr-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "transforms/foundry_hazard_pipeline.py",
+          "line": 37,
+          "severity": "error",
+          "message": "Name \"count\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "transforms/foundry_hazard_pipeline.py",
+          "line": 38,
+          "severity": "error",
+          "message": "\"str\" has no attribute \"alias\"  [attr-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "transforms/foundry_hazard_pipeline.py",
+          "line": 47,
+          "severity": "error",
+          "message": "Name \"when\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "transforms/foundry_hazard_pipeline.py",
+          "line": 47,
+          "severity": "error",
+          "message": "Name \"col\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "transforms/foundry_hazard_pipeline.py",
+          "line": 56,
+          "severity": "error",
+          "message": "Name \"when\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "transforms/foundry_hazard_pipeline.py",
+          "line": 56,
+          "severity": "error",
+          "message": "Name \"col\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "transforms/foundry_hazard_pipeline.py",
+          "line": 61,
+          "severity": "error",
+          "message": "Name \"col\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "transforms/foundry_hazard_pipeline.py",
+          "line": 63,
+          "severity": "error",
+          "message": "Name \"when\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "transforms/foundry_hazard_pipeline.py",
+          "line": 63,
+          "severity": "error",
+          "message": "Name \"col\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "transforms/foundry_hazard_pipeline.py",
+          "line": 64,
+          "severity": "error",
+          "message": "Name \"col\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "transforms/foundry_hazard_pipeline.py",
+          "line": 65,
+          "severity": "error",
+          "message": "Name \"col\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "transforms/foundry_hazard_pipeline.py",
+          "line": 74,
+          "severity": "error",
+          "message": "Name \"col\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "transforms/foundry_hazard_pipeline.py",
+          "line": 87,
+          "severity": "error",
+          "message": "Function is missing a type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "transforms/foundry_hazard_pipeline.py",
+          "line": 97,
+          "severity": "error",
+          "message": "Name \"col\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "transforms/foundry_hazard_pipeline.py",
+          "line": 105,
+          "severity": "error",
+          "message": "Name \"col\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "transforms/foundry_hazard_pipeline.py",
+          "line": 114,
+          "severity": "error",
+          "message": "Name \"when\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "transforms/foundry_hazard_pipeline.py",
+          "line": 114,
+          "severity": "error",
+          "message": "Name \"col\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "transforms/foundry_hazard_pipeline.py",
+          "line": 130,
+          "severity": "error",
+          "message": "Name \"current_timestamp\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "transforms/foundry_hazard_pipeline.py",
+          "line": 136,
+          "severity": "error",
+          "message": "Argument 1 to \"sum\" has incompatible type \"str\"; expected \"Iterable[bool]\"  [arg-type]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "transforms/foundry_hazard_pipeline.py",
+          "line": 144,
+          "severity": "error",
+          "message": "Function is missing a type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "transforms/foundry_hazard_pipeline.py",
+          "line": 146,
+          "severity": "error",
+          "message": "Name \"udf\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "transforms/foundry_hazard_pipeline.py",
+          "line": 146,
+          "severity": "error",
+          "message": "Module has no attribute \"latlng_to_cell\"; maybe \"lat_lng_to_cell\" or \"string_to_cell\"?  [attr-defined]",
+          "category": "import"
+        },
+        {
+          "type": "type",
+          "file": "transforms/foundry_hazard_pipeline.py",
+          "line": 146,
+          "severity": "error",
+          "message": "Name \"StringType\" is not defined  [name-defined]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "transforms/foundry_hazard_pipeline.py",
+          "line": 149,
+          "severity": "error",
+          "message": "Function is missing a type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "transforms/foundry_hazard_pipeline.py",
+          "line": 151,
+          "severity": "error",
+          "message": "Name \"udf\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "transforms/foundry_hazard_pipeline.py",
+          "line": 151,
+          "severity": "error",
+          "message": "Name \"GeometryType\" is not defined  [name-defined]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "functions/foundry_public_api.py",
+          "line": 6,
+          "severity": "error",
+          "message": "Module \"palantir.functions\" has no attribute \"function\"; maybe \"Function\" or \"get_function\"?  [attr-defined]",
+          "category": "ontology"
+        },
+        {
+          "type": "type",
+          "file": "functions/foundry_public_api.py",
+          "line": 6,
+          "severity": "error",
+          "message": "Module \"palantir.functions\" has no attribute \"Input\"  [attr-defined]",
+          "category": "ontology"
+        },
+        {
+          "type": "type",
+          "file": "functions/foundry_public_api.py",
+          "line": 6,
+          "severity": "error",
+          "message": "Module \"palantir.functions\" has no attribute \"Output\"  [attr-defined]",
+          "category": "ontology"
+        },
+        {
+          "type": "type",
+          "file": "functions/foundry_public_api.py",
+          "line": 7,
+          "severity": "error",
+          "message": "Module \"palantir.ontology\" has no attribute \"HazardZone\"  [attr-defined]",
+          "category": "ontology"
+        },
+        {
+          "type": "type",
+          "file": "functions/foundry_public_api.py",
+          "line": 7,
+          "severity": "error",
+          "message": "Module \"palantir.ontology\" has no attribute \"EmergencyUnit\"  [attr-defined]",
+          "category": "ontology"
+        },
+        {
+          "type": "type",
+          "file": "functions/foundry_public_api.py",
+          "line": 7,
+          "severity": "error",
+          "message": "Module \"palantir.ontology\" has no attribute \"EvacuationRoute\"  [attr-defined]",
+          "category": "ontology"
+        },
+        {
+          "type": "type",
+          "file": "functions/foundry_public_api.py",
+          "line": 7,
+          "severity": "error",
+          "message": "Module \"palantir.ontology\" has no attribute \"Building\"  [attr-defined]",
+          "category": "ontology"
+        },
+        {
+          "type": "type",
+          "file": "functions/foundry_public_api.py",
+          "line": 8,
+          "severity": "error",
+          "message": "Module \"palantir.geocoding\" has no attribute \"FoundryGeocoder\"  [attr-defined]",
+          "category": "ontology"
+        },
+        {
+          "type": "type",
+          "file": "functions/foundry_public_api.py",
+          "line": 9,
+          "severity": "error",
+          "message": "Module \"palantir.ontology.types\" has no attribute \"SafetyStatus\"  [attr-defined]",
+          "category": "ontology"
+        },
+        {
+          "type": "type",
+          "file": "functions/foundry_public_api.py",
+          "line": 9,
+          "severity": "error",
+          "message": "Module \"palantir.ontology.types\" has no attribute \"DispatchResult\"  [attr-defined]",
+          "category": "ontology"
+        },
+        {
+          "type": "type",
+          "file": "functions/foundry_public_api.py",
+          "line": 17,
+          "severity": "error",
+          "message": "Untyped decorator makes function \"check_address_safety\" untyped  [misc]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "functions/foundry_public_api.py",
+          "line": 36,
+          "severity": "error",
+          "message": "Name \"distance_from\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "functions/foundry_public_api.py",
+          "line": 46,
+          "severity": "error",
+          "message": "Name \"distance_from\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "functions/foundry_public_api.py",
+          "line": 54,
+          "severity": "error",
+          "message": "Name \"distance_from\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "functions/foundry_public_api.py",
+          "line": 95,
+          "severity": "error",
+          "message": "Untyped decorator makes function \"get_evacuation_status\" untyped  [misc]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "functions/foundry_public_api.py",
+          "line": 152,
+          "severity": "error",
+          "message": "Untyped decorator makes function \"dispatch_resources\" untyped  [misc]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "functions/foundry_public_api.py",
+          "line": 160,
+          "severity": "error",
+          "message": "Name \"Incident\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "functions/foundry_public_api.py",
+          "line": 169,
+          "severity": "error",
+          "message": "Name \"ontology_transaction\" is not defined  [name-defined]",
+          "category": "ontology"
+        },
+        {
+          "type": "type",
+          "file": "functions/foundry_public_api.py",
+          "line": 174,
+          "severity": "error",
+          "message": "Name \"UnitStatus\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "functions/foundry_public_api.py",
+          "line": 200,
+          "severity": "error",
+          "message": "Untyped decorator makes function \"get_emergency_contacts\" untyped  [misc]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "functions/foundry_public_api.py",
+          "line": 210,
+          "severity": "error",
+          "message": "Name \"UnitType\" is not defined  [name-defined]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "functions/foundry_public_api.py",
+          "line": 211,
+          "severity": "error",
+          "message": "Name \"UnitStatus\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "functions/foundry_public_api.py",
+          "line": 214,
+          "severity": "error",
+          "message": "Name \"Incident\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "functions/foundry_public_api.py",
+          "line": 248,
+          "severity": "error",
+          "message": "Untyped decorator makes function \"update_unit_location\" untyped  [misc]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "functions/foundry_public_api.py",
+          "line": 289,
+          "severity": "error",
+          "message": "Name \"SafetyStatus\" already defined (possibly by an import)  [no-redef]",
+          "category": "import"
+        },
+        {
+          "type": "type",
+          "file": "functions/foundry_public_api.py",
+          "line": 290,
+          "severity": "error",
+          "message": "Function is missing a type annotation for one or more arguments  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "functions/foundry_public_api.py",
+          "line": 296,
+          "severity": "error",
+          "message": "Name \"DispatchResult\" already defined (possibly by an import)  [no-redef]",
+          "category": "import"
+        },
+        {
+          "type": "type",
+          "file": "functions/foundry_public_api.py",
+          "line": 297,
+          "severity": "error",
+          "message": "Function is missing a type annotation for one or more arguments  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "mock_aip.py",
+          "line": 114,
+          "severity": "error",
+          "message": "Incompatible return value type (got \"object\", expected \"dict[str, Any]\")  [return-value]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "aip/fire_spread_model.py",
+          "line": 6,
+          "severity": "error",
+          "message": "Module \"palantir.aip\" has no attribute \"aip_model\"  [attr-defined]",
+          "category": "ontology"
+        },
+        {
+          "type": "type",
+          "file": "aip/fire_spread_model.py",
+          "line": 6,
+          "severity": "error",
+          "message": "Module \"palantir.aip\" has no attribute \"aip_inference\"  [attr-defined]",
+          "category": "ontology"
+        },
+        {
+          "type": "type",
+          "file": "aip/fire_spread_model.py",
+          "line": 6,
+          "severity": "error",
+          "message": "Module \"palantir.aip\" has no attribute \"aip_logic\"  [attr-defined]",
+          "category": "ontology"
+        },
+        {
+          "type": "type",
+          "file": "aip/fire_spread_model.py",
+          "line": 7,
+          "severity": "error",
+          "message": "Module \"palantir.ontology\" has no attribute \"HazardZone\"  [attr-defined]",
+          "category": "ontology"
+        },
+        {
+          "type": "type",
+          "file": "aip/fire_spread_model.py",
+          "line": 7,
+          "severity": "error",
+          "message": "Module \"palantir.ontology\" has no attribute \"EvacuationRoute\"  [attr-defined]",
+          "category": "ontology"
+        },
+        {
+          "type": "type",
+          "file": "aip/fire_spread_model.py",
+          "line": 21,
+          "severity": "error",
+          "message": "Name \"Input\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "aip/fire_spread_model.py",
+          "line": 27,
+          "severity": "error",
+          "message": "Function is missing a return type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "aip/fire_spread_model.py",
+          "line": 35,
+          "severity": "error",
+          "message": "Function is missing a return type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "aip/fire_spread_model.py",
+          "line": 44,
+          "severity": "error",
+          "message": "Name \"FoundryAutoML\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "aip/fire_spread_model.py",
+          "line": 68,
+          "severity": "error",
+          "message": "\"DataFrame\" has no attribute \"withColumn\"  [attr-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "aip/fire_spread_model.py",
+          "line": 69,
+          "severity": "error",
+          "message": "Name \"col\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "aip/fire_spread_model.py",
+          "line": 74,
+          "severity": "error",
+          "message": "Name \"when\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "aip/fire_spread_model.py",
+          "line": 74,
+          "severity": "error",
+          "message": "Name \"col\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "aip/fire_spread_model.py",
+          "line": 75,
+          "severity": "error",
+          "message": "Name \"col\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "aip/fire_spread_model.py",
+          "line": 81,
+          "severity": "error",
+          "message": "Name \"when\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "aip/fire_spread_model.py",
+          "line": 81,
+          "severity": "error",
+          "message": "Name \"col\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "aip/fire_spread_model.py",
+          "line": 82,
+          "severity": "error",
+          "message": "Name \"col\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "aip/fire_spread_model.py",
+          "line": 88,
+          "severity": "error",
+          "message": "Name \"when\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "aip/fire_spread_model.py",
+          "line": 88,
+          "severity": "error",
+          "message": "Name \"col\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "aip/fire_spread_model.py",
+          "line": 89,
+          "severity": "error",
+          "message": "Name \"col\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "aip/fire_spread_model.py",
+          "line": 95,
+          "severity": "error",
+          "message": "Name \"col\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "aip/fire_spread_model.py",
+          "line": 98,
+          "severity": "error",
+          "message": "Returning Any from function declared to return \"DataFrame\"  [no-any-return]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "aip/fire_spread_model.py",
+          "line": 100,
+          "severity": "error",
+          "message": "Untyped decorator makes function \"predict_spread\" untyped  [misc]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "aip/fire_spread_model.py",
+          "line": 109,
+          "severity": "error",
+          "message": "Item \"None\" of \"Any | None\" has no attribute \"predict\"  [union-attr]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "aip/fire_spread_model.py",
+          "line": 110,
+          "severity": "error",
+          "message": "Item \"None\" of \"Any | None\" has no attribute \"confidence_score\"  [union-attr]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "aip/fire_spread_model.py",
+          "line": 163,
+          "severity": "error",
+          "message": "Module has no attribute \"cell_to_latlng\"; maybe \"cell_to_lat_lng\" or \"cell_to_string\"?  [attr-defined]",
+          "category": "import"
+        },
+        {
+          "type": "type",
+          "file": "aip/fire_spread_model.py",
+          "line": 169,
+          "severity": "error",
+          "message": "Unexpected keyword argument \"radius\" for \"grid_disk\"  [call-arg]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "aip/fire_spread_model.py",
+          "line": 172,
+          "severity": "error",
+          "message": "Module has no attribute \"cell_to_latlng\"; maybe \"cell_to_lat_lng\" or \"cell_to_string\"?  [attr-defined]",
+          "category": "import"
+        },
+        {
+          "type": "type",
+          "file": "aip/fire_spread_model.py",
+          "line": 259,
+          "severity": "error",
+          "message": "Untyped decorator makes function \"assist_evacuation_decision\" untyped  [misc]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "aip/fire_spread_model.py",
+          "line": 277,
+          "severity": "error",
+          "message": "Name \"distance_from\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "aip/fire_spread_model.py",
+          "line": 293,
+          "severity": "error",
+          "message": "Name \"distance_from\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "aip/fire_spread_model.py",
+          "line": 331,
+          "severity": "error",
+          "message": "Incompatible return value type (got \"None\", expected \"str\")  [return-value]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "mock_palantir.py",
+          "line": 46,
+          "severity": "error",
+          "message": "No return value expected  [return-value]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "mock_palantir.py",
+          "line": 69,
+          "severity": "error",
+          "message": "Argument 2 to \"MockGroupedData\" has incompatible type \"tuple[Any, ...]\"; expected \"list[str]\"  [arg-type]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "mock_palantir.py",
+          "line": 105,
+          "severity": "error",
+          "message": "\"Callable[[], Any]\" has no attribute \"__iter__\" (not iterable)  [attr-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "mock_palantir.py",
+          "line": 136,
+          "severity": "error",
+          "message": "No overload variant of \"where\" matches argument types \"Any\", \"Any\", \"None\"  [call-overload]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "mock_palantir.py",
+          "line": 194,
+          "severity": "error",
+          "message": "Module has no attribute \"Timedelta\"  [attr-defined]",
+          "category": "import"
+        },
+        {
+          "type": "type",
+          "file": "mock_palantir.py",
+          "line": 278,
+          "severity": "error",
+          "message": "Incompatible types in assignment (expression has type \"type\", variable has type Module)  [assignment]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "transforms/working_hazard_transform.py",
+          "line": 24,
+          "severity": "error",
+          "message": "Function is missing a type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "transforms/working_hazard_transform.py",
+          "line": 49,
+          "severity": "error",
+          "message": "\"str\" has no attribute \"alias\"  [attr-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "transforms/working_hazard_transform.py",
+          "line": 50,
+          "severity": "error",
+          "message": "Name \"count\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "transforms/working_hazard_transform.py",
+          "line": 51,
+          "severity": "error",
+          "message": "\"str\" has no attribute \"alias\"  [attr-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "transforms/working_hazard_transform.py",
+          "line": 64,
+          "severity": "error",
+          "message": "Name \"col\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "transforms/working_hazard_transform.py",
+          "line": 67,
+          "severity": "error",
+          "message": "Name \"when\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "transforms/working_hazard_transform.py",
+          "line": 67,
+          "severity": "error",
+          "message": "Name \"col\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "transforms/working_hazard_transform.py",
+          "line": 68,
+          "severity": "error",
+          "message": "Name \"col\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "transforms/working_hazard_transform.py",
+          "line": 69,
+          "severity": "error",
+          "message": "Name \"col\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "transforms/working_hazard_transform.py",
+          "line": 75,
+          "severity": "error",
+          "message": "Name \"current_timestamp\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "transforms/working_hazard_transform.py",
+          "line": 77,
+          "severity": "error",
+          "message": "Name \"lit\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "transforms/working_hazard_transform.py",
+          "line": 85,
+          "severity": "error",
+          "message": "Name \"col\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "transforms/working_hazard_transform.py",
+          "line": 99,
+          "severity": "error",
+          "message": "Function is missing a type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "transforms/working_hazard_transform.py",
+          "line": 109,
+          "severity": "error",
+          "message": "Name \"col\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "transforms/working_hazard_transform.py",
+          "line": 118,
+          "severity": "error",
+          "message": "Name \"coalesce\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "transforms/working_hazard_transform.py",
+          "line": 118,
+          "severity": "error",
+          "message": "Name \"col\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "transforms/working_hazard_transform.py",
+          "line": 118,
+          "severity": "error",
+          "message": "Name \"lit\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "transforms/working_hazard_transform.py",
+          "line": 132,
+          "severity": "error",
+          "message": "Name \"current_timestamp\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "transforms/working_hazard_transform.py",
+          "line": 138,
+          "severity": "error",
+          "message": "Argument 1 to \"sum\" has incompatible type \"str\"; expected \"Iterable[bool]\"  [arg-type]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "transforms/working_hazard_transform.py",
+          "line": 146,
+          "severity": "error",
+          "message": "Function is missing a type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "transforms/working_hazard_transform.py",
+          "line": 148,
+          "severity": "error",
+          "message": "Name \"udf\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "transforms/working_hazard_transform.py",
+          "line": 149,
+          "severity": "error",
+          "message": "Module has no attribute \"latlng_to_cell\"; maybe \"lat_lng_to_cell\" or \"string_to_cell\"?  [attr-defined]",
+          "category": "import"
+        },
+        {
+          "type": "type",
+          "file": "transforms/working_hazard_transform.py",
+          "line": 150,
+          "severity": "error",
+          "message": "Name \"StringType\" is not defined  [name-defined]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "transforms/working_hazard_transform.py",
+          "line": 155,
+          "severity": "error",
+          "message": "Function is missing a return type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "transforms/working_hazard_transform.py",
+          "line": 172,
+          "severity": "error",
+          "message": "Function is missing a return type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "transforms/working_hazard_transform.py",
+          "line": 180,
+          "severity": "error",
+          "message": "Module has no attribute \"latlng_to_cell\"; maybe \"lat_lng_to_cell\" or \"string_to_cell\"?  [attr-defined]",
+          "category": "import"
+        },
+        {
+          "type": "type",
+          "file": "transforms/challenge_winning_transform.py",
+          "line": 26,
+          "severity": "error",
+          "message": "Function is missing a type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "transforms/challenge_winning_transform.py",
+          "line": 113,
+          "severity": "error",
+          "message": "Function is missing a type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "transforms/challenge_winning_transform.py",
+          "line": 176,
+          "severity": "error",
+          "message": "Function is missing a type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "transforms/challenge_winning_transform.py",
+          "line": 210,
+          "severity": "error",
+          "message": "Name \"spark\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "transforms/challenge_winning_transform.py",
+          "line": 223,
+          "severity": "error",
+          "message": "Function is missing a type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "transforms/challenge_winning_transform.py",
+          "line": 225,
+          "severity": "error",
+          "message": "Name \"udf\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "transforms/challenge_winning_transform.py",
+          "line": 225,
+          "severity": "error",
+          "message": "Module has no attribute \"latlng_to_cell\"; maybe \"lat_lng_to_cell\" or \"string_to_cell\"?  [attr-defined]",
+          "category": "import"
+        },
+        {
+          "type": "type",
+          "file": "transforms/challenge_winning_transform.py",
+          "line": 225,
+          "severity": "error",
+          "message": "Name \"StringType\" is not defined  [name-defined]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "transforms/challenge_winning_transform.py",
+          "line": 228,
+          "severity": "error",
+          "message": "Function is missing a type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "transforms/challenge_winning_transform.py",
+          "line": 252,
+          "severity": "error",
+          "message": "Function is missing a type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "transforms/challenge_winning_transform.py",
+          "line": 261,
+          "severity": "error",
+          "message": "Function is missing a type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "transforms/routing/route_optimizer.py",
+          "line": 9,
+          "severity": "error",
+          "message": "Cannot find implementation or library stub for module named \"shapely.geometry\"  [import-not-found]",
+          "category": "import"
+        },
+        {
+          "type": "type",
+          "file": "transforms/routing/route_optimizer.py",
+          "line": 15,
+          "severity": "error",
+          "message": "Library stubs not installed for \"scipy.spatial.distance\"  [import-untyped]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "transforms/routing/route_optimizer.py",
+          "line": 23,
+          "severity": "error",
+          "message": "Function is missing a return type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "transforms/routing/route_optimizer.py",
+          "line": 33,
+          "severity": "error",
+          "message": "Function is missing a return type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "transforms/routing/route_optimizer.py",
+          "line": 61,
+          "severity": "error",
+          "message": "Incompatible default for argument \"traffic_data\" (default has type \"None\", argument has type \"DataFrame\")  [assignment]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "transforms/routing/route_optimizer.py",
+          "line": 191,
+          "severity": "error",
+          "message": "Item \"None\" of \"Any | None\" has no attribute \"geometry\"  [union-attr]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "transforms/routing/route_optimizer.py",
+          "line": 193,
+          "severity": "error",
+          "message": "Returning Any from function declared to return \"Series | None\"  [no-any-return]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "transforms/routing/route_optimizer.py",
+          "line": 193,
+          "severity": "error",
+          "message": "Item \"None\" of \"Any | None\" has no attribute \"loc\"  [union-attr]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "transforms/routing/route_optimizer.py",
+          "line": 200,
+          "severity": "error",
+          "message": "Incompatible default for argument \"traffic_data\" (default has type \"None\", argument has type \"DataFrame\")  [assignment]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "transforms/routing/route_optimizer.py",
+          "line": 206,
+          "severity": "error",
+          "message": "Item \"None\" of \"Any | None\" has no attribute \"iterrows\"  [union-attr]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "transforms/routing/route_optimizer.py",
+          "line": 223,
+          "severity": "error",
+          "message": "Incompatible types in assignment (expression has type \"float\", variable has type \"int\")  [assignment]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "transforms/routing/route_optimizer.py",
+          "line": 291,
+          "severity": "error",
+          "message": "Returning Any from function declared to return \"float\"  [no-any-return]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "transforms/routing/route_optimizer.py",
+          "line": 324,
+          "severity": "error",
+          "message": "Function is missing a return type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "transforms/routing/route_optimizer.py",
+          "line": 332,
+          "severity": "error",
+          "message": "Item \"None\" of \"Any | None\" has no attribute \"loc\"  [union-attr]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "transforms/routing/route_optimizer.py",
+          "line": 366,
+          "severity": "error",
+          "message": "Module has no attribute \"astar_path\"  [attr-defined]",
+          "category": "import"
+        },
+        {
+          "type": "type",
+          "file": "transforms/routing/route_optimizer.py",
+          "line": 369,
+          "severity": "error",
+          "message": "Function is missing a type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "transforms/routing/route_optimizer.py",
+          "line": 370,
+          "severity": "error",
+          "message": "Value of type \"Graph\" is not indexable  [index]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "transforms/routing/route_optimizer.py",
+          "line": 372,
+          "severity": "error",
+          "message": "Module has no attribute \"astar_path\"  [attr-defined]",
+          "category": "import"
+        },
+        {
+          "type": "type",
+          "file": "transforms/routing/route_optimizer.py",
+          "line": 374,
+          "severity": "error",
+          "message": "Returning Any from function declared to return \"list[str] | None\"  [no-any-return]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "transforms/routing/route_optimizer.py",
+          "line": 376,
+          "severity": "error",
+          "message": "Module has no attribute \"NetworkXNoPath\"  [attr-defined]",
+          "category": "import"
+        },
+        {
+          "type": "type",
+          "file": "transforms/routing/route_optimizer.py",
+          "line": 394,
+          "severity": "error",
+          "message": "Item \"None\" of \"Any | None\" has no attribute \"loc\"  [union-attr]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "transforms/routing/route_optimizer.py",
+          "line": 426,
+          "severity": "error",
+          "message": "Item \"None\" of \"Any | None\" has no attribute \"loc\"  [union-attr]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "transforms/processing/hazard_processor.py",
+          "line": 9,
+          "severity": "error",
+          "message": "Cannot find implementation or library stub for module named \"shapely.geometry\"  [import-not-found]",
+          "category": "import"
+        },
+        {
+          "type": "type",
+          "file": "transforms/processing/hazard_processor.py",
+          "line": 25,
+          "severity": "error",
+          "message": "Function is missing a return type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "transforms/processing/hazard_processor.py",
+          "line": 31,
+          "severity": "error",
+          "message": "Function is missing a return type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "transforms/processing/hazard_processor.py",
+          "line": 31,
+          "severity": "error",
+          "message": "Incompatible default for argument \"model_path\" (default has type \"None\", argument has type \"str\")  [assignment]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "transforms/processing/hazard_processor.py",
+          "line": 55,
+          "severity": "error",
+          "message": "Module has no attribute \"latlng_to_cell\"; maybe \"lat_lng_to_cell\" or \"string_to_cell\"?  [attr-defined]",
+          "category": "import"
+        },
+        {
+          "type": "type",
+          "file": "transforms/processing/hazard_processor.py",
+          "line": 82,
+          "severity": "error",
+          "message": "Module has no attribute \"latlng_to_cell\"; maybe \"lat_lng_to_cell\" or \"string_to_cell\"?  [attr-defined]",
+          "category": "import"
+        },
+        {
+          "type": "type",
+          "file": "transforms/processing/hazard_processor.py",
+          "line": 115,
+          "severity": "error",
+          "message": "Item \"None\" of \"Any | None\" has no attribute \"transform\"  [union-attr]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "transforms/processing/hazard_processor.py",
+          "line": 202,
+          "severity": "error",
+          "message": "Unsupported operand types for - (\"Series\" and \"int\")  [operator]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "transforms/processing/hazard_processor.py",
+          "line": 203,
+          "severity": "error",
+          "message": "Returning Any from function declared to return \"Series\"  [no-any-return]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "transforms/processing/hazard_processor.py",
+          "line": 262,
+          "severity": "error",
+          "message": "Module has no attribute \"latlng_to_cell\"; maybe \"lat_lng_to_cell\" or \"string_to_cell\"?  [attr-defined]",
+          "category": "import"
+        },
+        {
+          "type": "type",
+          "file": "transforms/processing/hazard_processor.py",
+          "line": 276,
+          "severity": "error",
+          "message": "Returning Any from function declared to return \"Series | None\"  [no-any-return]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "transforms/processing/hazard_processor.py",
+          "line": 313,
+          "severity": "error",
+          "message": "Returning Any from function declared to return \"float\"  [no-any-return]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "transforms/ingestion/wildfire_feed.py",
+          "line": 6,
+          "severity": "error",
+          "message": "Cannot find implementation or library stub for module named \".api\"  [import-not-found]",
+          "category": "import"
+        },
+        {
+          "type": "type",
+          "file": "transforms/ingestion/wildfire_feed.py",
+          "line": 6,
+          "severity": "error",
+          "message": "Relative import climbs too many namespaces  [misc]",
+          "category": "import"
+        },
+        {
+          "type": "type",
+          "file": "transforms/ingestion/wildfire_feed.py",
+          "line": 16,
+          "severity": "error",
+          "message": "Function is missing a type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "transforms/ingestion/wildfire_feed.py",
+          "line": 43,
+          "severity": "error",
+          "message": "Module has no attribute \"cut\"  [attr-defined]",
+          "category": "import"
+        },
+        {
+          "type": "type",
+          "file": "transforms/ingestion/wildfire_feed.py",
+          "line": 56,
+          "severity": "error",
+          "message": "Function is missing a type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "transforms/ingestion/wildfire_feed.py",
+          "line": 70,
+          "severity": "error",
+          "message": "Cannot find implementation or library stub for module named \"shapely.geometry\"  [import-not-found]",
+          "category": "import"
+        },
+        {
+          "type": "type",
+          "file": "transforms/ingestion/wildfire_feed.py",
+          "line": 80,
+          "severity": "error",
+          "message": "Module has no attribute \"latlng_to_cell\"; maybe \"lat_lng_to_cell\" or \"string_to_cell\"?  [attr-defined]",
+          "category": "import"
+        },
+        {
+          "type": "type",
+          "file": "functions/street_data_api.py",
+          "line": 9,
+          "severity": "error",
+          "message": "Cannot find implementation or library stub for module named \"shapely.geometry\"  [import-not-found]",
+          "category": "import"
+        },
+        {
+          "type": "type",
+          "file": "functions/street_data_api.py",
+          "line": 20,
+          "severity": "error",
+          "message": "Function is missing a type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "functions/street_data_api.py",
+          "line": 163,
+          "severity": "error",
+          "message": "Function is missing a type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "functions/street_data_api.py",
+          "line": 240,
+          "severity": "error",
+          "message": "Function is missing a type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "functions/street_data_api.py",
+          "line": 314,
+          "severity": "error",
+          "message": "Function is missing a type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "functions/disaster_api.py",
+          "line": 6,
+          "severity": "error",
+          "message": "Cannot find implementation or library stub for module named \".foundry_functions\"  [import-not-found]",
+          "category": "import"
+        },
+        {
+          "type": "type",
+          "file": "functions/disaster_api.py",
+          "line": 14,
+          "severity": "error",
+          "message": "Cannot find implementation or library stub for module named \"shapely.geometry\"  [import-not-found]",
+          "category": "import"
+        },
+        {
+          "type": "type",
+          "file": "functions/disaster_api.py",
+          "line": 17,
+          "severity": "error",
+          "message": "Cannot find implementation or library stub for module named \".transforms.processing.hazard_processor\"  [import-not-found]",
+          "category": "import"
+        },
+        {
+          "type": "type",
+          "file": "functions/disaster_api.py",
+          "line": 18,
+          "severity": "error",
+          "message": "Cannot find implementation or library stub for module named \".transforms.routing.route_optimizer\"  [import-not-found]",
+          "category": "import"
+        },
+        {
+          "type": "type",
+          "file": "functions/disaster_api.py",
+          "line": 31,
+          "severity": "error",
+          "message": "Function is missing a type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "functions/disaster_api.py",
+          "line": 59,
+          "severity": "error",
+          "message": "Function is missing a type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "functions/disaster_api.py",
+          "line": 95,
+          "severity": "error",
+          "message": "Function is missing a type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "functions/disaster_api.py",
+          "line": 138,
+          "severity": "error",
+          "message": "Function is missing a type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "functions/disaster_api.py",
+          "line": 143,
+          "severity": "error",
+          "message": "Cannot find implementation or library stub for module named \"shapely.ops\"  [import-not-found]",
+          "category": "import"
+        },
+        {
+          "type": "type",
+          "file": "functions/disaster_api.py",
+          "line": 225,
+          "severity": "error",
+          "message": "Function is missing a type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "functions/disaster_api.py",
+          "line": 272,
+          "severity": "error",
+          "message": "Function is missing a type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "functions/disaster_api.py",
+          "line": 321,
+          "severity": "error",
+          "message": "Function is missing a type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "functions/disaster_api.py",
+          "line": 399,
+          "severity": "error",
+          "message": "Function is missing a type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "functions/disaster_api.py",
+          "line": 472,
+          "severity": "error",
+          "message": "Function is missing a type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "functions/disaster_api.py",
+          "line": 505,
+          "severity": "error",
+          "message": "Name \"self\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "functions/disaster_api.py",
+          "line": 524,
+          "severity": "error",
+          "message": "Name \"self\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "functions/disaster_api.py",
+          "line": 550,
+          "severity": "error",
+          "message": "Function is missing a type annotation for one or more arguments  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "functions/disaster_api.py",
+          "line": 578,
+          "severity": "error",
+          "message": "Function is missing a type annotation for one or more arguments  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "functions/disaster_api.py",
+          "line": 602,
+          "severity": "error",
+          "message": "Function is missing a type annotation for one or more arguments  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "functions/disaster_api.py",
+          "line": 614,
+          "severity": "error",
+          "message": "Function is missing a type annotation for one or more arguments  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "functions/disaster_api.py",
+          "line": 625,
+          "severity": "error",
+          "message": "Function is missing a type annotation for one or more arguments  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "functions/disaster_api.py",
+          "line": 636,
+          "severity": "error",
+          "message": "Function is missing a type annotation for one or more arguments  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "functions/disaster_api.py",
+          "line": 648,
+          "severity": "error",
+          "message": "Function is missing a type annotation for one or more arguments  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "compute_modules/risk_processor.py",
+          "line": 20,
+          "severity": "error",
+          "message": "Function is missing a type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "compute_modules/risk_processor.py",
+          "line": 24,
+          "severity": "error",
+          "message": "Function is missing a type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "compute_modules/risk_processor.py",
+          "line": 42,
+          "severity": "error",
+          "message": "Function is missing a type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "compute_modules/risk_processor.py",
+          "line": 70,
+          "severity": "error",
+          "message": "Function is missing a type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "compute_modules/risk_processor.py",
+          "line": 85,
+          "severity": "error",
+          "message": "Function is missing a type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "compute_modules/risk_processor.py",
+          "line": 92,
+          "severity": "error",
+          "message": "Function is missing a type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "compute_modules/risk_processor.py",
+          "line": 97,
+          "severity": "error",
+          "message": "Function is missing a type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "compute_modules/risk_processor.py",
+          "line": 102,
+          "severity": "error",
+          "message": "Function is missing a type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "compute_modules/risk_processor.py",
+          "line": 114,
+          "severity": "error",
+          "message": "Module has no attribute \"cut\"  [attr-defined]",
+          "category": "import"
+        },
+        {
+          "type": "type",
+          "file": "compute_modules/risk_processor.py",
+          "line": 123,
+          "severity": "error",
+          "message": "Function is missing a type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "compute_modules/risk_processor.py",
+          "line": 135,
+          "severity": "error",
+          "message": "Function is missing a return type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "aip/working_evacuation_agent.py",
+          "line": 6,
+          "severity": "error",
+          "message": "Module \"palantir.aip\" has no attribute \"aip_agent\"  [attr-defined]",
+          "category": "ontology"
+        },
+        {
+          "type": "type",
+          "file": "aip/working_evacuation_agent.py",
+          "line": 6,
+          "severity": "error",
+          "message": "Module \"palantir.aip\" has no attribute \"aip_logic\"  [attr-defined]",
+          "category": "ontology"
+        },
+        {
+          "type": "type",
+          "file": "aip/working_evacuation_agent.py",
+          "line": 7,
+          "severity": "error",
+          "message": "Module \"palantir.ontology\" has no attribute \"HazardZone\"  [attr-defined]",
+          "category": "ontology"
+        },
+        {
+          "type": "type",
+          "file": "aip/working_evacuation_agent.py",
+          "line": 7,
+          "severity": "error",
+          "message": "Module \"palantir.ontology\" has no attribute \"EvacuationRoute\"  [attr-defined]",
+          "category": "ontology"
+        },
+        {
+          "type": "type",
+          "file": "aip/working_evacuation_agent.py",
+          "line": 7,
+          "severity": "error",
+          "message": "Module \"palantir.ontology\" has no attribute \"EmergencyUnit\"  [attr-defined]",
+          "category": "ontology"
+        },
+        {
+          "type": "type",
+          "file": "aip/working_evacuation_agent.py",
+          "line": 29,
+          "severity": "error",
+          "message": "Function is missing a return type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "aip/working_evacuation_agent.py",
+          "line": 112,
+          "severity": "error",
+          "message": "Name \"distance_from\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "aip/working_evacuation_agent.py",
+          "line": 150,
+          "severity": "error",
+          "message": "Name \"distance_from\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "aip/working_evacuation_agent.py",
+          "line": 156,
+          "severity": "error",
+          "message": "Name \"distance_from\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "aip/working_evacuation_agent.py",
+          "line": 292,
+          "severity": "error",
+          "message": "Untyped decorator makes function \"quick_evacuation_check\" untyped  [misc]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "aip/working_evacuation_agent.py",
+          "line": 307,
+          "severity": "error",
+          "message": "Untyped decorator makes function \"get_population_at_risk\" untyped  [misc]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "aip/working_evacuation_agent.py",
+          "line": 323,
+          "severity": "error",
+          "message": "Name \"distance_from\" is not defined  [name-defined]",
+          "category": "runtime"
+        },
+        {
+          "type": "type",
+          "file": "aip/challenge_winning_aip.py",
+          "line": 6,
+          "severity": "error",
+          "message": "Module \"palantir.aip\" has no attribute \"aip_agent\"  [attr-defined]",
+          "category": "ontology"
+        },
+        {
+          "type": "type",
+          "file": "aip/challenge_winning_aip.py",
+          "line": 6,
+          "severity": "error",
+          "message": "Module \"palantir.aip\" has no attribute \"aip_logic\"  [attr-defined]",
+          "category": "ontology"
+        },
+        {
+          "type": "type",
+          "file": "aip/challenge_winning_aip.py",
+          "line": 6,
+          "severity": "error",
+          "message": "Module \"palantir.aip\" has no attribute \"aip_model\"  [attr-defined]",
+          "category": "ontology"
+        },
+        {
+          "type": "type",
+          "file": "aip/challenge_winning_aip.py",
+          "line": 7,
+          "severity": "error",
+          "message": "Module \"palantir.ontology\" has no attribute \"HazardZone\"  [attr-defined]",
+          "category": "ontology"
+        },
+        {
+          "type": "type",
+          "file": "aip/challenge_winning_aip.py",
+          "line": 7,
+          "severity": "error",
+          "message": "Module \"palantir.ontology\" has no attribute \"EvacuationRoute\"  [attr-defined]",
+          "category": "ontology"
+        },
+        {
+          "type": "type",
+          "file": "aip/challenge_winning_aip.py",
+          "line": 7,
+          "severity": "error",
+          "message": "Module \"palantir.ontology\" has no attribute \"EmergencyUnit\"  [attr-defined]",
+          "category": "ontology"
+        },
+        {
+          "type": "type",
+          "file": "api/error_correlation_api.py",
+          "line": 22,
+          "severity": "error",
+          "message": "Function is missing a return type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "api/error_correlation_api.py",
+          "line": 32,
+          "severity": "error",
+          "message": "Function is missing a return type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "api/error_correlation_api.py",
+          "line": 34,
+          "severity": "error",
+          "message": "Function is missing a return type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "api/error_correlation_api.py",
+          "line": 42,
+          "severity": "error",
+          "message": "Function is missing a return type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "api/error_correlation_api.py",
+          "line": 96,
+          "severity": "error",
+          "message": "Function is missing a return type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "api/error_correlation_api.py",
+          "line": 253,
+          "severity": "error",
+          "message": "Incompatible types in assignment (expression has type \"float\", variable has type \"int\")  [assignment]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "api/error_correlation_api.py",
+          "line": 256,
+          "severity": "error",
+          "message": "Incompatible types in assignment (expression has type \"float\", variable has type \"int\")  [assignment]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "api/error_correlation_api.py",
+          "line": 261,
+          "severity": "error",
+          "message": "Incompatible types in assignment (expression has type \"float\", variable has type \"int\")  [assignment]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "api/error_correlation_api.py",
+          "line": 263,
+          "severity": "error",
+          "message": "Incompatible types in assignment (expression has type \"float\", variable has type \"int\")  [assignment]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "api/error_correlation_api.py",
+          "line": 265,
+          "severity": "error",
+          "message": "Incompatible types in assignment (expression has type \"float\", variable has type \"int\")  [assignment]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "api/error_correlation_api.py",
+          "line": 267,
+          "severity": "error",
+          "message": "Incompatible types in assignment (expression has type \"float\", variable has type \"int\")  [assignment]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "api/error_correlation_api.py",
+          "line": 334,
+          "severity": "error",
+          "message": "Function is missing a return type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "api/error_correlation_api.py",
+          "line": 338,
+          "severity": "error",
+          "message": "Function is missing a return type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "api/error_correlation_api.py",
+          "line": 353,
+          "severity": "error",
+          "message": "Function is missing a return type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "api/error_correlation_api.py",
+          "line": 367,
+          "severity": "error",
+          "message": "Function is missing a return type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "api/error_correlation_api.py",
+          "line": 378,
+          "severity": "error",
+          "message": "Function is missing a return type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "api/error_correlation_api.py",
+          "line": 389,
+          "severity": "error",
+          "message": "Function is missing a return type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "functions/synthetic_api.py",
+          "line": 18,
+          "severity": "error",
+          "message": "Function is missing a type annotation  [no-untyped-def]",
+          "category": "type"
+        },
+        {
+          "type": "type",
+          "file": "functions/synthetic_api.py",
+          "line": 18,
+          "severity": "error",
+          "message": "All conditional function variants must have identical signatures  [misc]",
+          "category": "runtime"
+        },
+        {
+          "type": "import",
+          "module": "palantir.ontology",
+          "severity": "error",
+          "message": "Module not found: palantir.ontology",
+          "category": "ontology"
+        },
+        {
+          "type": "import",
+          "module": "palantir.aip",
+          "severity": "error",
+          "message": "Module not found: palantir.aip",
+          "category": "ontology"
+        },
+        {
+          "type": "import",
+          "module": "palantir.transforms",
+          "severity": "error",
+          "message": "Module not found: palantir.transforms",
+          "category": "ontology"
+        },
+        {
+          "type": "import",
+          "module": "shapely",
+          "severity": "error",
+          "message": "Module not found: shapely",
+          "category": "ontology"
+        }
+      ],
+      "patterns": []
+    },
+    "correlations": [
+      {
+        "type": "pattern",
+        "source": "backend",
+        "pattern": "import-type",
+        "count": 34,
+        "confidence": 0.8,
+        "description": "Multiple import-type errors in backend",
+        "errors": [
+          {
+            "type": "type",
+            "file": "transforms/routing/safe_routes.py",
+            "line": 6,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \".api\"  [import-not-found]",
+            "category": "import"
+          },
+          {
+            "type": "type",
+            "file": "transforms/routing/safe_routes.py",
+            "line": 7,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"osmnx\"  [import-not-found]",
+            "category": "import"
+          },
+          {
+            "type": "type",
+            "file": "transforms/routing/safe_routes.py",
+            "line": 10,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"shapely.geometry\"  [import-not-found]",
+            "category": "import"
+          },
+          {
+            "type": "type",
+            "file": "transforms/routing/safe_routes.py",
+            "line": 41,
+            "severity": "error",
+            "message": "Module has no attribute \"astar_path\"  [attr-defined]",
+            "category": "import"
+          },
+          {
+            "type": "type",
+            "file": "transforms/routing/safe_routes.py",
+            "line": 44,
+            "severity": "error",
+            "message": "Module has no attribute \"NetworkXNoPath\"  [attr-defined]",
+            "category": "import"
+          },
+          {
+            "type": "type",
+            "file": "transforms/foundry_hazard_pipeline.py",
+            "line": 146,
+            "severity": "error",
+            "message": "Module has no attribute \"latlng_to_cell\"; maybe \"lat_lng_to_cell\" or \"string_to_cell\"?  [attr-defined]",
+            "category": "import"
+          },
+          {
+            "type": "type",
+            "file": "functions/foundry_public_api.py",
+            "line": 289,
+            "severity": "error",
+            "message": "Name \"SafetyStatus\" already defined (possibly by an import)  [no-redef]",
+            "category": "import"
+          },
+          {
+            "type": "type",
+            "file": "functions/foundry_public_api.py",
+            "line": 296,
+            "severity": "error",
+            "message": "Name \"DispatchResult\" already defined (possibly by an import)  [no-redef]",
+            "category": "import"
+          },
+          {
+            "type": "type",
+            "file": "aip/fire_spread_model.py",
+            "line": 163,
+            "severity": "error",
+            "message": "Module has no attribute \"cell_to_latlng\"; maybe \"cell_to_lat_lng\" or \"cell_to_string\"?  [attr-defined]",
+            "category": "import"
+          },
+          {
+            "type": "type",
+            "file": "aip/fire_spread_model.py",
+            "line": 172,
+            "severity": "error",
+            "message": "Module has no attribute \"cell_to_latlng\"; maybe \"cell_to_lat_lng\" or \"cell_to_string\"?  [attr-defined]",
+            "category": "import"
+          },
+          {
+            "type": "type",
+            "file": "mock_palantir.py",
+            "line": 194,
+            "severity": "error",
+            "message": "Module has no attribute \"Timedelta\"  [attr-defined]",
+            "category": "import"
+          },
+          {
+            "type": "type",
+            "file": "transforms/working_hazard_transform.py",
+            "line": 149,
+            "severity": "error",
+            "message": "Module has no attribute \"latlng_to_cell\"; maybe \"lat_lng_to_cell\" or \"string_to_cell\"?  [attr-defined]",
+            "category": "import"
+          },
+          {
+            "type": "type",
+            "file": "transforms/working_hazard_transform.py",
+            "line": 180,
+            "severity": "error",
+            "message": "Module has no attribute \"latlng_to_cell\"; maybe \"lat_lng_to_cell\" or \"string_to_cell\"?  [attr-defined]",
+            "category": "import"
+          },
+          {
+            "type": "type",
+            "file": "transforms/challenge_winning_transform.py",
+            "line": 225,
+            "severity": "error",
+            "message": "Module has no attribute \"latlng_to_cell\"; maybe \"lat_lng_to_cell\" or \"string_to_cell\"?  [attr-defined]",
+            "category": "import"
+          },
+          {
+            "type": "type",
+            "file": "transforms/routing/route_optimizer.py",
+            "line": 9,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"shapely.geometry\"  [import-not-found]",
+            "category": "import"
+          },
+          {
+            "type": "type",
+            "file": "transforms/routing/route_optimizer.py",
+            "line": 366,
+            "severity": "error",
+            "message": "Module has no attribute \"astar_path\"  [attr-defined]",
+            "category": "import"
+          },
+          {
+            "type": "type",
+            "file": "transforms/routing/route_optimizer.py",
+            "line": 372,
+            "severity": "error",
+            "message": "Module has no attribute \"astar_path\"  [attr-defined]",
+            "category": "import"
+          },
+          {
+            "type": "type",
+            "file": "transforms/routing/route_optimizer.py",
+            "line": 376,
+            "severity": "error",
+            "message": "Module has no attribute \"NetworkXNoPath\"  [attr-defined]",
+            "category": "import"
+          },
+          {
+            "type": "type",
+            "file": "transforms/processing/hazard_processor.py",
+            "line": 9,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"shapely.geometry\"  [import-not-found]",
+            "category": "import"
+          },
+          {
+            "type": "type",
+            "file": "transforms/processing/hazard_processor.py",
+            "line": 55,
+            "severity": "error",
+            "message": "Module has no attribute \"latlng_to_cell\"; maybe \"lat_lng_to_cell\" or \"string_to_cell\"?  [attr-defined]",
+            "category": "import"
+          },
+          {
+            "type": "type",
+            "file": "transforms/processing/hazard_processor.py",
+            "line": 82,
+            "severity": "error",
+            "message": "Module has no attribute \"latlng_to_cell\"; maybe \"lat_lng_to_cell\" or \"string_to_cell\"?  [attr-defined]",
+            "category": "import"
+          },
+          {
+            "type": "type",
+            "file": "transforms/processing/hazard_processor.py",
+            "line": 262,
+            "severity": "error",
+            "message": "Module has no attribute \"latlng_to_cell\"; maybe \"lat_lng_to_cell\" or \"string_to_cell\"?  [attr-defined]",
+            "category": "import"
+          },
+          {
+            "type": "type",
+            "file": "transforms/ingestion/wildfire_feed.py",
+            "line": 6,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \".api\"  [import-not-found]",
+            "category": "import"
+          },
+          {
+            "type": "type",
+            "file": "transforms/ingestion/wildfire_feed.py",
+            "line": 6,
+            "severity": "error",
+            "message": "Relative import climbs too many namespaces  [misc]",
+            "category": "import"
+          },
+          {
+            "type": "type",
+            "file": "transforms/ingestion/wildfire_feed.py",
+            "line": 43,
+            "severity": "error",
+            "message": "Module has no attribute \"cut\"  [attr-defined]",
+            "category": "import"
+          },
+          {
+            "type": "type",
+            "file": "transforms/ingestion/wildfire_feed.py",
+            "line": 70,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"shapely.geometry\"  [import-not-found]",
+            "category": "import"
+          },
+          {
+            "type": "type",
+            "file": "transforms/ingestion/wildfire_feed.py",
+            "line": 80,
+            "severity": "error",
+            "message": "Module has no attribute \"latlng_to_cell\"; maybe \"lat_lng_to_cell\" or \"string_to_cell\"?  [attr-defined]",
+            "category": "import"
+          },
+          {
+            "type": "type",
+            "file": "functions/street_data_api.py",
+            "line": 9,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"shapely.geometry\"  [import-not-found]",
+            "category": "import"
+          },
+          {
+            "type": "type",
+            "file": "functions/disaster_api.py",
+            "line": 6,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \".foundry_functions\"  [import-not-found]",
+            "category": "import"
+          },
+          {
+            "type": "type",
+            "file": "functions/disaster_api.py",
+            "line": 14,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"shapely.geometry\"  [import-not-found]",
+            "category": "import"
+          },
+          {
+            "type": "type",
+            "file": "functions/disaster_api.py",
+            "line": 17,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \".transforms.processing.hazard_processor\"  [import-not-found]",
+            "category": "import"
+          },
+          {
+            "type": "type",
+            "file": "functions/disaster_api.py",
+            "line": 18,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \".transforms.routing.route_optimizer\"  [import-not-found]",
+            "category": "import"
+          },
+          {
+            "type": "type",
+            "file": "functions/disaster_api.py",
+            "line": 143,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"shapely.ops\"  [import-not-found]",
+            "category": "import"
+          },
+          {
+            "type": "type",
+            "file": "compute_modules/risk_processor.py",
+            "line": 114,
+            "severity": "error",
+            "message": "Module has no attribute \"cut\"  [attr-defined]",
+            "category": "import"
+          }
+        ]
+      },
+      {
+        "type": "pattern",
+        "source": "backend",
+        "pattern": "type-type",
+        "count": 113,
+        "confidence": 0.8,
+        "description": "Multiple type-type errors in backend",
+        "errors": [
+          {
+            "type": "type",
+            "file": "transforms/routing/safe_routes.py",
+            "line": 19,
+            "severity": "error",
+            "message": "Function is missing a type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "transforms/routing/safe_routes.py",
+            "line": 23,
+            "severity": "error",
+            "message": "Function is missing a type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "transforms/routing/safe_routes.py",
+            "line": 32,
+            "severity": "error",
+            "message": "Function is missing a type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "transforms/routing/safe_routes.py",
+            "line": 48,
+            "severity": "error",
+            "message": "Function is missing a type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "transforms/routing/safe_routes.py",
+            "line": 78,
+            "severity": "error",
+            "message": "Function is missing a type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "test_api.py",
+            "line": 10,
+            "severity": "error",
+            "message": "Function is missing a return type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "mock_ontology.py",
+            "line": 379,
+            "severity": "error",
+            "message": "No overload variant of \"get\" of \"dict\" matches argument type \"str\"  [call-overload]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "mock_ontology.py",
+            "line": 385,
+            "severity": "error",
+            "message": "Function is missing a type annotation for one or more arguments  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "transforms/foundry_hazard_pipeline.py",
+            "line": 22,
+            "severity": "error",
+            "message": "Function is missing a type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "transforms/foundry_hazard_pipeline.py",
+            "line": 87,
+            "severity": "error",
+            "message": "Function is missing a type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "transforms/foundry_hazard_pipeline.py",
+            "line": 136,
+            "severity": "error",
+            "message": "Argument 1 to \"sum\" has incompatible type \"str\"; expected \"Iterable[bool]\"  [arg-type]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "transforms/foundry_hazard_pipeline.py",
+            "line": 144,
+            "severity": "error",
+            "message": "Function is missing a type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "transforms/foundry_hazard_pipeline.py",
+            "line": 146,
+            "severity": "error",
+            "message": "Name \"StringType\" is not defined  [name-defined]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "transforms/foundry_hazard_pipeline.py",
+            "line": 149,
+            "severity": "error",
+            "message": "Function is missing a type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "transforms/foundry_hazard_pipeline.py",
+            "line": 151,
+            "severity": "error",
+            "message": "Name \"GeometryType\" is not defined  [name-defined]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "functions/foundry_public_api.py",
+            "line": 17,
+            "severity": "error",
+            "message": "Untyped decorator makes function \"check_address_safety\" untyped  [misc]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "functions/foundry_public_api.py",
+            "line": 95,
+            "severity": "error",
+            "message": "Untyped decorator makes function \"get_evacuation_status\" untyped  [misc]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "functions/foundry_public_api.py",
+            "line": 152,
+            "severity": "error",
+            "message": "Untyped decorator makes function \"dispatch_resources\" untyped  [misc]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "functions/foundry_public_api.py",
+            "line": 200,
+            "severity": "error",
+            "message": "Untyped decorator makes function \"get_emergency_contacts\" untyped  [misc]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "functions/foundry_public_api.py",
+            "line": 210,
+            "severity": "error",
+            "message": "Name \"UnitType\" is not defined  [name-defined]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "functions/foundry_public_api.py",
+            "line": 248,
+            "severity": "error",
+            "message": "Untyped decorator makes function \"update_unit_location\" untyped  [misc]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "functions/foundry_public_api.py",
+            "line": 290,
+            "severity": "error",
+            "message": "Function is missing a type annotation for one or more arguments  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "functions/foundry_public_api.py",
+            "line": 297,
+            "severity": "error",
+            "message": "Function is missing a type annotation for one or more arguments  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "mock_aip.py",
+            "line": 114,
+            "severity": "error",
+            "message": "Incompatible return value type (got \"object\", expected \"dict[str, Any]\")  [return-value]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "aip/fire_spread_model.py",
+            "line": 27,
+            "severity": "error",
+            "message": "Function is missing a return type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "aip/fire_spread_model.py",
+            "line": 35,
+            "severity": "error",
+            "message": "Function is missing a return type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "aip/fire_spread_model.py",
+            "line": 100,
+            "severity": "error",
+            "message": "Untyped decorator makes function \"predict_spread\" untyped  [misc]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "aip/fire_spread_model.py",
+            "line": 259,
+            "severity": "error",
+            "message": "Untyped decorator makes function \"assist_evacuation_decision\" untyped  [misc]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "aip/fire_spread_model.py",
+            "line": 331,
+            "severity": "error",
+            "message": "Incompatible return value type (got \"None\", expected \"str\")  [return-value]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "mock_palantir.py",
+            "line": 69,
+            "severity": "error",
+            "message": "Argument 2 to \"MockGroupedData\" has incompatible type \"tuple[Any, ...]\"; expected \"list[str]\"  [arg-type]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "mock_palantir.py",
+            "line": 136,
+            "severity": "error",
+            "message": "No overload variant of \"where\" matches argument types \"Any\", \"Any\", \"None\"  [call-overload]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "mock_palantir.py",
+            "line": 278,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"type\", variable has type Module)  [assignment]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "transforms/working_hazard_transform.py",
+            "line": 24,
+            "severity": "error",
+            "message": "Function is missing a type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "transforms/working_hazard_transform.py",
+            "line": 99,
+            "severity": "error",
+            "message": "Function is missing a type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "transforms/working_hazard_transform.py",
+            "line": 138,
+            "severity": "error",
+            "message": "Argument 1 to \"sum\" has incompatible type \"str\"; expected \"Iterable[bool]\"  [arg-type]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "transforms/working_hazard_transform.py",
+            "line": 146,
+            "severity": "error",
+            "message": "Function is missing a type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "transforms/working_hazard_transform.py",
+            "line": 150,
+            "severity": "error",
+            "message": "Name \"StringType\" is not defined  [name-defined]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "transforms/working_hazard_transform.py",
+            "line": 155,
+            "severity": "error",
+            "message": "Function is missing a return type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "transforms/working_hazard_transform.py",
+            "line": 172,
+            "severity": "error",
+            "message": "Function is missing a return type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "transforms/challenge_winning_transform.py",
+            "line": 26,
+            "severity": "error",
+            "message": "Function is missing a type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "transforms/challenge_winning_transform.py",
+            "line": 113,
+            "severity": "error",
+            "message": "Function is missing a type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "transforms/challenge_winning_transform.py",
+            "line": 176,
+            "severity": "error",
+            "message": "Function is missing a type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "transforms/challenge_winning_transform.py",
+            "line": 223,
+            "severity": "error",
+            "message": "Function is missing a type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "transforms/challenge_winning_transform.py",
+            "line": 225,
+            "severity": "error",
+            "message": "Name \"StringType\" is not defined  [name-defined]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "transforms/challenge_winning_transform.py",
+            "line": 228,
+            "severity": "error",
+            "message": "Function is missing a type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "transforms/challenge_winning_transform.py",
+            "line": 252,
+            "severity": "error",
+            "message": "Function is missing a type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "transforms/challenge_winning_transform.py",
+            "line": 261,
+            "severity": "error",
+            "message": "Function is missing a type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "transforms/routing/route_optimizer.py",
+            "line": 15,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.spatial.distance\"  [import-untyped]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "transforms/routing/route_optimizer.py",
+            "line": 23,
+            "severity": "error",
+            "message": "Function is missing a return type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "transforms/routing/route_optimizer.py",
+            "line": 33,
+            "severity": "error",
+            "message": "Function is missing a return type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "transforms/routing/route_optimizer.py",
+            "line": 61,
+            "severity": "error",
+            "message": "Incompatible default for argument \"traffic_data\" (default has type \"None\", argument has type \"DataFrame\")  [assignment]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "transforms/routing/route_optimizer.py",
+            "line": 200,
+            "severity": "error",
+            "message": "Incompatible default for argument \"traffic_data\" (default has type \"None\", argument has type \"DataFrame\")  [assignment]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "transforms/routing/route_optimizer.py",
+            "line": 223,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"float\", variable has type \"int\")  [assignment]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "transforms/routing/route_optimizer.py",
+            "line": 324,
+            "severity": "error",
+            "message": "Function is missing a return type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "transforms/routing/route_optimizer.py",
+            "line": 369,
+            "severity": "error",
+            "message": "Function is missing a type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "transforms/routing/route_optimizer.py",
+            "line": 370,
+            "severity": "error",
+            "message": "Value of type \"Graph\" is not indexable  [index]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "transforms/processing/hazard_processor.py",
+            "line": 25,
+            "severity": "error",
+            "message": "Function is missing a return type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "transforms/processing/hazard_processor.py",
+            "line": 31,
+            "severity": "error",
+            "message": "Function is missing a return type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "transforms/processing/hazard_processor.py",
+            "line": 31,
+            "severity": "error",
+            "message": "Incompatible default for argument \"model_path\" (default has type \"None\", argument has type \"str\")  [assignment]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "transforms/processing/hazard_processor.py",
+            "line": 202,
+            "severity": "error",
+            "message": "Unsupported operand types for - (\"Series\" and \"int\")  [operator]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "transforms/ingestion/wildfire_feed.py",
+            "line": 16,
+            "severity": "error",
+            "message": "Function is missing a type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "transforms/ingestion/wildfire_feed.py",
+            "line": 56,
+            "severity": "error",
+            "message": "Function is missing a type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "functions/street_data_api.py",
+            "line": 20,
+            "severity": "error",
+            "message": "Function is missing a type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "functions/street_data_api.py",
+            "line": 163,
+            "severity": "error",
+            "message": "Function is missing a type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "functions/street_data_api.py",
+            "line": 240,
+            "severity": "error",
+            "message": "Function is missing a type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "functions/street_data_api.py",
+            "line": 314,
+            "severity": "error",
+            "message": "Function is missing a type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "functions/disaster_api.py",
+            "line": 31,
+            "severity": "error",
+            "message": "Function is missing a type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "functions/disaster_api.py",
+            "line": 59,
+            "severity": "error",
+            "message": "Function is missing a type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "functions/disaster_api.py",
+            "line": 95,
+            "severity": "error",
+            "message": "Function is missing a type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "functions/disaster_api.py",
+            "line": 138,
+            "severity": "error",
+            "message": "Function is missing a type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "functions/disaster_api.py",
+            "line": 225,
+            "severity": "error",
+            "message": "Function is missing a type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "functions/disaster_api.py",
+            "line": 272,
+            "severity": "error",
+            "message": "Function is missing a type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "functions/disaster_api.py",
+            "line": 321,
+            "severity": "error",
+            "message": "Function is missing a type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "functions/disaster_api.py",
+            "line": 399,
+            "severity": "error",
+            "message": "Function is missing a type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "functions/disaster_api.py",
+            "line": 472,
+            "severity": "error",
+            "message": "Function is missing a type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "functions/disaster_api.py",
+            "line": 550,
+            "severity": "error",
+            "message": "Function is missing a type annotation for one or more arguments  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "functions/disaster_api.py",
+            "line": 578,
+            "severity": "error",
+            "message": "Function is missing a type annotation for one or more arguments  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "functions/disaster_api.py",
+            "line": 602,
+            "severity": "error",
+            "message": "Function is missing a type annotation for one or more arguments  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "functions/disaster_api.py",
+            "line": 614,
+            "severity": "error",
+            "message": "Function is missing a type annotation for one or more arguments  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "functions/disaster_api.py",
+            "line": 625,
+            "severity": "error",
+            "message": "Function is missing a type annotation for one or more arguments  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "functions/disaster_api.py",
+            "line": 636,
+            "severity": "error",
+            "message": "Function is missing a type annotation for one or more arguments  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "functions/disaster_api.py",
+            "line": 648,
+            "severity": "error",
+            "message": "Function is missing a type annotation for one or more arguments  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "compute_modules/risk_processor.py",
+            "line": 20,
+            "severity": "error",
+            "message": "Function is missing a type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "compute_modules/risk_processor.py",
+            "line": 24,
+            "severity": "error",
+            "message": "Function is missing a type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "compute_modules/risk_processor.py",
+            "line": 42,
+            "severity": "error",
+            "message": "Function is missing a type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "compute_modules/risk_processor.py",
+            "line": 70,
+            "severity": "error",
+            "message": "Function is missing a type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "compute_modules/risk_processor.py",
+            "line": 85,
+            "severity": "error",
+            "message": "Function is missing a type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "compute_modules/risk_processor.py",
+            "line": 92,
+            "severity": "error",
+            "message": "Function is missing a type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "compute_modules/risk_processor.py",
+            "line": 97,
+            "severity": "error",
+            "message": "Function is missing a type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "compute_modules/risk_processor.py",
+            "line": 102,
+            "severity": "error",
+            "message": "Function is missing a type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "compute_modules/risk_processor.py",
+            "line": 123,
+            "severity": "error",
+            "message": "Function is missing a type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "compute_modules/risk_processor.py",
+            "line": 135,
+            "severity": "error",
+            "message": "Function is missing a return type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "aip/working_evacuation_agent.py",
+            "line": 29,
+            "severity": "error",
+            "message": "Function is missing a return type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "aip/working_evacuation_agent.py",
+            "line": 292,
+            "severity": "error",
+            "message": "Untyped decorator makes function \"quick_evacuation_check\" untyped  [misc]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "aip/working_evacuation_agent.py",
+            "line": 307,
+            "severity": "error",
+            "message": "Untyped decorator makes function \"get_population_at_risk\" untyped  [misc]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "api/error_correlation_api.py",
+            "line": 22,
+            "severity": "error",
+            "message": "Function is missing a return type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "api/error_correlation_api.py",
+            "line": 32,
+            "severity": "error",
+            "message": "Function is missing a return type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "api/error_correlation_api.py",
+            "line": 34,
+            "severity": "error",
+            "message": "Function is missing a return type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "api/error_correlation_api.py",
+            "line": 42,
+            "severity": "error",
+            "message": "Function is missing a return type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "api/error_correlation_api.py",
+            "line": 96,
+            "severity": "error",
+            "message": "Function is missing a return type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "api/error_correlation_api.py",
+            "line": 253,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"float\", variable has type \"int\")  [assignment]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "api/error_correlation_api.py",
+            "line": 256,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"float\", variable has type \"int\")  [assignment]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "api/error_correlation_api.py",
+            "line": 261,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"float\", variable has type \"int\")  [assignment]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "api/error_correlation_api.py",
+            "line": 263,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"float\", variable has type \"int\")  [assignment]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "api/error_correlation_api.py",
+            "line": 265,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"float\", variable has type \"int\")  [assignment]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "api/error_correlation_api.py",
+            "line": 267,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"float\", variable has type \"int\")  [assignment]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "api/error_correlation_api.py",
+            "line": 334,
+            "severity": "error",
+            "message": "Function is missing a return type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "api/error_correlation_api.py",
+            "line": 338,
+            "severity": "error",
+            "message": "Function is missing a return type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "api/error_correlation_api.py",
+            "line": 353,
+            "severity": "error",
+            "message": "Function is missing a return type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "api/error_correlation_api.py",
+            "line": 367,
+            "severity": "error",
+            "message": "Function is missing a return type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "api/error_correlation_api.py",
+            "line": 378,
+            "severity": "error",
+            "message": "Function is missing a return type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "api/error_correlation_api.py",
+            "line": 389,
+            "severity": "error",
+            "message": "Function is missing a return type annotation  [no-untyped-def]",
+            "category": "type"
+          },
+          {
+            "type": "type",
+            "file": "functions/synthetic_api.py",
+            "line": 18,
+            "severity": "error",
+            "message": "Function is missing a type annotation  [no-untyped-def]",
+            "category": "type"
+          }
+        ]
+      },
+      {
+        "type": "pattern",
+        "source": "backend",
+        "pattern": "runtime-type",
+        "count": 89,
+        "confidence": 0.8,
+        "description": "Multiple runtime-type errors in backend",
+        "errors": [
+          {
+            "type": "type",
+            "file": "mock_ontology.py",
+            "line": 161,
+            "severity": "error",
+            "message": "No return value expected  [return-value]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "transforms/foundry_hazard_pipeline.py",
+            "line": 36,
+            "severity": "error",
+            "message": "\"str\" has no attribute \"alias\"  [attr-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "transforms/foundry_hazard_pipeline.py",
+            "line": 37,
+            "severity": "error",
+            "message": "Name \"count\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "transforms/foundry_hazard_pipeline.py",
+            "line": 38,
+            "severity": "error",
+            "message": "\"str\" has no attribute \"alias\"  [attr-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "transforms/foundry_hazard_pipeline.py",
+            "line": 47,
+            "severity": "error",
+            "message": "Name \"when\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "transforms/foundry_hazard_pipeline.py",
+            "line": 47,
+            "severity": "error",
+            "message": "Name \"col\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "transforms/foundry_hazard_pipeline.py",
+            "line": 56,
+            "severity": "error",
+            "message": "Name \"when\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "transforms/foundry_hazard_pipeline.py",
+            "line": 56,
+            "severity": "error",
+            "message": "Name \"col\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "transforms/foundry_hazard_pipeline.py",
+            "line": 61,
+            "severity": "error",
+            "message": "Name \"col\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "transforms/foundry_hazard_pipeline.py",
+            "line": 63,
+            "severity": "error",
+            "message": "Name \"when\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "transforms/foundry_hazard_pipeline.py",
+            "line": 63,
+            "severity": "error",
+            "message": "Name \"col\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "transforms/foundry_hazard_pipeline.py",
+            "line": 64,
+            "severity": "error",
+            "message": "Name \"col\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "transforms/foundry_hazard_pipeline.py",
+            "line": 65,
+            "severity": "error",
+            "message": "Name \"col\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "transforms/foundry_hazard_pipeline.py",
+            "line": 74,
+            "severity": "error",
+            "message": "Name \"col\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "transforms/foundry_hazard_pipeline.py",
+            "line": 97,
+            "severity": "error",
+            "message": "Name \"col\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "transforms/foundry_hazard_pipeline.py",
+            "line": 105,
+            "severity": "error",
+            "message": "Name \"col\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "transforms/foundry_hazard_pipeline.py",
+            "line": 114,
+            "severity": "error",
+            "message": "Name \"when\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "transforms/foundry_hazard_pipeline.py",
+            "line": 114,
+            "severity": "error",
+            "message": "Name \"col\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "transforms/foundry_hazard_pipeline.py",
+            "line": 130,
+            "severity": "error",
+            "message": "Name \"current_timestamp\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "transforms/foundry_hazard_pipeline.py",
+            "line": 146,
+            "severity": "error",
+            "message": "Name \"udf\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "transforms/foundry_hazard_pipeline.py",
+            "line": 151,
+            "severity": "error",
+            "message": "Name \"udf\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "functions/foundry_public_api.py",
+            "line": 36,
+            "severity": "error",
+            "message": "Name \"distance_from\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "functions/foundry_public_api.py",
+            "line": 46,
+            "severity": "error",
+            "message": "Name \"distance_from\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "functions/foundry_public_api.py",
+            "line": 54,
+            "severity": "error",
+            "message": "Name \"distance_from\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "functions/foundry_public_api.py",
+            "line": 160,
+            "severity": "error",
+            "message": "Name \"Incident\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "functions/foundry_public_api.py",
+            "line": 174,
+            "severity": "error",
+            "message": "Name \"UnitStatus\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "functions/foundry_public_api.py",
+            "line": 211,
+            "severity": "error",
+            "message": "Name \"UnitStatus\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "functions/foundry_public_api.py",
+            "line": 214,
+            "severity": "error",
+            "message": "Name \"Incident\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "aip/fire_spread_model.py",
+            "line": 21,
+            "severity": "error",
+            "message": "Name \"Input\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "aip/fire_spread_model.py",
+            "line": 44,
+            "severity": "error",
+            "message": "Name \"FoundryAutoML\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "aip/fire_spread_model.py",
+            "line": 68,
+            "severity": "error",
+            "message": "\"DataFrame\" has no attribute \"withColumn\"  [attr-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "aip/fire_spread_model.py",
+            "line": 69,
+            "severity": "error",
+            "message": "Name \"col\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "aip/fire_spread_model.py",
+            "line": 74,
+            "severity": "error",
+            "message": "Name \"when\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "aip/fire_spread_model.py",
+            "line": 74,
+            "severity": "error",
+            "message": "Name \"col\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "aip/fire_spread_model.py",
+            "line": 75,
+            "severity": "error",
+            "message": "Name \"col\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "aip/fire_spread_model.py",
+            "line": 81,
+            "severity": "error",
+            "message": "Name \"when\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "aip/fire_spread_model.py",
+            "line": 81,
+            "severity": "error",
+            "message": "Name \"col\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "aip/fire_spread_model.py",
+            "line": 82,
+            "severity": "error",
+            "message": "Name \"col\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "aip/fire_spread_model.py",
+            "line": 88,
+            "severity": "error",
+            "message": "Name \"when\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "aip/fire_spread_model.py",
+            "line": 88,
+            "severity": "error",
+            "message": "Name \"col\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "aip/fire_spread_model.py",
+            "line": 89,
+            "severity": "error",
+            "message": "Name \"col\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "aip/fire_spread_model.py",
+            "line": 95,
+            "severity": "error",
+            "message": "Name \"col\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "aip/fire_spread_model.py",
+            "line": 98,
+            "severity": "error",
+            "message": "Returning Any from function declared to return \"DataFrame\"  [no-any-return]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "aip/fire_spread_model.py",
+            "line": 109,
+            "severity": "error",
+            "message": "Item \"None\" of \"Any | None\" has no attribute \"predict\"  [union-attr]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "aip/fire_spread_model.py",
+            "line": 110,
+            "severity": "error",
+            "message": "Item \"None\" of \"Any | None\" has no attribute \"confidence_score\"  [union-attr]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "aip/fire_spread_model.py",
+            "line": 169,
+            "severity": "error",
+            "message": "Unexpected keyword argument \"radius\" for \"grid_disk\"  [call-arg]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "aip/fire_spread_model.py",
+            "line": 277,
+            "severity": "error",
+            "message": "Name \"distance_from\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "aip/fire_spread_model.py",
+            "line": 293,
+            "severity": "error",
+            "message": "Name \"distance_from\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "mock_palantir.py",
+            "line": 46,
+            "severity": "error",
+            "message": "No return value expected  [return-value]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "mock_palantir.py",
+            "line": 105,
+            "severity": "error",
+            "message": "\"Callable[[], Any]\" has no attribute \"__iter__\" (not iterable)  [attr-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "transforms/working_hazard_transform.py",
+            "line": 49,
+            "severity": "error",
+            "message": "\"str\" has no attribute \"alias\"  [attr-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "transforms/working_hazard_transform.py",
+            "line": 50,
+            "severity": "error",
+            "message": "Name \"count\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "transforms/working_hazard_transform.py",
+            "line": 51,
+            "severity": "error",
+            "message": "\"str\" has no attribute \"alias\"  [attr-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "transforms/working_hazard_transform.py",
+            "line": 64,
+            "severity": "error",
+            "message": "Name \"col\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "transforms/working_hazard_transform.py",
+            "line": 67,
+            "severity": "error",
+            "message": "Name \"when\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "transforms/working_hazard_transform.py",
+            "line": 67,
+            "severity": "error",
+            "message": "Name \"col\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "transforms/working_hazard_transform.py",
+            "line": 68,
+            "severity": "error",
+            "message": "Name \"col\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "transforms/working_hazard_transform.py",
+            "line": 69,
+            "severity": "error",
+            "message": "Name \"col\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "transforms/working_hazard_transform.py",
+            "line": 75,
+            "severity": "error",
+            "message": "Name \"current_timestamp\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "transforms/working_hazard_transform.py",
+            "line": 77,
+            "severity": "error",
+            "message": "Name \"lit\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "transforms/working_hazard_transform.py",
+            "line": 85,
+            "severity": "error",
+            "message": "Name \"col\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "transforms/working_hazard_transform.py",
+            "line": 109,
+            "severity": "error",
+            "message": "Name \"col\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "transforms/working_hazard_transform.py",
+            "line": 118,
+            "severity": "error",
+            "message": "Name \"coalesce\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "transforms/working_hazard_transform.py",
+            "line": 118,
+            "severity": "error",
+            "message": "Name \"col\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "transforms/working_hazard_transform.py",
+            "line": 118,
+            "severity": "error",
+            "message": "Name \"lit\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "transforms/working_hazard_transform.py",
+            "line": 132,
+            "severity": "error",
+            "message": "Name \"current_timestamp\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "transforms/working_hazard_transform.py",
+            "line": 148,
+            "severity": "error",
+            "message": "Name \"udf\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "transforms/challenge_winning_transform.py",
+            "line": 210,
+            "severity": "error",
+            "message": "Name \"spark\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "transforms/challenge_winning_transform.py",
+            "line": 225,
+            "severity": "error",
+            "message": "Name \"udf\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "transforms/routing/route_optimizer.py",
+            "line": 191,
+            "severity": "error",
+            "message": "Item \"None\" of \"Any | None\" has no attribute \"geometry\"  [union-attr]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "transforms/routing/route_optimizer.py",
+            "line": 193,
+            "severity": "error",
+            "message": "Returning Any from function declared to return \"Series | None\"  [no-any-return]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "transforms/routing/route_optimizer.py",
+            "line": 193,
+            "severity": "error",
+            "message": "Item \"None\" of \"Any | None\" has no attribute \"loc\"  [union-attr]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "transforms/routing/route_optimizer.py",
+            "line": 206,
+            "severity": "error",
+            "message": "Item \"None\" of \"Any | None\" has no attribute \"iterrows\"  [union-attr]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "transforms/routing/route_optimizer.py",
+            "line": 291,
+            "severity": "error",
+            "message": "Returning Any from function declared to return \"float\"  [no-any-return]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "transforms/routing/route_optimizer.py",
+            "line": 332,
+            "severity": "error",
+            "message": "Item \"None\" of \"Any | None\" has no attribute \"loc\"  [union-attr]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "transforms/routing/route_optimizer.py",
+            "line": 374,
+            "severity": "error",
+            "message": "Returning Any from function declared to return \"list[str] | None\"  [no-any-return]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "transforms/routing/route_optimizer.py",
+            "line": 394,
+            "severity": "error",
+            "message": "Item \"None\" of \"Any | None\" has no attribute \"loc\"  [union-attr]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "transforms/routing/route_optimizer.py",
+            "line": 426,
+            "severity": "error",
+            "message": "Item \"None\" of \"Any | None\" has no attribute \"loc\"  [union-attr]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "transforms/processing/hazard_processor.py",
+            "line": 115,
+            "severity": "error",
+            "message": "Item \"None\" of \"Any | None\" has no attribute \"transform\"  [union-attr]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "transforms/processing/hazard_processor.py",
+            "line": 203,
+            "severity": "error",
+            "message": "Returning Any from function declared to return \"Series\"  [no-any-return]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "transforms/processing/hazard_processor.py",
+            "line": 276,
+            "severity": "error",
+            "message": "Returning Any from function declared to return \"Series | None\"  [no-any-return]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "transforms/processing/hazard_processor.py",
+            "line": 313,
+            "severity": "error",
+            "message": "Returning Any from function declared to return \"float\"  [no-any-return]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "functions/disaster_api.py",
+            "line": 505,
+            "severity": "error",
+            "message": "Name \"self\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "functions/disaster_api.py",
+            "line": 524,
+            "severity": "error",
+            "message": "Name \"self\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "aip/working_evacuation_agent.py",
+            "line": 112,
+            "severity": "error",
+            "message": "Name \"distance_from\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "aip/working_evacuation_agent.py",
+            "line": 150,
+            "severity": "error",
+            "message": "Name \"distance_from\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "aip/working_evacuation_agent.py",
+            "line": 156,
+            "severity": "error",
+            "message": "Name \"distance_from\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "aip/working_evacuation_agent.py",
+            "line": 323,
+            "severity": "error",
+            "message": "Name \"distance_from\" is not defined  [name-defined]",
+            "category": "runtime"
+          },
+          {
+            "type": "type",
+            "file": "functions/synthetic_api.py",
+            "line": 18,
+            "severity": "error",
+            "message": "All conditional function variants must have identical signatures  [misc]",
+            "category": "runtime"
+          }
+        ]
+      },
+      {
+        "type": "pattern",
+        "source": "backend",
+        "pattern": "ontology-type",
+        "count": 32,
+        "confidence": 0.8,
+        "description": "Multiple ontology-type errors in backend",
+        "errors": [
+          {
+            "type": "type",
+            "file": "mock_ontology.py",
+            "line": 358,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"dict[Never, Never]\", target has type \"OntologyObject\")  [assignment]",
+            "category": "ontology"
+          },
+          {
+            "type": "type",
+            "file": "mock_ontology.py",
+            "line": 374,
+            "severity": "error",
+            "message": "Unsupported target for indexed assignment (\"OntologyObject\")  [index]",
+            "category": "ontology"
+          },
+          {
+            "type": "type",
+            "file": "mock_ontology.py",
+            "line": 379,
+            "severity": "error",
+            "message": "Returning Any from function declared to return \"OntologyObject | None\"  [no-any-return]",
+            "category": "ontology"
+          },
+          {
+            "type": "type",
+            "file": "mock_ontology.py",
+            "line": 379,
+            "severity": "error",
+            "message": "Item \"OntologyObject\" of \"OntologyObject | dict[Never, Never]\" has no attribute \"get\"  [union-attr]",
+            "category": "ontology"
+          },
+          {
+            "type": "type",
+            "file": "mock_ontology.py",
+            "line": 383,
+            "severity": "error",
+            "message": "Item \"OntologyObject\" of \"OntologyObject | dict[Never, Never]\" has no attribute \"values\"  [union-attr]",
+            "category": "ontology"
+          },
+          {
+            "type": "type",
+            "file": "functions/foundry_public_api.py",
+            "line": 6,
+            "severity": "error",
+            "message": "Module \"palantir.functions\" has no attribute \"function\"; maybe \"Function\" or \"get_function\"?  [attr-defined]",
+            "category": "ontology"
+          },
+          {
+            "type": "type",
+            "file": "functions/foundry_public_api.py",
+            "line": 6,
+            "severity": "error",
+            "message": "Module \"palantir.functions\" has no attribute \"Input\"  [attr-defined]",
+            "category": "ontology"
+          },
+          {
+            "type": "type",
+            "file": "functions/foundry_public_api.py",
+            "line": 6,
+            "severity": "error",
+            "message": "Module \"palantir.functions\" has no attribute \"Output\"  [attr-defined]",
+            "category": "ontology"
+          },
+          {
+            "type": "type",
+            "file": "functions/foundry_public_api.py",
+            "line": 7,
+            "severity": "error",
+            "message": "Module \"palantir.ontology\" has no attribute \"HazardZone\"  [attr-defined]",
+            "category": "ontology"
+          },
+          {
+            "type": "type",
+            "file": "functions/foundry_public_api.py",
+            "line": 7,
+            "severity": "error",
+            "message": "Module \"palantir.ontology\" has no attribute \"EmergencyUnit\"  [attr-defined]",
+            "category": "ontology"
+          },
+          {
+            "type": "type",
+            "file": "functions/foundry_public_api.py",
+            "line": 7,
+            "severity": "error",
+            "message": "Module \"palantir.ontology\" has no attribute \"EvacuationRoute\"  [attr-defined]",
+            "category": "ontology"
+          },
+          {
+            "type": "type",
+            "file": "functions/foundry_public_api.py",
+            "line": 7,
+            "severity": "error",
+            "message": "Module \"palantir.ontology\" has no attribute \"Building\"  [attr-defined]",
+            "category": "ontology"
+          },
+          {
+            "type": "type",
+            "file": "functions/foundry_public_api.py",
+            "line": 8,
+            "severity": "error",
+            "message": "Module \"palantir.geocoding\" has no attribute \"FoundryGeocoder\"  [attr-defined]",
+            "category": "ontology"
+          },
+          {
+            "type": "type",
+            "file": "functions/foundry_public_api.py",
+            "line": 9,
+            "severity": "error",
+            "message": "Module \"palantir.ontology.types\" has no attribute \"SafetyStatus\"  [attr-defined]",
+            "category": "ontology"
+          },
+          {
+            "type": "type",
+            "file": "functions/foundry_public_api.py",
+            "line": 9,
+            "severity": "error",
+            "message": "Module \"palantir.ontology.types\" has no attribute \"DispatchResult\"  [attr-defined]",
+            "category": "ontology"
+          },
+          {
+            "type": "type",
+            "file": "functions/foundry_public_api.py",
+            "line": 169,
+            "severity": "error",
+            "message": "Name \"ontology_transaction\" is not defined  [name-defined]",
+            "category": "ontology"
+          },
+          {
+            "type": "type",
+            "file": "aip/fire_spread_model.py",
+            "line": 6,
+            "severity": "error",
+            "message": "Module \"palantir.aip\" has no attribute \"aip_model\"  [attr-defined]",
+            "category": "ontology"
+          },
+          {
+            "type": "type",
+            "file": "aip/fire_spread_model.py",
+            "line": 6,
+            "severity": "error",
+            "message": "Module \"palantir.aip\" has no attribute \"aip_inference\"  [attr-defined]",
+            "category": "ontology"
+          },
+          {
+            "type": "type",
+            "file": "aip/fire_spread_model.py",
+            "line": 6,
+            "severity": "error",
+            "message": "Module \"palantir.aip\" has no attribute \"aip_logic\"  [attr-defined]",
+            "category": "ontology"
+          },
+          {
+            "type": "type",
+            "file": "aip/fire_spread_model.py",
+            "line": 7,
+            "severity": "error",
+            "message": "Module \"palantir.ontology\" has no attribute \"HazardZone\"  [attr-defined]",
+            "category": "ontology"
+          },
+          {
+            "type": "type",
+            "file": "aip/fire_spread_model.py",
+            "line": 7,
+            "severity": "error",
+            "message": "Module \"palantir.ontology\" has no attribute \"EvacuationRoute\"  [attr-defined]",
+            "category": "ontology"
+          },
+          {
+            "type": "type",
+            "file": "aip/working_evacuation_agent.py",
+            "line": 6,
+            "severity": "error",
+            "message": "Module \"palantir.aip\" has no attribute \"aip_agent\"  [attr-defined]",
+            "category": "ontology"
+          },
+          {
+            "type": "type",
+            "file": "aip/working_evacuation_agent.py",
+            "line": 6,
+            "severity": "error",
+            "message": "Module \"palantir.aip\" has no attribute \"aip_logic\"  [attr-defined]",
+            "category": "ontology"
+          },
+          {
+            "type": "type",
+            "file": "aip/working_evacuation_agent.py",
+            "line": 7,
+            "severity": "error",
+            "message": "Module \"palantir.ontology\" has no attribute \"HazardZone\"  [attr-defined]",
+            "category": "ontology"
+          },
+          {
+            "type": "type",
+            "file": "aip/working_evacuation_agent.py",
+            "line": 7,
+            "severity": "error",
+            "message": "Module \"palantir.ontology\" has no attribute \"EvacuationRoute\"  [attr-defined]",
+            "category": "ontology"
+          },
+          {
+            "type": "type",
+            "file": "aip/working_evacuation_agent.py",
+            "line": 7,
+            "severity": "error",
+            "message": "Module \"palantir.ontology\" has no attribute \"EmergencyUnit\"  [attr-defined]",
+            "category": "ontology"
+          },
+          {
+            "type": "type",
+            "file": "aip/challenge_winning_aip.py",
+            "line": 6,
+            "severity": "error",
+            "message": "Module \"palantir.aip\" has no attribute \"aip_agent\"  [attr-defined]",
+            "category": "ontology"
+          },
+          {
+            "type": "type",
+            "file": "aip/challenge_winning_aip.py",
+            "line": 6,
+            "severity": "error",
+            "message": "Module \"palantir.aip\" has no attribute \"aip_logic\"  [attr-defined]",
+            "category": "ontology"
+          },
+          {
+            "type": "type",
+            "file": "aip/challenge_winning_aip.py",
+            "line": 6,
+            "severity": "error",
+            "message": "Module \"palantir.aip\" has no attribute \"aip_model\"  [attr-defined]",
+            "category": "ontology"
+          },
+          {
+            "type": "type",
+            "file": "aip/challenge_winning_aip.py",
+            "line": 7,
+            "severity": "error",
+            "message": "Module \"palantir.ontology\" has no attribute \"HazardZone\"  [attr-defined]",
+            "category": "ontology"
+          },
+          {
+            "type": "type",
+            "file": "aip/challenge_winning_aip.py",
+            "line": 7,
+            "severity": "error",
+            "message": "Module \"palantir.ontology\" has no attribute \"EvacuationRoute\"  [attr-defined]",
+            "category": "ontology"
+          },
+          {
+            "type": "type",
+            "file": "aip/challenge_winning_aip.py",
+            "line": 7,
+            "severity": "error",
+            "message": "Module \"palantir.ontology\" has no attribute \"EmergencyUnit\"  [attr-defined]",
+            "category": "ontology"
+          }
+        ]
+      },
+      {
+        "type": "pattern",
+        "source": "backend",
+        "pattern": "ontology-import",
+        "count": 4,
+        "confidence": 0.8,
+        "description": "Multiple ontology-import errors in backend",
+        "errors": [
+          {
+            "type": "import",
+            "module": "palantir.ontology",
+            "severity": "error",
+            "message": "Module not found: palantir.ontology",
+            "category": "ontology"
+          },
+          {
+            "type": "import",
+            "module": "palantir.aip",
+            "severity": "error",
+            "message": "Module not found: palantir.aip",
+            "category": "ontology"
+          },
+          {
+            "type": "import",
+            "module": "palantir.transforms",
+            "severity": "error",
+            "message": "Module not found: palantir.transforms",
+            "category": "ontology"
+          },
+          {
+            "type": "import",
+            "module": "shapely",
+            "severity": "error",
+            "message": "Module not found: shapely",
+            "category": "ontology"
+          }
+        ]
+      }
+    ],
+    "recommendations": [
+      {
+        "priority": "high",
+        "category": "ontology",
+        "title": "Implement Palantir Foundry Integration",
+        "description": "36 ontology-related errors found. Consider implementing proper Foundry platform integration or enhanced mock services.",
+        "actions": [
+          "Set up Palantir Foundry development environment",
+          "Implement proper ontology object definitions",
+          "Create comprehensive mock services for demo environment",
+          "Add error handling for missing Foundry dependencies"
+        ]
+      },
+      {
+        "priority": "medium",
+        "category": "type",
+        "title": "Improve Type Safety",
+        "description": "113 type-related errors found. Improve type definitions and add missing annotations.",
+        "actions": [
+          "Add missing TypeScript type annotations",
+          "Create comprehensive type definitions for external libraries",
+          "Fix mypy type checking issues",
+          "Implement stricter type checking in CI/CD"
+        ]
+      },
+      {
+        "priority": "medium",
+        "category": "import",
+        "title": "Resolve Import Dependencies",
+        "description": "34 import-related errors found. Install missing dependencies or create proper stubs.",
+        "actions": [
+          "Install missing Python packages",
+          "Create type stubs for external libraries",
+          "Update requirements.txt with all dependencies",
+          "Implement proper error handling for missing imports"
+        ]
+      }
+    ]
+  },
+  "summary": {
+    "totalErrors": 273,
+    "criticalIssues": 272,
+    "resolvedIssues": 0,
+    "correlationStrength": 0.8,
+    "frontendErrors": 1,
+    "backendErrors": 272,
+    "correlations": 5,
+    "recommendations": 3
+  }
+}

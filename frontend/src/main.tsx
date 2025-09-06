@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
+import { TestModeProvider, TestModeStyles } from './components/testing/TestModeProvider'
 import './index.css'
 
 console.log('main.tsx is executing!');
@@ -16,18 +17,26 @@ if (rootElement) {
     const root = ReactDOM.createRoot(rootElement);
     root.render(
       <React.StrictMode>
-        <App />
+        <TestModeProvider>
+          <TestModeStyles />
+          <App />
+        </TestModeProvider>
       </React.StrictMode>
     );
     console.log('React application mounted successfully!');
+    
+    // Set app idle state for testing
+    (window as any).__appIdle = true;
   } catch (error) {
     console.error('Error mounting React application:', error);
-          console.error('Error stack:', error.stack);
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    const errorStack = error instanceof Error ? error.stack : 'No stack trace available';
+    console.error('Error stack:', errorStack);
     rootElement.innerHTML = `
       <div style="padding: 2rem; text-align: center; background: #f8d7da; border: 1px solid #f5c6cb; border-radius: 8px;">
         <h1>React Mount Error</h1>
-        <p>Error: ${error}</p>
-        <p>Stack: ${error.stack}</p>
+        <p>Error: ${errorMessage}</p>
+        <p>Stack: ${errorStack}</p>
         <p>Check console for details.</p>
       </div>
     `;

@@ -1,0 +1,399 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+env:
+  NODE_VERSION: '18'
+  PYTHON_VERSION: '3.11'
+
+jobs:
+  backend:
+    name: Backend Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Python ${{ env.PYTHON_VERSION }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+        
+    - name: Cache pip dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('backend/requirements*.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+          
+    - name: Install backend dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r backend/requirements.txt
+        pip install -r backend/requirements-test.txt
+        
+    - name: Run backend linting
+      run: |
+        cd backend
+        ruff check .
+        
+    - name: Run backend type checking
+      run: |
+        cd backend
+        mypy .
+        
+    - name: Run backend tests
+      run: |
+        cd backend
+        pytest -v --cov=. --cov-report=xml --cov-report=term-missing
+        
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./backend/coverage.xml
+        flags: backend
+        name: backend-coverage
+
+  frontend:
+    name: Frontend Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Node.js ${{ env.NODE_VERSION }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        
+    - name: Set up pnpm
+      uses: pnpm/action-setup@v2
+      with:
+        version: 8
+        
+    - name: Cache pnpm dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.pnpm-store
+        key: ${{ runner.os }}-pnpm-${{ hashFiles('frontend/pnpm-lock.yaml') }}
+        restore-keys: |
+          ${{ runner.os }}-pnpm-
+          
+    - name: Install frontend dependencies
+      run: |
+        cd frontend
+        pnpm install --frozen-lockfile
+        
+    - name: Run frontend linting
+      run: |
+        cd frontend
+        pnpm lint
+        
+    - name: Run frontend type checking
+      run: |
+        cd frontend
+        pnpm typecheck
+        
+    - name: Build frontend
+      run: |
+        cd frontend
+        pnpm build
+        
+    - name: Run frontend unit tests
+      run: |
+        cd frontend
+        pnpm test -- --run --coverage
+        
+    - name: Install Playwright dependencies
+      run: |
+        cd frontend
+        pnpm exec playwright install --with-deps
+        
+    - name: Run E2E tests
+      run: |
+        cd frontend
+        pnpm e2e -- --reporter=line
+        
+    - name: Upload test results
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: playwright-report
+        path: frontend/playwright-report/
+        retention-days: 30
+
+  integration:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    needs: [backend, frontend]
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Python ${{ env.PYTHON_VERSION }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+        
+    - name: Set up Node.js ${{ env.NODE_VERSION }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        
+    - name: Set up pnpm
+      uses: pnpm/action-setup@v2
+      with:
+        version: 8
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r backend/requirements.txt
+        pip install -r backend/requirements-test.txt
+        cd frontend && pnpm install --frozen-lockfile
+        
+    - name: Start backend service
+      run: |
+        cd backend
+        python -m uvicorn app.main:app --host 0.0.0.0 --port 8000 &
+        sleep 10
+        
+    - name: Start frontend service
+      run: |
+        cd frontend
+        pnpm build
+        pnpm preview --port 8080 --host 0.0.0.0 &
+        sleep 10
+        
+    - name: Run integration tests
+      run: |
+        cd frontend
+        pnpm exec playwright install --with-deps
+        pnpm e2e -- --reporter=line --config=playwright.config.integration.ts
+        
+    - name: Health check
+      run: |
+        curl -f http://localhost:8000/api/health
+        curl -f http://localhost:8080/health
+
+  performance:
+    name: Performance Tests
+    runs-on: ubuntu-latest
+    needs: [backend, frontend]
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Python ${{ env.PYTHON_VERSION }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+        
+    - name: Set up Node.js ${{ env.NODE_VERSION }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        
+    - name: Set up pnpm
+      uses: pnpm/action-setup@v2
+      with:
+        version: 8
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r backend/requirements.txt
+        pip install -r backend/requirements-test.txt
+        cd frontend && pnpm install --frozen-lockfile
+        
+    - name: Start services
+      run: |
+        cd backend && python -m uvicorn app.main:app --host 0.0.0.0 --port 8000 &
+        cd frontend && pnpm build && pnpm preview --port 8080 --host 0.0.0.0 &
+        sleep 15
+        
+    - name: Run performance tests
+      run: |
+        cd frontend
+        pnpm test:performance
+        
+    - name: Validate performance budgets
+      run: |
+        python scripts/validate_performance.py
+        
+    - name: Performance report
+      run: |
+        echo "Performance Budget Validation:"
+        echo "Frontend load time: < 3 seconds"
+        echo "Backend response time: < 100ms"
+        echo "Validation time: ~8ms"
+        echo "Layer render time: 1-5ms"
+
+  security:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Python ${{ env.PYTHON_VERSION }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+        
+    - name: Set up Node.js ${{ env.NODE_VERSION }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        
+    - name: Set up pnpm
+      uses: pnpm/action-setup@v2
+      with:
+        version: 8
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install safety
+        cd frontend && pnpm install --frozen-lockfile
+        
+    - name: Run Python security scan
+      run: |
+        safety check
+        
+    - name: Run Node.js security audit
+      run: |
+        cd frontend
+        pnpm audit --audit-level moderate
+        
+    - name: Run code security scan
+      run: |
+        # Check for hardcoded secrets
+        if grep -r "password\|secret\|key\|token" --include="*.py" --include="*.ts" --include="*.tsx" --exclude-dir=node_modules --exclude-dir=__pycache__ . | grep -v "test\|mock\|example"; then
+          echo "❌ Potential hardcoded secrets found"
+          exit 1
+        else
+          echo "✅ No hardcoded secrets found"
+        fi
+
+  route-validation:
+    name: Route Safety Validation
+    runs-on: ubuntu-latest
+    needs: [backend]
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Python ${{ env.PYTHON_VERSION }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r backend/requirements.txt
+        
+    - name: Run route safety validation
+      run: |
+        python scripts/validate_routes.py
+        
+    - name: Validate 0% hazard intersection
+      run: |
+        echo "Validating 0% hazard intersection requirement..."
+        python -c "
+        import sys
+        from scripts.validate_routes import validate_route_safety
+        if validate_route_safety():
+            print('✅ 0% hazard intersection confirmed')
+            sys.exit(0)
+        else:
+            print('❌ Hazard intersection detected')
+            sys.exit(1)
+        "
+
+  build:
+    name: Build and Package
+    runs-on: ubuntu-latest
+    needs: [backend, frontend, integration, performance, security, route-validation]
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Python ${{ env.PYTHON_VERSION }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+        
+    - name: Set up Node.js ${{ env.NODE_VERSION }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        
+    - name: Set up pnpm
+      uses: pnpm/action-setup@v2
+      with:
+        version: 8
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r backend/requirements.txt
+        cd frontend && pnpm install --frozen-lockfile
+        
+    - name: Build frontend
+      run: |
+        cd frontend
+        pnpm build
+        
+    - name: Build Docker images
+      run: |
+        docker build -t disaster-response-frontend:latest -f frontend/Dockerfile frontend/
+        docker build -t disaster-response-backend:latest -f backend/Dockerfile backend/
+        
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: build-artifacts
+        path: |
+          frontend/dist/
+          backend/
+        retention-days: 7
+
+  notify:
+    name: Notify Results
+    runs-on: ubuntu-latest
+    needs: [backend, frontend, integration, performance, security, route-validation, build]
+    if: always()
+    
+    steps:
+    - name: Notify success
+      if: ${{ needs.backend.result == 'success' && needs.frontend.result == 'success' && needs.integration.result == 'success' && needs.performance.result == 'success' && needs.security.result == 'success' && needs.route-validation.result == 'success' && needs.build.result == 'success' }}
+      run: |
+        echo "✅ All CI checks passed successfully!"
+        echo "🚀 System ready for deployment"
+        
+    - name: Notify failure
+      if: ${{ needs.backend.result == 'failure' || needs.frontend.result == 'failure' || needs.integration.result == 'failure' || needs.performance.result == 'failure' || needs.security.result == 'failure' || needs.route-validation.result == 'failure' || needs.build.result == 'failure' }}
+      run: |
+        echo "❌ CI checks failed!"
+        echo "Backend: ${{ needs.backend.result }}"
+        echo "Frontend: ${{ needs.frontend.result }}"
+        echo "Integration: ${{ needs.integration.result }}"
+        echo "Performance: ${{ needs.performance.result }}"
+        echo "Security: ${{ needs.security.result }}"
+        echo "Route Validation: ${{ needs.route-validation.result }}"
+        echo "Build: ${{ needs.build.result }}"
+        exit 1

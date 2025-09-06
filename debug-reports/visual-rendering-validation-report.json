@@ -1,0 +1,788 @@
+{
+  "timestamp": "2025-09-01T00:07:54.408Z",
+  "url": "http://localhost:3000",
+  "summary": {
+    "totalScreenshots": 20,
+    "totalVisualElements": 2,
+    "totalMapLayers": 5,
+    "totalConsoleLogs": 18,
+    "totalErrors": 0,
+    "totalWarnings": 5,
+    "reactMounted": true,
+    "mapComponentWorking": true
+  },
+  "screenshots": [
+    {
+      "name": "01-initial-page-load",
+      "description": "Initial page load with React app mounted",
+      "timestamp": "2025-09-01T00:06:49.335Z"
+    },
+    {
+      "name": "02-commander-dashboard",
+      "description": "Commander Dashboard view",
+      "timestamp": "2025-09-01T00:06:52.518Z"
+    },
+    {
+      "name": "03-map-loading",
+      "description": "Map during loading phase",
+      "timestamp": "2025-09-01T00:07:01.951Z"
+    },
+    {
+      "name": "04-map-final",
+      "description": "Final map state with all layers",
+      "timestamp": "2025-09-01T00:07:03.063Z"
+    },
+    {
+      "name": "05-terrain-before",
+      "description": "Terrain layer before toggle",
+      "timestamp": "2025-09-01T00:07:07.662Z"
+    },
+    {
+      "name": "06-terrain-after",
+      "description": "Terrain layer after toggle",
+      "timestamp": "2025-09-01T00:07:07.662Z"
+    },
+    {
+      "name": "05-buildings-before",
+      "description": "Buildings layer before toggle",
+      "timestamp": "2025-09-01T00:07:13.990Z"
+    },
+    {
+      "name": "06-buildings-after",
+      "description": "Buildings layer after toggle",
+      "timestamp": "2025-09-01T00:07:13.990Z"
+    },
+    {
+      "name": "05-hazards-before",
+      "description": "Hazards layer before toggle",
+      "timestamp": "2025-09-01T00:07:21.277Z"
+    },
+    {
+      "name": "06-hazards-after",
+      "description": "Hazards layer after toggle",
+      "timestamp": "2025-09-01T00:07:21.277Z"
+    },
+    {
+      "name": "05-units-before",
+      "description": "Units layer before toggle",
+      "timestamp": "2025-09-01T00:07:28.400Z"
+    },
+    {
+      "name": "06-units-after",
+      "description": "Units layer after toggle",
+      "timestamp": "2025-09-01T00:07:28.400Z"
+    },
+    {
+      "name": "05-routes-before",
+      "description": "Routes layer before toggle",
+      "timestamp": "2025-09-01T00:07:35.195Z"
+    },
+    {
+      "name": "06-routes-after",
+      "description": "Routes layer after toggle",
+      "timestamp": "2025-09-01T00:07:35.195Z"
+    },
+    {
+      "name": "07-dark-style-before",
+      "description": "Dark style before change",
+      "timestamp": "2025-09-01T00:07:43.022Z"
+    },
+    {
+      "name": "08-dark-style-after",
+      "description": "Dark style after change",
+      "timestamp": "2025-09-01T00:07:43.022Z"
+    },
+    {
+      "name": "07-satellite-style-before",
+      "description": "Satellite style before change",
+      "timestamp": "2025-09-01T00:07:48.625Z"
+    },
+    {
+      "name": "08-satellite-style-after",
+      "description": "Satellite style after change",
+      "timestamp": "2025-09-01T00:07:48.625Z"
+    },
+    {
+      "name": "07-streets-style-before",
+      "description": "Streets style before change",
+      "timestamp": "2025-09-01T00:07:54.408Z"
+    },
+    {
+      "name": "08-streets-style-after",
+      "description": "Streets style after change",
+      "timestamp": "2025-09-01T00:07:54.408Z"
+    }
+  ],
+  "visualElements": [
+    {
+      "component": "Commander Dashboard",
+      "state": {
+        "dashboardContent": {
+          "exists": true,
+          "hasContent": true,
+          "visible": true,
+          "className": "evacuation-dashboard "
+        },
+        "metrics": {
+          "count": 9,
+          "details": [
+            {
+              "text": "Total Buildings:150Population:1500",
+              "visible": true
+            },
+            {
+              "text": "Total Buildings:150",
+              "visible": true
+            },
+            {
+              "text": "Population:1500",
+              "visible": true
+            },
+            {
+              "text": "Total Buildings:75Population:2200",
+              "visible": true
+            },
+            {
+              "text": "Total Buildings:75",
+              "visible": true
+            },
+            {
+              "text": "Population:2200",
+              "visible": true
+            },
+            {
+              "text": "Total Buildings:50Population:800",
+              "visible": true
+            },
+            {
+              "text": "Total Buildings:50",
+              "visible": true
+            },
+            {
+              "text": "Population:800",
+              "visible": true
+            }
+          ]
+        },
+        "charts": {
+          "count": 1,
+          "details": [
+            {
+              "tagName": "svg",
+              "className": {},
+              "visible": true
+            }
+          ]
+        }
+      },
+      "timestamp": "2025-09-01T00:06:52.392Z"
+    },
+    {
+      "component": "Live Map",
+      "state": {
+        "mapContainer": {
+          "exists": true,
+          "className": "w-full h-full rounded-lg overflow-hidden bg-gray-800 border border-gray-600 mapboxgl-map",
+          "visible": true,
+          "dimensions": {
+            "width": 1152,
+            "height": 600
+          }
+        },
+        "mapboxCanvas": {
+          "exists": true,
+          "className": "mapboxgl-canvas",
+          "visible": true,
+          "dimensions": {
+            "width": 1152,
+            "height": 600
+          }
+        },
+        "mapControls": {
+          "count": 10,
+          "details": [
+            {
+              "index": 0,
+              "className": "mapboxgl-ctrl-top-left",
+              "visible": true,
+              "hasContent": false
+            },
+            {
+              "index": 1,
+              "className": "mapboxgl-ctrl-top-right",
+              "visible": true,
+              "hasContent": false
+            },
+            {
+              "index": 2,
+              "className": "mapboxgl-ctrl-bottom-left",
+              "visible": true,
+              "hasContent": true
+            },
+            {
+              "index": 3,
+              "className": "mapboxgl-ctrl",
+              "visible": true,
+              "hasContent": true
+            },
+            {
+              "index": 4,
+              "className": "mapboxgl-ctrl-logo",
+              "visible": true,
+              "hasContent": false
+            },
+            {
+              "index": 5,
+              "className": "mapboxgl-ctrl-bottom-right",
+              "visible": true,
+              "hasContent": true
+            },
+            {
+              "index": 6,
+              "className": "mapboxgl-ctrl mapboxgl-ctrl-attrib",
+              "visible": true,
+              "hasContent": true
+            },
+            {
+              "index": 7,
+              "className": "mapboxgl-ctrl-attrib-button",
+              "visible": false,
+              "hasContent": true
+            },
+            {
+              "index": 8,
+              "className": "mapboxgl-ctrl-icon",
+              "visible": true,
+              "hasContent": false
+            },
+            {
+              "index": 9,
+              "className": "mapboxgl-ctrl-attrib-inner",
+              "visible": true,
+              "hasContent": true
+            }
+          ]
+        },
+        "layerToggles": {
+          "count": 5,
+          "details": [
+            {
+              "index": 0,
+              "checked": true,
+              "disabled": false,
+              "visible": true,
+              "label": "Terrain",
+              "className": "ios-input"
+            },
+            {
+              "index": 1,
+              "checked": true,
+              "disabled": false,
+              "visible": true,
+              "label": "Buildings",
+              "className": "ios-input"
+            },
+            {
+              "index": 2,
+              "checked": true,
+              "disabled": false,
+              "visible": true,
+              "label": "Hazards",
+              "className": "ios-input"
+            },
+            {
+              "index": 3,
+              "checked": true,
+              "disabled": false,
+              "visible": true,
+              "label": "Units",
+              "className": "ios-input"
+            },
+            {
+              "index": 4,
+              "checked": true,
+              "disabled": false,
+              "visible": true,
+              "label": "Routes",
+              "className": "ios-input"
+            }
+          ]
+        },
+        "styleSelector": {
+          "count": 3,
+          "details": [
+            {
+              "index": 0,
+              "text": "Dark",
+              "active": true,
+              "visible": true
+            },
+            {
+              "index": 1,
+              "text": "Satellite",
+              "active": false,
+              "visible": true
+            },
+            {
+              "index": 2,
+              "text": "Streets",
+              "active": false,
+              "visible": true
+            }
+          ]
+        },
+        "mapFeatures": {
+          "count": 1,
+          "details": [
+            {
+              "className": {},
+              "visible": true,
+              "hasContent": true
+            }
+          ]
+        },
+        "dataPanels": {
+          "count": 3,
+          "details": [
+            {
+              "className": "ios-card",
+              "visible": true,
+              "textContent": "3D Map ControlsDarkSatelliteStreetsTerrainBuildingsHazardsUnitsRoutesRefresh..."
+            },
+            {
+              "className": "ios-card",
+              "visible": true,
+              "textContent": "Recover Map..."
+            },
+            {
+              "className": "ios-card",
+              "visible": true,
+              "textContent": "AnalyticsActive Hazards:2Available Units:2Safe Routes:0Response Time:5min..."
+            }
+          ]
+        }
+      },
+      "timestamp": "2025-09-01T00:07:01.954Z"
+    }
+  ],
+  "mapLayers": [
+    {
+      "layer": "Terrain",
+      "toggleSuccess": false,
+      "beforeState": true,
+      "afterState": true,
+      "visualState": {
+        "layerElements": {
+          "count": 0,
+          "details": []
+        },
+        "dataElements": {
+          "count": 0,
+          "details": []
+        }
+      },
+      "timestamp": "2025-09-01T00:07:07.662Z"
+    },
+    {
+      "layer": "Buildings",
+      "toggleSuccess": true,
+      "beforeState": true,
+      "afterState": false,
+      "visualState": {
+        "layerElements": {
+          "count": 0,
+          "details": []
+        },
+        "dataElements": {
+          "count": 0,
+          "details": []
+        }
+      },
+      "timestamp": "2025-09-01T00:07:13.990Z"
+    },
+    {
+      "layer": "Hazards",
+      "toggleSuccess": true,
+      "beforeState": true,
+      "afterState": false,
+      "visualState": {
+        "layerElements": {
+          "count": 0,
+          "details": []
+        },
+        "dataElements": {
+          "count": 0,
+          "details": []
+        }
+      },
+      "timestamp": "2025-09-01T00:07:21.277Z"
+    },
+    {
+      "layer": "Units",
+      "toggleSuccess": true,
+      "beforeState": true,
+      "afterState": false,
+      "visualState": {
+        "layerElements": {
+          "count": 0,
+          "details": []
+        },
+        "dataElements": {
+          "count": 0,
+          "details": []
+        }
+      },
+      "timestamp": "2025-09-01T00:07:28.400Z"
+    },
+    {
+      "layer": "Routes",
+      "toggleSuccess": true,
+      "beforeState": true,
+      "afterState": false,
+      "visualState": {
+        "layerElements": {
+          "count": 0,
+          "details": []
+        },
+        "dataElements": {
+          "count": 0,
+          "details": []
+        }
+      },
+      "timestamp": "2025-09-01T00:07:35.195Z"
+    }
+  ],
+  "consoleLogs": [
+    {
+      "type": "log",
+      "text": "Subscribing to hazard zones",
+      "timestamp": "2025-09-01T00:06:43.741Z",
+      "location": "http://localhost:3000/assets/index-CViwJSlg.js"
+    },
+    {
+      "type": "log",
+      "text": "Subscribing to emergency units",
+      "timestamp": "2025-09-01T00:06:43.743Z",
+      "location": "http://localhost:3000/assets/index-CViwJSlg.js"
+    },
+    {
+      "type": "log",
+      "text": "main.tsx is executing!",
+      "timestamp": "2025-09-01T00:06:43.743Z",
+      "location": "http://localhost:3000/assets/index-CViwJSlg.js"
+    },
+    {
+      "type": "log",
+      "text": "React import successful: {Children: Object, Component: , Fragment: Symbol(react.fragment), Profiler: Symbol(react.profiler), PureComponent: }",
+      "timestamp": "2025-09-01T00:06:43.744Z",
+      "location": "http://localhost:3000/assets/index-CViwJSlg.js"
+    },
+    {
+      "type": "log",
+      "text": "ReactDOM import successful: {createRoot: , hydrateRoot: }",
+      "timestamp": "2025-09-01T00:06:43.744Z",
+      "location": "http://localhost:3000/assets/index-CViwJSlg.js"
+    },
+    {
+      "type": "log",
+      "text": "Root element found: JSHandle@node",
+      "timestamp": "2025-09-01T00:06:43.747Z",
+      "location": "http://localhost:3000/assets/index-CViwJSlg.js"
+    },
+    {
+      "type": "log",
+      "text": "Attempting to mount React application...",
+      "timestamp": "2025-09-01T00:06:43.747Z",
+      "location": "http://localhost:3000/assets/index-CViwJSlg.js"
+    },
+    {
+      "type": "log",
+      "text": "React application mounted successfully!",
+      "timestamp": "2025-09-01T00:06:43.747Z",
+      "location": "http://localhost:3000/assets/index-CViwJSlg.js"
+    },
+    {
+      "type": "log",
+      "text": "Initializing Mapbox map with 3D terrain...",
+      "timestamp": "2025-09-01T00:06:52.561Z",
+      "location": "http://localhost:3000/assets/index-CViwJSlg.js"
+    },
+    {
+      "type": "warning",
+      "text": "[.WebGL-0x10c00443800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+      "timestamp": "2025-09-01T00:06:52.730Z",
+      "location": "http://localhost:3000/"
+    },
+    {
+      "type": "warning",
+      "text": "[.WebGL-0x10c00443800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+      "timestamp": "2025-09-01T00:06:52.731Z",
+      "location": "http://localhost:3000/"
+    },
+    {
+      "type": "warning",
+      "text": "[.WebGL-0x10c00443800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+      "timestamp": "2025-09-01T00:06:53.003Z",
+      "location": "http://localhost:3000/"
+    },
+    {
+      "type": "warning",
+      "text": "[.WebGL-0x10c00443800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)",
+      "timestamp": "2025-09-01T00:06:53.024Z",
+      "location": "http://localhost:3000/"
+    },
+    {
+      "type": "log",
+      "text": "Mapbox map loaded, adding 3D terrain and building extrusions...",
+      "timestamp": "2025-09-01T00:06:54.672Z",
+      "location": "http://localhost:3000/assets/index-CViwJSlg.js"
+    },
+    {
+      "type": "log",
+      "text": "Terrain layers added successfully",
+      "timestamp": "2025-09-01T00:06:54.673Z",
+      "location": "http://localhost:3000/assets/index-CViwJSlg.js"
+    },
+    {
+      "type": "log",
+      "text": "Building extrusions added successfully",
+      "timestamp": "2025-09-01T00:06:54.674Z",
+      "location": "http://localhost:3000/assets/index-CViwJSlg.js"
+    },
+    {
+      "type": "log",
+      "text": "Foundry data layers added successfully",
+      "timestamp": "2025-09-01T00:06:54.675Z",
+      "location": "http://localhost:3000/assets/index-CViwJSlg.js"
+    },
+    {
+      "type": "warning",
+      "text": "Raster DEM source 'other:mapbox-terrain' is used both for terrain and as layer source.\nThis leads to lower resolution of hillshade. For full hillshade resolution but higher memory consumption, define another raster DEM source.",
+      "timestamp": "2025-09-01T00:06:54.741Z",
+      "location": "http://localhost:3000/assets/index-CViwJSlg.js"
+    }
+  ],
+  "errors": [],
+  "warnings": [
+    {
+      "type": "warning",
+      "text": "[.WebGL-0x10c00443800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+      "timestamp": "2025-09-01T00:06:52.730Z",
+      "location": "http://localhost:3000/"
+    },
+    {
+      "type": "warning",
+      "text": "[.WebGL-0x10c00443800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+      "timestamp": "2025-09-01T00:06:52.731Z",
+      "location": "http://localhost:3000/"
+    },
+    {
+      "type": "warning",
+      "text": "[.WebGL-0x10c00443800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+      "timestamp": "2025-09-01T00:06:53.003Z",
+      "location": "http://localhost:3000/"
+    },
+    {
+      "type": "warning",
+      "text": "[.WebGL-0x10c00443800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)",
+      "timestamp": "2025-09-01T00:06:53.024Z",
+      "location": "http://localhost:3000/"
+    },
+    {
+      "type": "warning",
+      "text": "Raster DEM source 'other:mapbox-terrain' is used both for terrain and as layer source.\nThis leads to lower resolution of hillshade. For full hillshade resolution but higher memory consumption, define another raster DEM source.",
+      "timestamp": "2025-09-01T00:06:54.741Z",
+      "location": "http://localhost:3000/assets/index-CViwJSlg.js"
+    }
+  ],
+  "consoleAnalysis": {
+    "totalLogs": 18,
+    "errors": 0,
+    "warnings": 5,
+    "mapboxLogs": [
+      {
+        "type": "log",
+        "text": "Initializing Mapbox map with 3D terrain...",
+        "timestamp": "2025-09-01T00:06:52.561Z",
+        "location": "http://localhost:3000/assets/index-CViwJSlg.js"
+      },
+      {
+        "type": "log",
+        "text": "Mapbox map loaded, adding 3D terrain and building extrusions...",
+        "timestamp": "2025-09-01T00:06:54.672Z",
+        "location": "http://localhost:3000/assets/index-CViwJSlg.js"
+      }
+    ],
+    "terrainLogs": [
+      {
+        "type": "log",
+        "text": "Initializing Mapbox map with 3D terrain...",
+        "timestamp": "2025-09-01T00:06:52.561Z",
+        "location": "http://localhost:3000/assets/index-CViwJSlg.js"
+      },
+      {
+        "type": "log",
+        "text": "Mapbox map loaded, adding 3D terrain and building extrusions...",
+        "timestamp": "2025-09-01T00:06:54.672Z",
+        "location": "http://localhost:3000/assets/index-CViwJSlg.js"
+      },
+      {
+        "type": "warning",
+        "text": "Raster DEM source 'other:mapbox-terrain' is used both for terrain and as layer source.\nThis leads to lower resolution of hillshade. For full hillshade resolution but higher memory consumption, define another raster DEM source.",
+        "timestamp": "2025-09-01T00:06:54.741Z",
+        "location": "http://localhost:3000/assets/index-CViwJSlg.js"
+      }
+    ],
+    "buildingLogs": [
+      {
+        "type": "log",
+        "text": "Mapbox map loaded, adding 3D terrain and building extrusions...",
+        "timestamp": "2025-09-01T00:06:54.672Z",
+        "location": "http://localhost:3000/assets/index-CViwJSlg.js"
+      }
+    ],
+    "hazardLogs": [
+      {
+        "type": "log",
+        "text": "Subscribing to hazard zones",
+        "timestamp": "2025-09-01T00:06:43.741Z",
+        "location": "http://localhost:3000/assets/index-CViwJSlg.js"
+      }
+    ],
+    "unitLogs": [
+      {
+        "type": "log",
+        "text": "Subscribing to emergency units",
+        "timestamp": "2025-09-01T00:06:43.743Z",
+        "location": "http://localhost:3000/assets/index-CViwJSlg.js"
+      }
+    ],
+    "routeLogs": [],
+    "successLogs": [
+      {
+        "type": "log",
+        "text": "React application mounted successfully!",
+        "timestamp": "2025-09-01T00:06:43.747Z",
+        "location": "http://localhost:3000/assets/index-CViwJSlg.js"
+      },
+      {
+        "type": "log",
+        "text": "Terrain layers added successfully",
+        "timestamp": "2025-09-01T00:06:54.673Z",
+        "location": "http://localhost:3000/assets/index-CViwJSlg.js"
+      },
+      {
+        "type": "log",
+        "text": "Building extrusions added successfully",
+        "timestamp": "2025-09-01T00:06:54.674Z",
+        "location": "http://localhost:3000/assets/index-CViwJSlg.js"
+      },
+      {
+        "type": "log",
+        "text": "Foundry data layers added successfully",
+        "timestamp": "2025-09-01T00:06:54.675Z",
+        "location": "http://localhost:3000/assets/index-CViwJSlg.js"
+      }
+    ],
+    "errorLogs": []
+  },
+  "initialVisualState": {
+    "rootElement": {
+      "exists": true,
+      "hasChildren": true,
+      "innerHTML": "<div style=\"min-height: 100vh; background-color: rgb(255, 255, 255); font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, sans-serif; display: flex; flex-direction: column;\"><header style=\"background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(30px) saturate(180%); bor..."
+    },
+    "header": {
+      "exists": true,
+      "text": "Command Center",
+      "visible": true
+    },
+    "navigation": {
+      "buttonCount": 6,
+      "buttons": [
+        {
+          "index": 0,
+          "text": "Commander Dashboard",
+          "visible": true,
+          "enabled": true,
+          "className": ""
+        },
+        {
+          "index": 1,
+          "text": "Live Map",
+          "visible": true,
+          "enabled": true,
+          "className": ""
+        },
+        {
+          "index": 2,
+          "text": "Operations",
+          "visible": true,
+          "enabled": true,
+          "className": "ios-button primary small"
+        },
+        {
+          "index": 3,
+          "text": "Conditions",
+          "visible": true,
+          "enabled": true,
+          "className": "ios-button secondary small"
+        },
+        {
+          "index": 4,
+          "text": "Assets",
+          "visible": true,
+          "enabled": true,
+          "className": "ios-button secondary small"
+        },
+        {
+          "index": 5,
+          "text": "AIP Commander",
+          "visible": true,
+          "enabled": true,
+          "className": "ios-button secondary small"
+        }
+      ]
+    },
+    "cards": {
+      "count": 5,
+      "details": [
+        {
+          "index": 0,
+          "className": "ios-card",
+          "visible": true,
+          "hasContent": true,
+          "textContent": "Commander DashboardCommand center for emergency response operations with real-time situational aware..."
+        },
+        {
+          "index": 1,
+          "className": "ios-card",
+          "visible": true,
+          "hasContent": true,
+          "textContent": "OperationsConditionsAssetsAIP Commander..."
+        },
+        {
+          "index": 2,
+          "className": "zone-card",
+          "visible": true,
+          "hasContent": true,
+          "textContent": "Zone AIMMEDIATETotal Buildings:150Population:1500Evacuated (120)In Progress (20)Refused (5)No Contac..."
+        },
+        {
+          "index": 3,
+          "className": "zone-card",
+          "visible": true,
+          "hasContent": true,
+          "textContent": "Zone BWARNINGTotal Buildings:75Population:2200Evacuated (60)In Progress (10)Refused (2)No Contact (2..."
+        },
+        {
+          "index": 4,
+          "className": "zone-card",
+          "visible": true,
+          "hasContent": true,
+          "textContent": "Zone CSTANDBYTotal Buildings:50Population:800Evacuated (40)In Progress (5)Refused (1)No Contact (1)U..."
+        }
+      ]
+    }
+  }
+}

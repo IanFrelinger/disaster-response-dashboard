@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { EvacuationZone, Building, WeatherData } from '../types/emergency-response';
-import { AIPDecisionSupport, OperationalGuidance } from './AIPDecisionSupport';
+import type { EvacuationZone, Building, WeatherData } from '../types/emergency-response';
+import type { OperationalGuidance } from './AIPDecisionSupport';
+import { AIPDecisionSupport } from './AIPDecisionSupport';
 
 import './EvacuationDashboard.css';
 
@@ -8,9 +9,6 @@ interface EvacuationDashboardProps {
   zones: EvacuationZone[];
   buildings: Building[];
   weatherData?: WeatherData;
-  onZoneSelect?: (zone: EvacuationZone) => void;
-  onBuildingSelect?: (building: Building) => void;
-  onStatusUpdate?: (buildingId: string, status: Partial<Building['evacuationStatus']>) => void;
   className?: string;
 }
 
@@ -18,15 +16,10 @@ export const EvacuationDashboard: React.FC<EvacuationDashboardProps> = ({
   zones,
   buildings,
   weatherData,
-  onZoneSelect,
-  onBuildingSelect,
-  onStatusUpdate,
   className = ''
 }) => {
-  const [selectedZone, setSelectedZone] = useState<EvacuationZone | null>(null);
-  const [selectedBuilding, setSelectedBuilding] = useState<Building | null>(null);
   const [viewMode, setViewMode] = useState<'zones' | 'weather' | 'building-overview' | 'aip'>('zones');
-  const [filterStatus, setFilterStatus] = useState<string>('all');
+
 
   // Calculate zone progress percentages
   const getZoneProgress = (zone: EvacuationZone) => {
@@ -59,108 +52,17 @@ export const EvacuationDashboard: React.FC<EvacuationDashboardProps> = ({
     }
   };
 
-  // Get building status color using iOS color system
-  const getBuildingStatusColor = (building: Building) => {
-    if (building.evacuationStatus.evacuated) return 'var(--ios-green)';
-    if (building.evacuationStatus.notes?.includes('refused')) return 'var(--ios-orange)';
-    if (building.evacuationStatus.lastContact) return 'var(--ios-blue)';
-    return 'var(--ios-light-gray)';
-  };
 
-  // Filter buildings by status
-  const getFilteredBuildings = () => {
-    if (!selectedZone) return [];
-    
-    // Handle both coordinate formats: number[][][] and number[][]
-    const boundaries = selectedZone.boundaries;
-    let minX: number, maxX: number, minY: number, maxY: number;
-    
-    if ('coordinates' in boundaries && Array.isArray(boundaries.coordinates) && boundaries.coordinates.length > 0) {
-      const zoneCoordinates = boundaries.coordinates;
-      if (typeof zoneCoordinates[0] === 'number') {
-        // Simple array format: number[][]
-        const coords = (zoneCoordinates as unknown) as number[][];
-        minX = Math.min(...coords.map(c => c[0]));
-        maxX = Math.max(...coords.map(c => c[0]));
-        minY = Math.min(...coords.map(c => c[1]));
-        maxY = Math.max(...coords.map(c => c[1]));
-      } else {
-        // Complex format: number[][][]
-        const coords = zoneCoordinates as number[][][];
-        minX = Math.min(...coords.flat().map(c => c[0]));
-        maxX = Math.max(...coords.flat().map(c => c[0]));
-        minY = Math.min(...coords.flat().map(c => c[1]));
-        maxY = Math.max(...coords.flat().map(c => c[1]));
-      }
-    } else if (Array.isArray(boundaries) && boundaries.length > 0) {
-      // Direct array format: number[][]
-      const firstCoord = boundaries[0];
-      if (Array.isArray(firstCoord) && firstCoord.length >= 2 && typeof firstCoord[0] === 'number' && typeof firstCoord[1] === 'number') {
-        const coords = (boundaries as unknown) as number[][];
-        minX = Math.min(...coords.map(c => c[0]));
-        maxX = Math.max(...coords.map(c => c[0]));
-        minY = Math.min(...coords.map(c => c[1]));
-        maxY = Math.max(...coords.map(c => c[1]));
-      } else {
-        return []; // Invalid coordinate format
-      }
-    } else {
-      return []; // Invalid coordinates
-    }
-    
-    const zoneBuildings = buildings.filter(b => 
-      b.coordinates[0] >= minX &&
-      b.coordinates[0] <= maxX &&
-      b.coordinates[1] >= minY &&
-      b.coordinates[1] <= maxY
-    );
 
-    if (filterStatus === 'all') return zoneBuildings;
-    
-    return zoneBuildings.filter(b => {
-      switch (filterStatus) {
-        case 'evacuated': return b.evacuationStatus.evacuated;
-        case 'inProgress': return b.evacuationStatus.notes?.includes('in progress');
-        case 'refused': return b.evacuationStatus.notes?.includes('refused');
-        case 'noContact': return !b.evacuationStatus.lastContact;
-        case 'specialNeeds': return b.evacuationStatus.specialNeeds.length > 0;
-        default: return true;
-      }
-    });
-  };
 
-  const handleZoneSelect = (zone: EvacuationZone) => {
-    setSelectedZone(zone);
-    // Stay in zones view since buildings view is removed
-    if (onZoneSelect) onZoneSelect(zone);
-  };
 
-  const handleBuildingSelect = (building: Building) => {
-    setSelectedBuilding(building);
-    // Stay in current view since details view is removed
-    if (onBuildingSelect) onBuildingSelect(building);
-  };
 
-  const handleStatusUpdate = (buildingId: string, status: Partial<Building['evacuationStatus']>) => {
-    if (onStatusUpdate) onStatusUpdate(buildingId, status);
-  };
-
-  const handleBackToZones = () => {
-    setSelectedZone(null);
-    setViewMode('zones');
-  };
-
-  const handleBackToBuildings = () => {
-    setSelectedBuilding(null);
-    // Go back to zones view since buildings view is removed
-    setViewMode('zones');
-  };
 
   // Weather utility functions
   const getWindDirection = (degrees: number): string => {
     const directions = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'];
     const index = Math.round(degrees / 22.5) % 16;
-    return directions[index];
+    return directions[index] || 'N';
   };
 
   const getFireRiskColor = (risk: string): string => {
@@ -175,26 +77,26 @@ export const EvacuationDashboard: React.FC<EvacuationDashboardProps> = ({
   };
 
   const getEvacuationRiskColor = (weather: any): string => {
-    if (weather.humidity < 20 || weather.windSpeed > 25 || weather.temp > 90) return '#FF3B30';
-    if (weather.humidity < 30 || weather.windSpeed > 20 || weather.temp > 85) return '#FF9500';
+    if ((weather.humidity ?? 0) < 20 || (weather.windSpeed ?? 0) > 25 || (weather.temp ?? 0) > 90) return '#FF3B30';
+    if ((weather.humidity ?? 0) < 30 || (weather.windSpeed ?? 0) > 20 || (weather.temp ?? 0) > 85) return '#FF9500';
     return '#34C759';
   };
 
   const getEvacuationRisk = (weather: any): string => {
-    if (weather.humidity < 20 || weather.windSpeed > 25 || weather.temp > 90) return 'CRITICAL';
-    if (weather.humidity < 30 || weather.windSpeed > 20 || weather.temp > 85) return 'HIGH';
+    if ((weather.humidity ?? 0) < 20 || (weather.windSpeed ?? 0) > 25 || (weather.temp ?? 0) > 90) return 'CRITICAL';
+    if ((weather.humidity ?? 0) < 30 || (weather.windSpeed ?? 0) > 20 || (weather.temp ?? 0) > 85) return 'HIGH';
     return 'LOW';
   };
 
   const getAirOpsRiskColor = (weather: any): string => {
-    if (weather.windSpeed > 30 || weather.visibility < 5) return '#FF3B30';
-    if (weather.windSpeed > 20 || weather.visibility < 5) return '#FF9500';
+    if ((weather.windSpeed ?? 0) > 30 || (weather.visibility ?? 0) < 5) return '#FF3B30';
+    if ((weather.windSpeed ?? 0) > 20 || (weather.visibility ?? 0) < 5) return '#FF9500';
     return '#34C759';
   };
 
   const getAirOpsRisk = (weather: any): string => {
-    if (weather.windSpeed > 30 || weather.visibility < 3) return 'GROUNDED';
-    if (weather.windSpeed > 20 || weather.visibility < 5) return 'RESTRICTED';
+    if ((weather.windSpeed ?? 0) > 30 || (weather.visibility ?? 0) < 3) return 'GROUNDED';
+    if ((weather.windSpeed ?? 0) > 20 || (weather.visibility ?? 0) < 5) return 'RESTRICTED';
     return 'CLEAR';
   };
 
@@ -369,7 +271,7 @@ export const EvacuationDashboard: React.FC<EvacuationDashboardProps> = ({
                 <div 
                   key={zone.id}
                   className="zone-card"
-                  onClick={() => handleZoneSelect(zone)}
+                                          onClick={() => {}}
                   style={{ borderLeftColor: getPriorityColor(zone.priority) }}
                 >
                   <div className="zone-header">
@@ -645,7 +547,7 @@ export const EvacuationDashboard: React.FC<EvacuationDashboardProps> = ({
                     const progress = (evacuatedCount / zoneBuildings.length) * 100;
                     
                     return (
-                      <div key={zone.id} className="zone-summary-item" onClick={() => handleZoneSelect(zone)}>
+                      <div key={zone.id} className="zone-summary-item" onClick={() => {}}>
                         <div className="zone-summary-header">
                           <span className="zone-name">{zone.name}</span>
                           <span className="zone-priority" style={{ color: getPriorityColor(zone.priority) }}>
@@ -719,4 +621,3 @@ export const EvacuationDashboard: React.FC<EvacuationDashboardProps> = ({
   );
 };
 
-export default EvacuationDashboard;

@@ -322,8 +322,8 @@ class Config:
                 'base_url': self.NASA_FIRMS_BASE_URL,
             },
             'noaa': {
-                'api_key': self.NOA_API_KEY,
-                'base_url': self.NOA_BASE_URL,
+                'api_key': self.NOAA_API_KEY,
+                'base_url': self.NOAA_BASE_URL,
             },
             'mapbox': {
                 'access_token': self.MAPBOX_ACCESS_TOKEN,

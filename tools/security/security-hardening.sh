@@ -85,7 +85,7 @@ API_DEBUG=false
 # =============================================================================
 # MAPPING SERVICES
 # =============================================================================
-MAPBOX_ACCESS_TOKEN=pk.eyJ1IjoiaWNmcmVsaW5nZXIiLCJhIjoiY21lbXRqYXI5MHdjdjJpcHRnYXpmOHZlbyJ9.89NobWdR1h0QuukKth0RBA
+MAPBOX_ACCESS_TOKEN=pk.eyJ1IjoiaWNmcmVsaW5nZXIiLCJhIjoiY21ldW5zZjJuMDh0eDJpcHgwNHhtOTE4aSJ9.2k1N7W2zZovOnRuqlVB9NQ
 MAPBOX_STYLE_URL=mapbox://styles/mapbox/dark-v11
 
 # =============================================================================

@@ -1,0 +1,48 @@
+# Test Dockerfile for Frontend Validation Tests
+FROM node:18-alpine
+
+# Set working directory
+WORKDIR /app
+
+# Install system dependencies
+RUN apk add --no-cache \
+    curl \
+    chromium \
+    nss \
+    freetype \
+    freetype-dev \
+    harfbuzz \
+    ca-certificates \
+    ttf-freefont
+
+# Set environment variables for Playwright
+ENV PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
+ENV PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium-browser
+
+# Copy package files
+COPY package*.json ./
+COPY .npmrc.build ./.npmrc
+
+# Install dependencies
+RUN npm install
+
+# Fix rollup dependency issue
+RUN npm install @rollup/rollup-linux-arm64-musl --save-optional || true
+
+# Install Playwright browsers
+RUN npx playwright install chromium
+
+# Copy source code
+COPY . .
+
+# Build the application
+RUN npm run build
+
+# Create test results directory with proper permissions
+RUN mkdir -p test-results && chmod -R 777 test-results
+
+# Create scripts directory
+RUN mkdir -p /app/scripts
+
+# Default command
+CMD ["npm", "run", "test:production-validation"]

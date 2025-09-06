@@ -1,0 +1,61 @@
+{
+  "id": "simple-test-scenario",
+  "name": "Simple Test Scenario",
+  "waypoints": [
+    {
+      "id": "test-start",
+      "type": "start",
+      "coordinates": [-122.4194, 37.7749],
+      "name": "Test Start",
+      "properties": {
+        "color": "#00FF00",
+        "size": 25,
+        "opacity": 0.9
+      }
+    },
+    {
+      "id": "test-dest",
+      "type": "destination",
+      "coordinates": [-122.4083, 37.7879],
+      "name": "Test End",
+      "properties": {
+        "color": "#FF0000",
+        "size": 25,
+        "opacity": 0.9
+      }
+    }
+  ],
+  "routes": [
+    {
+      "id": "test-route",
+      "name": "Test Route",
+      "coordinates": [
+        [-122.4194, 37.7749],
+        [-122.4083, 37.7879]
+      ],
+      "properties": {
+        "color": "#FF6B35",
+        "width": 4,
+        "opacity": 0.8
+      }
+    }
+  ],
+  "buildings": [
+    {
+      "id": "test-building",
+      "name": "Test Building",
+      "coordinates": [-122.4194, 37.7749],
+      "height": 30,
+      "properties": {
+        "color": "#8B4513",
+        "opacity": 0.7
+      }
+    }
+  ],
+  "hazards": [],
+  "center": [-122.4194, 37.7749],
+  "zoom": 16,
+  "pitch": 45,
+  "bearing": 0
+}
+

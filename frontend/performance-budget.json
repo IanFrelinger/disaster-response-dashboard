@@ -1,0 +1,96 @@
+{
+  "budgets": [
+    {
+      "type": "initial",
+      "maximumWarning": "500kb",
+      "maximumError": "1mb"
+    },
+    {
+      "type": "anyComponentStyle",
+      "maximumWarning": "2kb",
+      "maximumError": "4kb"
+    },
+    {
+      "type": "bundle",
+      "name": "main",
+      "maximumWarning": "300kb",
+      "maximumError": "500kb"
+    },
+    {
+      "type": "bundle",
+      "name": "vendor",
+      "maximumWarning": "200kb",
+      "maximumError": "400kb"
+    },
+    {
+      "type": "bundle",
+      "name": "polyfills",
+      "maximumWarning": "50kb",
+      "maximumError": "100kb"
+    }
+  ],
+  "scenarios": {
+    "first-paint": {
+      "budget": "1.5s",
+      "threshold": "2s"
+    },
+    "time-to-interactive": {
+      "budget": "3s",
+      "threshold": "4s"
+    },
+    "peak-memory": {
+      "budget": "50MB",
+      "threshold": "100MB"
+    },
+    "frame-rate": {
+      "budget": "60fps",
+      "threshold": "30fps"
+    }
+  },
+  "interaction-budgets": {
+    "map-load": {
+      "budget": "3000ms",
+      "threshold": "5000ms",
+      "description": "Map should load and be interactive within 3 seconds"
+    },
+    "layer-toggle": {
+      "budget": "300ms",
+      "threshold": "500ms",
+      "description": "Layer toggle interactions should complete within 300ms"
+    },
+    "terrain-toggle": {
+      "budget": "500ms",
+      "threshold": "1000ms",
+      "description": "Terrain toggle should complete within 500ms"
+    },
+    "style-change": {
+      "budget": "1000ms",
+      "threshold": "2000ms",
+      "description": "Map style changes should complete within 1 second"
+    }
+  },
+  "memory-budgets": {
+    "heap-growth": {
+      "budget": "10MB",
+      "threshold": "20MB",
+      "description": "Heap should not grow more than 10MB during normal operations"
+    },
+    "memory-leak": {
+      "budget": "5MB",
+      "threshold": "10MB",
+      "description": "Memory should not leak more than 5MB during stress tests"
+    }
+  },
+  "ci-gates": {
+    "blocking": [
+      "map-load",
+      "layer-toggle",
+      "heap-growth"
+    ],
+    "warning": [
+      "terrain-toggle",
+      "style-change",
+      "memory-leak"
+    ]
+  }
+}

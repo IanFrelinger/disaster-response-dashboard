@@ -1,0 +1,262 @@
+{
+  "allowedOperations": {
+    "read": {
+      "files": [
+        "**/*"
+      ],
+      "description": "Allow reading all files in the project"
+    },
+    "write": {
+      "files": [
+        "frontend/**/*",
+        "backend/**/*",
+        "tests/**/*",
+        "e2e/**/*",
+        "docs/**/*",
+        ".cursor/**/*",
+        "Makefile",
+        "AGENTS.md",
+        "CHANGELOG.md",
+        ".github/ISSUE_TEMPLATE/**/*",
+        ".github/PULL_REQUEST_TEMPLATE.md",
+        ".github/workflows/**/*"
+      ],
+      "description": "Allow writing to development directories and configuration files"
+    },
+    "shell": {
+      "commands": [
+        "pnpm",
+        "npm",
+        "yarn",
+        "python",
+        "pip",
+        "pytest",
+        "node",
+        "vitest",
+        "playwright",
+        "docker",
+        "docker-compose",
+        "make",
+        "ruff",
+        "mypy",
+        "git",
+        "curl",
+        "wget",
+        "jq",
+        "grep",
+        "find",
+        "ls",
+        "cat",
+        "head",
+        "tail",
+        "wc",
+        "sort",
+        "uniq",
+        "mkdir",
+        "rmdir",
+        "cp",
+        "mv",
+        "rm",
+        "chmod",
+        "chown",
+        "touch",
+        "echo",
+        "printf",
+        "sed",
+        "awk",
+        "cut",
+        "paste",
+        "tr",
+        "base64",
+        "md5sum",
+        "sha256sum",
+        "tar",
+        "gzip",
+        "gunzip",
+        "zip",
+        "unzip"
+      ],
+      "description": "Allow common development and system commands"
+    }
+  },
+  "deniedOperations": {
+    "write": {
+      "files": [
+        ".env*",
+        "config.env.production",
+        ".github/WORKFLOWS/**",
+        "*.key",
+        "*.pem",
+        "*.p12",
+        "*.pfx",
+        "secrets/**",
+        "credentials/**",
+        "*.secret",
+        "*.password",
+        "*.token"
+      ],
+      "description": "Deny writing to environment files, secrets, and production configurations"
+    },
+    "shell": {
+      "commands": [
+        "aws",
+        "gcloud",
+        "az",
+        "kubectl",
+        "helm",
+        "terraform",
+        "ansible",
+        "ssh",
+        "scp",
+        "rsync",
+        "sudo",
+        "su",
+        "passwd",
+        "useradd",
+        "userdel",
+        "usermod",
+        "groupadd",
+        "groupdel",
+        "systemctl",
+        "service",
+        "initctl",
+        "upstart",
+        "crontab",
+        "at",
+        "wall",
+        "write",
+        "mesg",
+        "shutdown",
+        "reboot",
+        "halt",
+        "poweroff",
+        "mount",
+        "umount",
+        "fdisk",
+        "parted",
+        "mkfs",
+        "fsck",
+        "dd",
+        "mkinitrd",
+        "grub-install",
+        "update-grub",
+        "apt-get",
+        "apt",
+        "yum",
+        "dnf",
+        "pacman",
+        "zypper",
+        "emerge",
+        "portage",
+        "brew",
+        "choco",
+        "scoop",
+        "winget"
+      ],
+      "description": "Deny cloud CLI tools, system administration commands, and package managers"
+    },
+    "network": {
+      "protocols": [
+        "http://",
+        "https://"
+      ],
+      "description": "Deny HTTP/HTTPS requests to external services (except for approved mock fixtures)"
+    }
+  },
+  "restrictions": {
+    "environment": {
+      "description": "Never modify environment variables or configuration files",
+      "rules": [
+        "Do not write to .env* files",
+        "Do not modify config.env.production",
+        "Do not expose secrets in logs or code",
+        "Use environment variables for configuration"
+      ]
+    },
+    "security": {
+      "description": "Security restrictions for safe development",
+      "rules": [
+        "Never expose API keys or passwords",
+        "Never use real coordinates that could identify households",
+        "Always use synthetic test data",
+        "Validate all inputs to prevent injection attacks",
+        "Use proper error handling without exposing internal details"
+      ]
+    },
+    "testing": {
+      "description": "Testing restrictions for reliable validation",
+      "rules": [
+        "Use mock data and fixtures for all external API calls",
+        "Never make real HTTP requests in tests",
+        "Isolate tests from external dependencies",
+        "Use synthetic coordinates for all test data"
+      ]
+    }
+  },
+  "permissions": {
+    "git": {
+      "allowed": [
+        "add",
+        "commit",
+        "push",
+        "pull",
+        "checkout",
+        "branch",
+        "merge",
+        "rebase",
+        "status",
+        "log",
+        "diff",
+        "show",
+        "blame",
+        "tag"
+      ],
+      "denied": [
+        "reset --hard",
+        "clean -fd",
+        "gc --aggressive",
+        "filter-branch",
+        "reflog expire",
+        "update-ref -d"
+      ]
+    },
+    "docker": {
+      "allowed": [
+        "build",
+        "run",
+        "stop",
+        "start",
+        "restart",
+        "logs",
+        "ps",
+        "images",
+        "exec",
+        "cp",
+        "inspect"
+      ],
+      "denied": [
+        "rm -f",
+        "rmi -f",
+        "system prune -a",
+        "volume rm",
+        "network rm"
+      ]
+    }
+  },
+  "validation": {
+    "required": [
+      "All changes must pass make check",
+      "Performance budgets must be met",
+      "0% hazard intersection in route validation",
+      "No console errors in browser tests",
+      "All tests must pass before committing"
+    ],
+    "forbidden": [
+      "Committing without running tests",
+      "Modifying production configurations",
+      "Exposing sensitive data in logs",
+      "Using real coordinates in test data",
+      "Making external API calls in tests"
+    ]
+  }
+}

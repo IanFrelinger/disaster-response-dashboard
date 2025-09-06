@@ -28,7 +28,7 @@ ENABLE_CORS=true
 CORS_ORIGINS=https://your-app.elasticbeanstalk.com,https://your-app.us-east-2.elasticbeanstalk.com
 
 # External APIs (keep your existing tokens)
-MAPBOX_ACCESS_TOKEN=pk.eyJ1IjoiaWNmcmVsaW5nZXIiLCJhIjoiY21lbXRqYXI5MHdjdjJpcHRnYXpmOHZlbyJ9.89NobWdR1h0QuukKth0RBA
+MAPBOX_ACCESS_TOKEN=pk.eyJ1IjoiaWNmcmVsaW5nZXIiLCJhIjoiY21ldW5zZjJuMDh0eDJpcHgwNHhtOTE4aSJ9.2k1N7W2zZovOnRuqlVB9NQ
 MAPBOX_STYLE_URL=mapbox://styles/mapbox/dark-v11
 
 # Database (if using AWS RDS)

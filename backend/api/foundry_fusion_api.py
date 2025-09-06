@@ -24,7 +24,7 @@ foundry_fusion_bp = Blueprint('foundry_fusion', __name__, url_prefix='/api/found
 class FoundryDataFusionService:
     """Service class for handling Foundry data fusion and processing"""
     
-    def __init__(self):
+    def __init__(self) -> None:
         # In-memory cache for real-time data
         self._hazard_cache: Dict[str, HazardZone] = {}
         self._unit_cache: Dict[str, EmergencyUnit] = {}
@@ -46,7 +46,7 @@ class FoundryDataFusionService:
             dispatched_units = [u for u in units if u.status != 'available']
             
             # Group units by type
-            units_by_type = {}
+            units_by_type: Dict[str, List[EmergencyUnit]] = {}
             for unit in units:
                 unit_type = unit.unit_type
                 if unit_type not in units_by_type:
@@ -140,25 +140,25 @@ class FoundryDataFusionService:
         """Serialize evacuation route for JSON response"""
         return route.to_dict()
     
-    def update_hazards(self, hazards: List[HazardZone]):
+    def update_hazards(self, hazards: List[HazardZone]) -> None:
         """Update hazard cache"""
         self._hazard_cache = {h.h3_cell_id: h for h in hazards}
         self._last_update = datetime.now()
         logger.info(f"Updated {len(hazards)} hazards")
     
-    def update_units(self, units: List[EmergencyUnit]):
+    def update_units(self, units: List[EmergencyUnit]) -> None:
         """Update unit cache"""
         self._unit_cache = {u.unit_id: u for u in units}
         self._last_update = datetime.now()
         logger.info(f"Updated {len(units)} units")
     
-    def update_routes(self, routes: List[EvacuationRoute]):
+    def update_routes(self, routes: List[EvacuationRoute]) -> None:
         """Update route cache"""
         self._route_cache = {r.route_id: r for r in routes}
         self._last_update = datetime.now()
         logger.info(f"Updated {len(routes)} routes")
     
-    def refresh_all_data(self):
+    def refresh_all_data(self) -> None:
         """Refresh all data from sources"""
         try:
             # This would integrate with your existing data sources
@@ -168,7 +168,7 @@ class FoundryDataFusionService:
         except Exception as e:
             logger.error(f"Error refreshing data: {e}")
     
-    def _load_mock_data(self):
+    def _load_mock_data(self) -> None:
         """Load mock data for testing"""
         from datetime import datetime, timedelta
         
@@ -299,7 +299,7 @@ fusion_service._load_mock_data()
 # API Routes
 @foundry_fusion_bp.route('/state', methods=['GET'])
 @cross_origin()
-def get_fused_state():
+def get_fused_state() -> Any:
     """Get complete fused data state"""
     try:
         state = fusion_service.get_fused_state()
@@ -310,7 +310,7 @@ def get_fused_state():
 
 @foundry_fusion_bp.route('/hazards', methods=['GET'])
 @cross_origin()
-def get_hazards():
+def get_hazards() -> Any:
     """Get hazard zones with optional filters"""
     try:
         filters = request.args.to_dict()
@@ -330,7 +330,7 @@ def get_hazards():
 
 @foundry_fusion_bp.route('/units', methods=['GET'])
 @cross_origin()
-def get_units():
+def get_units() -> Any:
     """Get emergency units with optional filters"""
     try:
         filters = request.args.to_dict()
@@ -350,7 +350,7 @@ def get_units():
 
 @foundry_fusion_bp.route('/routes', methods=['GET'])
 @cross_origin()
-def get_routes():
+def get_routes() -> Any:
     """Get evacuation routes with optional filters"""
     try:
         filters = request.args.to_dict()
@@ -370,7 +370,7 @@ def get_routes():
 
 @foundry_fusion_bp.route('/analytics', methods=['GET'])
 @cross_origin()
-def get_analytics():
+def get_analytics() -> Any:
     """Get analytics data"""
     try:
         state = fusion_service.get_fused_state()
@@ -381,7 +381,7 @@ def get_analytics():
 
 @foundry_fusion_bp.route('/refresh', methods=['POST'])
 @cross_origin()
-def refresh_data():
+def refresh_data() -> Any:
     """Refresh all data"""
     try:
         fusion_service.refresh_all_data()
@@ -392,7 +392,7 @@ def refresh_data():
 
 @foundry_fusion_bp.route('/health', methods=['GET'])
 @cross_origin()
-def health_check():
+def health_check() -> Any:
     """Health check endpoint"""
     try:
         state = fusion_service.get_fused_state()

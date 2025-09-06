@@ -1,0 +1,16 @@
+{
+  "timestamp": "2025-09-06T05:52:29Z",
+  "total_tests": 1,
+  "passed_tests": 0,
+  "failed_tests": 0,
+  "skipped_tests": 0,
+  "total_duration": 0.015044927597045898,
+  "suites": [
+    {
+      "name": "Health Check",
+      "success": false,
+      "duration": 0.015025854110717773,
+      "tests": [
+        {
+          "name": "ServiceHealth",
+          "status": 

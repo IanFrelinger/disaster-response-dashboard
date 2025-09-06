@@ -7,18 +7,28 @@ WORKDIR /app
 # Accept build arguments for environment variables
 ARG VITE_MAPBOX_ACCESS_TOKEN
 ARG VITE_MAPBOX_STYLE_URL
+ARG VITE_API_BASE_URL
 ARG VITE_DEBUG_MODE
 ARG VITE_BUILD_ENV
+ARG REACT_APP_API_URL
+ARG REACT_APP_MAPBOX_TOKEN
 
 # Set environment variables for the build stage
 ENV VITE_MAPBOX_ACCESS_TOKEN=$VITE_MAPBOX_ACCESS_TOKEN
 ENV VITE_MAPBOX_STYLE_URL=$VITE_MAPBOX_STYLE_URL
+ENV VITE_API_BASE_URL=$VITE_API_BASE_URL
 ENV VITE_DEBUG_MODE=$VITE_DEBUG_MODE
 ENV VITE_BUILD_ENV=$VITE_BUILD_ENV
+ENV REACT_APP_API_URL=$REACT_APP_API_URL
+ENV REACT_APP_MAPBOX_TOKEN=$REACT_APP_MAPBOX_TOKEN
 
-# Install ALL dependencies (including dev dependencies) for building
-COPY package*.json ./
-RUN npm ci && npm cache clean --force
+# Override production environment variables for local development
+ENV VITE_API_BASE_URL=http://localhost:8000
+
+# Install build dependencies only (minimal set needed for building)
+COPY package.build.json ./package.json
+COPY .npmrc.build ./.npmrc
+RUN npm install && npm cache clean --force
 
 # Copy source code
 COPY . .
@@ -66,11 +76,11 @@ RUN chown -R nextjs:nodejs /usr/share/nginx/html && \
 USER nextjs
 
 # Expose port
-EXPOSE 8080
+EXPOSE 80
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost:8080/health || exit 1
+    CMD curl -f http://localhost/health || exit 1
 
 # Start nginx
 CMD ["nginx", "-g", "daemon off;"]

@@ -1,13 +1,69 @@
 import React, { useState } from 'react';
-import { EvacuationDashboard } from './components/EvacuationDashboard';
-import { SimpleMapboxTest } from './components/tacmap/SimpleMapboxTest';
-import { WeatherPanel } from './components/WeatherPanel';
-import { BuildingEvacuationTracker } from './components/BuildingEvacuationTracker';
-import { MultiHazardMap } from './components/MultiHazardMap';
-import { RoleBasedRouting } from './components/RoleBasedRouting';
-import { SearchMarkings } from './components/SearchMarkings';
-import { EfficiencyMetrics } from './components/EfficiencyMetrics';
-import { DrillDownCapability } from './components/DrillDownCapability';
+import { SimpleMap } from './components/SimpleMap';
+import { LayerTogglePanel } from './components/LayerTogglePanel';
+import { ErrorBoundary } from './components/ErrorBoundary';
+import { MapContainer } from './components/maps/MapContainer';
+import { MapContainer3D } from './components/maps/MapContainer3D';
+import { useTestMode } from './components/testing/TestModeProvider';
+import { getTestData } from './testing/fixtures/test-data';
+
+// Error monitor for development
+if (process.env.NODE_ENV === 'development') {
+  // Simple error monitor to help distinguish real errors from browser warnings
+  const originalError = console.error;
+  const originalWarn = console.warn;
+  
+  let criticalErrorCount = 0;
+  let normalWarningCount = 0;
+  
+  console.error = (...args) => {
+    const message = args.join(' ');
+    
+    // Check if it's a critical error
+    const isCritical = /cannot read property|undefined is not a function|network error|failed to load|map not ready|layer failed to load|source not found/i.test(message);
+    
+    if (isCritical) {
+      criticalErrorCount++;
+      console.log(`🚨 CRITICAL ERROR #${criticalErrorCount}: ${message}`);
+    } else {
+      console.log(`⚠️ Non-critical error: ${message}`);
+    }
+    
+    originalError.apply(console, args);
+  };
+  
+  console.warn = (...args) => {
+    const message = args.join(' ');
+    
+    // Check if it's a normal browser warning
+    const isNormal = /webgl warning|gpu stall due to readpixels|alpha-premult and y-flip are deprecated|webgl_debug_renderer_info is deprecated|installtrigger is deprecated|mouseevent.mozpressure is deprecated|mouseevent.mozinputsource is deprecated|after reporting \d+, no further warnings will be reported/i.test(message);
+    
+    if (isNormal) {
+      normalWarningCount++;
+      // Don't log normal warnings to avoid spam
+    } else {
+      console.log(`⚠️ Warning: ${message}`);
+    }
+    
+    originalWarn.apply(console, args);
+  };
+  
+  // Add global functions for easy access
+  (window as any).getErrorStats = () => ({
+    criticalErrors: criticalErrorCount,
+    normalWarnings: normalWarningCount,
+    isHealthy: criticalErrorCount === 0
+  });
+  
+  (window as any).printErrorStats = () => {
+    console.log('\n📊 ERROR STATISTICS:');
+    console.log(`Critical Errors: ${criticalErrorCount}`);
+    console.log(`Normal Warnings: ${normalWarningCount}`);
+    console.log(`System Health: ${criticalErrorCount === 0 ? '✅ HEALTHY' : '❌ ISSUES DETECTED'}`);
+  };
+  
+  console.log('🔍 Error Monitor initialized. Use getErrorStats() or printErrorStats()');
+}
 
 
 import { 
@@ -224,8 +280,135 @@ const mockWeatherData: WeatherData = {
   ]
 };
 
+// Mock data for map layers (using foundry-sdk types)
+const mockHazardData: any[] = [
+  {
+    h3CellId: '8a1fb46622dffff',
+    riskLevel: 'high',
+    riskScore: 0.85,
+    intensity: 0.9,
+    confidence: 0.8,
+    affectedPopulation: 1500,
+    buildingsAtRisk: 150,
+    latestDetection: new Date().toISOString(),
+    windSpeed: 25,
+    lastUpdated: new Date().toISOString(),
+    evacuationRoutes: [],
+    assignedResources: [],
+    evacuationOrders: [],
+    affectedBuildings: []
+  }
+];
+
+const mockEmergencyUnits: any[] = [
+  {
+    unitId: 'unit-001',
+    callSign: 'Engine 1',
+    unitType: 'fire_engine',
+    status: 'available',
+    currentLocation: '8a1fb46622dffff',
+    lastLocationUpdate: new Date().toISOString(),
+    capacity: 4,
+    equipment: ['ladder', 'hose', 'pump'],
+    dispatchHistory: []
+  },
+  {
+    unitId: 'unit-002',
+    callSign: 'Medic 1',
+    unitType: 'ambulance',
+    status: 'available',
+    currentLocation: '8a1fb46622dffff',
+    lastLocationUpdate: new Date().toISOString(),
+    capacity: 2,
+    equipment: ['stretcher', 'defibrillator', 'oxygen'],
+    dispatchHistory: []
+  }
+];
+
+const mockOperationalRoutes: any[] = [
+  {
+    routeId: 'route-001',
+    originH3: '8a1fb46622dffff',
+    destinationH3: '8a1fb46622dffff',
+    routeGeometry: {
+      type: 'LineString',
+      coordinates: [
+        [-122.4194, 37.7749],
+        [-122.4150, 37.7800],
+        [-122.4100, 37.7850]
+      ]
+    },
+    estimatedTravelTime: 15,
+    capacity: 1000,
+    status: 'active',
+    lastUpdated: new Date().toISOString(),
+    trafficConditions: 'moderate',
+    roadClosures: []
+  }
+];
+
 function App() {
-  const [activeView, setActiveView] = useState<'dashboard' | 'map' | 'weather' | 'buildings'>('dashboard');
+  const { isTestMode } = useTestMode();
+  const [activeView, setActiveView] = useState<'dashboard' | 'map' | 'weather' | 'buildings' | 'test'>('dashboard');
+  
+  // Update view to map when in test mode
+  React.useEffect(() => {
+    if (isTestMode) {
+      setActiveView('map');
+    }
+  }, [isTestMode]);
+  
+  // Use test data when in test mode
+  const testData = isTestMode ? getTestData('standard') : null;
+  
+  // Convert test data to match expected interfaces
+  const hazards = testData?.hazards ? testData.hazards.map((hazard: any, index: number) => ({
+    h3CellId: `test-hazard-${index}`,
+    riskLevel: hazard.severity === 'critical' ? 'critical' : 
+               hazard.severity === 'high' ? 'high' : 
+               hazard.severity === 'medium' ? 'medium' : 'low',
+    riskScore: hazard.severity === 'critical' ? 0.9 : 
+               hazard.severity === 'high' ? 0.7 : 
+               hazard.severity === 'medium' ? 0.5 : 0.3,
+    intensity: hazard.severity === 'critical' ? 0.9 : 
+               hazard.severity === 'high' ? 0.7 : 
+               hazard.severity === 'medium' ? 0.5 : 0.3,
+    confidence: 0.8,
+    affectedPopulation: hazard.severity === 'critical' ? 2000 : 
+                       hazard.severity === 'high' ? 1000 : 
+                       hazard.severity === 'medium' ? 500 : 100,
+    buildingsAtRisk: hazard.severity === 'critical' ? 200 : 
+                    hazard.severity === 'high' ? 100 : 
+                    hazard.severity === 'medium' ? 50 : 10,
+    latestDetection: new Date().toISOString(),
+    windSpeed: 20,
+    lastUpdated: new Date().toISOString()
+  })) : mockHazardData;
+  
+  const units = testData?.units ? testData.units.map((unit: any, index: number) => ({
+    h3CellId: `test-unit-${index}`,
+    unitId: unit.id,
+    unitType: unit.type,
+    status: unit.status === 'available' ? 'available' : 
+            unit.status === 'busy' ? 'busy' : 'offline',
+    location: unit.location,
+    capacity: unit.capacity,
+    equipment: unit.equipment,
+    lastUpdate: unit.lastUpdate
+  })) : mockEmergencyUnits;
+  
+  const routes = testData?.routes ? testData.routes.map((route: any, index: number) => ({
+    h3CellId: `test-route-${index}`,
+    routeId: route.id,
+    name: route.name,
+    waypoints: route.waypoints,
+    status: route.status === 'active' ? 'active' : 
+            route.status === 'blocked' ? 'blocked' : 'maintenance',
+    capacity: route.capacity,
+    estimatedTime: route.estimatedTime,
+    safetyScore: route.safetyScore,
+    lastUpdate: route.lastUpdate
+  })) : mockOperationalRoutes;
   
 
 
@@ -233,39 +416,95 @@ function App() {
     switch (activeView) {
       case 'dashboard':
         return (
-          <EvacuationDashboard
-            zones={mockEvacuationZones}
-            buildings={mockBuildings}
-            weatherData={mockWeatherData}
-            onZoneSelect={(zone) => console.log('Zone selected:', zone)}
-            onBuildingSelect={(building) => console.log('Building selected:', building)}
-            onStatusUpdate={(buildingId, status) => console.log('Status update:', buildingId, status)}
-          />
+          <div className="dashboard-view">
+            <h1>Command Center Dashboard</h1>
+            <div className="dashboard-grid">
+              <div className="dashboard-card">
+                <h3>Quick Actions</h3>
+                <button onClick={() => setActiveView('map')}>
+                  Open 3D Map
+                </button>
+                <button onClick={() => setActiveView('test')}>
+                  Test Components
+                </button>
+              </div>
+              
+              <div className="dashboard-card">
+                <h3>Layer Controls</h3>
+                <LayerTogglePanel title="Dashboard Layers" />
+              </div>
+            </div>
+          </div>
         );
       case 'map':
+        console.log('🔍 App: Rendering map view', {
+          activeView,
+          hazardsCount: hazards.length,
+          unitsCount: units.length,
+          routesCount: routes.length
+        });
         return (
-          <SimpleMapboxTest
-            showHazards={true}
-            showUnits={true}
-            showRoutes={true}
-            showBuildings={true}
-            showTerrain={true}
-            showAnalytics={true}
-            showWeather={true}
-            weatherData={mockWeatherData}
-          />
+          <div className="map-view">
+            <h1>3D Disaster Response Map</h1>
+            <div style={{ marginBottom: '20px' }}>
+              <LayerTogglePanel title="3D Map Layer Controls" />
+            </div>
+            <MapContainer3D 
+              center={[-122.4194, 37.7749]}
+              zoom={12}
+              hazards={hazards}
+              units={units}
+              routes={routes}
+              enableValidation={true}
+              onValidationComplete={(results) => {
+                // Validation results - removed console.log for production
+              }}
+            />
+          </div>
         );
-
+      
+      case 'test':
+        return (
+          <div className="test-view">
+            <h1>Component Test View</h1>
+            <div className="component-tests">
+              <div className="test-section">
+                <h2>LayerTogglePanel Test</h2>
+                <LayerTogglePanel title="Test Map Layers" />
+              </div>
+              
+              <div className="test-section">
+                <h2>SimpleMap Test</h2>
+                <SimpleMap 
+                  showHazards={false}
+                  showUnits={false}
+                  showRoutes={false}
+                />
+              </div>
+            </div>
+          </div>
+        );
       default:
         return (
-          <EvacuationDashboard
-            zones={mockEvacuationZones}
-            buildings={mockBuildings}
-            weatherData={mockWeatherData}
-            onZoneSelect={(zone) => console.log('Zone selected:', zone)}
-            onBuildingSelect={(building) => console.log('Building selected:', building)}
-            onStatusUpdate={(buildingId, status) => console.log('Status update:', buildingId, status)}
-          />
+          <div className="dashboard-view">
+            <h1>Command Center Dashboard</h1>
+            <div className="dashboard-grid">
+              <div className="dashboard-card">
+                <h3>Quick Actions</h3>
+                <button onClick={() => setActiveView('map')}>
+                  Open 3D Map
+                </button>
+                <button onClick={() => setActiveView('test')}>
+                  Test Components
+                </button>
+              </div>
+              
+              <div className="dashboard-card">
+                <h3>Layer Controls</h3>
+                <LayerTogglePanel title="Dashboard Layers" />
+              </div>
+            </div>
+          </div>
         );
     }
   };
@@ -423,6 +662,33 @@ function App() {
               >
                 Live Map
               </button>
+              <button 
+                onClick={() => setActiveView('test')}
+                style={{ 
+                  flex: 1,
+                  padding: '10px 20px',
+                  textAlign: 'center',
+                  borderRadius: '12px',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                  fontWeight: '600',
+                  fontSize: '15px',
+                  lineHeight: '1.2',
+                  letterSpacing: '-0.01em',
+                  minHeight: '36px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  background: activeView === 'test' ? 'linear-gradient(135deg, #007AFF, #5856D6)' : 'transparent',
+                  color: activeView === 'test' ? 'white' : '#1d1d1f',
+                  border: 'none',
+                  outline: 'none',
+                  boxShadow: activeView === 'test' ? '0 4px 12px rgba(0, 122, 255, 0.3)' : 'none',
+                  transform: activeView === 'test' ? 'scale(1.02)' : 'scale(1)'
+                }}
+              >
+                Test Panel
+              </button>
 
             </div>
           </div>
@@ -442,7 +708,9 @@ function App() {
         borderTop: '1px solid rgba(0, 0, 0, 0.05)', // Visual separation
         background: '#ffffff' // Ensure clean background
       }}>
-        {renderView()}
+        <ErrorBoundary>
+          {renderView()}
+        </ErrorBoundary>
       </main>
 
       {/* Footer - Separate container */}

@@ -22,7 +22,7 @@ TIMEOUT = 30
 class TestAPIIntegration:
     """Comprehensive API integration test suite"""
     
-    def test_health_endpoint(self):
+    def test_health_endpoint(self) -> None:
         """Test the health check endpoint"""
         response = requests.get(f"{API_BASE}/health", timeout=TIMEOUT)
         assert response.status_code == 200
@@ -32,14 +32,14 @@ class TestAPIIntegration:
         assert "timestamp" in data
         logger.info("✅ Health endpoint working correctly")
     
-    def test_api_root(self):
+    def test_api_root(self) -> None:
         """Test the API root endpoint"""
         response = requests.get(f"{API_BASE}/", timeout=TIMEOUT)
         # API root might return 404 if not implemented, which is acceptable
         assert response.status_code in [200, 404], f"API root returned unexpected status: {response.status_code}"
         logger.info("✅ API root endpoint accessible")
     
-    def test_disaster_data_endpoints(self):
+    def test_disaster_data_endpoints(self) -> None:
         """Test disaster data related endpoints"""
         endpoints = [
             "/disasters",
@@ -53,7 +53,7 @@ class TestAPIIntegration:
             assert response.status_code in [200, 404], f"Endpoint {endpoint} failed with status {response.status_code}"
             logger.info(f"✅ Endpoint {endpoint} accessible")
     
-    def test_data_validation(self):
+    def test_data_validation(self) -> None:
         """Test that returned data has correct structure"""
         response = requests.get(f"{API_BASE}/disasters", timeout=TIMEOUT)
         if response.status_code == 200:
@@ -61,19 +61,19 @@ class TestAPIIntegration:
             assert isinstance(data, (list, dict)), "Data should be list or dict"
             logger.info("✅ Data structure validation passed")
     
-    def test_error_handling(self):
+    def test_error_handling(self) -> None:
         """Test error handling for invalid endpoints"""
         response = requests.get(f"{API_BASE}/nonexistent", timeout=TIMEOUT)
         assert response.status_code in [404, 405], "Should handle invalid endpoints gracefully"
         logger.info("✅ Error handling working correctly")
     
-    def test_cors_headers(self):
+    def test_cors_headers(self) -> None:
         """Test CORS headers are present"""
         response = requests.get(f"{API_BASE}/health", timeout=TIMEOUT)
         assert "Access-Control-Allow-Origin" in response.headers or response.status_code == 200
         logger.info("✅ CORS headers present")
     
-    def test_response_time(self):
+    def test_response_time(self) -> None:
         """Test that API responses are within acceptable time limits"""
         start_time = time.time()
         response = requests.get(f"{API_BASE}/health", timeout=TIMEOUT)
@@ -83,11 +83,11 @@ class TestAPIIntegration:
         assert response_time < 5.0, f"Response time {response_time}s exceeds 5s limit"
         logger.info(f"✅ Response time acceptable: {response_time:.2f}s")
     
-    def test_concurrent_requests(self):
+    def test_concurrent_requests(self) -> None:
         """Test handling of concurrent requests"""
         import concurrent.futures
         
-        def make_request():
+        def make_request() -> Any:
             return requests.get(f"{API_BASE}/health", timeout=TIMEOUT)
         
         with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
@@ -99,7 +99,7 @@ class TestAPIIntegration:
         
         logger.info("✅ Concurrent request handling working correctly")
     
-    def test_data_consistency(self):
+    def test_data_consistency(self) -> None:
         """Test that data remains consistent across requests"""
         response1 = requests.get(f"{API_BASE}/health", timeout=TIMEOUT)
         response2 = requests.get(f"{API_BASE}/health", timeout=TIMEOUT)
@@ -110,12 +110,12 @@ class TestAPIIntegration:
 class TestPerformance:
     """Performance testing suite"""
     
-    def test_load_handling(self):
+    def test_load_handling(self) -> None:
         """Test API under load"""
         import concurrent.futures
         import time
         
-        def make_request():
+        def make_request() -> Any:
             start = time.time()
             response = requests.get(f"{API_BASE}/health", timeout=TIMEOUT)
             end = time.time()
@@ -139,7 +139,7 @@ class TestPerformance:
 class TestSecurity:
     """Security testing suite"""
     
-    def test_sql_injection_protection(self):
+    def test_sql_injection_protection(self) -> None:
         """Test protection against SQL injection attempts"""
         malicious_payloads = [
             "'; DROP TABLE users; --",
@@ -154,7 +154,7 @@ class TestSecurity:
         
         logger.info("✅ SQL injection protection working")
     
-    def test_xss_protection(self):
+    def test_xss_protection(self) -> None:
         """Test protection against XSS attempts"""
         xss_payloads = [
             "<script>alert('xss')</script>",

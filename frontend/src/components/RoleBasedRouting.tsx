@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { RouteProfiles, OperationalRoute, EmergencyUnit, StagingArea } from '../types/emergency-response';
+import React, { useState } from 'react';
+import type { RouteProfiles, OperationalRoute, EmergencyUnit, StagingArea } from '../types/emergency-response';
 import './RoleBasedRouting.css';
 
 interface RoleBasedRoutingProps {
@@ -16,7 +16,6 @@ export const RoleBasedRouting: React.FC<RoleBasedRoutingProps> = ({
   units,
   stagingAreas,
   onRouteSelect,
-  onRouteUpdate,
   className = ''
 }) => {
   const [selectedRoute, setSelectedRoute] = useState<OperationalRoute | null>(null);
@@ -93,15 +92,7 @@ export const RoleBasedRouting: React.FC<RoleBasedRoutingProps> = ({
     }
   };
 
-  const getRouteStatusColor = (status: string): string => {
-    switch (status) {
-      case 'active': return '#34C759';
-      case 'planned': return '#007AFF';
-      case 'completed': return '#8E8E93';
-      case 'blocked': return '#FF3B30';
-      default: return '#8E8E93';
-    }
-  };
+
 
   const getRouteStatusIcon = (status: string): string => {
     switch (status) {
@@ -573,4 +564,3 @@ export const RoleBasedRouting: React.FC<RoleBasedRoutingProps> = ({
   );
 };
 
-export default RoleBasedRouting;

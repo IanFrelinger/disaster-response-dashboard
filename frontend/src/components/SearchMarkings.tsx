@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { SearchMarking } from '../types/emergency-response';
+import React, { useState } from 'react';
+import type { SearchMarking } from '../types/emergency-response';
 import './SearchMarkings.css';
 
 interface SearchMarkingsProps {
@@ -13,7 +13,6 @@ interface SearchMarkingsProps {
 export const SearchMarkings: React.FC<SearchMarkingsProps> = ({
   searchMarkings,
   onMarkingCreate,
-  onMarkingUpdate,
   onMarkingDelete,
   className = ''
 }) => {
@@ -27,8 +26,7 @@ export const SearchMarkings: React.FC<SearchMarkingsProps> = ({
         top: '',
         left: '',
         right: '',
-        bottom: 0,
-        center: undefined
+        bottom: 0
       },
       structuralDamage: 'none',
       reEntry: 'safe',
@@ -95,7 +93,7 @@ export const SearchMarkings: React.FC<SearchMarkingsProps> = ({
           left: 'Current_Team',
           right: type === 'hazard' ? 'Hazard detected' : type === 'victims' ? 'Victims found' : 'Clear',
           bottom: type === 'victims' ? 1 : 0,
-          center: type === 'clear' ? 'X' : undefined
+          ...(type === 'clear' && { center: 'X' })
         },
         structuralDamage: type === 'hazard' ? 'moderate' : 'none',
         reEntry: type === 'hazard' ? 'unsafe' : 'safe',
@@ -125,7 +123,7 @@ export const SearchMarkings: React.FC<SearchMarkingsProps> = ({
           left: newMarking.structure.searchCode?.left || 'Current_Team',
           right: newMarking.structure.searchCode?.right || '',
           bottom: newMarking.structure.searchCode?.bottom || 0,
-          center: newMarking.structure.searchCode?.center
+          ...(newMarking.structure.searchCode?.center && { center: newMarking.structure.searchCode.center })
         },
         structuralDamage: newMarking.structure.structuralDamage || 'none',
         reEntry: newMarking.structure.reEntry || 'safe',
@@ -149,7 +147,7 @@ export const SearchMarkings: React.FC<SearchMarkingsProps> = ({
           left: '',
           right: '',
           bottom: 0,
-          center: undefined
+
         },
         structuralDamage: 'none',
         reEntry: 'safe',
@@ -441,7 +439,7 @@ export const SearchMarkings: React.FC<SearchMarkingsProps> = ({
                               ...newMarking.structure!,
                               searchCode: {
                                 ...newMarking.structure!.searchCode!,
-                                center: e.target.checked ? 'X' : undefined
+                                ...(e.target.checked && { center: 'X' })
                               }
                             }
                           })}
@@ -734,4 +732,3 @@ export const SearchMarkings: React.FC<SearchMarkingsProps> = ({
   );
 };
 
-export default SearchMarkings;

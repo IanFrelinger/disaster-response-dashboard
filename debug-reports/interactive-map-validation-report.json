@@ -1,0 +1,272 @@
+{
+  "timestamp": "2025-08-31T23:15:19.655Z",
+  "url": "http://localhost:3000",
+  "summary": {
+    "totalErrors": 0,
+    "totalWarnings": 5,
+    "totalConsoleLogs": 18,
+    "totalButtonTests": 15,
+    "successfulButtonTests": 10,
+    "failedButtonTests": 5,
+    "reactMounted": true,
+    "mapComponentWorking": true
+  },
+  "errors": [],
+  "warnings": [
+    {
+      "type": "warning",
+      "text": "[.WebGL-0x12c037d9600]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+      "timestamp": "2025-08-31T23:14:56.682Z"
+    },
+    {
+      "type": "warning",
+      "text": "[.WebGL-0x12c037d9600]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+      "timestamp": "2025-08-31T23:14:56.684Z"
+    },
+    {
+      "type": "warning",
+      "text": "[.WebGL-0x12c037d9600]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+      "timestamp": "2025-08-31T23:14:56.950Z"
+    },
+    {
+      "type": "warning",
+      "text": "[.WebGL-0x12c037d9600]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)",
+      "timestamp": "2025-08-31T23:14:56.965Z"
+    },
+    {
+      "type": "warning",
+      "text": "Raster DEM source 'other:mapbox-terrain' is used both for terrain and as layer source.\nThis leads to lower resolution of hillshade. For full hillshade resolution but higher memory consumption, define another raster DEM source.",
+      "timestamp": "2025-08-31T23:14:58.619Z"
+    }
+  ],
+  "consoleLogs": [
+    {
+      "type": "log",
+      "text": "Subscribing to hazard zones",
+      "timestamp": "2025-08-31T23:14:48.887Z"
+    },
+    {
+      "type": "log",
+      "text": "Subscribing to emergency units",
+      "timestamp": "2025-08-31T23:14:48.888Z"
+    },
+    {
+      "type": "log",
+      "text": "main.tsx is executing!",
+      "timestamp": "2025-08-31T23:14:48.889Z"
+    },
+    {
+      "type": "log",
+      "text": "React import successful: {Children: Object, Component: , Fragment: Symbol(react.fragment), Profiler: Symbol(react.profiler), PureComponent: }",
+      "timestamp": "2025-08-31T23:14:48.890Z"
+    },
+    {
+      "type": "log",
+      "text": "ReactDOM import successful: {createRoot: , hydrateRoot: }",
+      "timestamp": "2025-08-31T23:14:48.890Z"
+    },
+    {
+      "type": "log",
+      "text": "Root element found: JSHandle@node",
+      "timestamp": "2025-08-31T23:14:48.892Z"
+    },
+    {
+      "type": "log",
+      "text": "Attempting to mount React application...",
+      "timestamp": "2025-08-31T23:14:48.892Z"
+    },
+    {
+      "type": "log",
+      "text": "React application mounted successfully!",
+      "timestamp": "2025-08-31T23:14:48.893Z"
+    },
+    {
+      "type": "log",
+      "text": "Initializing Mapbox map with 3D terrain...",
+      "timestamp": "2025-08-31T23:14:56.477Z"
+    },
+    {
+      "type": "warning",
+      "text": "[.WebGL-0x12c037d9600]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+      "timestamp": "2025-08-31T23:14:56.682Z"
+    },
+    {
+      "type": "warning",
+      "text": "[.WebGL-0x12c037d9600]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+      "timestamp": "2025-08-31T23:14:56.684Z"
+    },
+    {
+      "type": "warning",
+      "text": "[.WebGL-0x12c037d9600]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+      "timestamp": "2025-08-31T23:14:56.950Z"
+    },
+    {
+      "type": "warning",
+      "text": "[.WebGL-0x12c037d9600]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)",
+      "timestamp": "2025-08-31T23:14:56.965Z"
+    },
+    {
+      "type": "log",
+      "text": "Mapbox map loaded, adding 3D terrain and building extrusions...",
+      "timestamp": "2025-08-31T23:14:58.553Z"
+    },
+    {
+      "type": "log",
+      "text": "Terrain layers added successfully",
+      "timestamp": "2025-08-31T23:14:58.554Z"
+    },
+    {
+      "type": "log",
+      "text": "Building extrusions added successfully",
+      "timestamp": "2025-08-31T23:14:58.554Z"
+    },
+    {
+      "type": "log",
+      "text": "Foundry data layers added successfully",
+      "timestamp": "2025-08-31T23:14:58.556Z"
+    },
+    {
+      "type": "warning",
+      "text": "Raster DEM source 'other:mapbox-terrain' is used both for terrain and as layer source.\nThis leads to lower resolution of hillshade. For full hillshade resolution but higher memory consumption, define another raster DEM source.",
+      "timestamp": "2025-08-31T23:14:58.619Z"
+    }
+  ],
+  "buttonTests": [
+    {
+      "button": "Commander Dashboard",
+      "success": true,
+      "timestamp": "2025-08-31T23:14:56.440Z"
+    },
+    {
+      "button": "Live Map",
+      "success": true,
+      "mapState": {
+        "mapContainer": {
+          "exists": true,
+          "className": "w-full h-full rounded-lg overflow-hidden bg-gray-800 border border-gray-600 mapboxgl-map"
+        },
+        "mapboxCanvas": {
+          "exists": true,
+          "className": "mapboxgl-canvas"
+        },
+        "mapControls": {
+          "count": 10,
+          "classes": [
+            "mapboxgl-ctrl-top-left",
+            "mapboxgl-ctrl-top-right",
+            "mapboxgl-ctrl-bottom-left",
+            "mapboxgl-ctrl",
+            "mapboxgl-ctrl-logo",
+            "mapboxgl-ctrl-bottom-right",
+            "mapboxgl-ctrl mapboxgl-ctrl-attrib",
+            "mapboxgl-ctrl-attrib-button",
+            "mapboxgl-ctrl-icon",
+            "mapboxgl-ctrl-attrib-inner"
+          ]
+        },
+        "layerToggles": {
+          "count": 5,
+          "labels": [
+            "Terrain",
+            "Buildings",
+            "Hazards",
+            "Units",
+            "Routes"
+          ]
+        }
+      },
+      "timestamp": "2025-08-31T23:15:01.690Z"
+    },
+    {
+      "button": "Layer Toggle 1 (Terrain)",
+      "success": false,
+      "timestamp": "2025-08-31T23:15:03.949Z"
+    },
+    {
+      "button": "Layer Toggle 2 (Buildings)",
+      "success": true,
+      "timestamp": "2025-08-31T23:15:05.983Z"
+    },
+    {
+      "button": "Layer Toggle 3 (Hazards)",
+      "success": true,
+      "timestamp": "2025-08-31T23:15:08.018Z"
+    },
+    {
+      "button": "Layer Toggle 4 (Units)",
+      "success": true,
+      "timestamp": "2025-08-31T23:15:10.042Z"
+    },
+    {
+      "button": "Layer Toggle 5 (Routes)",
+      "success": true,
+      "timestamp": "2025-08-31T23:15:12.071Z"
+    },
+    {
+      "button": "Style Selector 1 (Dark)",
+      "success": true,
+      "timestamp": "2025-08-31T23:15:14.594Z"
+    },
+    {
+      "button": "Style Selector 2 (Satellite)",
+      "success": true,
+      "timestamp": "2025-08-31T23:15:16.104Z"
+    },
+    {
+      "button": "Style Selector 3 (Streets)",
+      "success": true,
+      "timestamp": "2025-08-31T23:15:17.616Z"
+    },
+    {
+      "button": "Refresh",
+      "success": true,
+      "timestamp": "2025-08-31T23:15:19.642Z"
+    },
+    {
+      "button": "Operations",
+      "success": false,
+      "error": "Button not visible",
+      "timestamp": "2025-08-31T23:15:19.648Z"
+    },
+    {
+      "button": "Conditions",
+      "success": false,
+      "error": "Button not visible",
+      "timestamp": "2025-08-31T23:15:19.650Z"
+    },
+    {
+      "button": "Assets",
+      "success": false,
+      "error": "Button not visible",
+      "timestamp": "2025-08-31T23:15:19.653Z"
+    },
+    {
+      "button": "AIP Commander",
+      "success": false,
+      "error": "Button not visible",
+      "timestamp": "2025-08-31T23:15:19.655Z"
+    }
+  ],
+  "initialState": {
+    "rootElement": {
+      "exists": true,
+      "hasChildren": true,
+      "innerHTML": "<div style=\"min-height: 100vh; background-color: rgb(255, 255, 255); font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, sans-serif; display: flex; flex-direction: column;\"><..."
+    },
+    "header": {
+      "exists": true,
+      "text": "Command Center"
+    },
+    "navigation": {
+      "buttonCount": 6,
+      "buttonTexts": [
+        "Commander Dashboard",
+        "Live Map",
+        "Operations",
+        "Conditions",
+        "Assets",
+        "AIP Commander"
+      ]
+    }
+  }
+}

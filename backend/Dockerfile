@@ -9,6 +9,8 @@ RUN apt-get update && apt-get install -y \
     gdal-bin \
     libgdal-dev \
     curl \
+    build-essential \
+    libspatialindex-dev \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && rm -rf /tmp/* /var/tmp/*
@@ -19,6 +21,16 @@ RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir --timeout=300 --retries=3 \
         --prefer-binary \
         -r requirements.txt
+
+# Install additional dependencies for street data processing
+RUN pip install --no-cache-dir \
+    geopandas \
+    shapely \
+    fiona \
+    pyproj \
+    rtree \
+    networkx \
+    osmnx
 
 # Copy backend code
 COPY . .

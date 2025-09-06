@@ -1,0 +1,16 @@
+# Production dependency settings
+legacy-peer-deps=true
+package-lock=true
+save-exact=false
+
+# Registry configuration
+registry=https://registry.npmjs.org/
+
+# Security settings
+audit-level=moderate
+fund=false
+
+# Production optimization
+production=true
+omit=dev
+

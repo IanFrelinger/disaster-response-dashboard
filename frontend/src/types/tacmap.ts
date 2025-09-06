@@ -50,8 +50,8 @@ export interface ZoomConfiguration {
 
 // Pan Constraints
 export interface PanConstraints {
-  bounds?: mapboxgl.LngLatBounds;
-  maxBounds?: mapboxgl.LngLatBounds;
+  bounds?: any;
+  maxBounds?: any;
   padding?: number;
   elastic?: boolean;
 }
@@ -249,7 +249,7 @@ export class ZoomController {
     
     this.map.easeTo({
       zoom: this.targetZoom,
-      center: center || this.map.getCenter().toArray(),
+      center: center || (this.map.getCenter().toArray() as [number, number]),
       duration: 300,
       easing: (t) => t * (2 - t), // Ease-out quad
       animate: true
@@ -290,8 +290,8 @@ export class ZoomController {
     if (event.touches.length !== 2) return;
     
     const distance = Math.hypot(
-      event.touches[0].clientX - event.touches[1].clientX,
-      event.touches[0].clientY - event.touches[1].clientY
+      (event.touches[0]?.clientX || 0) - (event.touches[1]?.clientX || 0),
+      (event.touches[0]?.clientY || 0) - (event.touches[1]?.clientY || 0)
     );
     
     if (this.lastPinchDistance) {
@@ -426,13 +426,13 @@ export class PanController {
     const touch = event.touches[0];
     
     if (event.type === 'touchstart') {
-      this.panStart = { x: touch.clientX, y: touch.clientY };
+      this.panStart = { x: touch?.clientX || 0, y: touch?.clientY || 0 };
     } else if (event.type === 'touchmove' && this.panStart) {
-      const deltaX = touch.clientX - this.panStart.x;
-      const deltaY = touch.clientY - this.panStart.y;
+      const deltaX = (touch?.clientX || 0) - this.panStart.x;
+      const deltaY = (touch?.clientY || 0) - this.panStart.y;
       
       this.map.panBy([deltaX, deltaY], { animate: false });
-      this.panStart = { x: touch.clientX, y: touch.clientY };
+      this.panStart = { x: touch?.clientX || 0, y: touch?.clientY || 0 };
     } else if (event.type === 'touchend') {
       this.panStart = null;
     }
@@ -515,7 +515,7 @@ export class PanController {
 
 export class TooltipManager {
   private activeTooltip: TooltipData | null = null;
-  private hoverTimeout: NodeJS.Timeout | null = null;
+  private hoverTimeout: any = null;
   private tooltipElement: HTMLElement | null = null;
   private showDelay: number = 200;
   private hideDelay: number = 100;

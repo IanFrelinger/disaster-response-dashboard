@@ -1,0 +1,33 @@
+{
+  "name": "disaster-response-frontend",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "vite preview --port 80 --host 0.0.0.0"
+  },
+  "dependencies": {
+    "@headlessui/react": "^1.7.17",
+    "@heroicons/react": "^2.0.18",
+    "@turf/turf": "^6.5.0",
+    "axios": "^1.6.2",
+    "date-fns": "^2.30.0",
+    "deck.gl": "^8.9.0",
+    "framer-motion": "^11.0.0",
+    "gsap": "^3.12.2",
+    "h3-js": "^4.1.0",
+    "lucide-react": "^0.537.0",
+    "mapbox-gl": "^2.15.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.48.2",
+    "react-hot-toast": "^2.4.1",
+    "react-map-gl": "^7.1.0",
+    "recharts": "^2.8.0",
+    "socket.io-client": "^4.7.4",
+    "supercluster": "^7.1.5",
+    "three": "^0.160.0",
+    "zustand": "^4.4.7"
+  }
+}
+

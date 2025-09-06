@@ -5,7 +5,7 @@ in a demo environment without requiring the actual Foundry platform.
 """
 
 import structlog
-from typing import Dict, List, Any, Optional
+from typing import Dict, List, Any, Optional, Callable
 from datetime import datetime, timedelta
 import random
 
@@ -13,9 +13,9 @@ logger = structlog.get_logger(__name__)
 
 
 # Mock AIP agent decorator
-def aip_agent(name: str, description: str, version: str = "1.0"):
+def aip_agent(name: str, description: str, version: str = "1.0") -> Callable:
     """Mock AIP agent decorator"""
-    def decorator(cls):
+    def decorator(cls: Any) -> Any:
         cls._aip_metadata = {
             "name": name,
             "description": description,
@@ -129,7 +129,7 @@ def predict_fire_spread(location: str) -> Dict[str, Any]:
 class EvacuationCommander:
     """Mock AIP agent for evacuation decisions"""
     
-    def __init__(self):
+    def __init__(self) -> None:
         self.name = "evacuation_commander"
         self.version = "2.0"
         self.description = "Natural language assistant for evacuation decisions"
@@ -230,7 +230,7 @@ class EvacuationCommander:
 class FireSpreadModel:
     """Mock fire spread prediction model"""
     
-    def __init__(self):
+    def __init__(self) -> None:
         self.model_version = "2.1"
         self.last_updated = datetime.now()
     

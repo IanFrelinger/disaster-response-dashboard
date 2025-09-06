@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { EmergencyUnit, EvacuationZone, OperationalRoute } from '../types/emergency-response';
+import React, { useState } from 'react';
+import type { EmergencyUnit, EvacuationZone, OperationalRoute } from '../types/emergency-response';
 import './UnitManagement.css';
 
 interface UnitManagementProps {
@@ -73,19 +73,6 @@ export const UnitManagement: React.FC<UnitManagementProps> = ({
       maxSpeed: 70,
       crewSize: 2
     };
-  };
-
-  // Get status color
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'available': return '#34C759';
-      case 'assigned': return '#007AFF';
-      case 'en_route': return '#FF9500';
-      case 'on_scene': return '#FF3B30';
-      case 'returning': return '#5856D6';
-      case 'maintenance': return '#8E8E93';
-      default: return '#8E8E93';
-    }
   };
 
   // Get status icon
@@ -617,4 +604,3 @@ const getPriorityColor = (priority: string) => {
   }
 };
 
-export default UnitManagement;

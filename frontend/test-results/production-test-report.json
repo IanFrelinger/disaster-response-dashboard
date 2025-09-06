@@ -1,0 +1,36 @@
+{
+  "timestamp": "2025-09-06T06:00:28.763Z",
+  "totalTests": 1,
+  "passedTests": 0,
+  "failedTests": 1,
+  "skippedTests": 0,
+  "totalDuration": 0,
+  "suites": [
+    {
+      "name": "Production Health Check",
+      "success": false,
+      "duration": 0,
+      "tests": [
+        {
+          "success": false,
+          "duration": 0,
+          "errors": [
+            "Command execution failed: TypeError: command.run is not a function"
+          ],
+          "warnings": [],
+          "artifacts": [],
+          "metadata": {}
+        }
+      ],
+      "errors": [
+        "Command undefined failed: TypeError: command.run is not a function"
+      ]
+    }
+  ],
+  "summary": {
+    "successRate": 0,
+    "averageDuration": 0,
+    "fastestTest": "N/A",
+    "slowestTest": "N/A"
+  }
+}

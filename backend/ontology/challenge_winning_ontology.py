@@ -34,16 +34,16 @@ class ChallengeHazardZone:
     
     # Relationships that update dynamically
     @Link(one_to_many)
-    evacuation_orders: List["ChallengeEvacuationOrder"]
+    evacuation_orders
     
     @Link(one_to_many)
-    assigned_units: List["ChallengeEmergencyUnit"]
+    assigned_units
     
     @Link(many_to_many)
-    evacuation_routes: List["ChallengeEvacuationRoute"]
+    evacuation_routes
     
     @Link(one_to_many)
-    affected_buildings: List["ChallengeBuilding"]
+    affected_buildings
     
     @Action(requires_role="emergency_commander")
     def issue_evacuation_order(self, order_type: str, authorized_by: str) -> "ChallengeEvacuationOrder":
@@ -158,7 +158,7 @@ class ChallengeEmergencyUnit:
     assigned_zone: Optional[ChallengeHazardZone]
     
     @Link(one_to_many)
-    dispatch_history: List["ChallengeDispatchRecord"]
+    dispatch_history
     
     @Action(requires_role="dispatcher")
     def dispatch_to_evacuation(self, evacuation_order: "ChallengeEvacuationOrder") -> "ChallengeDispatchRecord":
@@ -242,7 +242,7 @@ class ChallengeEvacuationRoute:
     hazard_zones: List[ChallengeHazardZone]
     
     @Link(one_to_many)
-    route_usage: List["ChallengeRouteUsage"]
+    route_usage
     
     @Action(requires_role="route_manager")
     def update_status(self):
@@ -317,10 +317,10 @@ class ChallengeEvacuationOrder:
     
     # Relationships
     @Link(one_to_many)
-    notifications_sent: List["ChallengeNotificationRecord"]
+    notifications_sent
     
     @Link(one_to_many)
-    compliance_metrics: List["ChallengeComplianceMetric"]
+    compliance_metrics
     
     @Action(requires_role="emergency_commander")
     def send_notifications(self, channels: List[str], message: str = None):

@@ -66,76 +66,77 @@ jobs:
           path: backend/security-scan.json
           retention-days: 7
 
-  build-and-push:
-    name: Build and Push to ECR
-    needs: test
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
-    
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
-          
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v2
-        
-      - name: Build, tag, and push image to Amazon ECR
-        working-directory: ./backend
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          IMAGE_TAG: ${{ github.sha }}
-        run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f Dockerfile .
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:latest -f Dockerfile .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
-          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+  # DEPLOYMENT DISABLED - Using local development workflow
+  # build-and-push:
+  #   name: Build and Push to ECR
+  #   needs: test
+  #   runs-on: ubuntu-latest
+  #   if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+  #   
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
+  #       
+  #     - name: Configure AWS credentials
+  #       uses: aws-actions/configure-aws-credentials@v4
+  #       with:
+  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         aws-region: ${{ env.AWS_REGION }}
+  #         
+  #     - name: Login to Amazon ECR
+  #       id: login-ecr
+  #       uses: aws-actions/amazon-ecr-login@v2
+  #       
+  #     - name: Build, tag, and push image to Amazon ECR
+  #       working-directory: ./backend
+  #       env:
+  #         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+  #         IMAGE_TAG: ${{ github.sha }}
+  #       run: |
+  #         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f Dockerfile .
+  #         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:latest -f Dockerfile .
+  #         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+  #         docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+  #         echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
-  deploy:
-    name: Deploy to ECS
-    needs: build-and-push
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
-    
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
-          
-      - name: Deploy to ECS
-        run: |
-          # Update the backend service if it exists
-          if aws ecs describe-services --cluster $ECS_CLUSTER --services $ECS_SERVICE --region $AWS_REGION &> /dev/null; then
-            echo "Updating existing ECS service..."
-            aws ecs update-service \
-              --cluster $ECS_CLUSTER \
-              --service $ECS_SERVICE \
-              --force-new-deployment \
-              --region $AWS_REGION
-          else
-            echo "Backend service does not exist yet. Please create it manually or update the workflow."
-          fi
-          
-      - name: Wait for deployment
-        if: success()
-        run: |
-          if aws ecs describe-services --cluster $ECS_CLUSTER --services $ECS_SERVICE --region $AWS_REGION &> /dev/null; then
-            aws ecs wait services-stable \
-              --cluster $ECS_CLUSTER \
-              --services $ECS_SERVICE \
-              --region $AWS_REGION
-          fi
+  # deploy:
+  #   name: Deploy to ECS
+  #   needs: build-and-push
+  #   runs-on: ubuntu-latest
+  #   if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+  #   
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
+  #       
+  #     - name: Configure AWS credentials
+  #       uses: aws-actions/configure-aws-credentials@v4
+  #       with:
+  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         aws-region: ${{ env.AWS_REGION }}
+  #         
+  #     - name: Deploy to ECS
+  #       run: |
+  #         # Update the backend service if it exists
+  #         if aws ecs describe-services --cluster $ECS_CLUSTER --services $ECS_SERVICE --region $AWS_REGION &> /dev/null; then
+  #           echo "Updating existing ECS service..."
+  #           aws ecs update-service \
+  #             --cluster $ECS_CLUSTER \
+  #             --service $ECS_SERVICE \
+  #             --force-new-deployment \
+  #             --region $AWS_REGION
+  #         else
+  #           echo "Backend service does not exist yet. Please create it manually or update the workflow."
+  #         fi
+  #         
+  #     - name: Wait for deployment
+  #       if: success()
+  #       run: |
+  #         if aws ecs describe-services --cluster $ECS_CLUSTER --services $ECS_SERVICE --region $AWS_REGION &> /dev/null; then
+  #           aws ecs wait services-stable \
+  #             --cluster $ECS_CLUSTER \
+  #             --services $ECS_SERVICE \
+  #             --region $AWS_REGION
+  #         fi

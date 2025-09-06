@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { DetailLevels } from '../types/emergency-response';
+import React, { useState } from 'react';
+import type { DetailLevels } from '../types/emergency-response';
 import './DrillDownCapability.css';
 
 interface DrillDownCapabilityProps {
@@ -12,16 +12,10 @@ interface DrillDownCapabilityProps {
 }
 
 export const DrillDownCapability: React.FC<DrillDownCapabilityProps> = ({
-  detailLevels,
   currentZoom,
-  currentLocation,
-  onZoomChange,
-  onLocationSelect,
   className = ''
 }) => {
-  const [selectedDetailLevel, setSelectedDetailLevel] = useState<keyof DetailLevels>('county');
   const [expandedSections, setExpandedSections] = useState<Set<keyof DetailLevels>>(new Set(['county']));
-  const [selectedLocation, setSelectedLocation] = useState<string>(currentLocation);
 
   // Zoom-based detail level configuration
   const zoomLevels: { [key: number]: keyof DetailLevels } = {
@@ -84,18 +78,7 @@ export const DrillDownCapability: React.FC<DrillDownCapabilityProps> = ({
     setExpandedSections(newExpanded);
   };
 
-  const handleLocationSelect = (location: string) => {
-    setSelectedLocation(location);
-    if (onLocationSelect) {
-      onLocationSelect(location);
-    }
-  };
 
-  const handleZoomChange = (zoom: number) => {
-    if (onZoomChange) {
-      onZoomChange(zoom);
-    }
-  };
 
   // Mock data for demonstration
   const mockLocationData = {
@@ -134,75 +117,7 @@ export const DrillDownCapability: React.FC<DrillDownCapabilityProps> = ({
     }
   };
 
-  const getCurrentLocationData = () => {
-    const level = getDetailLevelForZoom(currentZoom);
-    return mockLocationData[level] || mockLocationData.county;
-  };
 
-  const renderLocationOverview = (data: any) => {
-    return (
-      <div className="location-overview">
-        <div className="overview-header">
-          <h3 className="ios-title">{data.name}</h3>
-          <div className="overview-stats">
-            <div className="overview-item">
-              <span className="item-label">Population:</span>
-              <span className="item-value">{data.population}</span>
-            </div>
-            {/* Safely access properties with type guards */}
-            {'buildings' in data && (
-              <div className="overview-item">
-                <span className="item-label">Buildings:</span>
-                <span className="item-value">{data.buildings}</span>
-              </div>
-            )}
-            {'area' in data && (
-              <div className="overview-item">
-                <span className="item-label">Area:</span>
-                <span className="item-value">{data.area}</span>
-              </div>
-            )}
-            {'activeIncidents' in data && (
-              <div className="overview-item">
-                <span className="item-label">Active Incidents:</span>
-                <span className="item-value">{data.activeIncidents}</span>
-              </div>
-            )}
-            {'emergencyUnits' in data && (
-              <div className="overview-item">
-                <span className="item-label">Emergency Units:</span>
-                <span className="item-value">{data.emergencyUnits}</span>
-              </div>
-            )}
-            {'evacuationZones' in data && (
-              <div className="overview-item">
-                <span className="item-label">Evacuation Zones:</span>
-                <span className="item-value">{data.evacuationZones}</span>
-              </div>
-            )}
-            {'evacuationProgress' in data && (
-              <div className="overview-item">
-                <span className="item-label">Evacuation Progress:</span>
-                <span className="item-value">{data.evacuationProgress}</span>
-              </div>
-            )}
-            {'assignedUnits' in data && (
-              <div className="overview-item">
-                <span className="item-label">Assigned Units:</span>
-                <span className="item-value">{data.assignedUnits}</span>
-              </div>
-            )}
-            {'hazards' in data && data.hazards !== undefined && (
-              <div className="overview-item">
-                <span className="item-label">Active Hazards:</span>
-                <span className="item-value">{data.hazards}</span>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-    );
-  };
 
   const renderDetailLevelContent = (level: keyof DetailLevels) => {
     const data = mockLocationData[level];
@@ -329,13 +244,13 @@ export const DrillDownCapability: React.FC<DrillDownCapabilityProps> = ({
                 <div className="zoom-buttons">
                   <button 
                     className="zoom-button"
-                    onClick={() => handleZoomChange(Math.max(8, currentZoom - 1))}
+                    onClick={() => {}} // Zoom functionality disabled
                   >
                     −
                   </button>
                   <button 
                     className="zoom-button"
-                    onClick={() => handleZoomChange(Math.min(20, currentZoom + 1))}
+                    onClick={() => {}} // Zoom functionality disabled
                   >
                     +
                   </button>
@@ -497,4 +412,3 @@ export const DrillDownCapability: React.FC<DrillDownCapabilityProps> = ({
   );
 };
 
-export default DrillDownCapability;

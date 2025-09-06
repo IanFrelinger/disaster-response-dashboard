@@ -30,10 +30,10 @@ class WorkingHazardZone:
     
     # Relationships
     @Link(one_to_many)
-    evacuation_orders: List["WorkingEvacuationOrder"]
+    evacuation_orders
     
     @Link(one_to_many)
-    assigned_units: List["WorkingEmergencyUnit"]
+    assigned_units
     
     @Action(requires_role="emergency_commander")
     def issue_evacuation_order(self, order_type: str, authorized_by: str) -> "WorkingEvacuationOrder":
@@ -126,7 +126,7 @@ class WorkingEmergencyUnit:
     assigned_zone: Optional[WorkingHazardZone]
     
     @Link(one_to_many)
-    dispatch_history: List["WorkingDispatchRecord"]
+    dispatch_history
     
     @Action(requires_role="dispatcher")
     def dispatch_to_evacuation(self, evacuation_order: "WorkingEvacuationOrder") -> "WorkingDispatchRecord":
@@ -208,10 +208,10 @@ class WorkingEvacuationOrder:
     
     # Relationships
     @Link(one_to_many)
-    notifications_sent: List["WorkingNotificationRecord"]
+    notifications_sent
     
     @Link(one_to_many)
-    assigned_units: List[WorkingEmergencyUnit]
+    assigned_units
     
     @Action(requires_role="emergency_commander")
     def send_notifications(self, channels: List[str]) -> List["WorkingNotificationRecord"]:

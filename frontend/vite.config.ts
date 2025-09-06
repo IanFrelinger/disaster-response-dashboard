@@ -16,9 +16,17 @@ export default defineConfig(({ command, mode }) => {
     server: {
       port: 3000,
       host: true,
+      proxy: {
+        '/api': {
+          target: 'http://localhost:8000',
+          changeOrigin: true,
+          secure: false,
+        },
+      },
     },
     optimizeDeps: {
-      include: ['mapbox-gl']
+      include: ['mapbox-gl'],
+      exclude: ['@mapbox/mapbox-gl-style-spec']
     },
     build: {
       target: 'esnext',
@@ -26,23 +34,31 @@ export default defineConfig(({ command, mode }) => {
       sourcemap: !isProduction,
       rollupOptions: {
         output: {
-          manualChunks: {
-            vendor: ['react', 'react-dom'],
-            mapbox: ['mapbox-gl', 'react-map-gl'],
-            ui: ['@headlessui/react', '@heroicons/react', 'framer-motion'],
-            charts: ['recharts', 'deck.gl'],
-            utils: ['axios', 'date-fns', 'zustand']
+          // Disable manual chunks to prevent React from being separated
+          // manualChunks: undefined
+        },
+        external: [],
+        onwarn(warning, warn) {
+          // Suppress warnings about Mapbox GL JS
+          if (warning.code === 'CIRCULAR_DEPENDENCY' && warning.message.includes('mapbox-gl')) {
+            return
           }
+          warn(warning)
         }
       },
       commonjsOptions: {
-        include: [/mapbox-gl/, /node_modules/]
+        include: [/mapbox-gl/, /node_modules/],
+        transformMixedEsModules: true
       },
       chunkSizeWarningLimit: 1000
     },
     define: {
       __APP_VERSION__: JSON.stringify(process.env.npm_package_version || '1.0.0'),
       __BUILD_TIME__: JSON.stringify(new Date().toISOString())
+    },
+    // Add specific handling for Mapbox GL JS
+    esbuild: {
+      target: 'es2020'
     }
   }
 })

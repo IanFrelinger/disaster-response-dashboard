@@ -1,67 +1,39 @@
 version: '3.8'
 
 services:
-  # Disaster Response Dashboard Backend
-  disaster-dashboard:
+  frontend:
     build:
-      context: .
+      context: ./frontend
       dockerfile: Dockerfile
-    container_name: disaster-dashboard-backend
+      args:
+        - VITE_MAPBOX_ACCESS_TOKEN=pk.eyJ1IjoiaWNmcmVsaW5nZXIiLCJhIjoiY21ldW5zZjJuMDh0eDJpcHgwNHhtOTE4aSJ9.2k1N7W2zZovOnRuqlVB9NQ
+        - VITE_MAPBOX_STYLE_URL=mapbox://styles/mapbox/dark-v11
+        - VITE_API_BASE_URL=http://localhost:8000
+    ports:
+      - "3000:80"
+    environment:
+      - VITE_MAPBOX_ACCESS_TOKEN=pk.eyJ1IjoiaWNmcmVsaW5nZXIiLCJhIjoiY21ldW5zZjJuMDh0eDJpcHgwNHhtOTE4aSJ9.2k1N7W2zZovOnRuqlVB9NQ
+      - VITE_MAPBOX_STYLE_URL=mapbox://styles/mapbox/dark-v11
+      - VITE_API_BASE_URL=http://localhost:8000
+    depends_on:
+      - backend
+    networks:
+      - disaster-response
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     ports:
       - "8000:8000"
     environment:
-      - FLASK_ENV=development
-      - FLASK_DEBUG=true
+      - MAPBOX_ACCESS_TOKEN=pk.eyJ1IjoiaWNmcmVsaW5nZXIiLCJhIjoiY21ldW5zZjJuMDh0eDJpcHgwNHhtOTE4aSJ9.2k1N7W2zZovOnRuqlVB9NQ
       - FLASK_PORT=8000
-      - ENVIRONMENT_MODE=demo
-      - USE_SYNTHETIC_DATA=true
     volumes:
-      # Mount backend code for development (comment out for production)
       - ./backend:/app
-      # Mount data directory if needed
-      - ./data:/app/data:ro
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
     networks:
-      - disaster-network
-
-  # Optional: Redis for caching (uncomment if needed)
-  # redis:
-  #   image: redis:7-alpine
-  #   container_name: disaster-dashboard-redis
-  #   ports:
-  #     - "6379:6379"
-  #   volumes:
-  #     - redis_data:/data
-  #   restart: unless-stopped
-  #   networks:
-  #     - disaster-network
-
-  # Optional: PostgreSQL for data storage (uncomment if needed)
-  # postgres:
-  #   image: postgres:15-alpine
-  #   container_name: disaster-dashboard-db
-  #   environment:
-  #     POSTGRES_DB: disaster_dashboard
-  #     POSTGRES_USER: dashboard_user
-  #     POSTGRES_PASSWORD: dashboard_password
-  #   ports:
-  #     - "5432:5432"
-  #   volumes:
-  #     - postgres_data:/var/lib/postgresql/data
-  #   restart: unless-stopped
-  #   networks:
-  #     - disaster-network
+      - disaster-response
 
 networks:
-  disaster-network:
+  disaster-response:
     driver: bridge
-
-volumes:
-  redis_data:
-  postgres_data:

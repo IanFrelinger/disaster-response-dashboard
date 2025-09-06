@@ -1,0 +1,128 @@
+name: Frontend Layer Validation
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'frontend/**'
+      - '.github/workflows/frontend-layer-validation.yml'
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'frontend/**'
+      - '.github/workflows/frontend-layer-validation.yml'
+  workflow_dispatch:
+
+jobs:
+  frontend-layer-validation:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+        
+    - name: Install frontend dependencies
+      run: |
+        cd frontend
+        npm install -g pnpm
+        pnpm install --frozen-lockfile
+        
+    - name: Install Playwright browsers
+      run: |
+        cd frontend
+        pnpm exec playwright install --with-deps chromium
+        
+    - name: Build frontend
+      run: |
+        cd frontend
+        pnpm build
+        
+    - name: Start frontend server
+      run: |
+        cd frontend
+        pnpm preview --port 3000 --host 0.0.0.0 &
+        sleep 10
+        
+    - name: Wait for frontend to be ready
+      run: |
+        timeout 60 bash -c 'until curl -f http://localhost:3000; do sleep 2; done'
+        
+    - name: Run layer validation
+      run: |
+        cd frontend
+        pnpm validate:layers:ci
+      env:
+        FRONTEND_URL: http://localhost:3000
+        CI: true
+        
+    - name: Upload validation results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: layer-validation-results
+        path: |
+          frontend/test-results/layer-validation-results.json
+          frontend/test-results/layer-validation.png
+        retention-days: 30
+        
+    - name: Comment PR with results
+      if: github.event_name == 'pull_request' && always()
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const fs = require('fs');
+          const path = 'frontend/test-results/layer-validation-results.json';
+          
+          if (fs.existsSync(path)) {
+            const results = JSON.parse(fs.readFileSync(path, 'utf8'));
+            const successRate = results.overall.successRate;
+            const successfulLayers = results.overall.successfulLayers;
+            const totalLayers = results.overall.totalLayers;
+            
+            let comment = `## 🗺️ Frontend Layer Validation Results\n\n`;
+            comment += `**Success Rate:** ${successRate.toFixed(1)}% (${successfulLayers}/${totalLayers} layers)\n\n`;
+            
+            if (results.success) {
+              comment += `✅ **All layer validation checks passed!**\n\n`;
+            } else {
+              comment += `❌ **Layer validation checks failed**\n\n`;
+            }
+            
+            comment += `### Layer Status:\n`;
+            Object.entries(results.layers).forEach(([name, status]) => {
+              const icon = status.success ? '✅' : '❌';
+              const state = status.enabled ? 'Enabled' : status.disabled ? 'Disabled' : 'Unknown';
+              const render = status.rendered ? 'Rendered' : status.notRendered ? 'Not Rendered' : 'Unknown';
+              comment += `- ${icon} **${name}**: ${state} | ${render}\n`;
+            });
+            
+            comment += `\n### Performance:\n`;
+            comment += `- Load Time: ${results.performance.loadTime}ms\n`;
+            comment += `- Render Time: ${results.performance.renderTime}ms\n`;
+            comment += `- Memory Usage: ${Math.round(results.performance.memoryUsage / 1024 / 1024)}MB\n`;
+            
+            if (results.overall.errors.length > 0) {
+              comment += `\n### Errors:\n`;
+              results.overall.errors.forEach((error, index) => {
+                comment += `${index + 1}. ${error}\n`;
+              });
+            }
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+          }

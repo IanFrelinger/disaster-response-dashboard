@@ -245,7 +245,7 @@ class MockFoundryClient {
     const { avoid_hazards = true, max_capacity = true } = parameters;
     
     // Filter routes based on parameters
-    let optimalRoutes = this.routes.filter(route => {
+    const optimalRoutes = this.routes.filter(route => {
       if (avoid_hazards && route.properties.hazard_distance < 500) {
         return false;
       }

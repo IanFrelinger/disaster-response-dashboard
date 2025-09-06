@@ -1,0 +1,250 @@
+name: Design Brief
+description: Create a design brief for new features or improvements
+title: "[Design Brief] "
+labels: ["cursor-run", "design-brief"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        # Design Brief Template
+        
+        Use this template to create a comprehensive design brief for new features or improvements to the Disaster Response Dashboard. This will be automatically processed by the Cursor agent for implementation.
+        
+        ## Instructions
+        1. Fill out all sections below with as much detail as possible
+        2. The issue will be automatically labeled with `cursor-run` for agent processing
+        3. Be specific about requirements, constraints, and acceptance criteria
+        4. Include any relevant mockups, diagrams, or examples
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: Provide background information and context for this feature or improvement
+      placeholder: |
+        Example:
+        The current evacuation route calculation system works well for single-hazard scenarios, but struggles with multi-hazard situations where multiple threats (fire, flood, chemical) are present simultaneously. Emergency responders need a way to visualize and calculate routes that avoid all active hazards while maintaining optimal evacuation times.
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance Criteria
+      description: Define specific, measurable criteria that must be met for this feature to be considered complete
+      placeholder: |
+        Example:
+        - [ ] System can display multiple hazard types simultaneously on the map
+        - [ ] Route calculation algorithm considers all active hazards when computing safe paths
+        - [ ] UI provides clear visual distinction between different hazard types
+        - [ ] Performance remains within budget (route calculation < 100ms)
+        - [ ] 0% hazard intersection requirement maintained for all calculated routes
+        - [ ] Integration tests pass for multi-hazard scenarios
+        - [ ] E2E tests validate complete user workflow
+    validations:
+      required: true
+
+  - type: textarea
+    id: design-guidance
+    attributes:
+      label: Design Guidance
+      description: Provide specific design requirements, constraints, and technical guidance
+      placeholder: |
+        Example:
+        ## Technical Requirements
+        - Use existing HazardProcessor and RouteOptimizer classes
+        - Maintain backward compatibility with single-hazard scenarios
+        - Follow established layer management patterns in LayerManager
+        - Use React Query for data fetching and caching
+        
+        ## UI/UX Requirements
+        - Hazard types should be color-coded (fire=red, flood=blue, chemical=yellow)
+        - Layer toggles should allow individual hazard type control
+        - Route visualization should show hazard avoidance zones
+        - Performance should not degrade with multiple hazards
+        
+        ## Integration Points
+        - Update ValidationSystem to monitor multi-hazard scenarios
+        - Extend API endpoints to support multiple hazard types
+        - Update Foundry functions for multi-hazard processing
+        - Maintain existing performance budgets
+    validations:
+      required: true
+
+  - type: textarea
+    id: test-plan
+    attributes:
+      label: Test Plan
+      description: Outline the testing strategy and specific test cases for this feature
+      placeholder: |
+        Example:
+        ## Unit Tests
+        - Test HazardProcessor with multiple hazard types
+        - Test RouteOptimizer with multi-hazard avoidance
+        - Test UI components with different hazard combinations
+        
+        ## Integration Tests
+        - Test API endpoints with multi-hazard data
+        - Test Foundry function integration
+        - Test validation system with complex scenarios
+        
+        ## E2E Tests
+        - Test complete user workflow: load map → select hazards → calculate route
+        - Test performance with maximum number of hazards
+        - Test error handling for invalid hazard data
+        
+        ## Performance Tests
+        - Validate route calculation time < 100ms with 10+ hazards
+        - Test map rendering performance with multiple hazard layers
+        - Memory usage validation for large datasets
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: Select the priority level for this feature
+      options:
+        - Low
+        - Medium
+        - High
+        - Critical
+    validations:
+      required: true
+
+  - type: dropdown
+    id: complexity
+    attributes:
+      label: Complexity
+      description: Estimate the implementation complexity
+      options:
+        - Simple (1-2 days)
+        - Medium (3-5 days)
+        - Complex (1-2 weeks)
+        - Very Complex (2+ weeks)
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: affected-systems
+    attributes:
+      label: Affected Systems
+      description: Select all systems that will be affected by this implementation
+      options:
+        - label: Frontend (React/TypeScript)
+          required: false
+        - label: Backend API (Python/FastAPI)
+          required: false
+        - label: Foundry Integration
+          required: false
+        - label: Validation System
+          required: false
+        - label: Map Layers (Mapbox)
+          required: false
+        - label: Route Calculation
+          required: false
+        - label: Database Schema
+          required: false
+        - label: Performance Monitoring
+          required: false
+
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies
+      description: List any dependencies, prerequisites, or related issues
+      placeholder: |
+        Example:
+        - Depends on: Issue #123 (Hazard data API improvements)
+        - Prerequisites: Updated hazard data format from NASA FIRMS
+        - Related: Issue #456 (Performance optimization for route calculation)
+        - Blocks: Issue #789 (Multi-hazard dashboard view)
+    validations:
+      required: false
+
+  - type: textarea
+    id: mockups
+    attributes:
+      label: Mockups/Examples
+      description: Include any mockups, wireframes, diagrams, or example implementations
+      placeholder: |
+        Example:
+        ## UI Mockup
+        [Link to Figma mockup or describe the UI layout]
+        
+        ## Data Flow Diagram
+        [Describe the data flow or include a diagram]
+        
+        ## Example API Response
+        ```json
+        {
+          "hazards": [
+            {"type": "fire", "severity": "high", "coordinates": [...]},
+            {"type": "flood", "severity": "medium", "coordinates": [...]}
+          ],
+          "routes": [
+            {"id": "route1", "safety_score": 0.95, "waypoints": [...]}
+          ]
+        }
+        ```
+    validations:
+      required: false
+
+  - type: textarea
+    id: performance-requirements
+    attributes:
+      label: Performance Requirements
+      description: Specify any performance requirements or constraints
+      placeholder: |
+        Example:
+        - Route calculation must complete within 100ms for up to 10 simultaneous hazards
+        - Map rendering should maintain 60fps with multiple hazard layers
+        - Memory usage should not exceed 200MB for large hazard datasets
+        - API response time should remain under 100ms average
+    validations:
+      required: false
+
+  - type: textarea
+    id: security-considerations
+    attributes:
+      label: Security Considerations
+      description: Identify any security implications or requirements
+      placeholder: |
+        Example:
+        - Validate all hazard coordinate data to prevent injection attacks
+        - Ensure synthetic test data is used for all testing scenarios
+        - Implement proper input sanitization for hazard type parameters
+        - Maintain audit logging for route calculation requests
+    validations:
+      required: false
+
+  - type: textarea
+    id: rollback-plan
+    attributes:
+      label: Rollback Plan
+      description: Describe how to rollback this feature if issues arise
+      placeholder: |
+        Example:
+        - Feature can be disabled via feature flag
+        - Database changes are backward compatible
+        - API endpoints maintain backward compatibility
+        - Rollback procedure: [specific steps]
+    validations:
+      required: false
+
+  - type: markdown
+    attributes:
+      value: |
+        ## Next Steps
+        
+        Once this design brief is submitted:
+        1. The issue will be automatically labeled with `cursor-run`
+        2. The Cursor agent will process this design brief
+        3. Implementation will begin following the established development standards
+        4. All tests and validation will be run automatically
+        5. A pull request will be created for review
+        
+        **Note:** The Cursor agent will follow all security, performance, and quality standards defined in the project rules.

@@ -1,0 +1,132 @@
+.app {
+  min-height: 100vh;
+  background: var(--ios-background, #f2f2f7);
+}
+
+.app-header {
+  background: var(--ios-header-background, #ffffff);
+  border-bottom: 1px solid var(--ios-border, #e5e5ea);
+  padding: var(--ios-spacing-md, 16px);
+  box-shadow: var(--ios-shadow, 0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.app-header h1 {
+  margin: 0 0 var(--ios-spacing-md, 16px) 0;
+  font-size: var(--ios-font-size-xl, 24px);
+  font-weight: var(--ios-font-weight-bold, 700);
+  color: var(--ios-text, #000000);
+}
+
+.app-navigation {
+  display: flex;
+  gap: var(--ios-spacing-sm, 8px);
+}
+
+.app-navigation button {
+  background: var(--ios-button-background, #007AFF);
+  color: var(--ios-button-text, #ffffff);
+  border: none;
+  padding: var(--ios-spacing-sm, 8px) var(--ios-spacing-md, 16px);
+  border-radius: var(--ios-border-radius-sm, 6px);
+  cursor: pointer;
+  font-weight: var(--ios-font-weight, 500);
+  transition: background-color 0.2s ease;
+  /* Ensure navigation buttons are always clickable */
+  position: relative;
+  z-index: 100;
+  pointer-events: auto;
+}
+
+.app-navigation button:hover {
+  background: var(--ios-button-hover, #0056CC);
+}
+
+.app-navigation button.active {
+  background: var(--ios-button-active, #0056CC);
+}
+
+.app-main {
+  padding: var(--ios-spacing-lg, 24px);
+  /* Ensure proper stacking context */
+  position: relative;
+  z-index: 1;
+}
+
+/* Dashboard View */
+.dashboard-view h1 {
+  margin: 0 0 var(--ios-spacing-lg, 24px) 0;
+  font-size: var(--ios-font-size-xl, 24px);
+  font-weight: var(--ios-font-weight-bold, 700);
+  color: var(--ios-text, #000000);
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--ios-spacing-lg, 24px);
+}
+
+.dashboard-card {
+  background: var(--ios-card-background, #ffffff);
+  border-radius: var(--ios-border-radius, 12px);
+  padding: var(--ios-spacing-lg, 24px);
+  box-shadow: var(--ios-shadow, 0 2px 8px rgba(0, 0, 0, 0.1));
+}
+
+.dashboard-card h3 {
+  margin: 0 0 var(--ios-spacing-md, 16px) 0;
+  font-size: var(--ios-font-size-lg, 18px);
+  font-weight: var(--ios-font-weight-bold, 700);
+  color: var(--ios-text, #000000);
+}
+
+.dashboard-card button {
+  background: var(--ios-button-background, #007AFF);
+  color: var(--ios-button-text, #ffffff);
+  border: none;
+  padding: var(--ios-spacing-sm, 8px) var(--ios-spacing-md, 16px);
+  border-radius: var(--ios-border-radius-sm, 6px);
+  cursor: pointer;
+  font-weight: var(--ios-font-weight, 500);
+  margin-right: var(--ios-spacing-sm, 8px);
+  margin-bottom: var(--ios-spacing-sm, 8px);
+  transition: background-color 0.2s ease;
+}
+
+.dashboard-card button:hover {
+  background: var(--ios-button-hover, #0056CC);
+}
+
+/* Map View */
+.map-view {
+  height: calc(100vh - 200px);
+  min-height: 500px;
+}
+
+/* Test View */
+.test-view h1 {
+  margin: 0 0 var(--ios-spacing-lg, 24px) 0;
+  font-size: var(--ios-font-size-xl, 24px);
+  font-weight: var(--ios-font-weight-bold, 700);
+  color: var(--ios-text, #000000);
+}
+
+.component-tests {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: var(--ios-spacing-lg, 24px);
+}
+
+.test-section {
+  background: var(--ios-card-background, #ffffff);
+  border-radius: var(--ios-border-radius, 12px);
+  padding: var(--ios-spacing-lg, 24px);
+  box-shadow: var(--ios-shadow, 0 2px 8px rgba(0, 0, 0, 0.1));
+}
+
+.test-section h2 {
+  margin: 0 0 var(--ios-spacing-md, 16px) 0;
+  font-size: var(--ios-font-size-lg, 18px);
+  font-weight: var(--ios-font-weight-bold, 700);
+  color: var(--ios-text, #000000);
+}

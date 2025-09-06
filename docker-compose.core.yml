@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - VITE_MAPBOX_ACCESS_TOKEN=pk.eyJ1IjoiaWNmcmVsaW5nZXIiLCJhIjoiY21ldW5zZjJuMDh0eDJpcHgwNHhtOTE4aSJ9.2k1N7W2zZovOnRuqlVB9NQ
+        - VITE_MAPBOX_STYLE_URL=mapbox://styles/mapbox/dark-v11
+    ports:
+      - "3000:80"
+    environment:
+      VITE_MAPBOX_ACCESS_TOKEN: pk.eyJ1IjoiaWNmcmVsaW5nZXIiLCJhIjoiY21ldW5zZjJuMDh0eDJpcHgwNHhtOTE4aSJ9.2k1N7W2zZovOnRuqlVB9NQ
+      VITE_MAPBOX_STYLE_URL: mapbox://styles/mapbox/dark-v11
+    depends_on:
+      - backend
+    networks:
+      - disaster-response
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      MAPBOX_ACCESS_TOKEN: pk.eyJ1IjoiaWNmcmVsaW5nZXIiLCJhIjoiY21ldW5zZjJuMDh0eDJpcHgwNHhtOTE4aSJ9.2k1N7W2zZovOnRuqlVB9NQ
+      FLASK_PORT: 8000
+    volumes:
+      - ./backend:/app
+    networks:
+      - disaster-response
+
+networks:
+  disaster-response:
+    driver: bridge

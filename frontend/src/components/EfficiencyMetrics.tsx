@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { EfficiencyMetrics as EfficiencyMetricsType } from '../types/emergency-response';
+import React, { useState } from 'react';
+import type { EfficiencyMetrics as EfficiencyMetricsType } from '../types/emergency-response';
 import './EfficiencyMetrics.css';
 
 interface EfficiencyMetricsProps {
@@ -10,10 +10,8 @@ interface EfficiencyMetricsProps {
 
 export const EfficiencyMetrics: React.FC<EfficiencyMetricsProps> = ({
   metrics,
-  onMetricsUpdate,
   className = ''
 }) => {
-  const [selectedMetric, setSelectedMetric] = useState<keyof EfficiencyMetricsType | null>(null);
   const [viewMode, setViewMode] = useState<'overview' | 'detailed' | 'projections'>('overview');
 
   const formatTime = (minutes: number): string => {
@@ -486,4 +484,3 @@ export const EfficiencyMetrics: React.FC<EfficiencyMetricsProps> = ({
   );
 };
 
-export default EfficiencyMetrics;

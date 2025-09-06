@@ -1,0 +1,242 @@
+.waypoint-tooltip {
+  position: absolute;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(20, 20, 20, 0.95) 100%);
+  border: 2px solid #0080FF;
+  border-radius: 12px;
+  padding: 16px;
+  min-width: 280px;
+  max-width: 350px;
+  color: white;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-shadow: 0 8px 32px rgba(0, 128, 255, 0.3);
+  backdrop-filter: blur(10px);
+  z-index: 1000;
+  animation: tooltipFadeIn 0.3s ease-out;
+  transform-origin: bottom center;
+}
+
+@keyframes tooltipFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.tooltip-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(0, 128, 255, 0.3);
+}
+
+.tooltip-icon {
+  font-size: 20px;
+  margin-right: 8px;
+  width: 24px;
+  text-align: center;
+}
+
+.tooltip-title {
+  flex: 1;
+  font-weight: 600;
+  font-size: 14px;
+  color: #0080FF;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.tooltip-close {
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 0;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.tooltip-close:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.tooltip-content {
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.instruction-text {
+  font-weight: 500;
+  font-size: 14px;
+  margin-bottom: 8px;
+  color: #E0E0E0;
+}
+
+.street-name {
+  font-size: 12px;
+  color: #0080FF;
+  margin-bottom: 12px;
+  font-style: italic;
+}
+
+.tooltip-details {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 12px;
+  padding: 8px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.detail-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.detail-label {
+  font-size: 11px;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+}
+
+.detail-value {
+  font-size: 13px;
+  font-weight: 600;
+  color: #00FF00;
+}
+
+.next-instruction {
+  background: rgba(0, 128, 255, 0.1);
+  border: 1px solid rgba(0, 128, 255, 0.3);
+  border-radius: 6px;
+  padding: 8px;
+  margin-top: 8px;
+}
+
+.next-label {
+  font-size: 11px;
+  color: #0080FF;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.next-text {
+  font-size: 12px;
+  color: #E0E0E0;
+  font-style: italic;
+}
+
+.tooltip-arrow {
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid rgba(0, 0, 0, 0.95);
+}
+
+.tooltip-arrow::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: -8px;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid #0080FF;
+}
+
+/* Hover effects */
+.waypoint-tooltip:hover {
+  box-shadow: 0 12px 40px rgba(0, 128, 255, 0.4);
+  transform: translateY(-2px);
+  transition: all 0.3s ease;
+}
+
+/* Hover tooltip specific styles */
+.hover-tooltip {
+  pointer-events: none; /* Prevent hover tooltip from interfering with mouse events */
+  z-index: 999; /* Lower z-index than click tooltip */
+}
+
+.hover-tooltip .tooltip-header {
+  padding-bottom: 6px; /* Slightly smaller header for hover tooltips */
+}
+
+.hover-tooltip .tooltip-content {
+  font-size: 12px; /* Slightly smaller text for hover tooltips */
+}
+
+.hover-tooltip .instruction-text {
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+
+.hover-tooltip .tooltip-details {
+  gap: 12px;
+  margin-bottom: 8px;
+  padding: 6px 0;
+}
+
+.hover-tooltip .detail-item {
+  gap: 1px;
+}
+
+.hover-tooltip .detail-label {
+  font-size: 10px;
+}
+
+.hover-tooltip .detail-value {
+  font-size: 12px;
+}
+
+.hover-tooltip .next-instruction {
+  padding: 6px;
+  margin-top: 6px;
+}
+
+.hover-tooltip .next-label {
+  font-size: 10px;
+  margin-bottom: 2px;
+}
+
+.hover-tooltip .next-text {
+  font-size: 11px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .waypoint-tooltip {
+    min-width: 240px;
+    max-width: 300px;
+    padding: 12px;
+  }
+  
+  .tooltip-details {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .instruction-text {
+    font-size: 13px;
+  }
+}

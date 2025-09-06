@@ -188,6 +188,14 @@ export interface OperationalRoute {
   assignedUnits: string[];
   stagingAreas: StagingArea[];
   restrictions?: string[];
+  streetData?: {
+    segments: number;
+    totalLengthKm: number;
+    averageSpeedKmh: number;
+    safetyScore: number;
+    emergencyAccessScore: number;
+    evacuationRouteScore: number;
+  };
 }
 
 export interface StagingArea {

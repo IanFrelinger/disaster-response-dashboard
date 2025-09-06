@@ -1,0 +1,201 @@
+.error-boundary-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  padding: 2rem;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 1rem;
+}
+
+.error-content {
+  text-align: center;
+  max-width: 500px;
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.error-content h2 {
+  color: #dc3545;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.error-content p {
+  color: #6c757d;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.error-details {
+  margin: 1.5rem 0;
+  text-align: left;
+}
+
+.error-details summary {
+  cursor: pointer;
+  color: #495057;
+  font-weight: 500;
+  padding: 0.5rem;
+  background: #f8f9fa;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+}
+
+.error-details summary:hover {
+  background: #e9ecef;
+}
+
+.error-stack {
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  padding: 1rem;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 0.875rem;
+  color: #495057;
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.error-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.error-reset-button,
+.error-reload-button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.875rem;
+}
+
+.error-reset-button {
+  background: #007bff;
+  color: white;
+}
+
+.error-reset-button:hover {
+  background: #0056b3;
+  transform: translateY(-1px);
+}
+
+.error-reload-button {
+  background: #6c757d;
+  color: white;
+}
+
+.error-reload-button:hover {
+  background: #545b62;
+  transform: translateY(-1px);
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .error-boundary-fallback {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  }
+  
+  .error-content {
+    background: #3a3a3a;
+    color: #e9ecef;
+  }
+  
+  .error-content h2 {
+    color: #ff6b6b;
+  }
+  
+  .error-content p {
+    color: #adb5bd;
+  }
+  
+  .error-details summary {
+    background: #495057;
+    color: #e9ecef;
+  }
+  
+  .error-details summary:hover {
+    background: #5a6268;
+  }
+  
+  .error-stack {
+    background: #495057;
+    border-color: #6c757d;
+    color: #e9ecef;
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .error-boundary-fallback {
+    margin: 0.5rem;
+    padding: 1rem;
+  }
+  
+  .error-content {
+    padding: 1.5rem;
+  }
+  
+  .error-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .error-reset-button,
+  .error-reload-button {
+    width: 100%;
+    max-width: 200px;
+  }
+}
+
+/* Animation for error appearance */
+.error-boundary-fallback {
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Focus styles for accessibility */
+.error-reset-button:focus,
+.error-reload-button:focus {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .error-boundary-fallback {
+    border: 2px solid #000;
+  }
+  
+  .error-content {
+    border: 2px solid #000;
+  }
+  
+  .error-reset-button,
+  .error-reload-button {
+    border: 2px solid #000;
+  }
+}

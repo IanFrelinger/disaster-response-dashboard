@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { WeatherData, WeatherAlert } from '../types/emergency-response';
+import type { WeatherData, WeatherAlert } from '../types/emergency-response';
 import './WeatherPanel.css';
 
 interface WeatherPanelProps {
@@ -32,7 +32,7 @@ export const WeatherPanel: React.FC<WeatherPanelProps> = ({
   const getWindDirection = (degrees: number): string => {
     const directions = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'];
     const index = Math.round(degrees / 22.5) % 16;
-    return directions[index];
+    return directions[index] || 'N';
   };
 
   // Critical weather conditions for fire behavior
@@ -287,10 +287,10 @@ export const WeatherPanel: React.FC<WeatherPanelProps> = ({
             )}
           </div>
 
-          {/* Weather Alerts */}
-          {weatherData.alerts.length > 0 && (
+                    {/* Weather Alerts */}
+          {weatherData.alerts && weatherData.alerts.length > 0 && (
             <div className="alerts-section">
-                              <h4>Active Alerts</h4>
+              <h4>Active Alerts</h4>
               {weatherData.alerts.map((alert, index) => (
                 <div 
                   key={index}
@@ -349,4 +349,3 @@ export const WeatherPanel: React.FC<WeatherPanelProps> = ({
   );
 };
 
-export default WeatherPanel;

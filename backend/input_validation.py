@@ -51,7 +51,7 @@ class InputValidator:
     @staticmethod
     def sanitize_json(data: Dict[str, Any]) -> Dict[str, Any]:
         """Sanitize JSON data recursively"""
-        sanitized = {}
+        sanitized: Dict[str, Any] = {}
         for key, value in data.items():
             if isinstance(value, str):
                 sanitized[key] = InputValidator.sanitize_string(value)

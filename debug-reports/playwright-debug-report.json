@@ -1,0 +1,120 @@
+{
+  "timestamp": "2025-08-31T23:18:17.305Z",
+  "url": "http://localhost:3000",
+  "errors": [],
+  "consoleLogs": [
+    {
+      "type": "log",
+      "text": "Subscribing to hazard zones",
+      "timestamp": "2025-08-31T23:18:06.326Z"
+    },
+    {
+      "type": "log",
+      "text": "Subscribing to emergency units",
+      "timestamp": "2025-08-31T23:18:06.328Z"
+    },
+    {
+      "type": "log",
+      "text": "main.tsx is executing!",
+      "timestamp": "2025-08-31T23:18:06.328Z"
+    },
+    {
+      "type": "log",
+      "text": "React import successful: {Children: Object, Component: , Fragment: Symbol(react.fragment), Profiler: Symbol(react.profiler), PureComponent: }",
+      "timestamp": "2025-08-31T23:18:06.329Z"
+    },
+    {
+      "type": "log",
+      "text": "ReactDOM import successful: {createRoot: , hydrateRoot: }",
+      "timestamp": "2025-08-31T23:18:06.329Z"
+    },
+    {
+      "type": "log",
+      "text": "Root element found: JSHandle@node",
+      "timestamp": "2025-08-31T23:18:06.330Z"
+    },
+    {
+      "type": "log",
+      "text": "Attempting to mount React application...",
+      "timestamp": "2025-08-31T23:18:06.331Z"
+    },
+    {
+      "type": "log",
+      "text": "React application mounted successfully!",
+      "timestamp": "2025-08-31T23:18:06.331Z"
+    },
+    {
+      "type": "log",
+      "text": "Initializing Mapbox map with 3D terrain...",
+      "timestamp": "2025-08-31T23:18:13.037Z"
+    },
+    {
+      "type": "log",
+      "text": "Mapbox map loaded, adding 3D terrain and building extrusions...",
+      "timestamp": "2025-08-31T23:18:13.494Z"
+    },
+    {
+      "type": "log",
+      "text": "Terrain layers added successfully",
+      "timestamp": "2025-08-31T23:18:13.495Z"
+    },
+    {
+      "type": "log",
+      "text": "Building extrusions added successfully",
+      "timestamp": "2025-08-31T23:18:13.495Z"
+    },
+    {
+      "type": "log",
+      "text": "Foundry data layers added successfully",
+      "timestamp": "2025-08-31T23:18:13.497Z"
+    },
+    {
+      "type": "warning",
+      "text": "Raster DEM source 'other:mapbox-terrain' is used both for terrain and as layer source.\nThis leads to lower resolution of hillshade. For full hillshade resolution but higher memory consumption, define another raster DEM source.",
+      "timestamp": "2025-08-31T23:18:13.504Z"
+    }
+  ],
+  "networkErrors": [],
+  "reactElements": {
+    "rootElement": {
+      "exists": true,
+      "hasChildren": true,
+      "innerHTML": "<div style=\"min-height: 100vh; background-color: rgb(255, 255, 255); font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, sans-serif; display: flex; flex-direction: column;\"><..."
+    },
+    "header": {
+      "exists": true,
+      "text": "Command Center"
+    },
+    "navigation": {
+      "buttonCount": 6,
+      "buttonTexts": [
+        "Commander Dashboard",
+        "Live Map",
+        "Operations",
+        "Conditions",
+        "Assets",
+        "AIP Commander"
+      ]
+    },
+    "mapContainer": {
+      "exists": false,
+      "className": "N/A",
+      "id": "N/A"
+    },
+    "errors": {
+      "count": 0,
+      "texts": []
+    },
+    "title": "Command Center",
+    "reactDevTools": {
+      "exists": false
+    }
+  },
+  "summary": {
+    "totalErrors": 0,
+    "totalConsoleLogs": 14,
+    "totalNetworkErrors": 0,
+    "reactMounted": true,
+    "mapContainerExists": false
+  }
+}

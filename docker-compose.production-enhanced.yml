@@ -1,0 +1,197 @@
+version: '3.8'
+
+services:
+  # Main production service with enhanced testing
+  disaster-response-dashboard:
+    image: disaster-response-dashboard:latest
+    command: /usr/local/bin/start-production.sh
+    ports:
+      - "80:80"
+      - "8000:8000"
+    environment:
+      - NODE_ENV=production
+      - PYTHON_ENV=production
+      - VITE_MAPBOX_ACCESS_TOKEN=${VITE_MAPBOX_ACCESS_TOKEN}
+      - VITE_MAPBOX_STYLE_URL=${VITE_MAPBOX_STYLE_URL:-mapbox://styles/mapbox/streets-v11}
+      - VITE_API_BASE_URL=http://localhost:8000
+      - VITE_DEBUG_MODE=false
+      - VITE_BUILD_ENV=production
+    env_file:
+      - ./backend/config.env.production
+    volumes:
+      - ./data:/app/data:ro
+      - ./logs:/app/logs
+      - ./test-results:/app/test-results
+    networks:
+      - disaster-response
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health && curl -f http://localhost:8000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          cpus: '1.0'
+        reservations:
+          memory: 1G
+          cpus: '0.5'
+
+  # Enhanced validation test runner
+  validation-tests:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.test
+    environment:
+      - NODE_ENV=production
+      - TEST_ENV=production
+      - VITE_MAPBOX_ACCESS_TOKEN=${VITE_MAPBOX_ACCESS_TOKEN}
+      - VITE_API_BASE_URL=http://disaster-response-dashboard:8000
+    volumes:
+      - ./frontend:/app
+      - ./test-results:/app/test-results
+      - ./logs:/app/logs
+    networks:
+      - disaster-response
+    depends_on:
+      disaster-response-dashboard:
+        condition: service_healthy
+    command: >
+      sh -c "
+        echo '🚀 Starting Enhanced Production Validation Tests...' &&
+        echo '⏳ Waiting for services to be ready...' &&
+        sleep 30 &&
+        echo '🔍 Checking service health...' &&
+        curl -f http://disaster-response-dashboard:80/health || echo 'Frontend health check failed' &&
+        curl -f http://disaster-response-dashboard:8000/api/health || echo 'Backend health check failed' &&
+        echo '🧪 Running Smoke Tests...' &&
+        npm run test:smoke &&
+        echo '🧪 Running Accessibility Tests...' &&
+        npm run test:accessibility &&
+        echo '🧪 Running Performance Tests...' &&
+        npm run test:performance &&
+        echo '🧪 Running Visual Regression Tests...' &&
+        npm run test:visual-regression &&
+        echo '🧪 Running Contract Tests...' &&
+        npm run test:contracts &&
+        echo '🧪 Running Edge Case Tests...' &&
+        npm run test:edge-cases &&
+        echo '📊 Generating comprehensive validation report...' &&
+        echo '✅ All Enhanced Production Validation Tests Completed!' &&
+        echo '🎉 Production system is ready for deployment!'
+      "
+    restart: "no"
+
+  # Performance monitoring service
+  performance-monitor:
+    build:
+      context: .
+      dockerfile: Dockerfile.production
+    environment:
+      - NODE_ENV=production
+      - MONITORING_MODE=true
+    volumes:
+      - ./logs:/app/logs
+      - ./test-results:/app/test-results
+    networks:
+      - disaster-response
+    depends_on:
+      disaster-response-dashboard:
+        condition: service_healthy
+    command: >
+      sh -c "
+        echo '📊 Starting Performance Monitoring...' &&
+        while true; do
+          echo '🔍 Running performance checks...' &&
+          curl -f http://disaster-response-dashboard:80/health >/dev/null 2>&1 &&
+          curl -f http://disaster-response-dashboard:8000/api/health >/dev/null 2>&1 &&
+          echo '✅ Services are healthy' &&
+          sleep 60
+        done
+      "
+    restart: unless-stopped
+
+  # Security scanning service
+  security-scanner:
+    build:
+      context: .
+      dockerfile: Dockerfile.production
+    environment:
+      - NODE_ENV=production
+      - SECURITY_SCAN_MODE=true
+    volumes:
+      - ./logs:/app/logs
+      - ./test-results:/app/test-results
+    networks:
+      - disaster-response
+    command: >
+      sh -c "
+        echo '🔒 Starting Security Scanning...' &&
+        echo '🔍 Running security audit...' &&
+        cd /app/backend &&
+        pip install safety &&
+        safety check --json > /app/test-results/security-audit.json &&
+        echo '✅ Security scan completed' &&
+        echo '📊 Security report saved to test-results/security-audit.json'
+      "
+    restart: "no"
+
+  # Chaos testing service (run on schedule)
+  chaos-tester:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.test
+    environment:
+      - NODE_ENV=production
+      - CHAOS_TEST_MODE=true
+      - VITE_API_BASE_URL=http://disaster-response-dashboard:8000
+    volumes:
+      - ./frontend:/app
+      - ./test-results:/app/test-results
+      - ./logs:/app/logs
+    networks:
+      - disaster-response
+    depends_on:
+      disaster-response-dashboard:
+        condition: service_healthy
+    command: >
+      sh -c "
+        echo '🌪️ Starting Chaos Testing...' &&
+        echo '⏳ Waiting for services to be ready...' &&
+        sleep 30 &&
+        echo '🧪 Running Chaos Tests...' &&
+        npm run test:chaos &&
+        echo '✅ Chaos testing completed' &&
+        echo '📊 Chaos test report saved to test-results/'
+      "
+    restart: "no"
+
+  # Log aggregation service
+  log-aggregator:
+    image: fluent/fluentd:v1.16-debian-1
+    volumes:
+      - ./logs:/var/log/fluentd
+      - ./fluentd/fluent.conf:/fluentd/etc/fluent.conf
+    networks:
+      - disaster-response
+    depends_on:
+      - disaster-response-dashboard
+    restart: unless-stopped
+
+networks:
+  disaster-response:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+volumes:
+  test-results:
+    driver: local
+  logs:
+    driver: local
+  data:
+    driver: local

@@ -1,0 +1,154 @@
+/* Layer Toggle Panel Styles */
+.layer-toggle-panel {
+  margin: 0 0 var(--ios-spacing-lg) 0;
+  /* Ensure proper positioning and prevent pointer event interception */
+  position: relative;
+  z-index: 10;
+  pointer-events: auto;
+}
+
+.layer-toggle-panel .ios-heading {
+  margin: 0 0 var(--ios-spacing-sm) 0;
+  color: var(--ios-primary-text);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.layer-controls {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ios-spacing-sm);
+}
+
+.layer-toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--ios-spacing-sm);
+  cursor: pointer;
+  padding: var(--ios-spacing-xs) var(--ios-spacing-sm);
+  border-radius: var(--ios-border-radius-small);
+  transition: background-color var(--ios-transition-fast);
+  user-select: none;
+  /* Ensure proper pointer events and prevent interception */
+  pointer-events: auto;
+  position: relative;
+  z-index: 1;
+}
+
+.layer-toggle:hover {
+  background-color: var(--ios-light-gray);
+}
+
+.layer-toggle:focus-within {
+  outline: 2px solid var(--ios-blue);
+  outline-offset: 2px;
+}
+
+.layer-toggle input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  cursor: pointer;
+  accent-color: var(--ios-blue);
+  /* Ensure checkbox is clickable */
+  position: relative;
+  z-index: 5;
+  pointer-events: auto;
+}
+
+.layer-toggle input[type="checkbox"]:focus {
+  outline: 2px solid var(--ios-blue);
+  outline-offset: 2px;
+}
+
+.layer-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  color: var(--layer-color, var(--ios-gray));
+  /* Ensure icon doesn't intercept pointer events */
+  pointer-events: none;
+  position: relative;
+  z-index: 1;
+}
+
+.layer-label {
+  flex: 1;
+  color: var(--ios-primary-text);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.2;
+  /* Ensure label doesn't intercept pointer events */
+  pointer-events: none;
+  position: relative;
+  z-index: 1;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .layer-toggle:hover {
+    background-color: var(--ios-dark-gray-light);
+  }
+  
+  .layer-toggle .layer-label {
+    color: var(--ios-primary-text);
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .layer-toggle {
+    border: 1px solid var(--ios-gray);
+  }
+  
+  .layer-toggle:hover {
+    border-color: var(--ios-blue);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .layer-toggle {
+    transition: none;
+  }
+}
+
+/* Focus visible support for keyboard navigation */
+.layer-toggle:focus-visible {
+  outline: 2px solid var(--ios-blue);
+  outline-offset: 2px;
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .layer-toggle {
+    padding: var(--ios-spacing-sm) var(--ios-spacing-md);
+    min-height: 44px; /* iOS touch target minimum */
+  }
+  
+  .layer-toggle input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .layer-icon {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+/* Critical fix: Ensure proper pointer event handling */
+.layer-toggle label {
+  pointer-events: none !important;
+  position: relative;
+  z-index: 1;
+}
+
+.layer-toggle input[type="checkbox"] {
+  pointer-events: auto !important;
+  position: relative;
+  z-index: 10;
+}

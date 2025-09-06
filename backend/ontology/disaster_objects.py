@@ -58,16 +58,16 @@ class HazardZone:
     
     # Relationships that update dynamically
     @Link(many_to_many)
-    evacuation_routes: List["EvacuationRoute"]
+    evacuation_routes
     
     @Link(one_to_many)
-    assigned_resources: List["EmergencyUnit"]
+    assigned_resources
     
     @Link(one_to_many)
-    evacuation_orders: List["EvacuationOrder"]
+    evacuation_orders
     
     @Link(one_to_many)
-    affected_buildings: List["Building"]
+    affected_buildings
     
     @Action(requires_role="emergency_commander")
     def issue_evacuation_order(self, order_type: str, authorized_by: str) -> "EvacuationOrder":
@@ -130,7 +130,7 @@ class EmergencyUnit:
     assigned_zone: Optional[HazardZone]
     
     @Link(one_to_many)
-    dispatch_history: List["DispatchRecord"]
+    dispatch_history
     
     @Action(requires_role="dispatcher")
     def dispatch_to_incident(self, incident_id: str, dispatcher: str) -> "DispatchRecord":
@@ -188,7 +188,7 @@ class EvacuationRoute:
     hazard_zones: List[HazardZone]
     
     @Link(one_to_many)
-    route_usage: List["RouteUsage"]
+    route_usage
     
     def update_status(self):
         """Automatically update route status based on hazard zones"""
@@ -221,10 +221,10 @@ class EvacuationOrder:
     
     # Relationships
     @Link(one_to_many)
-    notifications_sent: List["NotificationRecord"]
+    notifications_sent
     
     @Link(one_to_many)
-    compliance_metrics: List["ComplianceMetric"]
+    compliance_metrics
     
     def send_notifications(self, channels: List[str]):
         """Send notifications across multiple channels"""
@@ -275,10 +275,10 @@ class Incident:
     
     # Relationships
     @Link(one_to_many)
-    assigned_units: List[EmergencyUnit]
+    assigned_units
     
     @Link(one_to_many)
-    updates: List["IncidentUpdate"]
+    updates
 
 
 # Supporting objects for audit trails

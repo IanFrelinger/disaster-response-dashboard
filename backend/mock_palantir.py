@@ -15,11 +15,11 @@ logger = structlog.get_logger(__name__)
 
 # Mock Input/Output classes
 class Input:
-    def __init__(self, path: str):
+    def __init__(self, path: str) -> None:
         self.path = path
-        self._data = None
+        self._data: Optional[pd.DataFrame] = None
     
-    def dataframe(self):
+    def dataframe(self) -> pd.DataFrame:
         """Return a mock dataframe for demo purposes"""
         if self._data is None:
             # Generate mock data based on the path
@@ -37,10 +37,10 @@ class Input:
 
 
 class Output:
-    def __init__(self, path: str):
+    def __init__(self, path: str) -> None:
         self.path = path
     
-    def write_dataframe(self, df):
+    def write_dataframe(self, df: pd.DataFrame) -> None:
         """Mock writing to Foundry dataset"""
         logger.info(f"Mock writing {len(df)} records to {self.path}")
         return True
@@ -48,10 +48,10 @@ class Output:
 
 # Mock DataFrame class with PySpark-like methods
 class DataFrame:
-    def __init__(self, data: pd.DataFrame):
+    def __init__(self, data: pd.DataFrame) -> None:
         self._df = data
     
-    def withColumn(self, col_name: str, expression):
+    def withColumn(self, col_name: str, expression: Any) -> 'DataFrame':
         """Mock withColumn method"""
         if callable(expression):
             # Handle UDF-like expressions
@@ -64,11 +64,11 @@ class DataFrame:
             self._df[col_name] = expression
         return self
     
-    def groupBy(self, *cols):
+    def groupBy(self, *cols: Any) -> Any:
         """Mock groupBy method"""
         return MockGroupedData(self._df, cols)
     
-    def join(self, other, on=None, how="inner"):
+    def join(self, other: Any, on: Any = None, how: str = "inner") -> Any:
         """Mock join method"""
         if isinstance(other, DataFrame):
             other_df = other._df
@@ -84,27 +84,27 @@ class DataFrame:
         
         return DataFrame(result)
     
-    def filter(self, condition):
+    def filter(self, condition: Any) -> Any:
         """Mock filter method"""
         if hasattr(condition, '__call__'):
             mask = condition(self._df)
             return DataFrame(self._df[mask])
         return self
     
-    def agg(self, *exprs):
+    def agg(self, *exprs: Any) -> Any:
         """Mock agg method"""
         # Simple mock aggregation
         return DataFrame(self._df)
     
-    def count(self):
+    def count(self) -> int:
         """Mock count method"""
         return len(self._df)
     
-    def collect(self):
+    def collect(self) -> List[Any]:
         """Mock collect method"""
         return [tuple(row) for row in self._df.values]
     
-    def __getattr__(self, name):
+    def __getattr__(self, name: str) -> Any:
         """Delegate unknown attributes to underlying pandas DataFrame"""
         return getattr(self._df, name)
 
@@ -114,31 +114,31 @@ class MockGroupedData:
         self._df = df
         self._group_cols = group_cols
     
-    def agg(self, *exprs):
+    def agg(self, *exprs: Any) -> Any:
         """Mock aggregation on grouped data"""
         # Simple mock - just return the original data
         return DataFrame(self._df)
 
 
 # Mock SQL functions
-def col(col_name: str):
+def col(col_name: str) -> Any:
     """Mock col function"""
     return lambda df: df[col_name]
 
 
-def lit(value: Any):
+def lit(value: Any) -> Any:
     """Mock lit function"""
     return value
 
 
-def when(condition, value):
+def when(condition: Any, value: Any) -> Any:
     """Mock when function"""
     return lambda df: np.where(condition(df), value, None)
 
 
-def coalesce(*exprs):
+def coalesce(*exprs: Any) -> Any:
     """Mock coalesce function"""
-    def _coalesce(df):
+    def _coalesce(df: Any) -> Any:
         for expr in exprs:
             if hasattr(expr, '__call__'):
                 result = expr(df)
@@ -150,31 +150,31 @@ def coalesce(*exprs):
     return _coalesce
 
 
-def current_timestamp():
+def current_timestamp() -> Any:
     """Mock current_timestamp function"""
     return datetime.now()
 
 
-def max(col_name: str):
+def max(col_name: str) -> Any:
     """Mock max function"""
     return lambda df: df[col_name].max()
 
 
-def count():
+def count() -> Any:
     """Mock count function"""
     return lambda df: len(df)
 
 
-def sum(col_name: str):
+def sum(col_name: str) -> Any:
     """Mock sum function"""
     return lambda df: df[col_name].sum()
 
 
 # Mock transform decorator
-def transform(**kwargs):
+def transform(**kwargs: Any) -> Any:
     """Mock transform decorator"""
-    def decorator(func):
-        def wrapper(*args, **kw):
+    def decorator(func: Any) -> Any:
+        def wrapper(*args: Any, **kw: Any) -> Any:
             logger.info(f"Mock executing transform: {func.__name__}")
             return func(*args, **kw)
         return wrapper
@@ -182,7 +182,7 @@ def transform(**kwargs):
 
 
 # Mock data generators
-def generate_mock_firms_data():
+def generate_mock_firms_data() -> Any:
     """Generate mock FIRMS satellite data"""
     np.random.seed(42)
     n_points = 100
@@ -198,7 +198,7 @@ def generate_mock_firms_data():
     return pd.DataFrame(data)
 
 
-def generate_mock_weather_data():
+def generate_mock_weather_data() -> Any:
     """Generate mock weather data"""
     np.random.seed(42)
     n_points = 50
@@ -214,7 +214,7 @@ def generate_mock_weather_data():
     return pd.DataFrame(data)
 
 
-def generate_mock_population_data():
+def generate_mock_population_data() -> Any:
     """Generate mock population data"""
     np.random.seed(42)
     n_points = 50
@@ -229,7 +229,7 @@ def generate_mock_population_data():
     return pd.DataFrame(data)
 
 
-def generate_mock_terrain_data():
+def generate_mock_terrain_data() -> Any:
     """Generate mock terrain elevation data"""
     np.random.seed(42)
     n_points = 50
@@ -247,7 +247,7 @@ def generate_mock_terrain_data():
 # Mock h3 module
 class MockH3:
     @staticmethod
-    def latlng_to_cell(lat, lng, resolution):
+    def latlng_to_cell(lat: float, lng: float, resolution: int) -> str:
         """Mock H3 latlng_to_cell function"""
         # Return a mock H3 cell ID
         return f"8928308284{hash((lat, lng)) % 100000:05d}"
@@ -263,16 +263,16 @@ try:
 except ImportError:
     # Create a simple mock logger if structlog is not available
     class MockLogger:
-        def __init__(self, name):
+        def __init__(self, name: str) -> None:
             self.name = name
         
-        def info(self, message, **kwargs):
+        def info(self, message: str, **kwargs: Any) -> None:
             print(f"[INFO] {message}")
         
-        def error(self, message, **kwargs):
+        def error(self, message: str, **kwargs: Any) -> None:
             print(f"[ERROR] {message}")
         
-        def warning(self, message, **kwargs):
+        def warning(self, message: str, **kwargs: Any) -> None:
             print(f"[WARNING] {message}")
     
     structlog = type('MockStructlog', (), {

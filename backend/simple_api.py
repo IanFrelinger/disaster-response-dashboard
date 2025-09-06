@@ -9,18 +9,22 @@ import json
 import os
 from datetime import datetime, timedelta
 import random
+from typing import Dict, Any
 
 # Import the Foundry fusion API
 from api.foundry_fusion_api import foundry_fusion_bp
+# Import the validation API
+from api.validation_api import validation_bp
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, origins=["http://localhost:8080", "http://127.0.0.1:8080"], supports_credentials=True)
 
-# Register the Foundry fusion blueprint
+# Register the blueprints
 app.register_blueprint(foundry_fusion_bp)
+app.register_blueprint(validation_bp)
 
 # Mock data storage
-MOCK_DATA = {
+MOCK_DATA: Dict[str, Any] = {
     "hazards": [],
     "routes": [],
     "resources": [],
@@ -28,7 +32,7 @@ MOCK_DATA = {
     "alerts": []
 }
 
-def load_mock_data():
+def load_mock_data() -> None:
     """Load mock disaster data"""
     # Hazard zones - wildfire and flood areas
     MOCK_DATA["hazards"] = [
@@ -174,7 +178,7 @@ def load_mock_data():
     ]
 
 @app.route('/api/disaster-data', methods=['GET'])
-def get_disaster_data():
+def get_disaster_data() -> Any:
     """Main endpoint serving all disaster response data"""
     try:
         # Update metrics with current data
@@ -197,7 +201,7 @@ def get_disaster_data():
         }), 500
 
 @app.route('/api/health', methods=['GET'])
-def health_check():
+def health_check() -> Any:
     """Health check endpoint"""
     return jsonify({
         "status": "healthy",
@@ -206,7 +210,7 @@ def health_check():
     })
 
 @app.route('/api/update-resource-status', methods=['POST'])
-def update_resource_status():
+def update_resource_status() -> Any:
     """Update resource status (for demo purposes)"""
     try:
         data = request.get_json()
@@ -231,7 +235,7 @@ def update_resource_status():
         }), 400
 
 @app.route('/api/add-alert', methods=['POST'])
-def add_alert():
+def add_alert() -> Any:
     """Add new alert (for demo purposes)"""
     try:
         data = request.get_json()

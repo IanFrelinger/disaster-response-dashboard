@@ -5,7 +5,7 @@ in a demo environment without requiring the actual Foundry platform.
 """
 
 import structlog
-from typing import Dict, List, Any, Optional, Union
+from typing import Dict, List, Any, Optional, Union, Callable
 from datetime import datetime
 import uuid
 
@@ -13,53 +13,53 @@ logger = structlog.get_logger(__name__)
 
 
 # Mock Ontology decorators
-def ontology_object(cls):
+def ontology_object(cls: Any) -> Any:
     """Mock ontology object decorator"""
     cls._is_ontology_object = True
     return cls
 
 
-def PrimaryKey():
+def PrimaryKey() -> str:
     """Mock primary key field"""
     return "primary_key"
 
 
-def String():
+def String() -> str:
     """Mock string field"""
     return "string"
 
 
-def Double():
+def Double() -> str:
     """Mock double field"""
     return "double"
 
 
-def Integer():
+def Integer() -> str:
     """Mock integer field"""
     return "integer"
 
 
-def Boolean():
+def Boolean() -> str:
     """Mock boolean field"""
     return "boolean"
 
 
-def DateTime():
+def DateTime() -> str:
     """Mock datetime field"""
     return "datetime"
 
 
-def Link(relationship_type: str):
+def Link(relationship_type: str) -> Callable:
     """Mock link decorator"""
-    def decorator(field):
+    def decorator(field: Any) -> Any:
         field._link_type = relationship_type
         return field
     return decorator
 
 
-def Action(requires_role: str = None):
+def Action(requires_role: Optional[str] = None) -> Callable:
     """Mock action decorator"""
-    def decorator(method):
+    def decorator(method: Any) -> Any:
         method._requires_role = requires_role
         method._is_action = True
         return method
@@ -70,18 +70,18 @@ def Action(requires_role: str = None):
 class OntologyObject:
     """Base class for all ontology objects"""
     
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         self._id = str(uuid.uuid4())
         self._created_at = datetime.now()
         self._updated_at = datetime.now()
-        self._audit_trail = []
+        self._audit_trail: List[Dict[str, Any]] = []
         
         # Set attributes from kwargs
         for key, value in kwargs.items():
             if hasattr(self, key):
                 setattr(self, key, value)
     
-    def _audit_action(self, action: str, user: str, details: Dict[str, Any] = None):
+    def _audit_action(self, action: str, user: str, details: Optional[Dict[str, Any]] = None) -> None:
         """Record an audit action"""
         audit_entry = {
             "timestamp": datetime.now(),
@@ -112,7 +112,7 @@ class OntologyObject:
 class ChallengeHazardZone(OntologyObject):
     """Mock hazard zone ontology object"""
     
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         # Define default attributes
         self.h3_cell_id = kwargs.get('h3_cell_id', '')
         self.risk_level = kwargs.get('risk_level', 'low')
@@ -125,15 +125,15 @@ class ChallengeHazardZone(OntologyObject):
         self.status = kwargs.get('status', 'inactive')
         
         # Initialize relationships
-        self.evacuation_orders = []
-        self.assigned_units = []
-        self.evacuation_routes = []
-        self.affected_buildings = []
+        self.evacuation_orders: List[Any] = []
+        self.assigned_units: List[Any] = []
+        self.evacuation_routes: List[Any] = []
+        self.affected_buildings: List[Any] = []
         
         super().__init__(**kwargs)
     
     @Action(requires_role="emergency_commander")
-    def issue_evacuation_order(self, order_type: str, authorized_by: str):
+    def issue_evacuation_order(self, order_type: str, authorized_by: str) -> None:
         """Issue an evacuation order for this hazard zone"""
         logger.info(f"Issuing evacuation order for {self.h3_cell_id}", 
                    order_type=order_type, authorized_by=authorized_by)
@@ -161,7 +161,7 @@ class ChallengeHazardZone(OntologyObject):
         return order
     
     @Action(requires_role="risk_assessor")
-    def update_risk_assessment(self, new_risk_level: str, new_risk_score: float, assessor: str):
+    def update_risk_assessment(self, new_risk_level: str, new_risk_score: float, assessor: str) -> bool:
         """Update the risk assessment for this hazard zone"""
         logger.info(f"Updating risk assessment for {self.h3_cell_id}", 
                    old_level=self.risk_level, new_level=new_risk_level,
@@ -184,7 +184,7 @@ class ChallengeHazardZone(OntologyObject):
         
         return True
     
-    def _update_connected_objects(self, evacuation_order):
+    def _update_connected_objects(self, evacuation_order: Any) -> None:
         """Update all connected objects when evacuation order is issued"""
         # Update emergency units
         for unit in self.assigned_units:
@@ -206,7 +206,7 @@ class ChallengeHazardZone(OntologyObject):
 class ChallengeEmergencyUnit(OntologyObject):
     """Mock emergency unit ontology object"""
     
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         self.unit_id = kwargs.get('unit_id', '')
         self.unit_type = kwargs.get('unit_type', 'fire_truck')
         self.status = kwargs.get('status', 'available')
@@ -217,7 +217,7 @@ class ChallengeEmergencyUnit(OntologyObject):
         super().__init__(**kwargs)
     
     @Action(requires_role="dispatcher")
-    def dispatch(self, assignment_id: str, dispatcher: str):
+    def dispatch(self, assignment_id: str, dispatcher: str) -> bool:
         """Dispatch this unit to an assignment"""
         logger.info(f"Dispatching unit {self.unit_id}", 
                    assignment_id=assignment_id, dispatcher=dispatcher)
@@ -241,7 +241,7 @@ class ChallengeEmergencyUnit(OntologyObject):
 class ChallengeEvacuationRoute(OntologyObject):
     """Mock evacuation route ontology object"""
     
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         self.route_id = kwargs.get('route_id', '')
         self.origin = kwargs.get('origin', '')
         self.destination = kwargs.get('destination', '')
@@ -253,7 +253,7 @@ class ChallengeEvacuationRoute(OntologyObject):
         super().__init__(**kwargs)
     
     @Action(requires_role="route_planner")
-    def activate_route(self, evacuation_order_id: str, planner: str):
+    def activate_route(self, evacuation_order_id: str, planner: str) -> bool:
         """Activate this route for evacuation"""
         logger.info(f"Activating route {self.route_id}", 
                    evacuation_order_id=evacuation_order_id, planner=planner)
@@ -277,7 +277,7 @@ class ChallengeEvacuationRoute(OntologyObject):
 class ChallengeEvacuationOrder(OntologyObject):
     """Mock evacuation order ontology object"""
     
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         self.order_id = kwargs.get('order_id', str(uuid.uuid4()))
         self.hazard_zone_id = kwargs.get('hazard_zone_id', '')
         self.order_type = kwargs.get('order_type', 'mandatory')
@@ -290,7 +290,7 @@ class ChallengeEvacuationOrder(OntologyObject):
         super().__init__(**kwargs)
     
     @Action(requires_role="emergency_commander")
-    def cancel_order(self, reason: str, authorized_by: str):
+    def cancel_order(self, reason: str, authorized_by: str) -> bool:
         """Cancel this evacuation order"""
         logger.info(f"Cancelling evacuation order {self.order_id}", 
                    reason=reason, authorized_by=authorized_by)
@@ -313,7 +313,7 @@ class ChallengeEvacuationOrder(OntologyObject):
 class ChallengeBuilding(OntologyObject):
     """Mock building ontology object"""
     
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         self.building_id = kwargs.get('building_id', '')
         self.address = kwargs.get('address', '')
         self.building_type = kwargs.get('building_type', 'residential')
@@ -325,7 +325,7 @@ class ChallengeBuilding(OntologyObject):
         super().__init__(**kwargs)
     
     @Action(requires_role="building_inspector")
-    def update_evacuation_status(self, new_status: str, inspector: str):
+    def update_evacuation_status(self, new_status: str, inspector: str) -> bool:
         """Update the evacuation status of this building"""
         logger.info(f"Updating evacuation status for building {self.building_id}", 
                    old_status=self.evacuation_status, new_status=new_status, inspector=inspector)
@@ -347,11 +347,11 @@ class ChallengeBuilding(OntologyObject):
 class OntologyRegistry:
     """Mock ontology registry for managing objects"""
     
-    def __init__(self):
-        self._objects = {}
-        self._types = {}
+    def __init__(self) -> None:
+        self._objects: Dict[str, OntologyObject] = {}
+        self._types: Dict[str, Any] = {}
     
-    def register_object(self, obj: OntologyObject):
+    def register_object(self, obj: OntologyObject) -> None:
         """Register an ontology object"""
         obj_type = type(obj).__name__
         if obj_type not in self._objects:

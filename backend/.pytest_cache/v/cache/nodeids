@@ -1,0 +1,12 @@
+[
+  "tests/test_core.py::TestCoreFunctionality::test_basic_math",
+  "tests/test_core.py::TestCoreFunctionality::test_dictionaries",
+  "tests/test_core.py::TestCoreFunctionality::test_lists",
+  "tests/test_core.py::TestCoreFunctionality::test_strings",
+  "tests/test_core.py::TestEnvironment::test_environment_variables",
+  "tests/test_core.py::TestEnvironment::test_python_path",
+  "tests/test_core.py::TestFileStructure::test_required_files_exist",
+  "tests/test_core.py::TestFileStructure::test_test_files_exist",
+  "tests/test_core.py::TestMocking::test_mock_creation",
+  "tests/test_core.py::TestMocking::test_patch_decorator"
+]

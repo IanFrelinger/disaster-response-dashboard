@@ -13,7 +13,7 @@ import structlog
 logger = structlog.get_logger(__name__)
 
 
-def process_wildfire_data(firms_raw, weather_raw, population_raw, processed_hazards):
+def process_wildfire_data(firms_raw: Any, weather_raw: Any, population_raw: Any, processed_hazards: Any) -> Any:
     """
     Mock implementation of wildfire data processing transform
     This simulates the actual Foundry transform behavior
@@ -102,7 +102,7 @@ def process_wildfire_data(firms_raw, weather_raw, population_raw, processed_haza
         raise
 
 
-def compute_hazard_zones(processed_hazards, terrain_data, hazard_zones):
+def compute_hazard_zones(processed_hazards: Any, terrain_data: Any, hazard_zones: Any) -> Any:
     """
     Mock implementation of hazard zone computation transform
     """
@@ -159,7 +159,7 @@ def compute_hazard_zones(processed_hazards, terrain_data, hazard_zones):
         raise
 
 
-def optimize_evacuation_routes(hazard_zones, evacuation_routes):
+def optimize_evacuation_routes(hazard_zones: Any, evacuation_routes: Any) -> Any:
     """
     Mock implementation of evacuation route optimization transform
     """
@@ -204,11 +204,11 @@ def optimize_evacuation_routes(hazard_zones, evacuation_routes):
         raise
 
 
-def h3_udf(lat_col, lon_col, resolution):
+def h3_udf(lat_col: Any, lon_col: Any, resolution: int) -> Any:
     """
     Mock H3 UDF function for converting lat/lon to H3 cells
     """
-    def _h3_convert(df):
+    def _h3_convert(df: Any) -> Any:
         return df.apply(
             lambda row: f"8928308284{hash((row[lat_col], row[lon_col])) % 100000:05d}", 
             axis=1
@@ -216,7 +216,7 @@ def h3_udf(lat_col, lon_col, resolution):
     return _h3_convert
 
 
-def generate_route_options(origin_h3, risk_score):
+def generate_route_options(origin_h3: str, risk_score: float) -> Any:
     """
     Mock function to generate evacuation route options
     """
@@ -233,7 +233,7 @@ def generate_route_options(origin_h3, risk_score):
     return routes
 
 
-def calculate_spread_probability(intensity, wind_speed, elevation):
+def calculate_spread_probability(intensity: float, wind_speed: float, elevation: float) -> float:
     """
     Mock function to calculate fire spread probability
     """
@@ -244,7 +244,7 @@ def calculate_spread_probability(intensity, wind_speed, elevation):
     return min(base_prob * wind_factor * elevation_factor, 1.0)
 
 
-def estimate_evacuation_time(population, route_capacity):
+def estimate_evacuation_time(population: int, route_capacity: int) -> float:
     """
     Mock function to estimate evacuation time
     """

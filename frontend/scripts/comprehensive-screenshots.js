@@ -18,7 +18,7 @@ class ComprehensiveScreenshotter {
     async init() {
         console.log('🚀 Launching browser for comprehensive screenshots...');
         this.browser = await chromium.launch({ 
-            headless: false,
+            headless: true, // Run in headless mode
             slowMo: 500
         });
         this.page = await this.browser.newPage();
@@ -29,7 +29,7 @@ class ComprehensiveScreenshotter {
         console.log('✅ Browser launched successfully');
     }
 
-    async takeScreenshot(name, description, url = 'http://localhost:3000', selector = null, waitFor = null, action = null) {
+    async takeScreenshot(name, description, url = 'http://localhost:3001', selector = null, waitFor = null, action = null) {
         try {
             console.log(`📸 Taking screenshot: ${name} - ${description}`);
             
@@ -84,21 +84,21 @@ class ComprehensiveScreenshotter {
         await this.takeScreenshot(
             '01-main-dashboard-overview',
             'Main dashboard with overview panels and navigation',
-            'http://localhost:3000'
+            'http://localhost:3001'
         );
         
         // Dashboard with key metrics
         await this.takeScreenshot(
             '02-dashboard-with-metrics',
             'Dashboard showing key performance metrics and status indicators',
-            'http://localhost:3000'
+            'http://localhost:3001'
         );
         
         // Navigation menu open
         await this.takeScreenshot(
             '03-navigation-menu-open',
             'Navigation menu expanded showing all available sections',
-            'http://localhost:3000',
+            'http://localhost:3001',
             null,
             null,
             async (page) => {
@@ -117,14 +117,14 @@ class ComprehensiveScreenshotter {
         await this.takeScreenshot(
             '04-multi-hazard-map',
             'Interactive map showing multiple hazard layers and data visualization',
-            'http://localhost:3000/multi-hazard'
+            'http://localhost:3001/multi-hazard'
         );
         
         // Map with hazard layers active
         await this.takeScreenshot(
             '05-map-hazard-layers-active',
             'Map with hazard layers toggled on showing fire, flood, and weather data',
-            'http://localhost:3000/multi-hazard',
+            'http://localhost:3001/multi-hazard',
             null,
             null,
             async (page) => {
@@ -140,7 +140,7 @@ class ComprehensiveScreenshotter {
         await this.takeScreenshot(
             '06-map-evacuation-routes',
             'Map displaying evacuation routes and safe passage corridors',
-            'http://localhost:3000/multi-hazard',
+            'http://localhost:3001/multi-hazard',
             null,
             null,
             async (page) => {
@@ -156,7 +156,7 @@ class ComprehensiveScreenshotter {
         await this.takeScreenshot(
             '07-3d-terrain-view',
             '3D terrain visualization with elevation and topographic data',
-            'http://localhost:3000/multi-hazard',
+            'http://localhost:3001/multi-hazard',
             null,
             null,
             async (page) => {
@@ -176,14 +176,14 @@ class ComprehensiveScreenshotter {
         await this.takeScreenshot(
             '08-evacuation-dashboard-main',
             'Main evacuation management interface with route planning tools',
-            'http://localhost:3000/evacuation'
+            'http://localhost:3001/evacuation'
         );
         
         // Route planning interface
         await this.takeScreenshot(
             '09-route-planning-interface',
             'Route planning interface with origin, destination, and optimization settings',
-            'http://localhost:3000/evacuation',
+            'http://localhost:3001/evacuation',
             null,
             null,
             async (page) => {
@@ -199,7 +199,7 @@ class ComprehensiveScreenshotter {
         await this.takeScreenshot(
             '10-evacuation-zones',
             'Map showing evacuation zones and affected areas',
-            'http://localhost:3000/evacuation',
+            'http://localhost:3001/evacuation',
             null,
             null,
             async (page) => {
@@ -219,14 +219,14 @@ class ComprehensiveScreenshotter {
         await this.takeScreenshot(
             '11-commander-view',
             'Strategic commander interface with high-level overview and decision tools',
-            'http://localhost:3000/routing'
+            'http://localhost:3001/routing'
         );
         
         // First responder view
         await this.takeScreenshot(
             '12-first-responder-view',
             'Tactical first responder interface with detailed operational information',
-            'http://localhost:3000/routing',
+            'http://localhost:3001/routing',
             null,
             null,
             async (page) => {
@@ -242,7 +242,7 @@ class ComprehensiveScreenshotter {
         await this.takeScreenshot(
             '13-public-information-view',
             'Public information interface with citizen-facing alerts and updates',
-            'http://localhost:3000/routing',
+            'http://localhost:3001/routing',
             null,
             null,
             async (page) => {
@@ -262,14 +262,14 @@ class ComprehensiveScreenshotter {
         await this.takeScreenshot(
             '14-aip-decision-support-main',
             'AI-powered decision support interface with recommendations and insights',
-            'http://localhost:3000/aip'
+            'http://localhost:3001/aip'
         );
         
         // AI recommendations panel
         await this.takeScreenshot(
             '15-ai-recommendations-panel',
             'Panel showing AI-generated recommendations for resource allocation',
-            'http://localhost:3000/aip',
+            'http://localhost:3001/aip',
             null,
             null,
             async (page) => {
@@ -285,7 +285,7 @@ class ComprehensiveScreenshotter {
         await this.takeScreenshot(
             '16-risk-analysis-view',
             'Risk analysis interface with threat assessment and probability modeling',
-            'http://localhost:3000/aip',
+            'http://localhost:3001/aip',
             null,
             null,
             async (page) => {
@@ -305,14 +305,14 @@ class ComprehensiveScreenshotter {
         await this.takeScreenshot(
             '17-weather-panel-main',
             'Weather information panel with current conditions and forecasts',
-            'http://localhost:3000/weather'
+            'http://localhost:3001/weather'
         );
         
         // Weather forecast view
         await this.takeScreenshot(
             '18-weather-forecast-view',
             'Extended weather forecast with multiple time periods and conditions',
-            'http://localhost:3000/weather',
+            'http://localhost:3001/weather',
             null,
             null,
             async (page) => {
@@ -328,7 +328,7 @@ class ComprehensiveScreenshotter {
         await this.takeScreenshot(
             '19-environmental-conditions',
             'Environmental monitoring with air quality, wind patterns, and other factors',
-            'http://localhost:3000/weather',
+            'http://localhost:3001/weather',
             null,
             null,
             async (page) => {
@@ -348,7 +348,7 @@ class ComprehensiveScreenshotter {
         await this.takeScreenshot(
             '20-button-interactions',
             'Various interactive buttons and controls throughout the interface',
-            'http://localhost:3000',
+            'http://localhost:3001',
             null,
             null,
             async (page) => {
@@ -364,7 +364,7 @@ class ComprehensiveScreenshotter {
         await this.takeScreenshot(
             '21-panel-interactions',
             'Expandable panels and collapsible sections in the interface',
-            'http://localhost:3000',
+            'http://localhost:3001',
             null,
             null,
             async (page) => {
@@ -380,7 +380,7 @@ class ComprehensiveScreenshotter {
         await this.takeScreenshot(
             '22-search-functionality',
             'Search interface with filters and query capabilities',
-            'http://localhost:3000',
+            'http://localhost:3001',
             null,
             null,
             async (page) => {
@@ -397,7 +397,7 @@ class ComprehensiveScreenshotter {
         await this.takeScreenshot(
             '23-settings-configuration',
             'Settings panel with user preferences and system configuration',
-            'http://localhost:3000',
+            'http://localhost:3001',
             null,
             null,
             async (page) => {
@@ -417,7 +417,7 @@ class ComprehensiveScreenshotter {
         await this.takeScreenshot(
             '24-alert-center',
             'Central alert management system with active notifications',
-            'http://localhost:3000',
+            'http://localhost:3001',
             null,
             null,
             async (page) => {
@@ -433,7 +433,7 @@ class ComprehensiveScreenshotter {
         await this.takeScreenshot(
             '25-emergency-notifications',
             'Emergency notification system with priority alerts and status tracking',
-            'http://localhost:3000',
+            'http://localhost:3001',
             null,
             null,
             async (page) => {

@@ -1,0 +1,407 @@
+# Validation Standards and Definition of "Done"
+
+## Validation Workflow
+
+### Frontend Validation Commands
+```bash
+# Install dependencies
+pnpm i
+
+# Build the application
+pnpm build
+
+# Run enhanced unit tests with Vitest
+pnpm test:unit-enhanced
+
+# Run edge case tests
+pnpm test:edge-cases
+
+# Run contract tests
+pnpm test:contracts
+
+# Run visual regression tests
+pnpm test:visual-regression
+
+# Run accessibility tests
+pnpm test:accessibility
+
+# Run chaos tests
+pnpm test:chaos
+
+# Run performance tests
+pnpm test:performance
+
+# Run map-specific tests
+pnpm test:map
+
+# Run map smoke tests
+pnpm test:map:smoke
+
+# Run map invariant tests
+pnpm test:map:invariants
+
+# Run map visual regression tests
+pnpm test:map:visual
+
+# Run map performance tests
+pnpm test:map:perf
+
+# Run map robustness tests
+pnpm test:map:robustness
+
+# Run smoke tests (CI)
+pnpm test:smoke
+
+# Run full test suite
+pnpm test:full
+
+# Run nightly test suite
+pnpm test:nightly
+```
+
+### Backend Validation Commands
+```bash
+# Install dependencies
+pip install -r requirements.txt
+
+# Run integration tests
+pytest -q
+```
+
+### Code Quality Validation Commands
+```bash
+# Frontend linting and type checking
+pnpm lint && pnpm typecheck
+
+# Backend linting and type checking
+ruff check . && mypy .
+```
+
+## Acceptance Gates
+
+### Critical Requirements
+1. **0% hazard intersection** in route validation fixtures
+2. **No console errors** in browser during testing
+3. **No blank map renders** in Playwright tests
+4. **Performance budgets met**:
+   - Frontend load < 3 seconds
+   - Backend response < 100ms
+   - Validation ~8ms
+   - Layer render 1–5ms
+
+### Test Coverage Requirements
+- **Unit tests**: >90% coverage for critical paths (Vitest)
+- **Integration tests**: All API endpoints tested
+- **E2E tests**: All user workflows validated (Playwright)
+- **Performance tests**: All budgets verified (RUM monitoring)
+- **Edge case tests**: Dateline crossing, polar tiles, tiny polygons, mixed CRS
+- **Contract tests**: API schema validation (OpenAPI/Pact patterns)
+- **Visual regression tests**: UI consistency across browsers
+- **Accessibility tests**: WCAG compliance (keyboard, ARIA, contrast)
+- **Chaos tests**: Resilience under failure conditions
+- **Smoke tests**: Critical path validation for CI
+- **Map rendering tests**: MapContainer3D and layer rendering verification
+- **Map invariant tests**: Layer z-order, filters, and hazard-route intersections
+- **Map visual tests**: Deterministic screenshot comparison across viewports
+- **Map performance tests**: Load time, rendering, and interaction performance
+- **Map robustness tests**: Error handling, network failures, and edge cases
+
+### Validation System Requirements
+- **Real-time monitoring** of all system layers
+- **Cross-system validation** between frontend and backend
+- **Automated error detection** and reporting
+- **Performance monitoring** with budget enforcement
+
+## Validation Test Categories
+
+### 1. Production Validation Tests
+- **API key configuration** validation
+- **Data integrity checks** across all sources
+- **Performance and reliability** testing
+- **Error handling and resilience** validation
+
+### 2. Frontend-Backend Validation
+- **Cross-system validation** comparison
+- **Discrepancy detection** between systems
+- **Automated checks consistency** verification
+- **Data synchronization** validation
+
+### 3. Comprehensive Frontend Validation
+- **UI interaction validation** for all components
+- **Map interactions and layer toggles** testing
+- **Form interactions and modal handling** validation
+- **Responsive behavior testing** across devices
+
+### 4. Visual Rendering Validation
+- **Screenshot comparison** for UI consistency
+- **White screen detection** prevention
+- **Rendering consistency checks** across browsers
+- **Visual regression testing** for UI changes
+
+### 5. Brute Force Testing
+- **Systematic input combination** testing
+- **Stress testing with rapid interactions**
+- **Error log analysis and categorization**
+- **Edge case validation** for all inputs
+
+### 6. Error Monitoring Validation
+- **Console error categorization** and tracking
+- **Network error monitoring** and reporting
+- **Performance monitoring** with alerts
+- **Automated error recovery** testing
+
+## Performance Budget Validation
+
+### Frontend Performance
+- **Load Time**: < 3 seconds (measured from page load to interactive)
+- **Layer Render Time**: 1-5ms per layer (measured during map interactions)
+- **Memory Usage**: < 100MB for typical usage patterns
+- **Bundle Size**: < 2MB gzipped for main bundle
+
+### Backend Performance
+- **API Response Time**: < 100ms average (95th percentile < 200ms)
+- **Validation Time**: ~8ms average for validation operations
+- **Database Queries**: < 50ms for spatial queries
+- **Cache Hit Rate**: > 80% for frequently accessed data
+
+### Testing Performance
+- **Unit Tests**: < 1s execution time for full suite
+- **Smoke Tests**: ~3s execution time
+- **Full E2E**: ~3.5min execution time
+- **Cross-browser**: All tests pass on Chromium, Firefox, WebKit
+
+## Validation System Architecture
+
+### Real-time Validation Monitoring
+```typescript
+interface LayerValidationResults {
+  terrain: LayerValidationResult;
+  buildings: LayerValidationResult;
+  hazards: LayerValidationResult;
+  units: LayerValidationResult;
+  routes: LayerValidationResult;
+  overall: {
+    success: boolean;
+    totalLayers: number;
+    successfulLayers: number;
+    errors: string[];
+  };
+}
+
+interface LayerValidationResult {
+  name: string;
+  success: boolean;
+  enabled: boolean;
+  rendered: boolean;
+  interactive: boolean;
+  errors: string[];
+  performance: {
+    renderTime: number;
+    memoryUsage?: number;
+  };
+}
+```
+
+### Validation Endpoints
+- `/api/validation/health` - Backend health validation
+- `/api/validation/data-sources` - Data source validation
+- `/api/validation/api-endpoints` - API endpoint validation
+- `/api/validation/comprehensive` - Full system validation
+- `/api/validation/compare` - Frontend-backend comparison
+
+## Route Validation Requirements
+
+### Hazard Intersection Validation
+- **0% hazard intersection** requirement for all evacuation routes
+- **Route safety scoring** with hazard avoidance metrics
+- **Real-time route validation** during route calculation
+- **Automated route correction** when hazards are detected
+
+### Route Validation Implementation
+```python
+def validate_route_safety(route: EvacuationRoute, hazards: List[HazardZone]) -> bool:
+    """Validate that route has 0% hazard intersection"""
+    route_line = LineString(route.waypoints)
+    
+    for hazard in hazards:
+        hazard_polygon = Polygon(hazard.coordinates)
+        if route_line.intersects(hazard_polygon):
+            return False  # Route intersects with hazard
+    
+    return True  # Route is safe
+
+def calculate_route_safety_score(route: EvacuationRoute, hazards: List[HazardZone]) -> float:
+    """Calculate safety score (0.0 = unsafe, 1.0 = completely safe)"""
+    if not validate_route_safety(route, hazards):
+        return 0.0
+    
+    # Calculate distance to nearest hazard
+    route_line = LineString(route.waypoints)
+    min_distance = float('inf')
+    
+    for hazard in hazards:
+        hazard_polygon = Polygon(hazard.coordinates)
+        distance = route_line.distance(hazard_polygon)
+        min_distance = min(min_distance, distance)
+    
+    # Convert distance to safety score (500m buffer = 1.0, 0m = 0.0)
+    safety_score = min(1.0, min_distance / 500.0)
+    return safety_score
+```
+
+## Error Handling Validation
+
+### Console Error Requirements
+- **No JavaScript errors** in browser console during normal operation
+- **No network errors** for critical API calls
+- **No rendering errors** for map layers
+- **Graceful error handling** with user-friendly messages
+
+### Error Monitoring Implementation
+```typescript
+class ErrorMonitor {
+  private errors: ErrorLog[] = [];
+  
+  logError(error: Error, context: string) {
+    const errorLog: ErrorLog = {
+      message: error.message,
+      stack: error.stack,
+      context,
+      timestamp: new Date().toISOString(),
+      severity: this.categorizeError(error)
+    };
+    
+    this.errors.push(errorLog);
+    
+    // Send to monitoring system
+    this.reportError(errorLog);
+  }
+  
+  private categorizeError(error: Error): 'low' | 'medium' | 'high' | 'critical' {
+    if (error.message.includes('network') || error.message.includes('fetch')) {
+      return 'high';
+    }
+    if (error.message.includes('rendering') || error.message.includes('map')) {
+      return 'medium';
+    }
+    return 'low';
+  }
+}
+```
+
+## Map Rendering Validation
+
+### Map Testing Requirements
+- **Map instance exposure**: `window.__map` must be available in test mode (`?test=true`)
+- **Layer rendering verification**: All expected layers must exist and render features
+- **Z-order validation**: Layers must be in correct order (terrain → buildings → hazards → units → routes)
+- **Hazard-route intersections**: 0% intersection requirement must be validated
+- **Visual regression testing**: Deterministic screenshots across different viewports
+- **Performance validation**: Map load < 3s, layer render 1-5ms, tile load < 5s
+- **Robustness testing**: Error handling, network failures, WebGL context loss
+
+### Rendering Requirements
+- **No blank map renders** in any test scenario
+- **All layers render correctly** when enabled
+- **Map interactions work** (zoom, pan, click)
+- **Layer toggles function** properly
+- **Performance within budgets** during rendering
+
+### Rendering Validation Tests
+```typescript
+test('map renders without blank screens', async ({ page }) => {
+  await page.goto('/');
+  
+  // Wait for map to load
+  await expect(page.locator('.mapboxgl-map')).toBeVisible();
+  
+  // Verify map is not blank
+  const mapCanvas = page.locator('.mapboxgl-canvas');
+  await expect(mapCanvas).toBeVisible();
+  
+  // Take screenshot and verify it's not blank
+  const screenshot = await mapCanvas.screenshot();
+  const isBlank = await isImageBlank(screenshot);
+  expect(isBlank).toBe(false);
+});
+
+test('all layers render correctly', async ({ page }) => {
+  await page.goto('/');
+  
+  const layers = ['terrain', 'buildings', 'hazards', 'units', 'routes'];
+  
+  for (const layer of layers) {
+    // Enable layer
+    await page.click(`[data-testid="${layer}-toggle"]`);
+    
+    // Verify layer renders
+    await expect(page.locator(`.${layer}-layer`)).toBeVisible();
+    
+    // Verify no errors in console
+    const errors = await page.evaluate(() => window.console.errors);
+    expect(errors).toHaveLength(0);
+  }
+});
+```
+
+## Agent Summary Requirements
+
+### Post-Validation Summary
+The agent **MUST** post a summary comment listing:
+
+1. **Tests Run**: Complete list of all test suites executed
+2. **Failures Fixed**: Specific issues resolved during validation
+3. **Performance Compliance**: Verification that all performance budgets are met
+4. **Validation Results**: Summary of validation system checks
+5. **Next Steps**: Any remaining issues or recommendations
+
+### Summary Template
+```markdown
+## Validation Summary
+
+### Tests Executed
+- [x] Frontend unit tests (pnpm test)
+- [x] Backend integration tests (pytest -q)
+- [x] End-to-end tests (pnpm e2e)
+- [x] Code quality checks (lint, typecheck)
+- [x] Performance validation
+- [x] Route safety validation (0% hazard intersection)
+
+### Issues Resolved
+- Fixed layer rendering performance issue
+- Resolved API endpoint validation error
+- Corrected route calculation algorithm
+- Updated validation system hooks
+
+### Performance Compliance
+- ✅ Frontend load time: 2.1s (< 3s budget)
+- ✅ Backend response time: 85ms (< 100ms budget)
+- ✅ Validation time: 7ms (~8ms budget)
+- ✅ Layer render time: 3ms (1-5ms budget)
+
+### Validation Results
+- ✅ 0% hazard intersection in all test routes
+- ✅ No console errors detected
+- ✅ No blank map renders
+- ✅ All layers render correctly
+- ✅ Cross-system validation passed
+
+### Status: ✅ VALIDATION COMPLETE
+All acceptance gates met. System ready for deployment.
+```
+
+## Continuous Validation
+
+### Automated Validation Pipeline
+- **Pre-commit hooks** for basic validation
+- **CI/CD pipeline** for comprehensive testing
+- **Real-time monitoring** in production
+- **Automated alerts** for validation failures
+
+### Validation Monitoring
+- **Dashboard metrics** for validation status
+- **Performance tracking** with budget alerts
+- **Error rate monitoring** with thresholds
+- **Automated reporting** for validation results
+
+This validation standard ensures that all changes meet the disaster response system's critical requirements for safety, performance, and reliability before deployment.

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { EvacuationZone, Building } from '../types/emergency-response';
+import type { EvacuationZone, Building } from '../types/emergency-response';
 import './BuildingEvacuationTracker.css';
 
 interface BuildingEvacuationTrackerProps {
@@ -13,35 +13,13 @@ interface BuildingEvacuationTrackerProps {
 export const BuildingEvacuationTracker: React.FC<BuildingEvacuationTrackerProps> = ({
   zones,
   buildings,
-  onZoneUpdate,
-  onBuildingUpdate,
-  className = ''
+  onBuildingUpdate
 }) => {
   const [selectedZone, setSelectedZone] = useState<string | null>(null);
   const [selectedBuilding, setSelectedBuilding] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<'zones' | 'buildings'>('zones');
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'evacuated': return 'var(--ios-green)';
-      case 'inProgress': return 'var(--ios-orange)';
-      case 'refused': return 'var(--ios-orange-dark)';
-      case 'noContact': return 'var(--ios-red)';
-      case 'unchecked': return 'var(--ios-light-gray)';
-      default: return 'var(--ios-light-gray)';
-    }
-  };
 
-  const getStatusLabel = (status: string) => {
-    switch (status) {
-      case 'evacuated': return 'Evacuated';
-      case 'inProgress': return 'In Progress';
-      case 'refused': return 'Refused';
-      case 'noContact': return 'No Contact';
-      case 'unchecked': return 'Unchecked';
-      default: return 'Unknown';
-    }
-  };
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
@@ -66,11 +44,7 @@ export const BuildingEvacuationTracker: React.FC<BuildingEvacuationTrackerProps>
     };
   };
 
-  const getZoneBuildings = (zoneId: string) => {
-    return buildings.filter(building => 
-      building.evacuationStatus && building.evacuationStatus.evacuated !== undefined
-    );
-  };
+
 
   const handleBuildingStatusUpdate = (buildingId: string, newStatus: string) => {
     if (onBuildingUpdate) {
@@ -89,7 +63,7 @@ export const BuildingEvacuationTracker: React.FC<BuildingEvacuationTrackerProps>
   };
 
   return (
-    <div className={`building-evacuation-tracker ${className}`} style={{
+    <div className="building-evacuation-tracker" style={{
       padding: '20px',
       backgroundColor: '#f5f5f7',
       borderRadius: '12px',
@@ -453,4 +427,3 @@ export const BuildingEvacuationTracker: React.FC<BuildingEvacuationTrackerProps>
   );
 };
 
-export default BuildingEvacuationTracker;

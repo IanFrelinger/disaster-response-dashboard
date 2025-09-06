@@ -4,8 +4,49 @@
  */
 
 import React from 'react';
-import { foundrySDK, HazardZone, EmergencyUnit, EvacuationRoute, Building, Incident } from '../sdk/foundry-sdk';
-import { EventEmitter } from 'events';
+import { foundrySDK } from '../sdk/foundry-sdk';
+import type { HazardZone, EmergencyUnit, EvacuationRoute, Building, Incident } from '../sdk/foundry-sdk';
+// Browser-compatible EventEmitter implementation
+class EventEmitter {
+  private events: Record<string, Function[]> = {};
+
+  on(event: string, listener: Function): this {
+    if (!this.events[event]) {
+      this.events[event] = [];
+    }
+    this.events[event].push(listener);
+    return this;
+  }
+
+  emit(event: string, ...args: any[]): boolean {
+    if (!this.events[event]) {
+      return false;
+    }
+    this.events[event].forEach(listener => listener(...args));
+    return true;
+  }
+
+  removeListener(event: string, listener: Function): this {
+    if (!this.events[event]) {
+      return this;
+    }
+    this.events[event] = this.events[event].filter(l => l !== listener);
+    return this;
+  }
+
+  off(event: string, listener: Function): this {
+    return this.removeListener(event, listener);
+  }
+
+  removeAllListeners(event?: string): this {
+    if (event) {
+      delete this.events[event];
+    } else {
+      this.events = {};
+    }
+    return this;
+  }
+}
 
 // Data fusion state interface
 export interface FusedDataState {
@@ -68,7 +109,7 @@ export interface FusionConfig {
 export class FoundryDataFusion extends EventEmitter {
   private state: FusedDataState;
   private config: FusionConfig;
-  private updateTimer: NodeJS.Timeout | null = null;
+  private updateTimer: any = null;
   private cache: Map<string, { data: any; timestamp: Date }> = new Map();
   private subscriptions: Map<string, () => void> = new Map();
 
@@ -144,6 +185,14 @@ export class FoundryDataFusion extends EventEmitter {
 
     // Update related analytics
     this.updateHazardAnalytics(hazards);
+
+    // Emit data update event
+    this.emit('dataUpdate', {
+      type: 'hazard',
+      data: hazards,
+      timestamp: new Date(),
+      source: 'foundry-update'
+    });
   }
 
   // Update unit data with categorization
@@ -157,7 +206,7 @@ export class FoundryDataFusion extends EventEmitter {
       if (!byType[unit.unitType]) {
         byType[unit.unitType] = [];
       }
-      byType[unit.unitType].push(unit);
+      byType[unit.unitType]!.push(unit);
     });
 
     this.state.units = {
@@ -370,11 +419,22 @@ export function useDataFusion() {
   const [state, setState] = React.useState<FusedDataState>(dataFusion.getState());
 
   React.useEffect(() => {
-    const unsubscribe = dataFusion.subscribeToUpdates(() => {
-      setState(dataFusion.getState());
-    });
+    let timeoutId: any;
+    
+    const handleUpdate = () => {
+      // Debounce updates to prevent excessive re-renders
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        setState(dataFusion.getState());
+      }, 100); // 100ms debounce
+    };
 
-    return unsubscribe;
+    const unsubscribe = dataFusion.subscribeToUpdates(handleUpdate);
+
+    return () => {
+      clearTimeout(timeoutId);
+      unsubscribe();
+    };
   }, []);
 
   return state;

@@ -1,0 +1,244 @@
+name: Render Stability CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  # 1. Typecheck + ESLint (warnings as errors)
+  code-quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Type check
+        run: npm run typecheck
+      
+      - name: ESLint (warnings as errors)
+        run: npm run lint:strict
+      
+      - name: Check for console errors in source
+        run: |
+          if grep -r "console\.error\|console\.warn" src/ --include="*.ts" --include="*.tsx" | grep -v "//.*console" | grep -v "test.*console"; then
+            echo "❌ Console statements found in source code"
+            exit 1
+          fi
+
+  # 2. Vitest: Render Gauntlet (immediate red signal on render regression)
+  render-gauntlet:
+    runs-on: ubuntu-latest
+    needs: code-quality
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run Render Gauntlet Tests
+        run: npm run test:unit -- src/testing/tests/render-gauntlet.test.tsx --reporter=verbose
+        env:
+          CI: true
+          NODE_ENV: test
+      
+      - name: Upload test results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: render-gauntlet-results
+          path: test-results/
+
+  # 3. Playwright: Route Sweeper (Chromium, GPU-off lane)
+  route-sweeper:
+    runs-on: ubuntu-latest
+    needs: render-gauntlet
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+      
+      - name: Build application
+        run: npm run build
+      
+      - name: Start application
+        run: npm run start:test &
+        env:
+          CI: true
+          NODE_ENV: test
+      
+      - name: Wait for application to start
+        run: sleep 30
+      
+      - name: Run Route Sweeper Tests
+        run: npx playwright test src/tests/e2e/route-sweeper.spec.ts --project=chromium --reporter=verbose
+        env:
+          CI: true
+          NODE_ENV: test
+      
+      - name: Upload Playwright results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: route-sweeper-results
+          path: playwright-report/
+
+  # 4. Remaining test suites (integration, stress, visuals, pairwise faults, etc.)
+  comprehensive-testing:
+    runs-on: ubuntu-latest
+    needs: route-sweeper
+    strategy:
+      matrix:
+        test-suite: [
+          'fault-injection',
+          'component-integration',
+          'performance',
+          'accessibility'
+        ]
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run ${{ matrix.test-suite }} tests
+        run: |
+          case "${{ matrix.test-suite }}" in
+            "fault-injection")
+              npm run test:unit -- src/testing/tests/ --reporter=verbose
+              ;;
+            "component-integration")
+              npm run test:unit -- src/components/__tests__/ --reporter=verbose
+              ;;
+            "performance")
+              npm run test:unit -- src/testing/tests/phase5-stress.test.ts --reporter=verbose
+              ;;
+            "accessibility")
+              npx playwright test --grep="Accessibility" --reporter=verbose
+              ;;
+          esac
+        env:
+          CI: true
+          NODE_ENV: test
+      
+      - name: Upload test results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: ${{ matrix.test-suite }}-results
+          path: test-results/
+
+  # 5. Prop Fuzzing (deterministic stability testing)
+  prop-fuzzing:
+    runs-on: ubuntu-latest
+    needs: comprehensive-testing
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run Prop Fuzzing Tests
+        run: npm run test:unit -- src/testing/tests/prop-fuzzing.test.tsx --reporter=verbose
+        env:
+          CI: true
+          NODE_ENV: test
+          FAST_CHECK_SEED: 42
+      
+      - name: Upload fuzzing results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: prop-fuzzing-results
+          path: test-results/
+
+  # 6. Final validation and reporting
+  validation:
+    runs-on: ubuntu-latest
+    needs: [render-gauntlet, route-sweeper, comprehensive-testing, prop-fuzzing]
+    if: always()
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Generate test summary
+        run: |
+          echo "## Render Stability Test Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Test Results by Phase:" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Code Quality: ${{ needs.code-quality.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Render Gauntlet: ${{ needs.render-gauntlet.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Route Sweeper: ${{ needs.route-sweeper.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Comprehensive Testing: ${{ needs.comprehensive-testing.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Prop Fuzzing: ${{ needs.prop-fuzzing.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [[ "${{ needs.render-gauntlet.result }}" == "failure" ]]; then
+            echo "🚨 **CRITICAL: Render regression detected!**" >> $GITHUB_STEP_SUMMARY
+            echo "The Render Gauntlet test failed, indicating a component render issue." >> $GITHUB_STEP_SUMMARY
+            echo "This must be fixed before merging." >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          if [[ "${{ needs.route-sweeper.result }}" == "failure" ]]; then
+            echo "🚨 **CRITICAL: Route render issue detected!**" >> $GITHUB_STEP_SUMMARY
+            echo "The Route Sweeper test failed, indicating a page-level render problem." >> $GITHUB_STEP_SUMMARY
+            echo "This must be fixed before merging." >> $GITHUB_STEP_SUMMARY
+          fi
+      
+      - name: Check overall status
+        run: |
+          if [[ "${{ needs.render-gauntlet.result }}" == "failure" || "${{ needs.route-sweeper.result }}" == "failure" ]]; then
+            echo "❌ Critical render tests failed - blocking merge"
+            exit 1
+          else
+            echo "✅ All critical render tests passed"
+          fi
+
+# Environment configuration
+env:
+  CI: true
+  NODE_ENV: test
+  PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: false
+  PLAYWRIGHT_BROWSERS_PATH: 0

@@ -18,7 +18,7 @@ class FrontendScreenshotter {
     async init() {
         console.log('🚀 Launching browser...');
         this.browser = await chromium.launch({ 
-            headless: false, // Set to true for production
+            headless: true, // Run in headless mode
             slowMo: 1000 // Slow down for better screenshots
         });
         this.page = await this.browser.newPage();
@@ -29,7 +29,7 @@ class FrontendScreenshotter {
         console.log('✅ Browser launched successfully');
     }
 
-    async takeScreenshot(name, url = 'http://localhost:3000', selector = null, waitFor = null) {
+    async takeScreenshot(name, url = 'http://localhost:3001', selector = null, waitFor = null) {
         try {
             console.log(`📸 Taking screenshot: ${name}`);
             
@@ -71,11 +71,11 @@ class FrontendScreenshotter {
         console.log('\n🎯 Taking main dashboard screenshots...');
         
         // Main dashboard view
-        await this.takeScreenshot('01-main-dashboard', 'http://localhost:3000');
+        await this.takeScreenshot('01-main-dashboard', 'http://localhost:3001');
         
         // Wait for map to load
         await this.page.waitForTimeout(3000);
-        await this.takeScreenshot('02-dashboard-with-map', 'http://localhost:3000', null, '.mapboxgl-canvas');
+        await this.takeScreenshot('02-dashboard-with-map', 'http://localhost:3001', null, '.mapboxgl-canvas');
         
         // Try to interact with different panels
         try {
@@ -138,7 +138,7 @@ class FrontendScreenshotter {
         
         for (const route of routes) {
             try {
-                await this.takeScreenshot(route.name, `http://localhost:3000${route.path}`);
+                await this.takeScreenshot(route.name, `http://localhost:3001${route.path}`);
                 await this.page.waitForTimeout(1000);
             } catch (error) {
                 console.log(`⚠️  Could not access route: ${route.path}`);
@@ -150,7 +150,7 @@ class FrontendScreenshotter {
         console.log('\n🎮 Taking interactive screenshots...');
         
         // Go back to main page
-        await this.page.goto('http://localhost:3000', { waitUntil: 'networkidle' });
+        await this.page.goto('http://localhost:3001', { waitUntil: 'networkidle' });
         await this.page.waitForTimeout(2000);
         
         // Try to find and click various UI elements

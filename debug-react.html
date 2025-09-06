@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React Debug Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .debug-panel { background: #f0f0f0; padding: 20px; border-radius: 8px; margin: 20px 0; }
+        .error { color: red; }
+        .success { color: green; }
+        .info { color: blue; }
+        #console-output { background: #000; color: #0f0; padding: 10px; border-radius: 4px; font-family: monospace; height: 300px; overflow-y: auto; }
+    </style>
+</head>
+<body>
+    <h1>React Debug Test</h1>
+    
+    <div class="debug-panel">
+        <h3>Test Controls</h3>
+        <button onclick="testReactApp()">Test React App</button>
+        <button onclick="clearConsole()">Clear Console</button>
+        <button onclick="checkPageContent()">Check Page Content</button>
+    </div>
+    
+    <div class="debug-panel">
+        <h3>Console Output</h3>
+        <div id="console-output"></div>
+    </div>
+    
+    <div class="debug-panel">
+        <h3>Page Analysis</h3>
+        <div id="page-analysis"></div>
+    </div>
+
+    <script>
+        // Override console methods to capture output
+        const originalLog = console.log;
+        const originalError = console.error;
+        const originalWarn = console.warn;
+        
+        function addToConsole(type, message, ...args) {
+            const consoleOutput = document.getElementById('console-output');
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = document.createElement('div');
+            logEntry.className = type;
+            logEntry.innerHTML = `[${timestamp}] ${type.toUpperCase()}: ${message} ${args.map(arg => 
+                typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg)
+            ).join(' ')}`;
+            consoleOutput.appendChild(logEntry);
+            consoleOutput.scrollTop = consoleOutput.scrollHeight;
+        }
+        
+        console.log = function(message, ...args) {
+            originalLog.apply(console, [message, ...args]);
+            addToConsole('info', message, ...args);
+        };
+        
+        console.error = function(message, ...args) {
+            originalError.apply(console, [message, ...args]);
+            addToConsole('error', message, ...args);
+        };
+        
+        console.warn = function(message, ...args) {
+            originalWarn.apply(console, [message, ...args]);
+            addToConsole('warn', message, ...args);
+        };
+        
+        function clearConsole() {
+            document.getElementById('console-output').innerHTML = '';
+        }
+        
+        function checkPageContent() {
+            const analysis = document.getElementById('page-analysis');
+            analysis.innerHTML = '';
+            
+            // Check if React app is running
+            const rootElement = document.getElementById('root');
+            if (rootElement) {
+                addToConsole('info', 'Root element found:', rootElement);
+                addToConsole('info', 'Root element innerHTML length:', rootElement.innerHTML.length);
+                addToConsole('info', 'Root element children count:', rootElement.children.length);
+                
+                if (rootElement.innerHTML.length > 0) {
+                    addToConsole('success', 'React app appears to be running');
+                    analysis.innerHTML += '<p class="success">✅ React app is running</p>';
+                } else {
+                    addToConsole('warn', 'Root element is empty - React app may not be running');
+                    analysis.innerHTML += '<p class="error">❌ Root element is empty</p>';
+                }
+            } else {
+                addToConsole('error', 'Root element not found');
+                analysis.innerHTML += '<p class="error">❌ Root element not found</p>';
+            }
+            
+            // Check for React-specific elements
+            const reactElements = document.querySelectorAll('[data-reactroot], [data-reactid]');
+            if (reactElements.length > 0) {
+                addToConsole('success', 'React elements found:', reactElements.length);
+                analysis.innerHTML += '<p class="success">✅ React elements detected</p>';
+            } else {
+                addToConsole('warn', 'No React elements found');
+                analysis.innerHTML += '<p class="warn">⚠️ No React elements detected</p>';
+            }
+            
+            // Check for map container
+            const mapContainer = document.querySelector('.mapboxgl-map, [class*="map"], [id*="map"]');
+            if (mapContainer) {
+                addToConsole('success', 'Map container found:', mapContainer);
+                analysis.innerHTML += '<p class="success">✅ Map container found</p>';
+            } else {
+                addToConsole('warn', 'No map container found');
+                analysis.innerHTML += '<p class="warn">⚠️ No map container found</p>';
+            }
+        }
+        
+        function testReactApp() {
+            addToConsole('info', 'Testing React app...');
+            
+            // Check if React is available globally
+            if (window.React) {
+                addToConsole('success', 'React is available globally');
+            } else {
+                addToConsole('warn', 'React is not available globally');
+            }
+            
+            if (window.ReactDOM) {
+                addToConsole('success', 'ReactDOM is available globally');
+            } else {
+                addToConsole('warn', 'ReactDOM is not available globally');
+            }
+            
+            // Check for any errors in the page
+            const errors = document.querySelectorAll('.error, [class*="error"], [id*="error"]');
+            if (errors.length > 0) {
+                addToConsole('warn', 'Error elements found:', errors.length);
+                errors.forEach((error, index) => {
+                    if (index < 5) { // Limit to first 5 errors
+                        addToConsole('error', 'Error element:', error.textContent);
+                    }
+                });
+            }
+            
+            // Check page content
+            checkPageContent();
+        }
+        
+        // Auto-run some checks when page loads
+        window.addEventListener('load', function() {
+            addToConsole('info', 'Page loaded, running initial checks...');
+            setTimeout(() => {
+                testReactApp();
+            }, 1000);
+        });
+        
+        // Monitor for errors
+        window.addEventListener('error', function(event) {
+            addToConsole('error', 'Global error:', event.error);
+        });
+        
+        window.addEventListener('unhandledrejection', function(event) {
+            addToConsole('error', 'Unhandled promise rejection:', event.reason);
+        });
+    </script>
+</body>
+</html>

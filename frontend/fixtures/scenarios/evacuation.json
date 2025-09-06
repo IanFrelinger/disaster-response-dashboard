@@ -1,0 +1,95 @@
+{
+  "id": "evacuation-scenario",
+  "name": "Evacuation Scenario",
+  "waypoints": [
+    {
+      "id": "evac-start",
+      "type": "start",
+      "coordinates": [-122.4194, 37.7749],
+      "name": "Evacuation Start",
+      "properties": {
+        "color": "#00FF00",
+        "size": 25,
+        "opacity": 0.9
+      }
+    },
+    {
+      "id": "evac-dest",
+      "type": "destination",
+      "coordinates": [-122.4083, 37.7879],
+      "name": "Safe Zone",
+      "properties": {
+        "color": "#FF0000",
+        "size": 25,
+        "opacity": 0.9
+      }
+    },
+    {
+      "id": "evac-turn",
+      "type": "turn",
+      "coordinates": [-122.4150, 37.7810],
+      "name": "Checkpoint Alpha",
+      "properties": {
+        "color": "#0080FF",
+        "size": 20,
+        "opacity": 0.9
+      }
+    }
+  ],
+  "routes": [
+    {
+      "id": "evac-route",
+      "name": "Evacuation Route Alpha",
+      "coordinates": [
+        [-122.4194, 37.7749],
+        [-122.4150, 37.7810],
+        [-122.4083, 37.7879]
+      ],
+      "properties": {
+        "color": "#FF6B35",
+        "width": 4,
+        "opacity": 0.8
+      }
+    }
+  ],
+  "buildings": [
+    {
+      "id": "hq",
+      "name": "Command Center",
+      "coordinates": [-122.4194, 37.7749],
+      "height": 50,
+      "properties": {
+        "color": "#8B4513",
+        "opacity": 0.7
+      }
+    },
+    {
+      "id": "shelter",
+      "name": "Emergency Shelter",
+      "coordinates": [-122.4083, 37.7879],
+      "height": 30,
+      "properties": {
+        "color": "#8B4513",
+        "opacity": 0.7
+      }
+    }
+  ],
+  "hazards": [
+    {
+      "id": "fire-zone",
+      "type": "fire",
+      "coordinates": [-122.4170, 37.7760],
+      "radius": 200,
+      "severity": "high",
+      "properties": {
+        "color": "#FF6B35",
+        "opacity": 0.9
+      }
+    }
+  ],
+  "center": [-122.4194, 37.7749],
+  "zoom": 16,
+  "pitch": 45,
+  "bearing": 0
+}
+

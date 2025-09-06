@@ -1,0 +1,25 @@
+{
+  "timestamp": "2025-09-01T20:03:56.972Z",
+  "summary": {
+    "total": 3,
+    "successful": 2,
+    "failed": 1
+  },
+  "results": [
+    {
+      "suite": "Component Rendering Tests",
+      "success": false,
+      "output": "\nRunning 35 tests using 6 workers\n\n  ✓   4 [chromium] › src/testing/browser-tests/component-rendering.spec.ts:12:3 › Component Rendering Tests › should render main page without white screen (3.1s)\n  ✓   1 [chromium] › src/testing/browser-tests/component-rendering.spec.ts:128:3 › Component Rendering Tests › should render on different screen sizes (4.1s)\n  ✓   3 [chromium] › src/testing/browser-tests/component-rendering.spec.ts:107:3 › Component Rendering Tests › should handle JavaScript errors gracefully (4.2s)\n  ✓   2 [chromium] › src/testing/browser-tests/component-rendering.spec.ts:151:3 › Component Rendering Tests › should handle network errors gracefully (5.1s)\n  ✓   8 [firefox] › src/testing/browser-tests/component-rendering.spec.ts:12:3 › Component Rendering Tests › should render main page without white screen (3.5s)\n  ✘   6 [chromium] › src/testing/browser-tests/component-rendering.spec.ts:51:3 › Component Rendering Tests › should render map component correctly (11.4s)\n  ✘   5 [..."
+    },
+    {
+      "suite": "White Screen Detection Tests",
+      "success": true,
+      "output": "\nRunning 40 tests using 6 workers\n\n  ✓   4 [chromium] › src/testing/browser-tests/white-screen-detection.spec.ts:163:3 › White Screen Detection Tests › should handle CSS loading failures gracefully (3.4s)\n  ✓   2 [chromium] › src/testing/browser-tests/white-screen-detection.spec.ts:131:3 › White Screen Detection Tests › should handle JavaScript bundle loading failures (3.4s)\n  ✓   3 [chromium] › src/testing/browser-tests/white-screen-detection.spec.ts:79:3 › White Screen Detection Tests › should handle missing environment variables gracefully (3.5s)\n  ✓   1 [chromium] › src/testing/browser-tests/white-screen-detection.spec.ts:106:3 › White Screen Detection Tests › should handle API failures without white screen (3.6s)\nBody text length: \u001b[33m218\u001b[39m\nRoot content length: \u001b[33m208\u001b[39m\n  ✓   5 [chromium] › src/testing/browser-tests/white-screen-detection.spec.ts:30:3 › White Screen Detection Tests › should detect and prevent white screen on initial load (5.5s)\n  ✓   6 [chromium] › src/te..."
+    },
+    {
+      "suite": "Production Environment Simulation Tests",
+      "success": true,
+      "output": "\nRunning 45 tests using 6 workers\n\n  ✓   6 [chromium] › src/testing/browser-tests/production-simulation.spec.ts:106:3 › Production Environment Simulation Tests › should handle tree-shaking correctly (5.5s)\n  ✓   1 [chromium] › src/testing/browser-tests/production-simulation.spec.ts:160:3 › Production Environment Simulation Tests › should handle bundle size optimizations (5.6s)\n  ✓   3 [chromium] › src/testing/browser-tests/production-simulation.spec.ts:84:3 › Production Environment Simulation Tests › should work with disabled source maps (5.6s)\n  ✓   2 [chromium] › src/testing/browser-tests/production-simulation.spec.ts:62:3 › Production Environment Simulation Tests › should handle minified code correctly (5.6s)\n  ✓   5 [chromium] › src/testing/browser-tests/production-simulation.spec.ts:22:3 › Production Environment Simulation Tests › should work with production build optimizations (7.7s)\n  ✓   4 [chromium] › src/testing/browser-tests/production-simulation.spec.ts:137:3 › Production E..."
+    }
+  ]
+}

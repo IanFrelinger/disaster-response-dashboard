@@ -44,8 +44,7 @@ export interface AIPDecisionSupportProps {
 }
 
 export const AIPDecisionSupport: React.FC<AIPDecisionSupportProps> = ({ 
-  onDecisionMade, 
-  className = '' 
+  onDecisionMade
 }) => {
   const [query, setQuery] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);

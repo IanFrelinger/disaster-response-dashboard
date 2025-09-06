@@ -1,0 +1,72 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/api-extractor/v7/api-extractor.schema.json",
+  "mainEntryPointFilePath": "<projectFolder>/dist/index.d.ts",
+  "dtsRollup": {
+    "enabled": true,
+    "untrimmedFilePath": "<projectFolder>/dist/index.d.ts"
+  },
+  "apiReport": {
+    "enabled": true,
+    "reportFolder": "<projectFolder>/api-report"
+  },
+  "docModel": {
+    "enabled": true,
+    "apiJsonFilePath": "<projectFolder>/api-report/api.json"
+  },
+  "tsdocMetadata": {
+    "enabled": true
+  },
+  "messages": {
+    "compilerMessageReporting": {
+      "default": {
+        "logLevel": "warning"
+      }
+    },
+    "extractorMessageReporting": {
+      "default": {
+        "logLevel": "warning"
+      },
+      "ae-unresolved-link": {
+        "logLevel": "error"
+      },
+      "ae-unresolved-link-target": {
+        "logLevel": "error"
+      },
+      "ae-missing-release-tag": {
+        "logLevel": "warning"
+      },
+      "ae-incompatible-release-tags": {
+        "logLevel": "error"
+      },
+      "ae-cyclic-inherit-doc": {
+        "logLevel": "error"
+      },
+      "ae-internal-missing-underscore": {
+        "logLevel": "error"
+      },
+      "ae-internal-untrimmed-whitespace": {
+        "logLevel": "error"
+      }
+    },
+    "tsdocMessageReporting": {
+      "default": {
+        "logLevel": "warning"
+      },
+      "tsdoc-undefined-tag": {
+        "logLevel": "error"
+      },
+      "tsdoc-unsupported-tag": {
+        "logLevel": "error"
+      },
+      "tsdoc-malformed-tag": {
+        "logLevel": "error"
+      }
+    }
+  },
+  "validationRules": {
+    "missingReleaseTags": "error",
+    "incompatibleReleaseTags": "error",
+    "unresolvedLinks": "error",
+    "cyclicInheritDoc": "error"
+  }
+}

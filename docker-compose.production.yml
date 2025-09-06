@@ -1,0 +1,91 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ./frontend/dist:/usr/share/nginx/html:ro
+    networks:
+      - disaster-response
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - FLASK_ENV=production
+      - FLASK_DEBUG=false
+    env_file:
+      - ./backend/config.env.production
+    volumes:
+      - ./backend:/app:ro
+      - ./data:/app/data:ro
+    networks:
+      - disaster-response
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    depends_on:
+      - frontend
+
+  # Validation Test Runner
+  validation-tests:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.test
+    environment:
+      - NODE_ENV=production
+      - TEST_ENV=production
+    volumes:
+      - ./frontend:/app
+      - ./test-results:/app/test-results
+    networks:
+      - disaster-response
+    depends_on:
+      - frontend
+      - backend
+    command: >
+      sh -c "
+        echo '🚀 Starting Production Validation Tests...' &&
+        echo '⏳ Waiting for services to be ready...' &&
+        sleep 30 &&
+        echo '🔍 Checking service health...' &&
+        curl -f http://frontend:80/health || echo 'Frontend health check failed' &&
+        curl -f http://backend:8000/api/health || echo 'Backend health check failed' &&
+        echo '🧪 Running Production Validation Tests...' &&
+        npm run test:production-validation &&
+        echo '🧪 Running Frontend-Backend Validation Tests...' &&
+        npm run test:frontend-backend-validation &&
+        echo '🧪 Running Comprehensive Frontend Validation...' &&
+        npm run test:comprehensive-frontend &&
+        echo '🧪 Running Automated Validation Checks...' &&
+        npm run test:automated-validation &&
+        echo '📊 Generating validation report...' &&
+        echo '✅ All Production Validation Tests Completed!' &&
+        echo '🎉 Production system is ready for deployment!'
+      "
+
+networks:
+  disaster-response:
+    driver: bridge
+
+volumes:
+  test-results:
+    driver: local

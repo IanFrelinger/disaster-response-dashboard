@@ -183,17 +183,6 @@ export const TechnicalArchitecture: React.FC<TechnicalArchitectureProps> = ({
     setSelectedComponent(componentId);
   };
 
-  // Get status color
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'active': return '#34C759';
-      case 'implemented': return '#34C759';
-      case 'pending': return '#FF9500';
-      case 'planned': return '#007AFF';
-      default: return '#8E8E93';
-    }
-  };
-
   // Get status icon
   const getStatusIcon = (status: string) => {
     switch (status) {
@@ -313,7 +302,7 @@ export const TechnicalArchitecture: React.FC<TechnicalArchitectureProps> = ({
                 </div>
                 
                 <div className="flow-diagram">
-                  {activeData.flows.map((flow, index) => (
+                  {activeData.flows.map((flow) => (
                     <div key={flow.id} className="flow-item">
                       <div className="flow-header">
                         <div className="flow-name">{flow.name}</div>
@@ -539,4 +528,3 @@ export const TechnicalArchitecture: React.FC<TechnicalArchitectureProps> = ({
   );
 };
 
-export default TechnicalArchitecture;

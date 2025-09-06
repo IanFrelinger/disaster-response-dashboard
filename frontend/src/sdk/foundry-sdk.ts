@@ -165,12 +165,28 @@ const mockHazardZones: HazardZone[] = [
     assignedResources: [],
     evacuationOrders: [],
     affectedBuildings: [],
-    issueEvacuationOrder: async (params) => {
+    issueEvacuationOrder: async (_params) => {
       return {
         orderId: 'order-001',
-        zone: mockHazardZones[0],
-        orderType: params.orderType,
-        authorizedBy: params.authorizedBy,
+        zone: {
+          h3CellId: '8928308280fffff',
+          riskLevel: 'critical',
+          riskScore: 0.95,
+          intensity: 0.9,
+          confidence: 0.85,
+          affectedPopulation: 15000,
+          buildingsAtRisk: 250,
+          latestDetection: new Date().toISOString(),
+          windSpeed: 25,
+          lastUpdated: new Date().toISOString(),
+          evacuationRoutes: [],
+          assignedResources: [],
+          evacuationOrders: [],
+          affectedBuildings: [],
+          issueEvacuationOrder: async (_params) => ({} as any)
+        },
+        orderType: _params.orderType,
+        authorizedBy: _params.authorizedBy,
         timestamp: new Date().toISOString(),
         status: 'active',
         publicMessage: 'Mandatory evacuation ordered',
@@ -196,12 +212,28 @@ const mockHazardZones: HazardZone[] = [
     assignedResources: [],
     evacuationOrders: [],
     affectedBuildings: [],
-    issueEvacuationOrder: async (params) => {
+    issueEvacuationOrder: async (_params) => {
       return {
         orderId: 'order-002',
-        zone: mockHazardZones[1],
-        orderType: params.orderType,
-        authorizedBy: params.authorizedBy,
+        zone: {
+          h3CellId: '8928308281fffff',
+          riskLevel: 'high',
+          riskScore: 0.75,
+          intensity: 0.7,
+          confidence: 0.8,
+          affectedPopulation: 8000,
+          buildingsAtRisk: 120,
+          latestDetection: new Date().toISOString(),
+          windSpeed: 15,
+          lastUpdated: new Date().toISOString(),
+          evacuationRoutes: [],
+          assignedResources: [],
+          evacuationOrders: [],
+          affectedBuildings: [],
+          issueEvacuationOrder: async (_params) => ({} as any)
+        },
+        orderType: _params.orderType,
+        authorizedBy: _params.authorizedBy,
         timestamp: new Date().toISOString(),
         status: 'active',
         publicMessage: 'Voluntary evacuation recommended',
@@ -227,12 +259,28 @@ const mockHazardZones: HazardZone[] = [
     assignedResources: [],
     evacuationOrders: [],
     affectedBuildings: [],
-    issueEvacuationOrder: async (params) => {
+    issueEvacuationOrder: async (_params) => {
       return {
         orderId: 'order-003',
-        zone: mockHazardZones[2],
-        orderType: params.orderType,
-        authorizedBy: params.authorizedBy,
+        zone: {
+          h3CellId: '8928308282fffff',
+          riskLevel: 'medium',
+          riskScore: 0.55,
+          intensity: 0.5,
+          confidence: 0.75,
+          affectedPopulation: 3000,
+          buildingsAtRisk: 45,
+          latestDetection: new Date().toISOString(),
+          windSpeed: 10,
+          lastUpdated: new Date().toISOString(),
+          evacuationRoutes: [],
+          assignedResources: [],
+          evacuationOrders: [],
+          affectedBuildings: [],
+          issueEvacuationOrder: async (_params) => ({} as any)
+        },
+        orderType: _params.orderType,
+        authorizedBy: _params.authorizedBy,
         timestamp: new Date().toISOString(),
         status: 'active',
         publicMessage: 'Shelter in place recommended',
@@ -256,12 +304,24 @@ const mockEmergencyUnits: EmergencyUnit[] = [
     capacity: 4,
     equipment: ['Hose', 'Ladder', 'Pump', 'SCBA'],
     dispatchHistory: [],
-    dispatchToIncident: async (params) => {
+    dispatchToIncident: async (_params) => {
       return {
         recordId: 'dispatch-001',
-        unit: mockEmergencyUnits[0],
-        incident: { incidentId: params.incidentId } as any,
-        dispatchedBy: params.dispatcher,
+        unit: {
+          unitId: 'unit-001',
+          callSign: 'Engine 1',
+          unitType: 'fire_engine',
+          status: 'available',
+          currentLocation: '8928308280fffff',
+          lastLocationUpdate: new Date().toISOString(),
+          capacity: 4,
+          equipment: ['Hose', 'Ladder', 'Pump', 'SCBA'],
+          dispatchHistory: [],
+          dispatchToIncident: async () => ({} as any),
+          dispatchToEvacuation: async () => {}
+        },
+        incident: { incidentId: _params.incidentId } as any,
+        dispatchedBy: _params.dispatcher,
         dispatchTime: new Date().toISOString(),
         status: 'dispatched'
       };
@@ -278,12 +338,24 @@ const mockEmergencyUnits: EmergencyUnit[] = [
     capacity: 2,
     equipment: ['Defibrillator', 'Oxygen', 'Stretcher'],
     dispatchHistory: [],
-    dispatchToIncident: async (params) => {
+    dispatchToIncident: async (_params) => {
       return {
         recordId: 'dispatch-002',
-        unit: mockEmergencyUnits[1],
-        incident: { incidentId: params.incidentId } as any,
-        dispatchedBy: params.dispatcher,
+        unit: {
+          unitId: 'unit-002',
+          callSign: 'Ambulance 1',
+          unitType: 'ambulance',
+          status: 'available',
+          currentLocation: '8928308281fffff',
+          lastLocationUpdate: new Date().toISOString(),
+          capacity: 2,
+          equipment: ['Defibrillator', 'Oxygen', 'Stretcher'],
+          dispatchHistory: [],
+          dispatchToIncident: async () => ({} as any),
+          dispatchToEvacuation: async () => {}
+        },
+        incident: { incidentId: _params.incidentId } as any,
+        dispatchedBy: _params.dispatcher,
         dispatchTime: new Date().toISOString(),
         status: 'dispatched'
       };
@@ -303,7 +375,19 @@ const mockEmergencyUnits: EmergencyUnit[] = [
     dispatchToIncident: async (params) => {
       return {
         recordId: 'dispatch-003',
-        unit: mockEmergencyUnits[2],
+        unit: {
+          unitId: 'unit-003',
+          callSign: 'Patrol 1',
+          unitType: 'police',
+          status: 'dispatched',
+          currentLocation: '8928308282fffff',
+          lastLocationUpdate: new Date().toISOString(),
+          capacity: 2,
+          equipment: ['Radio', 'Body Camera', 'Taser'],
+          dispatchHistory: [],
+          dispatchToIncident: async () => ({} as any),
+          dispatchToEvacuation: async () => {}
+        },
         incident: { incidentId: params.incidentId } as any,
         dispatchedBy: params.dispatcher,
         dispatchTime: new Date().toISOString(),
@@ -369,7 +453,7 @@ class FoundrySDK {
     // Mock implementation - token not used
   }
 
-  private async request<T>(endpoint: string, _options: RequestInit = {}): Promise<T> {
+  private async request<T>(endpoint: string, _options: any = {}): Promise<T> {
     // For demo purposes, return mock data instead of making real API calls
     console.log(`Mock API call to: ${endpoint}`);
     
