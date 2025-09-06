@@ -1,7 +1,7 @@
 # Disaster Response Dashboard - Development Makefile
 # This Makefile provides standardized commands for development, testing, and validation
 
-.PHONY: help setup lint type test e2e check validate clean install-frontend install-backend git-push git-test git-push-force git-commit-push
+.PHONY: help setup lint type test e2e check validate clean install-frontend install-backend git-push git-test git-push-force git-commit-push git-commit-summary git-summary
 
 # Default target
 help: ## Show this help message
@@ -32,10 +32,12 @@ help: ## Show this help message
 	@echo "  test-comprehensive - Run comprehensive test suite"
 	@echo ""
 	@echo "Git Workflow Commands:"
-	@echo "  git-push       - Run tests and push changes to repository"
-	@echo "  git-test       - Run tests only (no push)"
-	@echo "  git-push-force - Force push without running tests (not recommended)"
-	@echo "  git-commit-push - Stage all changes, commit with message, and push"
+	@echo "  git-push            - Run tests and push changes to repository"
+	@echo "  git-test            - Run tests only (no push)"
+	@echo "  git-push-force      - Force push without running tests (not recommended)"
+	@echo "  git-commit-push     - Stage all changes, commit with custom message, and push"
+	@echo "  git-commit-summary  - Stage all changes, auto-generate commit message, and push"
+	@echo "  git-summary         - Auto-generate commit message for staged changes and push"
 	@echo ""
 	@echo "Utility Commands:"
 	@echo "  clean          - Clean build artifacts and temporary files"
@@ -368,3 +370,11 @@ git-commit-push: ## Stage all changes, commit with message, and push
 	@echo "📝 Staging all changes, committing, and pushing..."
 	@read -p "Enter commit message: " message; \
 	./scripts/git-workflow.sh --all --message "$$message"
+
+git-commit-summary: ## Stage all changes, auto-generate commit message, and push
+	@echo "📝 Staging all changes, auto-generating commit message, and pushing..."
+	./scripts/git-workflow.sh --all
+
+git-summary: ## Auto-generate commit message for staged changes and push
+	@echo "📝 Auto-generating commit message and pushing..."
+	./scripts/git-workflow.sh --summary

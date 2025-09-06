@@ -1,4 +1,16 @@
 [
+  "tests/integration/test_api_integration.py::TestAPIIntegration::test_api_root",
+  "tests/integration/test_api_integration.py::TestAPIIntegration::test_concurrent_requests",
+  "tests/integration/test_api_integration.py::TestAPIIntegration::test_cors_headers",
+  "tests/integration/test_api_integration.py::TestAPIIntegration::test_data_consistency",
+  "tests/integration/test_api_integration.py::TestAPIIntegration::test_data_validation",
+  "tests/integration/test_api_integration.py::TestAPIIntegration::test_disaster_data_endpoints",
+  "tests/integration/test_api_integration.py::TestAPIIntegration::test_error_handling",
+  "tests/integration/test_api_integration.py::TestAPIIntegration::test_health_endpoint",
+  "tests/integration/test_api_integration.py::TestAPIIntegration::test_response_time",
+  "tests/integration/test_api_integration.py::TestPerformance::test_load_handling",
+  "tests/integration/test_api_integration.py::TestSecurity::test_sql_injection_protection",
+  "tests/integration/test_api_integration.py::TestSecurity::test_xss_protection",
   "tests/test_core.py::TestCoreFunctionality::test_basic_math",
   "tests/test_core.py::TestCoreFunctionality::test_dictionaries",
   "tests/test_core.py::TestCoreFunctionality::test_lists",
@@ -8,5 +20,13 @@
   "tests/test_core.py::TestFileStructure::test_required_files_exist",
   "tests/test_core.py::TestFileStructure::test_test_files_exist",
   "tests/test_core.py::TestMocking::test_mock_creation",
-  "tests/test_core.py::TestMocking::test_patch_decorator"
+  "tests/test_core.py::TestMocking::test_patch_decorator",
+  "tests/test_minimal.py::test_basic_math",
+  "tests/test_minimal.py::test_dictionaries",
+  "tests/test_minimal.py::test_lists",
+  "tests/test_minimal.py::test_strings",
+  "tests/test_unit.py::test_basic_functionality",
+  "tests/test_unit.py::test_environment_variables",
+  "tests/test_unit.py::test_file_structure",
+  "tests/test_unit.py::test_imports"
 ]

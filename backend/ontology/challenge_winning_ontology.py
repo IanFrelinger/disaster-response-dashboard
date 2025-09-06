@@ -33,17 +33,10 @@ class ChallengeHazardZone:
     status: String  # "active", "contained", "extinguished"
     
     # Relationships that update dynamically
-    @Link(one_to_many)
-    evacuation_orders
-    
-    @Link(one_to_many)
-    assigned_units
-    
-    @Link(many_to_many)
-    evacuation_routes
-    
-    @Link(one_to_many)
-    affected_buildings
+    evacuation_orders = Link(one_to_many)
+    assigned_units = Link(one_to_many)
+    evacuation_routes = Link(many_to_many)
+    affected_buildings = Link(one_to_many)
     
     @Action(requires_role="emergency_commander")
     def issue_evacuation_order(self, order_type: str, authorized_by: str) -> "ChallengeEvacuationOrder":
