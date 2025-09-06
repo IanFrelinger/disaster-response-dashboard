@@ -46,10 +46,12 @@ test('buildings layer toggle is keyboard accessible', async ({ page }) => {
   
   // Test Space key toggling
   await buildingsToggle.press(' ');
+  await page.waitForTimeout(100); // Wait for state update
   await expect(buildingsToggle).not.toBeChecked();
   
   // Test Enter key toggling
   await buildingsToggle.press('Enter');
+  await page.waitForTimeout(100); // Wait for state update
   await expect(buildingsToggle).toBeChecked();
   
   // Test Arrow key navigation

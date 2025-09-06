@@ -82,15 +82,24 @@ export const LayerTogglePanel: React.FC<{
   const handleToggle = useCallback((key: string, checked: boolean) => {
     setToggle(key as any, checked);
     
+    // Update the checkbox ref to match the state
+    const index = finalToggleDescriptors.findIndex(toggle => toggle.key === key);
+    if (index !== -1 && checkboxRefs.current[index]) {
+      checkboxRefs.current[index]!.checked = checked;
+    }
+    
     // Temporarily disable map integration
     // // Handle terrain toggle specifically if map is available
     // if (key === 'terrain' && map?.setTerrainEnabled) {
     //   map.setTerrainEnabled(checked);
     // }
-  }, [setToggle]);
+  }, [setToggle, finalToggleDescriptors]);
 
   const handleKeyDown = useCallback((event: React.KeyboardEvent, currentIndex: number) => {
     const totalLayers = finalToggleDescriptors.length;
+    
+    // Debug logging
+    console.log('🔍 LayerTogglePanel: Key pressed', event.key, 'on index', currentIndex);
     
     switch (event.key) {
       case 'ArrowRight':
@@ -121,6 +130,11 @@ export const LayerTogglePanel: React.FC<{
         if (finalToggleDescriptors && finalToggleDescriptors[currentIndex]) {
           const newChecked = !finalToggleDescriptors[currentIndex].checked;
           handleToggle(finalToggleDescriptors[currentIndex].key, newChecked);
+          
+          // Force update the checkbox ref immediately
+          if (checkboxRefs.current[currentIndex]) {
+            checkboxRefs.current[currentIndex]!.checked = newChecked;
+          }
         }
         break;
     }
