@@ -143,6 +143,65 @@ run_tests() {
     return 0
 }
 
+# Function to detect substantial progress
+detect_substantial_progress() {
+    local staged_files=$(git diff --cached --name-only)
+    local modified_files=$(git diff --name-only)
+    local all_changes="$staged_files $modified_files"
+    
+    # Check for substantial changes
+    local substantial_changes=0
+    
+    # Check for new features or components
+    if echo "$all_changes" | grep -q "src/components/.*\.tsx$"; then
+        substantial_changes=$((substantial_changes + 1))
+    fi
+    
+    # Check for new services or utilities
+    if echo "$all_changes" | grep -q "src/services/.*\.ts$"; then
+        substantial_changes=$((substantial_changes + 1))
+    fi
+    
+    # Check for API changes
+    if echo "$all_changes" | grep -q "api/.*\.py$"; then
+        substantial_changes=$((substantial_changes + 1))
+    fi
+    
+    # Check for test files
+    if echo "$all_changes" | grep -q "test.*\.(ts|py)$"; then
+        substantial_changes=$((substantial_changes + 1))
+    fi
+    
+    # Check for configuration changes
+    if echo "$all_changes" | grep -q "\.(json|yaml|yml|toml)$"; then
+        substantial_changes=$((substantial_changes + 1))
+    fi
+    
+    # Check for documentation changes
+    if echo "$all_changes" | grep -q "\.md$"; then
+        substantial_changes=$((substantial_changes + 1))
+    fi
+    
+    # Check for significant file changes (more than 50 lines)
+    local significant_changes=$(git diff --stat | grep -E "files? changed" | sed 's/.*changed, \([0-9]*\) insertions.*/\1/' | head -1)
+    if [ -n "$significant_changes" ] && [ "$significant_changes" -gt 50 ]; then
+        substantial_changes=$((substantial_changes + 1))
+    fi
+    
+    # Check for new files
+    local new_files=$(git diff --cached --name-only --diff-filter=A | wc -l | tr -d ' ')
+    if [ "$new_files" -gt 0 ]; then
+        substantial_changes=$((substantial_changes + 1))
+    fi
+    
+    # Consider it substantial if we have 2 or more indicators
+    if [ $substantial_changes -ge 2 ]; then
+        return 0
+    else
+        return 1
+    fi
+}
+
 # Function to generate commit summary message
 generate_commit_message() {
     local staged_files=$(git diff --cached --name-only)
@@ -225,7 +284,47 @@ generate_commit_message() {
         commit_message="${commit_message}\n- Added commit summary generation"
     fi
     
+    # Add progress indicators
+    if detect_substantial_progress; then
+        commit_message="${commit_message}\n\n- Substantial progress detected"
+        commit_message="${commit_message}\n- Auto-committed for progress tracking"
+    fi
+    
     echo "$commit_message"
+}
+
+# Function to auto-commit substantial progress
+auto_commit_progress() {
+    # Check if there are any uncommitted changes
+    if git diff --quiet && git diff --cached --quiet; then
+        return 0  # No changes to commit
+    fi
+    
+    # Stage all changes
+    git add .
+    
+    # Check if there's substantial progress
+    if detect_substantial_progress; then
+        print_status "Substantial progress detected, auto-committing..."
+        local message=$(generate_commit_message)
+        
+        print_status "Auto-committing with message:"
+        echo "---"
+        echo -e "$message"
+        echo "---"
+        
+        # Commit changes
+        git commit -m "$message" || {
+            print_error "Auto-commit failed. Please check your git status."
+            return 1
+        }
+        
+        print_success "Progress auto-committed successfully"
+        return 0
+    else
+        print_status "No substantial progress detected, skipping auto-commit"
+        return 1
+    fi
 }
 
 # Function to commit changes with summary
@@ -342,6 +441,11 @@ main() {
     
     # Check if we're in a git repository
     check_git_repo
+    
+    # Auto-commit substantial progress first
+    if [ "$force" = false ] && [ "$test_only" = false ]; then
+        auto_commit_progress
+    fi
     
     # Stage all changes if requested
     if [ "$stage_all" = true ]; then

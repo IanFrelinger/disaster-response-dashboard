@@ -1,7 +1,7 @@
 # Disaster Response Dashboard - Development Makefile
 # This Makefile provides standardized commands for development, testing, and validation
 
-.PHONY: help setup lint type test e2e check validate clean install-frontend install-backend git-push git-test git-push-force git-commit-push git-commit-summary git-summary
+.PHONY: help setup lint type test e2e check validate clean install-frontend install-backend git-push git-test git-push-force git-commit-push git-commit-summary git-summary git-auto-commit
 
 # Default target
 help: ## Show this help message
@@ -38,6 +38,7 @@ help: ## Show this help message
 	@echo "  git-commit-push     - Stage all changes, commit with custom message, and push"
 	@echo "  git-commit-summary  - Stage all changes, auto-generate commit message, and push"
 	@echo "  git-summary         - Auto-generate commit message for staged changes and push"
+	@echo "  git-auto-commit     - Auto-commit substantial progress and push"
 	@echo ""
 	@echo "Utility Commands:"
 	@echo "  clean          - Clean build artifacts and temporary files"
@@ -378,3 +379,7 @@ git-commit-summary: ## Stage all changes, auto-generate commit message, and push
 git-summary: ## Auto-generate commit message for staged changes and push
 	@echo "📝 Auto-generating commit message and pushing..."
 	./scripts/git-workflow.sh --summary
+
+git-auto-commit: ## Auto-commit substantial progress and push
+	@echo "🤖 Auto-committing substantial progress and pushing..."
+	./scripts/git-workflow.sh --all
