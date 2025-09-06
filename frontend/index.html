@@ -8,6 +8,12 @@
     <!-- Add Mapbox GL JS from CDN to avoid bundling issues -->
     <script src='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
+    <style>
+      /* Ensure Mapbox GL JS styles are loaded */
+      .mapboxgl-map {
+        font-family: 'Open Sans', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>

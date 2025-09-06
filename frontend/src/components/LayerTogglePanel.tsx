@@ -118,9 +118,9 @@ export const LayerTogglePanel: React.FC<{
       case ' ':
       case 'Enter':
         event.preventDefault();
-        if (propToggleDescriptors && propToggleDescriptors[currentIndex]) {
-          const newChecked = !propToggleDescriptors[currentIndex].checked;
-          handleToggle(propToggleDescriptors[currentIndex].key, newChecked);
+        if (finalToggleDescriptors && finalToggleDescriptors[currentIndex]) {
+          const newChecked = !finalToggleDescriptors[currentIndex].checked;
+          handleToggle(finalToggleDescriptors[currentIndex].key, newChecked);
         }
         break;
     }

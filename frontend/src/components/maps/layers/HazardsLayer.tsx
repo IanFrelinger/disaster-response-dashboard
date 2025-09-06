@@ -92,6 +92,7 @@ export const HazardsLayer: React.FC<HazardsLayerProps> = ({
           id: hazardsLayerId,
           type: 'circle',
           source: hazardsSourceId,
+          filter: ['has', 'riskLevel'], // Add filter to ensure only features with riskLevel are shown
           paint: {
             'circle-radius': [
               'case',
