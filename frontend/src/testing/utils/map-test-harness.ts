@@ -271,12 +271,12 @@ export async function validateHazardRouteIntersections(page: any): Promise<{ val
     
     // Query hazard and route features
     const hazardFeatures = map.queryRenderedFeatures({
-      layers: ['hazards-fill', 'hazards-outline'],
+      layers: ['hazards'],
       filter: undefined
     });
     
     const routeFeatures = map.queryRenderedFeatures({
-      layers: ['routes-line', 'routes-symbol'],
+      layers: ['routes'],
       filter: undefined
     });
 
