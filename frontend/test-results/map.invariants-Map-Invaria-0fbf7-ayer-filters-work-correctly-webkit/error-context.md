@@ -56,16 +56,16 @@
             - link "Mapbox logo" [ref=e44] [cursor=pointer]:
               - /url: https://www.mapbox.com/
             - list [ref=e46]:
-              - link "Mapbox" [ref=e47] [cursor=pointer]:
+              - link "Mapbox" [ref=e47]:
                 - /url: https://www.mapbox.com/about/maps/
                 - text: © Mapbox
-              - link "OpenStreetMap" [ref=e48] [cursor=pointer]:
+              - link "OpenStreetMap" [ref=e48]:
                 - /url: https://www.openstreetmap.org/copyright/
                 - text: © OpenStreetMap
-              - link "Map feedback" [ref=e49] [cursor=pointer]:
+              - link "Map feedback" [ref=e49]:
                 - /url: https://apps.mapbox.com/feedback/?owner=mapbox&id=satellite-streets-v12&access_token=pk.eyJ1IjoiaWNmcmVsaW5nZXIiLCJhIjoiY21ldW5zZjJuMDh0eDJpcHgwNHhtOTE4aSJ9.2k1N7W2zZovOnRuqlVB9NQ#/-122.4194/37.7749/12
                 - text: Improve this map
-              - link "Maxar" [ref=e50] [cursor=pointer]:
+              - link "Maxar" [ref=e50]:
                 - /url: https://www.maxar.com/
                 - text: © Maxar
         - generic [ref=e51]:
@@ -77,27 +77,27 @@
             - generic [ref=e56]:
               - strong [ref=e57]: "terrain:"
               - generic [ref=e58]: ✓
-            - generic [ref=e59]: 🔴 Disabled | ⚪ Not Rendered | 🚫 Static |0.1ms
+            - generic [ref=e59]: 🔴 Disabled | ⚪ Not Rendered | 🚫 Static |0.0ms
           - generic [ref=e60]:
             - generic [ref=e61]:
               - strong [ref=e62]: "buildings:"
               - generic [ref=e63]: ✓
-            - generic [ref=e64]: 🟢 Enabled | 🎨 Rendered | 🚫 Static |5.7ms
+            - generic [ref=e64]: 🟢 Enabled | 🎨 Rendered | 🚫 Static |3.0ms
           - generic [ref=e65]:
             - generic [ref=e66]:
               - strong [ref=e67]: "hazards:"
               - generic [ref=e68]: ✓
-            - generic [ref=e69]: 🟢 Enabled | 🎨 Rendered | 🖱️ Interactive |0.6ms
+            - generic [ref=e69]: 🟢 Enabled | 🎨 Rendered | 🖱️ Interactive |0.0ms
           - generic [ref=e70]:
             - generic [ref=e71]:
               - strong [ref=e72]: "units:"
               - generic [ref=e73]: ✓
-            - generic [ref=e74]: 🟢 Enabled | 🎨 Rendered | 🚫 Static |0.3ms
+            - generic [ref=e74]: 🟢 Enabled | 🎨 Rendered | 🚫 Static |0.0ms
           - generic [ref=e75]:
             - generic [ref=e76]:
               - strong [ref=e77]: "routes:"
               - generic [ref=e78]: ✓
-            - generic [ref=e79]: 🟢 Enabled | 🎨 Rendered | 🚫 Static |0.2ms
+            - generic [ref=e79]: 🟢 Enabled | 🎨 Rendered | 🚫 Static |1.0ms
           - generic [ref=e80]:
             - generic [ref=e81]:
               - strong [ref=e82]: "enhancedRouting:"

@@ -68,47 +68,9 @@
               - link "Maxar" [ref=e50] [cursor=pointer]:
                 - /url: https://www.maxar.com/
                 - text: © Maxar
-        - generic [ref=e51]:
-          - heading "Layer Validation" [level=4] [ref=e52]
-          - generic [ref=e53]:
-            - strong [ref=e54]: "Overall:"
-            - text: 6/6 layers successful
-          - generic [ref=e55]:
-            - generic [ref=e56]:
-              - strong [ref=e57]: "terrain:"
-              - generic [ref=e58]: ✓
-            - generic [ref=e59]: 🔴 Disabled | ⚪ Not Rendered | 🚫 Static |0.1ms
-          - generic [ref=e60]:
-            - generic [ref=e61]:
-              - strong [ref=e62]: "buildings:"
-              - generic [ref=e63]: ✓
-            - generic [ref=e64]: 🟢 Enabled | 🎨 Rendered | 🚫 Static |5.7ms
-          - generic [ref=e65]:
-            - generic [ref=e66]:
-              - strong [ref=e67]: "hazards:"
-              - generic [ref=e68]: ✓
-            - generic [ref=e69]: 🟢 Enabled | 🎨 Rendered | 🖱️ Interactive |0.6ms
-          - generic [ref=e70]:
-            - generic [ref=e71]:
-              - strong [ref=e72]: "units:"
-              - generic [ref=e73]: ✓
-            - generic [ref=e74]: 🟢 Enabled | 🎨 Rendered | 🚫 Static |0.3ms
-          - generic [ref=e75]:
-            - generic [ref=e76]:
-              - strong [ref=e77]: "routes:"
-              - generic [ref=e78]: ✓
-            - generic [ref=e79]: 🟢 Enabled | 🎨 Rendered | 🚫 Static |0.2ms
-          - generic [ref=e80]:
-            - generic [ref=e81]:
-              - strong [ref=e82]: "enhancedRouting:"
-              - generic [ref=e83]: ✓
-            - generic [ref=e84]: 🔴 Disabled | ⚪ Not Rendered | 🚫 Static |0.1ms
-          - generic [ref=e85]:
-            - strong [ref=e86]: "🔍 Automated Checks:"
-            - generic [ref=e87]: ✅ All checks passed
-        - button "🔍 Errors" [ref=e88] [cursor=pointer]
-  - contentinfo [ref=e89]:
-    - generic [ref=e91]:
-      - paragraph [ref=e92]: Emergency Response System v1.0.0
-      - paragraph [ref=e93]: Powered by Mapbox & React • Real-time disaster monitoring
+        - button "🔍 Errors" [ref=e51] [cursor=pointer]
+  - contentinfo [ref=e52]:
+    - generic [ref=e54]:
+      - paragraph [ref=e55]: Emergency Response System v1.0.0
+      - paragraph [ref=e56]: Powered by Mapbox & React • Real-time disaster monitoring
 ```
