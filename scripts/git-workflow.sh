@@ -491,5 +491,74 @@ main() {
     fi
 }
 
+# Function to commit individual changes with custom message
+commit_change() {
+    local message="$1"
+    local files="$2"
+    
+    if [ -z "$message" ]; then
+        print_error "Commit message is required"
+        return 1
+    fi
+    
+    # Stage specific files if provided, otherwise stage all
+    if [ -n "$files" ]; then
+        git add $files
+    else
+        git add .
+    fi
+    
+    # Check if there are changes to commit
+    if git diff --cached --quiet; then
+        print_warning "No changes to commit"
+        return 1
+    fi
+    
+    print_status "Committing changes: $message"
+    git commit -m "$message"
+    
+    if [ $? -eq 0 ]; then
+        print_success "Changes committed successfully"
+        return 0
+    else
+        print_error "Commit failed"
+        return 1
+    fi
+}
+
+# Function to push all commits to GitHub
+push_to_github() {
+    local branch=$(git branch --show-current)
+    local remote="origin"
+    
+    print_status "Pushing all commits to $remote/$branch..."
+    
+    # Check if remote exists
+    if ! git remote get-url $remote > /dev/null 2>&1; then
+        print_error "Remote '$remote' not found. Please add it first:"
+        print_error "git remote add origin <repository-url>"
+        return 1
+    fi
+    
+    # Push changes
+    git push $remote $branch || {
+        print_error "Push failed. Please check your connection and permissions."
+        return 1
+    }
+    
+    print_success "Successfully pushed all commits to $remote/$branch"
+}
+
+# Handle special commands
+if [ "$1" = "commit_change" ]; then
+    shift
+    commit_change "$@"
+    exit $?
+elif [ "$1" = "push_to_github" ]; then
+    shift
+    push_to_github "$@"
+    exit $?
+fi
+
 # Run main function with all arguments
 main "$@"
