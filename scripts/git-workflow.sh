@@ -443,18 +443,21 @@ main() {
     check_git_repo
     
     # Auto-commit substantial progress first
+    local auto_committed=false
     if [ "$force" = false ] && [ "$test_only" = false ]; then
-        auto_commit_progress
+        if auto_commit_progress; then
+            auto_committed=true
+        fi
     fi
     
-    # Stage all changes if requested
-    if [ "$stage_all" = true ]; then
+    # Stage all changes if requested (only if not already auto-committed)
+    if [ "$stage_all" = true ] && [ "$auto_committed" = false ]; then
         print_status "Staging all changes..."
         git add .
     fi
     
-    # Commit changes if message provided, staging all, or auto summary requested
-    if [ -n "$commit_message" ] || [ "$stage_all" = true ] || [ "$auto_summary" = true ]; then
+    # Commit changes if message provided, staging all, or auto summary requested (only if not already auto-committed)
+    if [ "$auto_committed" = false ] && ([ -n "$commit_message" ] || [ "$stage_all" = true ] || [ "$auto_summary" = true ]); then
         if [ -n "$commit_message" ]; then
             commit_changes "$commit_message"
         else
