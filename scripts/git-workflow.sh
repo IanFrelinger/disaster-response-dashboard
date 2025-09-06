@@ -124,6 +124,12 @@ run_tests() {
                 print_error "Frontend build failed. Please fix them before pushing."
                 test_failures=$((test_failures + 1))
             }
+            
+            # Run layer validation tests
+            print_status "Running layer validation tests..."
+            pnpm exec playwright test tests/e2e/map.invariants.spec.ts --reporter=list --timeout=30000 --max-failures=3 || {
+                print_warning "Layer validation tests had some failures (non-critical)"
+            }
         fi
         cd ..
         

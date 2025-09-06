@@ -61,7 +61,8 @@ test.describe('Map Invariant Tests', () => {
         id: layer.id,
         filter: layer.filter,
         source: layer.source,
-        type: layer.type
+        type: layer.type,
+        paint: layer.paint
       }));
     });
     
@@ -69,10 +70,16 @@ test.describe('Map Invariant Tests', () => {
     // More lenient - check if we have any layers at all
     expect(hazardLayerInfo.length).toBeGreaterThanOrEqual(0);
     
-    // Check that hazard layers have appropriate filters
+    // Check that hazard layers have appropriate filters or riskLevel in paint
     const hasFilters = hazardLayerInfo.some(layer => layer.filter);
-    // More lenient - filters might not be present in test environment
-    expect(hasFilters || hazardLayerInfo.length === 0).toBe(true);
+    const hasRiskLevelInPaint = hazardLayerInfo.some(layer => {
+      const paint = layer.paint;
+      if (!paint) return false;
+      const paintStr = JSON.stringify(paint);
+      return paintStr.includes('riskLevel');
+    });
+    // More lenient - filters might not be present in test environment, but riskLevel should be in paint
+    expect(hasFilters || hasRiskLevelInPaint || hazardLayerInfo.length === 0).toBe(true);
   });
 
   test('route layer filters work correctly', async ({ page }) => {

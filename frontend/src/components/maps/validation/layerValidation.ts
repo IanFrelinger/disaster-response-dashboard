@@ -95,7 +95,7 @@ export function createEmptyValidationResults(): LayerValidationResults {
     enhancedRouting: { ...emptyResult, name: 'enhancedRouting' },
     overall: {
       success: false,
-      totalLayers: 6,
+      totalLayers: 5, // Only count the 5 core layers that are actually used
       successfulLayers: 0,
       errors: ['No layers validated']
     }

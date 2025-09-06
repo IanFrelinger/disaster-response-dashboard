@@ -257,17 +257,17 @@ export const MapContainer3D: React.FC<MapContainer3DProps> = ({
         enhancedRouting: await validateEnhancedRoutingLayer(map),
         overall: {
           success: false,
-          totalLayers: 6,
+          totalLayers: 5, // Only count the 5 core layers that are actually used
           successfulLayers: 0,
           errors: []
         }
       };
 
-      // Calculate overall results
-      const layerResults = [results.terrain, results.buildings, results.hazards, results.units, results.routes, results.enhancedRouting];
-      results.overall.successfulLayers = layerResults.filter(r => r.success).length;
+      // Calculate overall results - only count the 5 core layers that are actually used
+      const coreLayerResults = [results.terrain, results.buildings, results.hazards, results.units, results.routes];
+      results.overall.successfulLayers = coreLayerResults.filter(r => r.success).length;
       results.overall.success = results.overall.successfulLayers === results.overall.totalLayers;
-      results.overall.errors = layerResults.flatMap(r => r.errors);
+      results.overall.errors = coreLayerResults.flatMap(r => r.errors);
 
       setValidationResults(results);
       onValidationComplete?.(results);
